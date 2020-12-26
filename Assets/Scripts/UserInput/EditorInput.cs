@@ -70,12 +70,12 @@ namespace NotReaper.UserInput {
 		/// A list of bools that all need to be false for the input to be enabled.
 		/// Append your panel's gameobject.activeSelf to this.
 		/// </summary>
-		public static List<bool> disableInputWhenActive = new List<bool>();
+		public static List<GameObject> disableInputWhenActive = new List<GameObject>();
 		
 		/// <summary>
 		/// Checks whether there are any panels active that require the input to be disabled.
 		/// </summary>
-		public static bool InputDisabled { get => disableInputWhenActive.Any(x => x == true); }
+		public static bool InputDisabled { get => disableInputWhenActive.Any(x => x.activeSelf == true); }
 
 
 		public HoverTarget hover;
