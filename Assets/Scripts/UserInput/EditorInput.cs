@@ -67,7 +67,7 @@ namespace NotReaper.UserInput {
         [SerializeField] private AddRepeaterWindow repeaterWindow;
 
 		/// <summary>
-		/// A list of bools that all need to be false for the input to be enabled.
+		/// A list of gameobjects that all need to be inactive for the input to be enabled.
 		/// Append your panel's gameobject.activeSelf to this.
 		/// </summary>
 		public static List<GameObject> disableInputWhenActive = new List<GameObject>();
