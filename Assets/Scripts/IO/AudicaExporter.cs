@@ -53,10 +53,11 @@ namespace NotReaper.IO {
 					File.WriteAllText($"{Application.dataPath}/.cache/beginner-new.cues", CuesToJson(audicaFile.diffs.beginner));
 					easy = true;
 				}
-                audicaFile.modifiers.modifiers = ModifierHandler.Instance.MapToDTO();
+                audicaFile.modifiers = new ModifierList();
+                audicaFile.modifiers.modifiers = ModifierHandler.Instance.MapToDTO();               
                 if (audicaFile.modifiers.modifiers.Count > 0)
                 {
-                    File.WriteAllText($"{Application.dataPath}/.cache/modifiers.json", ModifiersToJson2(audicaFile.modifiers));
+                    File.WriteAllText($"{Application.dataPath}/.cache/modifiers-new.json", ModifiersToJson2(audicaFile.modifiers));
                     modifiers = true;
                 }
 
@@ -106,7 +107,7 @@ namespace NotReaper.IO {
 				if (advanced) archive.AddEntry("advanced.cues", $"{Application.dataPath}/.cache/advanced-new.cues");
 				if (standard) archive.AddEntry("moderate.cues", $"{Application.dataPath}/.cache/moderate-new.cues");
 				if (easy) archive.AddEntry("beginner.cues", $"{Application.dataPath}/.cache/beginner-new.cues");
-                if (modifiers) archive.AddEntry("modifiers.json", $"{Application.dataPath}/.cache/modifiers.json");
+                if (modifiers) archive.AddEntry("modifiers.json", $"{Application.dataPath}/.cache/modifiers-new.json");
                     
 
 				archive.AddEntry($"{audicaFile.desc.moggSong}", $"{Application.dataPath}/.cache/{audicaFile.desc.moggSong}");
