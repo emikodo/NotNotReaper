@@ -14,6 +14,9 @@ using UnityEngine.Networking;
 using UnityEngine.UI;
 using NotReaper.Timing;
 using NotReaper.Modifier;
+using NUnit.Framework;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace NotReaper.UserInput {
 
@@ -63,6 +66,17 @@ namespace NotReaper.UserInput {
 		[SerializeField] private AddOrTrimAudioWindow addOrTrimAudioWindow;
         [SerializeField] private AddRepeaterWindow repeaterWindow;
 
+		/// <summary>
+		/// A list of gameobjects that all need to be inactive for the input to be enabled.
+		/// Append your panel's gameobject.activeSelf to this.
+		/// </summary>
+		public static List<GameObject> disableInputWhenActive = new List<GameObject>();
+		
+		/// <summary>
+		/// Checks whether there are any panels active that require the input to be disabled.
+		/// </summary>
+		public static bool InputDisabled { get => disableInputWhenActive.Any(x => x.activeSelf == true); }
+
 
 		public HoverTarget hover;
 
@@ -85,7 +99,9 @@ namespace NotReaper.UserInput {
 
 		QNT_Timestamp? bpmStartTimestamp = null;
 
-		private void Start() {
+        
+
+        private void Start() {
 			InputManager.LoadHotkeys();
 			NRSettings.OnLoad(SetUserColors);
 			I = this;
@@ -394,7 +410,13 @@ namespace NotReaper.UserInput {
 		public void FigureOutIsInUI() {
             enableScrolling = false;
 
-            if (pauseMenu.isOpened) {
+            if (InputDisabled)
+            {
+				inUI = true;
+				return;
+            }
+
+			if (pauseMenu.isOpened) {
 				inUI = true;
 				return;
 			}

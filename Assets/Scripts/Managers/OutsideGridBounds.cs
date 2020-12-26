@@ -39,7 +39,6 @@ namespace NotReaper.Managers
 
 		private void Update()
 		{
-
 			if (EditorInput.inUI) return;
             if (ModifierHandler.activated || BookmarkMenu.isActive) return;
 			if (Input.GetKeyDown(KeyCode.J))
