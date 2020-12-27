@@ -309,7 +309,7 @@ namespace NotReaper.UI {
 				Debug.Log(MinitimelineToSeconds(songPreviewIcon.localPosition.x));
 			}
 
-			if (Input.GetKeyDown(KeyCode.U) && !ModifierHandler.activated && !BookmarkMenu.isActive) {
+			if (Input.GetKeyDown(KeyCode.U) && !ModifierHandler.activated && !BookmarkMenu.isActive && !EditorInput.InputDisabled) {
                 SetBookmark(GetXForTheBookmarkThingy(), 0f, EditorInput.selectedHand, "", BookmarkColorPicker.selectedColor, BookmarkColorPicker.selectedUIColor, false, false).Select();
 			}
 
