@@ -46,6 +46,13 @@ namespace NotReaper.ReviewSystem
         public Cue[] selectedCues;
         public string description;
         public CommentType type;
+
+        public ReviewComment(Cue[] selectedCues, string description, CommentType type)
+        {
+            this.selectedCues = selectedCues;
+            this.description = description;
+            this.type = type;
+        }
     }
     
     [System.Serializable]

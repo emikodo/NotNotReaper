@@ -7,6 +7,7 @@ using NotReaper.Timing;
 using DG.Tweening;
 using System.Collections.Generic;
 using NotReaper.UI;
+using NotReaper.Grid;
 
 namespace NotReaper.Targets {
 
@@ -426,5 +427,7 @@ namespace NotReaper.Targets {
 		public bool IsTimelineInsideRect(Rect rect) {
 			return timelineTargetIcon.IsInsideRect(rect);
 		}
+
+		public Cue ToCue() => NotePosCalc.ToCue(this, Timeline.offset);
 	}
 }

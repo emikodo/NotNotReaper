@@ -1,16 +1,47 @@
 ﻿using NotReaper;
+using NotReaper.Grid;
+using NotReaper.Models;
 using NotReaper.ReviewSystem;
+using NotReaper.Targets;
 using NotReaper.UI;
+using NUnit.Framework;
 using SFB;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace NotReaper.ReviewSystem
 {
     public class ReviewWindow : MonoBehaviour
     {
+        #region References
+        [SerializeField] InputField descriptionField;
+        [SerializeField] InputField authorField;
+        [SerializeField] ToggleGroup commentTypeGroup;
+        #endregion
+
         ReviewContainer loadedContainer;
+        
+        public void CreateComment()
+        {
+            var selectedCues = new List<Cue>();
+            
+            foreach (Target target in Timeline.instance.selectedNotes)
+            {
+                selectedCues.Add(target.ToCue());
+            }
+
+            var comment = new ReviewComment(selectedCues.ToArray(),
+                descriptionField.text,
+                (CommentType)int.Parse(commentTypeGroup.ActiveToggles().FirstOrDefault().name));
+            
+            loadedContainer.comments.Add(comment);
+            
+            string targetPlural = selectedCues.Count == 1 ? "target" : "targets";
+            NotificationShower.Queue($"Added comment for {selectedCues.Count} {targetPlural}", NRNotifType.Success);
+        }
         public void Load()
         {
             string path = StandaloneFileBrowser.OpenFilePanel("Select review file", Path.Combine(Application.persistentDataPath), ".review", false).FirstOrDefault();
