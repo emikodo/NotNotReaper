@@ -48,6 +48,11 @@ namespace NotReaper.UI {
             notifications.Add(new NRNotification(notificationText));
         }
 
+        public static void Queue(string notificationText, NRNotifType type)
+        {
+            notifications.Add(new NRNotification(notificationText, type));
+        }
+
         IEnumerator CheckPlayNotifications() {
 
             while(notifications.Count <= 0) {
@@ -142,7 +147,14 @@ namespace NotReaper.UI {
             content = c;
             duration = dur;
         }
-        
+
+        public NRNotification(string c, NRNotifType type, float dur = 3.0f)
+        {
+            content = c;
+            duration = dur;
+            this.type = type;
+        }
+
     }
 
     public enum NRNotifType {

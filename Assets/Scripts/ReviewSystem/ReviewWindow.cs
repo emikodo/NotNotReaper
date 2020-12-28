@@ -18,7 +18,7 @@ namespace NotReaper.ReviewSystem
             {
                 LoadContainer(path);
             }
-            else NotificationShower.Queue($"Review file doesn't exist");
+            else NotificationShower.Queue($"Review file doesn't exist", NRNotifType.Fail);
         }
 
         void LoadContainer(string path)
@@ -29,9 +29,9 @@ namespace NotReaper.ReviewSystem
                 if (VerifyReview(container))
                 {
                     loadedContainer = container;
-                    NotificationShower.Queue($"Loaded {loadedContainer.reviewAuthor}'s review");
+                    NotificationShower.Queue($"Loaded {loadedContainer.reviewAuthor}'s review", NRNotifType.Success);
                 }
-                else NotificationShower.Queue("This review was made for a different song.");
+                else NotificationShower.Queue("This review was made for a different song.", NRNotifType.Fail);
 
             }
             else loadedContainer = new ReviewContainer();
@@ -41,7 +41,7 @@ namespace NotReaper.ReviewSystem
         {
             loadedContainer.Export();
             OpenReviewFolder();
-            NotificationShower.Queue($"Successfully exported review");
+            NotificationShower.Queue($"Successfully exported review", NRNotifType.Success);
         }
 
         void OpenReviewFolder()
