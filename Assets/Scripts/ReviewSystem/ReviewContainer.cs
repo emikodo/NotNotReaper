@@ -35,7 +35,7 @@ namespace NotReaper.ReviewSystem
             string exportFolder = Path.Combine(Directory.GetParent(dataDirectory).ToString(), "reviews");
             if (!Directory.Exists(exportFolder)) Directory.CreateDirectory(exportFolder);
             string reviewText = JsonConvert.SerializeObject(this);
-            string exportPath = Path.Combine(exportFolder, $"{songDesc.songID}_{reviewAuthor}");
+            string exportPath = Path.Combine(exportFolder, $"{songDesc.songID}_{reviewAuthor}.review");
             File.WriteAllText(reviewText, exportPath);
         }
     }

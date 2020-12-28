@@ -22,8 +22,42 @@ namespace NotReaper.ReviewSystem
         [SerializeField] ToggleGroup commentTypeGroup;
         #endregion
 
-        ReviewContainer loadedContainer;
+        ReviewContainer loadedContainer = new ReviewContainer();
+        ReviewComment currentComment;
         
+        public void NextComment()
+        {
+            int nextIndex = loadedContainer.comments.IndexOf(currentComment) + 1;
+            if (nextIndex >= loadedContainer.comments.Count) return;
+            else
+            {
+                currentComment = loadedContainer.comments[nextIndex];
+            }
+        }
+
+        public void PreviousComment()
+        {
+            int nextIndex = loadedContainer.comments.IndexOf(currentComment) - 1;
+            if (nextIndex < 0) return;
+            else
+            {
+                currentComment = loadedContainer.comments[nextIndex];
+            }
+        }
+
+        public void RemoveComment()
+        {
+            if (loadedContainer.comments.Contains(currentComment))
+            {
+                loadedContainer.comments.Remove(currentComment);
+                NotificationShower.Queue($"Removed comment", NRNotifType.Success);
+            }
+            else NotificationShower.Queue($"Comment doesn't exist", NRNotifType.Fail);
+        }
+
+        /// <summary>
+        /// Creates a review comment using selected notes and text fields.
+        /// </summary>
         public void CreateComment()
         {
             var selectedCues = new List<Cue>();
@@ -44,7 +78,8 @@ namespace NotReaper.ReviewSystem
         }
         public void Load()
         {
-            string path = StandaloneFileBrowser.OpenFilePanel("Select review file", Path.Combine(Application.persistentDataPath), ".review", false).FirstOrDefault();
+            string reviewDirectory = Path.Combine(Directory.GetParent(Application.dataPath).ToString(), "reviews");
+            string path = StandaloneFileBrowser.OpenFilePanel("Select review file", reviewDirectory, ".review", false).FirstOrDefault();
             if (File.Exists(path) && path.Contains(".review"))
             {
                 LoadContainer(path);
