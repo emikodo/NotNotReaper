@@ -747,6 +747,7 @@ namespace NotReaper.UserInput {
             {
                 if (ModifierHandler.activated)
                 {
+                    if (ZOffsetBaker.active) ZOffsetBaker.Instance.ToggleWindow();
                     Tools.modifierCreator.Activate(false);
                     RevertTool();
 
