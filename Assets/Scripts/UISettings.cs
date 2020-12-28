@@ -168,7 +168,7 @@ public class UISettings : MonoBehaviour
       
       File.WriteAllText(path, JsonUtility.ToJson(export));
       
-      NotificationShower.AddNotifToQueue(new NRNotification("Saved cues!"));
+      NotificationShower.Queue(new NRNotification("Saved cues!"));
       
    }
    

@@ -173,7 +173,7 @@ namespace NotReaper.Timing {
             }
             moggSongVolume = foundVolume - Mathf.Abs(moggSongVolume);
 
-            NotificationShower.AddNotifToQueue(new NRNotification("Mogg volume set to " + moggSongVolume.ToString("n2")));
+            NotificationShower.Queue(new NRNotification("Mogg volume set to " + moggSongVolume.ToString("n2")));
             UnityEngine.Debug.Log("Moggsong volume set to " + moggSongVolume.ToString("n2"));
             UnityEngine.Debug.Log("End auto song volume");
 

@@ -1194,7 +1194,7 @@ namespace NotReaper {
 			
 			AudicaExporter.ExportToAudicaFile(audicaFile);
 
-			NotificationShower.AddNotifToQueue(new NRNotification("Map saved successfully!"));
+			NotificationShower.Queue(new NRNotification("Map saved successfully!"));
 
 
 		}
@@ -1378,8 +1378,8 @@ namespace NotReaper {
 
 			//Loaded successfully
 
-			NotificationShower.AddNotifToQueue(new NRNotification("Map loaded successfully!"));
-			NotificationShower.AddNotifToQueue(new NRNotification("Press F1 to view shortcuts"));
+			NotificationShower.Queue(new NRNotification("Map loaded successfully!"));
+			NotificationShower.Queue(new NRNotification("Press F1 to view shortcuts"));
 			return true;
 		}
 
@@ -1623,7 +1623,7 @@ namespace NotReaper {
 			if(tempoIndex == 0) {
 				var notif = new NRNotification("Cannot shift first bpm marker!");
 				notif.type = NRNotifType.Fail;
-				NotificationShower.AddNotifToQueue(notif);
+				NotificationShower.Queue(notif);
 				return;
 			}
 
@@ -1687,14 +1687,14 @@ namespace NotReaper {
 			if(foundIndex == 0 && microsecondsPerQuarterNote == 0) {
 				var notif = new NRNotification("Cannot remove initial bpm!");
 				notif.type = NRNotifType.Fail;
-				NotificationShower.AddNotifToQueue(notif);
+				NotificationShower.Queue(notif);
 				return;
 			}
 
 			if(foundIndex == -1 && microsecondsPerQuarterNote == 0) {
 				var notif = new NRNotification("Cannot add 0 bpm!");
 				notif.type = NRNotifType.Fail;
-				NotificationShower.AddNotifToQueue(notif);
+				NotificationShower.Queue(notif);
 				return;
 			}
 
