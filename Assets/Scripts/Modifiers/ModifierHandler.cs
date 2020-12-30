@@ -19,6 +19,7 @@ namespace NotReaper.Modifier
         public static ModifierHandler Instance = null;
         public static bool inputFocused = false;
         public static bool activated;
+        public static bool isLoading = false;
         [HideInInspector] public bool isHovering;
 
         [Header("References")]
@@ -68,6 +69,13 @@ namespace NotReaper.Modifier
             
         }
 
+        public List<Modifier> GetZOffsetModifiers()
+        {
+            List<Modifier> list = new List<Modifier>();
+            foreach (Modifier m in modifiers) if (m.modifierType == ModifierType.zOffset) list.Add(m);
+            return list;
+        }
+
         public void OptimizeModifiers()
         {
             foreach(Modifier m in modifiers)
@@ -92,7 +100,11 @@ namespace NotReaper.Modifier
         public void DropCurrentModifier()
         {
             if (currentModifier is null) return;
-            if (!currentModifier.isCreated) return;
+            if (!currentModifier.isCreated)
+            {
+                currentModifier.Delete();
+                return;
+            }
             modifiers.Add(currentModifier);
             currentModifier = null;
         }
@@ -177,6 +189,7 @@ namespace NotReaper.Modifier
 
         public IEnumerator IUpdateLevels()
         {
+            if (ModifierUndoRedo.undoRedoActive) yield break;
             modifiers.Sort((mod1, mod2) => mod1.startTime.tick.CompareTo(mod2.startTime.tick));
             foreach (Modifier m in modifiers)
             {
@@ -185,7 +198,7 @@ namespace NotReaper.Modifier
             }                          
         }
 
-        public IEnumerator LoadModifiers(List<ModifierDTO> modList, bool fromLoad = false)
+        public IEnumerator LoadModifiers(List<ModifierDTO> modList, bool fromLoad = false, bool fromAction = false)
         {
             if (currentModifier != null)
             {
@@ -201,6 +214,7 @@ namespace NotReaper.Modifier
             ModifierSelectionHandler.isPasting = false;
             yield return new WaitForSeconds(.001f);
             ShowModifiers(activated);
+            isLoading = false;
         }
 
         public void LoadModifier(Modifier modifier)
@@ -235,6 +249,11 @@ namespace NotReaper.Modifier
             if (!CanCreateModifier(currentModifier.modifierType, currentModifier.startTime)) return;
             currentModifier.CreateModifier(save);
             modifiers.Add(currentModifier);
+            List<Modifier> lmo = new List<Modifier>();
+            lmo.Add(currentModifier);
+            if (!save && !isLoading && !ModifierSelectionHandler.isPasting) ModifierUndoRedo.Instance.AddAction(lmo, Action.Create);
+            if(ModifierUndoRedo.recreating) ModifierUndoRedo.Instance.recreatedModifiers.Add(currentModifier);
+            if (ModifierSelectionHandler.isPasting) ModifierSelectionHandler.Instance.tempCopiedModifiers.Add(currentModifier);
             currentModifier = null;
             OnDropdownValueChanged();           
         }
@@ -494,7 +513,9 @@ namespace NotReaper.Modifier
                     option2.SetActive(false);
                     colorPicker.SetActive(false);
                     option1.GetComponentInChildren<LabelSetter>().SetLabelText("Continuous");
+                    option2.GetComponentInChildren<LabelSetter>().SetLabelText("Incremental");
                     option1.SetActive(true);
+                    option2.SetActive(true);
                     break;
                 case ModifierType.ColorChange:
                     amountSlider.SetActive(false);
@@ -597,6 +618,11 @@ namespace NotReaper.Modifier
                 colorPicker.GetComponent<LabelSetter>().SetColorSliderLeft(currentModifier.leftHandColor);
                 colorPicker.GetComponent<LabelSetter>().SetColorSliderRight(currentModifier.rightHandColor);
             }
+            else
+            {
+                currentModifier.leftHandColor = colorPicker.GetComponent<LabelSetter>().GetLeftColor();
+                currentModifier.rightHandColor = colorPicker.GetComponent<LabelSetter>().GetRightColor();
+            }
         }
 
         private void SetHintText(ModifierType type)
@@ -635,6 +661,12 @@ namespace NotReaper.Modifier
                 case ModifierType.ArenaRotation:
                     if(currentModifier != null)
                     {
+                        if (currentModifier.option2)
+                        {
+                            text = "Amount represents speed at end tick";
+                            endTickButton.SetActive(true);
+                            break;
+                        }
                         if (currentModifier.option1)
                         {
                             text = "Amount represents rotation speed";

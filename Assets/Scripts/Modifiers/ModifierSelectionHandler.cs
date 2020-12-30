@@ -10,6 +10,7 @@ using Sirenix.Utilities;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 using NotReaper.UI;
+using NotReaper.UserInput;
 
 namespace NotReaper.Modifier
 {
@@ -19,7 +20,7 @@ namespace NotReaper.Modifier
         public Transform posGetter = null;
         public GameObject selectionBox;
         public static bool isPasting = false;
-
+        public List<Modifier> tempCopiedModifiers = new List<Modifier>();
 
         private List<Modifier> selectedEntries = new List<Modifier>();
         private List<ModifierDTO> copiedEntries = new List<ModifierDTO>();
@@ -55,13 +56,23 @@ namespace NotReaper.Modifier
 
         public void DeleteSelectedModifiers()
         {
-            for(int i = 0; i < selectedEntries.Count; i++)
+            bool couldAdd = false;
+            if(!ZOffsetBaker.baking) couldAdd = ModifierUndoRedo.Instance.AddAction(selectedEntries.ToList(), Action.Delete);
+            for (int i = 0; i < selectedEntries.Count; i++)
             {
                 selectedEntries[i].Delete();
             }
             selectedEntries.Clear();
             ModifierHandler.Instance.HideWindow(false);
             StartCoroutine(ModifierHandler.Instance.IUpdateLevels());
+        }
+
+        public void Restore(List<ModifierDTO> dtoList)
+        {
+            mode = CopyMode.Restore;
+            copiedEntries.Clear();
+            copiedEntries = dtoList.ToList();
+            PasteCopiedModifiers();
         }
 
         public void CopySelectedModifiers()
@@ -73,15 +84,18 @@ namespace NotReaper.Modifier
 
         public void CutSelectedModifiers()
         {
+            if (selectedEntries.Count == 0) return;
             mode = CopyMode.Cut;
             copiedEntries.Clear();
             copiedEntries = GetDTOList();
-            for (int i = 0; i < selectedEntries.Count; i++)
+            ModifierUndoRedo.Instance.AddAction(selectedEntries.ToList(), Action.Delete);
+            /*for (int i = 0; i < selectedEntries.Count; i++)
             {
+                ModifierHandler.Instance.DeleteModifier();
                 selectedEntries[i].Delete();
-            }
+            }*/
+            ModifierHandler.Instance.DeleteModifier();
             selectedEntries.Clear();
-
             StartCoroutine(ModifierHandler.Instance.IUpdateLevels());
         }
 
@@ -99,31 +113,45 @@ namespace NotReaper.Modifier
         {
             if (copiedEntries.Count == 0) return;
             copiedEntries.Sort((mod1, mod2) => mod1.startTick.CompareTo(mod2.startTick));
-
+            ModifierHandler.Instance.DropCurrentModifier();
             QNT_Timestamp newStartTick = Timeline.time;
             QNT_Timestamp firstTick = new QNT_Timestamp((ulong)copiedEntries.First().startTick);
             float tickOffset = newStartTick.tick - copiedEntries.First().startTick;
             posGetter.position = Vector3.zero;
             float positionOffset = posGetter.position.x - copiedEntries.First().startPosX;
             float miniOffset = MiniTimeline.Instance.GetXForTheBookmarkThingy() - copiedEntries.First().miniStartX;
-            if (tickOffset == 0 && mode != CopyMode.Cut) return;
-            isPasting = true;
-            foreach(ModifierDTO dto in copiedEntries)
+            if (tickOffset == 0 && mode == CopyMode.Copy) return;
+            isPasting = mode != CopyMode.Restore;
+            if(mode != CopyMode.Restore)
             {
-                dto.startTick += tickOffset;
-                dto.startPosX += positionOffset;
-                dto.miniStartX += miniOffset;
-                if (dto.endTick != 0)
+                foreach (ModifierDTO dto in copiedEntries)
                 {
-                    dto.endTick += tickOffset;
-                    dto.endPosX += positionOffset;
-                    dto.miniEndX += miniOffset;
+                    dto.startTick += tickOffset;
+                    dto.startPosX += positionOffset;
+                    dto.miniStartX += miniOffset;
+                    if (dto.endTick != 0)
+                    {
+                        dto.endTick += tickOffset;
+                        dto.endPosX += positionOffset;
+                        dto.miniEndX += miniOffset;
+                    }
                 }
             }
-               
-            StartCoroutine(ModifierHandler.Instance.LoadModifiers(copiedEntries));
+            StartCoroutine(ModifierHandler.Instance.LoadModifiers(copiedEntries, false, true));
             isPasting = false;
             DeselectAllModifiers();
+            if (mode == CopyMode.Restore)
+            {
+                copiedEntries.Clear();
+                mode = CopyMode.Copy;
+            }
+            else
+            {
+                ModifierUndoRedo.Instance.AddAction(tempCopiedModifiers.ToList(), Action.Create);
+                tempCopiedModifiers.Clear();
+            }
+           
+           
         }
         
         public void DeselectAllModifiers()
@@ -271,6 +299,14 @@ namespace NotReaper.Modifier
                 {
                     SelectAll();
                 }
+                if (Input.GetKeyDown(InputManager.undo) && !Input.GetKey(KeyCode.LeftShift))
+                {
+                    ModifierUndoRedo.Instance.Undo();
+                }
+                if (Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(InputManager.redo))
+                {
+                    ModifierUndoRedo.Instance.Redo();
+                }
                 if (Input.GetMouseButtonDown(0))
                 {
                     dragStartPos = Timeline.timelineNotesStatic.InverseTransformPoint(main.ScreenToWorldPoint(Input.mousePosition));
@@ -332,7 +368,8 @@ namespace NotReaper.Modifier
         private enum CopyMode
         {
             Copy,
-            Cut
+            Cut,
+            Restore
         }
     }
 }
