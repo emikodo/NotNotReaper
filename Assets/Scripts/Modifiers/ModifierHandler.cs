@@ -103,9 +103,13 @@ namespace NotReaper.Modifier
             if (!currentModifier.isCreated)
             {
                 currentModifier.Delete();
-                return;
+               // return;
             }
-            modifiers.Add(currentModifier);
+            else
+            {
+                modifiers.Add(currentModifier);
+            }
+           
             currentModifier = null;
         }
 

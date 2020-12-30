@@ -214,6 +214,7 @@ namespace NotReaper.Modifier
 
         private void SelectAll()
         {
+            ModifierHandler.Instance.DropCurrentModifier();
             if (selectedEntries.Count > 0)
             {
                 ModifierHandler.Instance.DropCurrentModifier();
