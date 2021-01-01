@@ -28,6 +28,16 @@ namespace NotReaper.Modifier
                 inputField.onSelect.AddListener(ModifierHandler.Instance.OnInputFocusChange);
                 inputField.onDeselect.AddListener(ModifierHandler.Instance.OnInputFocusChange);
             }
+            if(colorFieldLeft != null)
+            {
+                colorSliderHueLeft.value = 0f;
+                colorSliderSaturationLeft.value = 0f;
+            }
+            if(colorFieldRight != null)
+            {
+                colorSliderHueRight.value = 0f;
+                colorSliderSaturationRight.value = 0f;
+            }
         }
 
         public void SetLabelText(string text)

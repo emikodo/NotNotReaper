@@ -36,8 +36,6 @@ namespace NotReaper.Modifier
             zOffsetList.Sort((mod1, mod2) => mod1.startTime.CompareTo(mod2.startTime));
             foreach(Modifier m in zOffsetList)
             {
-                Debug.Log("-------------------------");                
-                Debug.Log("amount: " + m.amount);
                 float currentCount = 1f;
                 m.option1 = true;
                 bool endTickSet = m.endTime.tick != 0 && m.startTime.tick != m.endTime.tick;
@@ -51,7 +49,7 @@ namespace NotReaper.Modifier
                         float.TryParse(m.value1, out transitionNumberOfTargets);
                         if (transitionNumberOfTargets > 0)
                         {
-                            cue.zOffset = Mathf.Lerp(cue.zOffset, m.amount, currentCount / (float)transitionNumberOfTargets);
+                            cue.zOffset = Mathf.Lerp(cue.zOffset * 100f, m.amount, currentCount / (float)transitionNumberOfTargets);
                         }
                         else
                         {
@@ -61,7 +59,6 @@ namespace NotReaper.Modifier
                         cue.zOffset += oldOffsetDict[cue];
                         if (currentCount < transitionNumberOfTargets) currentCount++;
                     }
-                    Debug.Log("New offset: " + cue.zOffset);
                 }
             }
             /*
