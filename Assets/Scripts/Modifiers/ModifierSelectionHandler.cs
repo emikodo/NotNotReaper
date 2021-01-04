@@ -241,11 +241,11 @@ namespace NotReaper.Modifier
 
                     if (Input.GetKey(KeyCode.LeftControl))
                     {
-                        SelectModifier(m, false);
+                        if (m.isCreated) SelectModifier(m, false);
                     }
                     else
                     {
-                        SelectModifier(m, true);
+                        if (m.isCreated) SelectModifier(m, true);
                     }
                                                                                             
                 }
