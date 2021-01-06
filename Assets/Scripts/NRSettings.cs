@@ -152,7 +152,7 @@ namespace NotReaper {
             {
                 if(Timeline.audicaLoaded && !Timeline.isSaving)
                 {
-                    Timeline.instance.Export();
+                    Timeline.instance.Export(true);
                 }               
                 yield return new WaitForSecondsRealtime(config.autoSaveInterval * 60f);
             }
@@ -208,8 +208,8 @@ namespace NotReaper {
 
         public string bgImagePath = NRSettings.GetbgImagePath();
         public bool optimizeInvisibleTargets = true;
-        public bool autoSave = true;
-        public float autoSaveInterval = 5f;
+        public bool autoSave = false;
+        public float autoSaveInterval = 15f;
     }
 
 }

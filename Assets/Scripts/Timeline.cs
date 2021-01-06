@@ -1130,7 +1130,7 @@ namespace NotReaper {
             ModifierHandler.Instance.CleanUp();
         }
 
-		public void Export()
+		public void Export(bool autoSave = false)
 		{
             isSaving = true;
 			Debug.Log("Saving: " + audicaFile.desc.title);
@@ -1196,7 +1196,7 @@ namespace NotReaper {
 
 			desc.tempoList = tempoChanges;
 			
-			AudicaExporter.ExportToAudicaFile(audicaFile);
+			AudicaExporter.ExportToAudicaFile(audicaFile, autoSave);
 
 			NotificationShower.Queue(new NRNotification("Map saved successfully!"));
             isSaving = false;
@@ -1387,6 +1387,7 @@ namespace NotReaper {
 
 			NotificationShower.Queue(new NRNotification("Map loaded successfully!"));
 			NotificationShower.Queue(new NRNotification("Press F1 to view shortcuts"));
+            StopCoroutine(NRSettings.Autosave());
             StartCoroutine(NRSettings.Autosave());
 			return true;
 		}

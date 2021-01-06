@@ -20,7 +20,7 @@ namespace NotReaper.IO {
 	public class AudicaExporter {
 
 		
-		public static void ExportToAudicaFile(AudicaFile audicaFile) {
+		public static void ExportToAudicaFile(AudicaFile audicaFile, bool autoSave) {
 
 			if (!File.Exists(audicaFile.filepath)) {
 				Debug.Log("Save file is gone... :(");
@@ -28,8 +28,8 @@ namespace NotReaper.IO {
 			}
 
 			Encoding encoding = Encoding.GetEncoding(437);
-
-			using(var archive = ZipArchive.Open(audicaFile.filepath)) {
+            string targetPath = audicaFile.filepath;
+            using (var archive = ZipArchive.Open(audicaFile.filepath)) {
 
 
 				HandleCache.CheckCacheFolderValid();
@@ -76,8 +76,9 @@ namespace NotReaper.IO {
 				events.PrepareForExport();
 				MidiFile.Export(Path.Combine(workFolder, $"{Application.dataPath}/.cache/song.mid"), events);
 
-				//Remove any files we'll be replacing
-				foreach (ZipArchiveEntry entry in archive.Entries) {
+              
+                //Remove any files we'll be replacing
+                foreach (ZipArchiveEntry entry in archive.Entries) {
 
 					if (entry.ToString() == "expert.cues") {
 						archive.RemoveEntry(entry);
@@ -108,9 +109,28 @@ namespace NotReaper.IO {
 				if (standard) archive.AddEntry("moderate.cues", $"{Application.dataPath}/.cache/moderate-new.cues");
 				if (easy) archive.AddEntry("beginner.cues", $"{Application.dataPath}/.cache/beginner-new.cues");
                 if (modifiers) archive.AddEntry("modifiers.json", $"{Application.dataPath}/.cache/modifiers-new.json");
-                    
 
-				archive.AddEntry($"{audicaFile.desc.moggSong}", $"{Application.dataPath}/.cache/{audicaFile.desc.moggSong}");
+
+                
+                if (autoSave)
+                {
+                    int pos = audicaFile.filepath.LastIndexOf(@"\") + 1;
+                    string fileName = audicaFile.filepath.Substring(pos, audicaFile.filepath.Length - pos);
+                    targetPath = $"{Application.dataPath}/autosaves/";
+                    targetPath += DateTime.Now.ToString("MM-dd_h-mm-ss_");
+                    targetPath += fileName;
+                    if (!Directory.Exists($"{Application.dataPath}/autosaves/")) Directory.CreateDirectory($"{Application.dataPath}/autosaves/");
+                    audicaFile.desc.autoSavePaths.Add(targetPath);
+
+                    if (audicaFile.desc.autoSavePaths.Count > 10)
+                    {
+                        string path = audicaFile.desc.autoSavePaths[0];
+                        if (File.Exists(path)) File.Delete(path);
+                        audicaFile.desc.autoSavePaths.Remove(path);
+                    }
+                }
+
+                archive.AddEntry($"{audicaFile.desc.moggSong}", $"{Application.dataPath}/.cache/{audicaFile.desc.moggSong}");
                 archive.AddEntry("song.desc", $"{Application.dataPath}/.cache/song-new.desc");
 				archive.AddEntry("song.mid", $"{Application.dataPath}/.cache/song.mid");
 				if (File.Exists($"{Application.dataPath}/.cache/song.png"))
@@ -125,11 +145,15 @@ namespace NotReaper.IO {
 			}
 			File.Delete($"{Application.dataPath}/.cache/{audicaFile.desc.moggSong}");
 			
-			File.Delete(audicaFile.filepath);
-			File.Move(audicaFile.filepath + ".temp", audicaFile.filepath);
+            if(!autoSave)
+			    File.Delete(audicaFile.filepath);
+            
+            
+			File.Move(audicaFile.filepath + ".temp", targetPath);
 
+            
 
-			Debug.Log("Export finished.");
+            Debug.Log("Export finished.");
 
 
 		}
