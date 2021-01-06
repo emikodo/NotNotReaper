@@ -243,6 +243,7 @@ namespace NotReaper {
 		public static bool inTimingMode = false;
 		public static bool audioLoaded = false;
 		public static bool audicaLoaded = false;
+        public static bool isSaving = false;
 
 		private Color leftColor;
 		private Color rightColor;
@@ -1131,7 +1132,7 @@ namespace NotReaper {
 
 		public void Export()
 		{
-
+            isSaving = true;
 			Debug.Log("Saving: " + audicaFile.desc.title);
 			
 			//Ensure all chains are generated
@@ -1198,7 +1199,7 @@ namespace NotReaper {
 			AudicaExporter.ExportToAudicaFile(audicaFile);
 
 			NotificationShower.Queue(new NRNotification("Map saved successfully!"));
-
+            isSaving = false;
 
 		}
 
@@ -1211,7 +1212,6 @@ namespace NotReaper {
 			string newPath = Path.GetFullPath(Path.Combine(songFolder, @"..\..\..\..\"));
 			System.Diagnostics.Process.Start(Path.Combine(newPath, "Audica.exe"));
 		}
-
 
 		public void LoadTimingMode(AudioClip clip) {
 			if (audicaLoaded) return;
@@ -1387,6 +1387,7 @@ namespace NotReaper {
 
 			NotificationShower.Queue(new NRNotification("Map loaded successfully!"));
 			NotificationShower.Queue(new NRNotification("Press F1 to view shortcuts"));
+            StartCoroutine(NRSettings.Autosave());
 			return true;
 		}
 

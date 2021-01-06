@@ -144,6 +144,19 @@ namespace NotReaper {
 
             return true;
         }
+
+        public static IEnumerator Autosave()
+        {
+            yield return new WaitForSecondsRealtime(config.autoSaveInterval * 60f);
+            while (true)
+            {
+                if(Timeline.audicaLoaded && !Timeline.isSaving)
+                {
+                    Timeline.instance.Export();
+                }               
+                yield return new WaitForSecondsRealtime(config.autoSaveInterval * 60f);
+            }
+        }
     }
 
     [System.Serializable]
@@ -195,6 +208,8 @@ namespace NotReaper {
 
         public string bgImagePath = NRSettings.GetbgImagePath();
         public bool optimizeInvisibleTargets = true;
+        public bool autoSave = true;
+        public float autoSaveInterval = 5f;
     }
 
 }
