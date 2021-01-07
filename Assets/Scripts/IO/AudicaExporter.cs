@@ -116,10 +116,13 @@ namespace NotReaper.IO {
                 {
                     int pos = audicaFile.filepath.LastIndexOf(@"\") + 1;
                     string fileName = audicaFile.filepath.Substring(pos, audicaFile.filepath.Length - pos);
-                    targetPath = $"{Application.dataPath}/autosaves/";
+                    string shortName = fileName.Substring(0, fileName.LastIndexOf(@"."));
+                    shortName = shortName.Replace(" ", "");
+                    targetPath = $"{Application.dataPath}/autosaves/{shortName}/";
                     targetPath += DateTime.Now.ToString("MM-dd_h-mm-ss_");
                     targetPath += fileName;
-                    if (!Directory.Exists($"{Application.dataPath}/autosaves/")) Directory.CreateDirectory($"{Application.dataPath}/autosaves/");
+                    if(!Directory.Exists($"{Application.dataPath}/autosaves/")) Directory.CreateDirectory($"{Application.dataPath}/autosaves/");
+                    if (!Directory.Exists($"{Application.dataPath}/autosaves/{shortName}/")) Directory.CreateDirectory($"{Application.dataPath}/autosaves/{shortName}/");
                     audicaFile.desc.autoSavePaths.Add(targetPath);
 
                     if (audicaFile.desc.autoSavePaths.Count > 10)
@@ -129,7 +132,6 @@ namespace NotReaper.IO {
                         audicaFile.desc.autoSavePaths.Remove(path);
                     }
                 }
-
                 archive.AddEntry($"{audicaFile.desc.moggSong}", $"{Application.dataPath}/.cache/{audicaFile.desc.moggSong}");
                 archive.AddEntry("song.desc", $"{Application.dataPath}/.cache/song-new.desc");
 				archive.AddEntry("song.mid", $"{Application.dataPath}/.cache/song.mid");
@@ -147,8 +149,7 @@ namespace NotReaper.IO {
 			
             if(!autoSave)
 			    File.Delete(audicaFile.filepath);
-            
-            
+
 			File.Move(audicaFile.filepath + ".temp", targetPath);
 
             

@@ -22,6 +22,8 @@ namespace NotReaper {
         public static UnityEvent PostLoad = new UnityEvent();
 
         public static void LoadSettingsJson(bool regenConfig = false) {
+
+            if(!regenConfig) RemoveOldAutosaves();
             //If it doesn't exist, we need to gen a new one.
             if (regenConfig || !File.Exists(configFilePath)) {
                 //Gen new config will autoload the new config.
@@ -157,6 +159,19 @@ namespace NotReaper {
                 yield return new WaitForSecondsRealtime(config.autoSaveInterval * 60f);
             }
         }
+
+        private static void RemoveOldAutosaves()
+        {
+            if (!Directory.Exists($"{Application.dataPath}/autosaves/")) Directory.CreateDirectory($"{Application.dataPath}/autosaves/");
+            string[] files = Directory.GetFiles($"{Application.dataPath}/autosaves/", "*", SearchOption.AllDirectories);
+            foreach (string file in files)
+            {
+                if (File.GetLastWriteTime(file) >= DateTime.Now.AddDays(config.autoSaveDeleteAfterDays))
+                {
+                    File.Delete(file);
+                }
+            }
+        }
     }
 
     [System.Serializable]
@@ -210,6 +225,7 @@ namespace NotReaper {
         public bool optimizeInvisibleTargets = true;
         public bool autoSave = false;
         public float autoSaveInterval = 15f;
+        public int autoSaveDeleteAfterDays = 7;
     }
 
 }
