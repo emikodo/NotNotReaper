@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Runtime.CompilerServices;
 using UnityEditor;
@@ -20,10 +21,11 @@ namespace NotReaper {
         private static bool failsafeThingy = false;
         private static List<Action> pendingActions = new List<Action>();
         public static UnityEvent PostLoad = new UnityEvent();
+        public static string autosavePath;
+        private static bool removeOldestAutosave => autosavePath.Length > 0;
 
         public static void LoadSettingsJson(bool regenConfig = false) {
-
-            if(!regenConfig) RemoveOldAutosaves();
+            if (!regenConfig) RemoveOldAutosaves();
             //If it doesn't exist, we need to gen a new one.
             if (regenConfig || !File.Exists(configFilePath)) {
                 //Gen new config will autoload the new config.
@@ -149,14 +151,26 @@ namespace NotReaper {
 
         public static IEnumerator Autosave()
         {
-            yield return new WaitForSecondsRealtime(config.autoSaveInterval * 60f);
+            yield return new WaitForSecondsRealtime(config.autoSaveIntervalMinutes * 60f);
             while (true)
-            {
-                if(Timeline.audicaLoaded && !Timeline.isSaving)
+            {                        
+                if (Timeline.audicaLoaded && !Timeline.isSaving)
                 {
                     Timeline.instance.Export(true);
+                    yield return new WaitForSeconds(1f);
+                    if (removeOldestAutosave)
+                    {
+                        DirectoryInfo directoryInfo = new DirectoryInfo(autosavePath);
+                        List<FileInfo> result = directoryInfo.GetFiles("*.audica", SearchOption.AllDirectories).OrderBy(t => t.CreationTime).ToList();
+                        while (result.Count > config.maxAutoSaves)
+                        {
+                            File.Delete(result[0].FullName);
+                            result.RemoveAt(0);
+                            yield return new WaitForSecondsRealtime(1f);
+                        }
+                    }
                 }               
-                yield return new WaitForSecondsRealtime(config.autoSaveInterval * 60f);
+                yield return new WaitForSecondsRealtime(config.autoSaveIntervalMinutes * 60f);
             }
         }
 
@@ -171,6 +185,15 @@ namespace NotReaper {
                     File.Delete(file);
                 }
             }
+            DirectoryInfo directoryInfo = new DirectoryInfo($"{Application.dataPath}/autosaves/");
+            var dirs = directoryInfo.GetDirectories();
+            foreach(var dir in dirs)
+            {
+                if (dir.GetFiles().Length == 0) Directory.Delete(dir.FullName);
+            }
+            var _files = directoryInfo.GetFiles("*.meta", SearchOption.TopDirectoryOnly);
+            foreach (var f in _files) File.Delete(f.FullName);
+
         }
     }
 
@@ -224,8 +247,9 @@ namespace NotReaper {
         public string bgImagePath = NRSettings.GetbgImagePath();
         public bool optimizeInvisibleTargets = true;
         public bool autoSave = false;
-        public float autoSaveInterval = 15f;
+        public float autoSaveIntervalMinutes = 15f;
         public int autoSaveDeleteAfterDays = 7;
+        public int maxAutoSaves = 10;
     }
 
 }
