@@ -1,16 +1,14 @@
-﻿using NotReaper;
-using NotReaper.Grid;
-using NotReaper.Models;
-using NotReaper.ReviewSystem;
+﻿using NotReaper.Models;
 using NotReaper.Targets;
 using NotReaper.UI;
-using NUnit.Framework;
+using NotReaper.Timing;
 using SFB;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
+using Sirenix.Utilities;
 
 namespace NotReaper.ReviewSystem
 {
@@ -31,7 +29,21 @@ namespace NotReaper.ReviewSystem
             if (nextIndex >= loadedContainer.comments.Count) return;
             else
             {
+                Timeline
+                    .instance
+                    .DeselectAllTargets();
+
                 currentComment = loadedContainer.comments[nextIndex];
+                
+                Cue firstCue = currentComment.selectedCues.FirstOrDefault();
+                Cue lastCue = currentComment.selectedCues.LastOrDefault();
+
+                foreach (Target target in SelectTargets(firstCue.tick, lastCue.tick))
+                    target.Select();
+
+                Timeline
+                    .instance
+                    .AnimateSetTime(new QNT_Timestamp((ulong)firstCue.tick));
             }
         }
 
@@ -80,10 +92,8 @@ namespace NotReaper.ReviewSystem
         {
             string reviewDirectory = Path.Combine(Directory.GetParent(Application.dataPath).ToString(), "reviews");
             string path = StandaloneFileBrowser.OpenFilePanel("Select review file", reviewDirectory, ".review", false).FirstOrDefault();
-            if (File.Exists(path) && path.Contains(".review"))
-            {
-                LoadContainer(path);
-            }
+            
+            if (File.Exists(path) && path.Contains(".review")) LoadContainer(path);
             else NotificationShower.Queue($"Review file doesn't exist", NRNotifType.Fail);
         }
 
@@ -118,11 +128,18 @@ namespace NotReaper.ReviewSystem
             System.Diagnostics.Process.Start(fileName, arguments);
         }
 
-        bool VerifyReview(ReviewContainer container)
-        {
-            if (container.songDesc.songID == Timeline.desc.songID) return true;
-            else return false;
-        }
+        bool VerifyReview(ReviewContainer container) 
+            => container.songDesc.songID == Timeline.desc.songID;
+
+
+        /// <summary>
+        /// Enumerates targets within a tick range.
+        /// </summary>
+        IEnumerable<Target> SelectTargets(int startTick, int endTick) =>
+            from target in Timeline.orderedNotes
+            where target.data.time.tick >= (ulong)startTick &&
+                  target.data.time.tick <= (ulong)endTick
+            select target;
     }
 
 }
