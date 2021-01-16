@@ -37,7 +37,7 @@ namespace NotReaper.Modifier
         [SerializeField] private GameObject modifierPrefab;
         [SerializeField] private Transform leftMax;
         [SerializeField] private Transform rightMax;
-
+        [SerializeField] private TextMeshProUGUI modifierCount;
         public List<Modifier> modifiers = new List<Modifier>();
         private Modifier currentModifier;
 
@@ -69,6 +69,10 @@ namespace NotReaper.Modifier
             
         }
 
+        private void UpdateModifierCount()
+        {
+            modifierCount.text = $"Modifier Count: {modifiers.Count}";
+        }
         public List<Modifier> GetZOffsetModifiers()
         {
             List<Modifier> list = new List<Modifier>();
@@ -189,6 +193,7 @@ namespace NotReaper.Modifier
         public void ShowModifiers(bool show)
         {
             foreach (Modifier m in modifiers) m.Show(show);
+            modifierCount.gameObject.SetActive(show);
         }
 
         public IEnumerator IUpdateLevels()
@@ -259,7 +264,8 @@ namespace NotReaper.Modifier
             if(ModifierUndoRedo.recreating) ModifierUndoRedo.Instance.recreatedModifiers.Add(currentModifier);
             if (ModifierSelectionHandler.isPasting) ModifierSelectionHandler.Instance.tempCopiedModifiers.Add(currentModifier);
             currentModifier = null;
-            OnDropdownValueChanged();           
+            OnDropdownValueChanged();
+            UpdateModifierCount();
         }
 
         public bool CanCreateModifier(ModifierType type, QNT_Timestamp tick)
@@ -478,10 +484,30 @@ namespace NotReaper.Modifier
             }
         }
 
+        public void OnEndTickButtonClicked()
+        {
+            InitializeModifier();
+            if (!currentModifier.startSet) return;
+            if(currentModifier.modifierType == ModifierType.zOffset)
+            {
+                int count = 0;
+                foreach(Target t in Timeline.orderedNotes)
+                {                   
+                    if (t.data.time >= currentModifier.startTime && t.data.time <= Timeline.time ) count++;
+                }
+                value1.GetComponent<LabelSetter>().SetInputText(count.ToString());
+            }
+            else
+            {
+                SetEndTick(-1);
+            }
+            
+        }
+
         public void OnDropdownValueChanged()
         {
             if (!skipRefresh) ResetCurrentData();
-           
+            endTickButton.GetComponentsInChildren<TextMeshProUGUI>()[0].text = "Set End Tick";
             ModifierType type = (ModifierType)dropdown.value;
             switch (type)
             {
@@ -561,6 +587,8 @@ namespace NotReaper.Modifier
                     break;
                 case ModifierType.zOffset:
                     amountSlider.SetActive(true);
+                    endTickButton.GetComponentsInChildren<TextMeshProUGUI>()[0].text = "Set Transition";
+                    endTickButton.GetComponentInChildren<LabelSetter>().SetLabelText("Length");                   
                     endTickButton.SetActive(true);
                     value2.SetActive(false);
                     option1.SetActive(false);
@@ -591,6 +619,23 @@ namespace NotReaper.Modifier
                     option1.SetActive(false);
                     option2.SetActive(false);
                     colorPicker.SetActive(false);
+                    break;
+                case ModifierType.TextPopup:
+                    amountSlider.SetActive(false);
+                    value1.GetComponent<LabelSetter>().SetLabelText("Text");
+                    value2.GetComponent<LabelSetter>().SetLabelText("Size");
+                    option1.GetComponent<LabelSetter>().SetLabelText("Glow");
+                    value1.SetActive(true);
+                    value2.SetActive(true);
+                    option1.SetActive(true);
+                    option2.SetActive(false);
+                    break;
+                case ModifierType.AutoLighting:
+                    value1.SetActive(false);
+                    value2.SetActive(false);
+                    option1.GetComponent<LabelSetter>().SetLabelText("Pulse Mode");
+                    option1.SetActive(true);
+                    option2.SetActive(false);
                     break;
             }
             SetHintText(type);
@@ -691,6 +736,9 @@ namespace NotReaper.Modifier
                 case ModifierType.Fader:
                     text = "Fades from current brightness to amount";
                     break;
+                case ModifierType.AutoLighting:
+                    text = "Controls the maximum amount of brightness allowed\n(Default: 100)";
+                    break;
                 default:
                     text = "";
                     break;
@@ -762,6 +810,12 @@ namespace NotReaper.Modifier
                     break;
                 case ModifierType.OverlaySetter:
                     sh = "OS";
+                    break;
+                case ModifierType.TextPopup:
+                    sh = "TP";
+                    break;
+                case ModifierType.AutoLighting:
+                    sh = "AL";
                     break;
                 default:
                     break;
@@ -836,7 +890,7 @@ namespace NotReaper.Modifier
             option2.GetComponent<LabelSetter>().SetToggleState(false);
         }
 
-        public enum ModifierType { AimAssist = 0, ColorChange = 1, ColorUpdate = 2, ColorSwap = 3, HiddenTelegraphs = 4, InvisibleGuns = 5, Particles = 6, Psychedelia = 7, PsychedeliaUpdate = 8, Speed = 9, zOffset = 10, ArenaRotation = 11, ArenaBrightness = 12, ArenaChange = 13, Fader = 14, OverlaySetter = 15 }
+        public enum ModifierType { AimAssist = 0, ColorChange = 1, ColorUpdate = 2, ColorSwap = 3, HiddenTelegraphs = 4, InvisibleGuns = 5, Particles = 6, Psychedelia = 7, PsychedeliaUpdate = 8, Speed = 9, zOffset = 10, ArenaRotation = 11, ArenaBrightness = 12, ArenaChange = 13, Fader = 14, OverlaySetter = 15, TextPopup = 16, AutoLighting = 17 }
 
     }
 }

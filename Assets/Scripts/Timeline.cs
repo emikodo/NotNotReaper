@@ -2313,7 +2313,7 @@ namespace NotReaper {
 
 		public static void OptimizeInvisibleTargets()
 		{
-			if (NRSettings.config.optimizeInvisibleTargets)
+			if (NRSettings.config.optimizeInvisibleTargets || ModifierHandler.activated)
 			{
 				var targetsToShow = new NoteEnumerator(Timeline.time - Relative_QNT.FromBeatTime(10f), Timeline.time + Relative_QNT.FromBeatTime(10f));
 				for (int i = 0; i < orderedNotes.Count; i++)
