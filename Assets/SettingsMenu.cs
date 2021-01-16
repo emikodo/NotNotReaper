@@ -44,7 +44,7 @@ public class SettingsMenu : MonoBehaviour
         useBouncyAnimations.isOn = NRSettings.config.useBouncyAnimations;
         playNoteSoundsWhileScrolling.isOn = NRSettings.config.playNoteSoundsWhileScrolling;
         optimizeInvisibleTargets.isOn = NRSettings.config.optimizeInvisibleTargets;
-        autoSave.isOn = NRSettings.config.autoSave;
+        autoSave.isOn = NRSettings.config.backups;
         autoSongVolume.isOn = NRSettings.config.autoSongVolume;
         LeftHand.SetColor(NRSettings.config.leftColor);
         RightHand.SetColor(NRSettings.config.rightColor);
@@ -66,7 +66,7 @@ public class SettingsMenu : MonoBehaviour
         NRSettings.config.rightColor = RightHand.color;
         NRSettings.config.savedMapperName = savedMapperField.text;
         NRSettings.config.optimizeInvisibleTargets = optimizeInvisibleTargets.isOn;
-        NRSettings.config.autoSave = autoSave.isOn;
+        NRSettings.config.backups = autoSave.isOn;
         WarningText.SetActive(true);
         NRSettings.SaveSettingsJson();
     }

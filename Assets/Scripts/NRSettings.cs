@@ -151,7 +151,7 @@ namespace NotReaper {
 
         public static IEnumerator Autosave()
         {
-            yield return new WaitForSecondsRealtime(config.autoSaveIntervalMinutes * 60f);
+            yield return new WaitForSecondsRealtime(config.backupIntervalMinutes * 60f);
             while (true)
             {                        
                 if (Timeline.audicaLoaded && !Timeline.isSaving)
@@ -162,7 +162,7 @@ namespace NotReaper {
                     {
                         DirectoryInfo directoryInfo = new DirectoryInfo(autosavePath);
                         List<FileInfo> result = directoryInfo.GetFiles("*.audica", SearchOption.AllDirectories).OrderBy(t => t.CreationTime).ToList();
-                        while (result.Count > config.maxAutoSaves)
+                        while (result.Count > config.maxBackups)
                         {
                             File.Delete(result[0].FullName);
                             result.RemoveAt(0);
@@ -170,7 +170,7 @@ namespace NotReaper {
                         }
                     }
                 }               
-                yield return new WaitForSecondsRealtime(config.autoSaveIntervalMinutes * 60f);
+                yield return new WaitForSecondsRealtime(config.backupIntervalMinutes * 60f);
             }
         }
 
@@ -180,7 +180,7 @@ namespace NotReaper {
             string[] files = Directory.GetFiles($"{Application.dataPath}/autosaves/", "*", SearchOption.AllDirectories);
             foreach (string file in files)
             {
-                if (File.GetLastWriteTime(file) >= DateTime.Now.AddDays(config.autoSaveDeleteAfterDays))
+                if (File.GetLastWriteTime(file) >= DateTime.Now.AddDays(config.backupDeleteAfterDays))
                 {
                     File.Delete(file);
                 }
@@ -246,10 +246,10 @@ namespace NotReaper {
 
         public string bgImagePath = NRSettings.GetbgImagePath();
         public bool optimizeInvisibleTargets = true;
-        public bool autoSave = false;
-        public float autoSaveIntervalMinutes = 15f;
-        public int autoSaveDeleteAfterDays = 7;
-        public int maxAutoSaves = 10;
+        public bool backups = false;
+        public float backupIntervalMinutes = 15f;
+        public int backupDeleteAfterDays = 7;
+        public int maxBackups = 10;
     }
 
 }

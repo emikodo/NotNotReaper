@@ -21082,7 +21082,7 @@ PrefabInstance:
     - target: {fileID: 426873774572492312, guid: 0266345a2a40306429da66ffd376f3a2,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 426873774572492312, guid: 0266345a2a40306429da66ffd376f3a2,
         type: 3}
@@ -21098,6 +21098,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: Export
+      objectReference: {fileID: 0}
+    - target: {fileID: 426873774572492312, guid: 0266345a2a40306429da66ffd376f3a2,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: NotReaper.Timeline, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 426873774572492312, guid: 0266345a2a40306429da66ffd376f3a2,
         type: 3}
@@ -114960,7 +114965,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Enable Autosaving
+  m_text: Enable Backups
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 4bd810f1cbcb0f446a8f5a31453e243f, type: 2}
   m_sharedMaterial: {fileID: 21539420542967178, guid: 4bd810f1cbcb0f446a8f5a31453e243f,
