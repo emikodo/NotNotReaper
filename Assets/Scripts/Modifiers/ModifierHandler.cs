@@ -629,13 +629,16 @@ namespace NotReaper.Modifier
                     value2.SetActive(true);
                     option1.SetActive(true);
                     option2.SetActive(false);
+                    colorPicker.SetActive(false);
                     break;
                 case ModifierType.AutoLighting:
+                    amountSlider.SetActive(true);
                     value1.SetActive(false);
                     value2.SetActive(false);
                     option1.GetComponent<LabelSetter>().SetLabelText("Pulse Mode");
                     option1.SetActive(true);
                     option2.SetActive(false);
+                    colorPicker.SetActive(false);
                     break;
             }
             SetHintText(type);
@@ -860,6 +863,10 @@ namespace NotReaper.Modifier
                 case ModifierType.ColorChange:
                 case ModifierType.ColorUpdate:
                     colorPicker.GetComponent<LabelSetter>().SetMinMaxColorSliders(0f, 1f);
+                    break;
+                case ModifierType.AutoLighting:
+                    slider.SetMinValue(0f);
+                    slider.SetMaxValue(100f);
                     break;
                 default:
                     break;

@@ -191,7 +191,7 @@ namespace NotReaper.Modifier
             else
             {
                 //if (miniEndExists) GameObject.Destroy(miniEnd);
-                //if (endMarkExists) GameObject.Destroy(endMark);
+                if (endMarkExists) GameObject.Destroy(endMark);
                 //miniEnd = modifierBottom;
                 endMark = modifierTop;
                 endMark.GetComponent<ClickNotifier>().SetModifier(this);
