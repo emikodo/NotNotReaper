@@ -635,7 +635,7 @@ namespace NotReaper.Modifier
                     amountSlider.SetActive(true);
                     value1.SetActive(false);
                     value2.SetActive(false);
-                    option1.GetComponent<LabelSetter>().SetLabelText("Pulse Mode");
+                    option1.GetComponent<LabelSetter>().SetLabelText("Alternative");
                     option1.SetActive(true);
                     option2.SetActive(false);
                     colorPicker.SetActive(false);
