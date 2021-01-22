@@ -2310,12 +2310,13 @@ namespace NotReaper {
 				}
 			}
 		}
-
+        private static bool toggle = false;
 		public static void OptimizeInvisibleTargets()
 		{
-			if (NRSettings.config.optimizeInvisibleTargets || ModifierHandler.activated)
+			if (NRSettings.config.optimizeInvisibleTargets || ModifierHandler.activated || toggle)
 			{
 				var targetsToShow = new NoteEnumerator(Timeline.time - Relative_QNT.FromBeatTime(10f), Timeline.time + Relative_QNT.FromBeatTime(10f));
+                
 				for (int i = 0; i < orderedNotes.Count; i++)
 				{
 					orderedNotes[i].gridTargetIcon.gameObject.SetActive(false);
@@ -2323,6 +2324,7 @@ namespace NotReaper {
 				}
                 if (!ModifierHandler.activated)
                 {
+                    toggle = false;
                     foreach (Target target in targetsToShow)
                     {
                         target.gridTargetIcon.gameObject.SetActive(true);
@@ -2332,9 +2334,10 @@ namespace NotReaper {
                 else
                 {
                     ModifierHandler.Instance.OptimizeModifiers();
+                    toggle = true;
                 }
-                
-			}
+
+            }
 		}
 
 		private LineRenderer GetOrCreateDualLine(int index) {
