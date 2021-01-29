@@ -38,9 +38,19 @@ namespace NotReaper.UI {
             successIcon.DOFade(0, 0);
         }
 
-        public static void AddNotifToQueue(NRNotification notif) {
+        public static void Queue(NRNotification notif) {
             notifications.Add(notif);
 
+        }
+
+        public static void Queue(string notificationText)
+        {
+            notifications.Add(new NRNotification(notificationText));
+        }
+
+        public static void Queue(string notificationText, NRNotifType type)
+        {
+            notifications.Add(new NRNotification(notificationText, type));
         }
 
         IEnumerator CheckPlayNotifications() {
@@ -137,7 +147,14 @@ namespace NotReaper.UI {
             content = c;
             duration = dur;
         }
-        
+
+        public NRNotification(string c, NRNotifType type, float dur = 3.0f)
+        {
+            content = c;
+            duration = dur;
+            this.type = type;
+        }
+
     }
 
     public enum NRNotifType {

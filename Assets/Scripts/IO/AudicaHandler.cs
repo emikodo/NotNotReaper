@@ -4,9 +4,11 @@ using System.IO;
 using System.Text;
 using Ionic.Zip;
 using NAudio.Midi;
+using Newtonsoft.Json;
 using NotReaper.Models;
 using UnityEngine;
 using UnityEngine.Networking;
+using NotReaper.Modifier;
 
 namespace NotReaper.IO {
 
@@ -19,44 +21,64 @@ namespace NotReaper.IO {
 			
 
 			string appPath = Application.dataPath;
-			bool easy = false, standard = false, advanced = false, expert = false;
+			bool easy = false, standard = false, advanced = false, expert = false, modifiers = false;
 
 
 			HandleCache.CheckCacheFolderValid();
 			HandleCache.ClearCueCache();
-
 			//Figure out what files we need to extract by getting the song.desc.
 			foreach (ZipEntry entry in audicaZip.Entries) {
 				if (entry.FileName == "song.desc") {
 					MemoryStream ms = new MemoryStream();
 					entry.Extract(ms);
 					string tempDesc = Encoding.UTF8.GetString(ms.ToArray());
-
 					JsonUtility.FromJsonOverwrite(tempDesc, audicaFile.desc);
-
-
 					ms.Dispose();
 					continue;
 				}
 
 				//Extract the cues files.
-				else if (entry.FileName == "expert.cues") {
+				else if (entry.FileName == "expert.cues")
+				{
 					entry.Extract($"{appPath}/.cache");
 					expert = true;
 
-				} else if (entry.FileName == "advanced.cues") {
+				}
+				else if (entry.FileName == "advanced.cues")
+				{
 					entry.Extract($"{appPath}/.cache");
 					advanced = true;
 
-				} else if (entry.FileName == "moderate.cues") {
+				}
+				else if (entry.FileName == "moderate.cues")
+				{
 					entry.Extract($"{appPath}/.cache");
 					standard = true;
 
-				} else if (entry.FileName == "beginner.cues") {
+				}
+				else if (entry.FileName == "beginner.cues")
+				{
 					entry.Extract($"{appPath}/.cache");
 					easy = true;
 				} 
+                else if(entry.FileName == "modifiers.json")
+                {
+                    entry.Extract($"{appPath}/.cache");
+                    modifiers = true;
+                }
 			}
+
+			//Load moggsongg, has to be done after desc is loaded
+			if (audicaZip.ContainsEntry(audicaFile.desc.moggSong))
+			{
+				MemoryStream ms = new MemoryStream();
+				audicaZip[audicaFile.desc.moggSong].Extract(ms);
+				audicaFile.mainMoggSong = new MoggSong(ms);
+				Debug.Log($"MoggSong volumes: L{audicaFile.mainMoggSong.volume.l}, R{audicaFile.mainMoggSong.volume.r} ");
+				audicaZip[audicaFile.desc.moggSong].Extract($"{appPath}/.cache");
+			}
+			else Debug.Log("Moggsong not found");
+
 
 			//Now we fill the audicaFile var with all the things it needs.
 			//Remember, all props in audicaFile.desc refer to either moggsong or the name of the mogg.
@@ -75,34 +97,48 @@ namespace NotReaper.IO {
 			if (easy) {
 				audicaFile.diffs.beginner = JsonUtility.FromJson<CueFile>(File.ReadAllText($"{appPath}/.cache/beginner.cues"));
 			}
+            if (modifiers)
+            {
+                audicaFile.modifiers = JsonUtility.FromJson<ModifierList>(File.ReadAllText($"{appPath}/.cache/modifiers.json"));
+            }
 
 			MemoryStream temp = new MemoryStream();
 
 			//Load the names of the moggs
 			foreach (ZipEntry entry in audicaZip.Entries) {
 
-				if (entry.FileName == audicaFile.desc.moggSong) {
+				if (entry.FileName == audicaFile.desc.moggSong)
+				{
 					entry.Extract(temp);
-					audicaFile.desc.moggMainSong = MoggSongParser.parse_metadata(Encoding.UTF8.GetString(temp.ToArray())) [0];
+					audicaFile.desc.moggMainSong = MoggSongParser.parse_metadata(Encoding.UTF8.GetString(temp.ToArray()))[0];
 
-				} else if (entry.FileName == audicaFile.desc.sustainSongLeft) {
+				}
+				else if (entry.FileName == audicaFile.desc.sustainSongLeft)
+				{
 					entry.Extract(temp);
-					audicaFile.desc.moggSustainSongLeft = MoggSongParser.parse_metadata(Encoding.UTF8.GetString(temp.ToArray())) [0];
+					audicaFile.desc.moggSustainSongLeft = MoggSongParser.parse_metadata(Encoding.UTF8.GetString(temp.ToArray()))[0];
 
-				} else if (entry.FileName == audicaFile.desc.sustainSongRight) {
+				}
+				else if (entry.FileName == audicaFile.desc.sustainSongRight)
+				{
 					entry.Extract(temp);
-					audicaFile.desc.moggSustainSongRight = MoggSongParser.parse_metadata(Encoding.UTF8.GetString(temp.ToArray())) [0];
+					audicaFile.desc.moggSustainSongRight = MoggSongParser.parse_metadata(Encoding.UTF8.GetString(temp.ToArray()))[0];
 
-				} else if (entry.FileName == audicaFile.desc.fxSong) {
+				}
+				else if (entry.FileName == audicaFile.desc.fxSong)
+				{
 					entry.Extract(temp);
-					audicaFile.desc.moggFxSong = MoggSongParser.parse_metadata(Encoding.UTF8.GetString(temp.ToArray())) [0];
-					
-				} else if (entry.FileName == "song.mid" || entry.FileName == audicaFile.desc.midiFile) {
+					audicaFile.desc.moggFxSong = MoggSongParser.parse_metadata(Encoding.UTF8.GetString(temp.ToArray()))[0];
+
+				}
+				else if (entry.FileName == "song.mid" || entry.FileName == audicaFile.desc.midiFile)
+				{
 					string midiFiileName = $"{appPath}/.cache/song.mid";
 
 					entry.Extract($"{appPath}/.cache", ExtractExistingFileAction.OverwriteSilently);
 
-					if(entry.FileName != "song.mid") {
+					if (entry.FileName != "song.mid")
+					{
 						File.Delete(midiFiileName);
 						File.Move($"{appPath}/.cache/" + audicaFile.desc.midiFile, midiFiileName);
 
@@ -111,10 +147,25 @@ namespace NotReaper.IO {
 					}
 
 					audicaFile.song_mid = new MidiFile(midiFiileName);
+
+					//Album art, just gonna shove it here
 				}
+				else if (entry.FileName == "song.png" || entry.FileName == audicaFile.desc.albumArt)
+				{
+					string albumArtName = $"{appPath}/.cache/song.png";
 
-				temp.SetLength(0);
+					entry.Extract($"{appPath}/.cache", ExtractExistingFileAction.OverwriteSilently);
 
+					if (entry.FileName != "song.png")
+					{
+						File.Delete(albumArtName);
+						File.Move($"{appPath}/.cache/" + audicaFile.desc.albumArt, albumArtName);
+
+					}
+
+					//audicaFile.song_png = new ArtFile(artFileName);
+				}
+                temp.SetLength(0);
 			}
 
 

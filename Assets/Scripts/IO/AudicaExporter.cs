@@ -13,13 +13,14 @@ using SharpCompress.Common;
 using SharpCompress.Writers;
 using UnityEngine;
 using NotReaper.Timing;
+using NotReaper.Modifier;
 
 namespace NotReaper.IO {
 
 	public class AudicaExporter {
 
 		
-		public static void ExportToAudicaFile(AudicaFile audicaFile) {
+		public static void ExportToAudicaFile(AudicaFile audicaFile, bool autoSave) {
 
 			if (!File.Exists(audicaFile.filepath)) {
 				Debug.Log("Save file is gone... :(");
@@ -27,14 +28,15 @@ namespace NotReaper.IO {
 			}
 
 			Encoding encoding = Encoding.GetEncoding(437);
-
-			using(var archive = ZipArchive.Open(audicaFile.filepath)) {
+            string targetPath = audicaFile.filepath;
+            string autoSavePath = "";
+            using (var archive = ZipArchive.Open(audicaFile.filepath)) {
 
 
 				HandleCache.CheckCacheFolderValid();
 				HandleCache.CheckSaveFolderValid();
 
-				bool expert = false, advanced = false, standard = false, easy = false;
+                bool expert = false, advanced = false, standard = false, easy = false, modifiers = false;
 				//Write the cues files to disk so we can add them to the audica file.
 				if (audicaFile.diffs.expert.cues != null) {
 					File.WriteAllText($"{Application.dataPath}/.cache/expert-new.cues", CuesToJson(audicaFile.diffs.expert));
@@ -52,7 +54,15 @@ namespace NotReaper.IO {
 					File.WriteAllText($"{Application.dataPath}/.cache/beginner-new.cues", CuesToJson(audicaFile.diffs.beginner));
 					easy = true;
 				}
+                audicaFile.modifiers = new ModifierList();
+                audicaFile.modifiers.modifiers = ModifierHandler.Instance.MapToDTO();               
+                if (audicaFile.modifiers.modifiers.Count > 0)
+                {
+                    File.WriteAllText($"{Application.dataPath}/.cache/modifiers-new.json", ModifiersToJson2(audicaFile.modifiers));
+                    modifiers = true;
+                }
 
+				File.WriteAllText($"{Application.dataPath}/.cache/{audicaFile.desc.moggSong}", audicaFile.mainMoggSong.ExportToText());
 				File.WriteAllText($"{Application.dataPath}/.cache/song-new.desc", JsonUtility.ToJson(audicaFile.desc));
 
 				var workFolder = Path.Combine(Application.streamingAssetsPath, "Ogg2Audica");
@@ -67,15 +77,20 @@ namespace NotReaper.IO {
 				events.PrepareForExport();
 				MidiFile.Export(Path.Combine(workFolder, $"{Application.dataPath}/.cache/song.mid"), events);
 
-				//Remove any files we'll be replacing
-				foreach (ZipArchiveEntry entry in archive.Entries) {
+              
+                //Remove any files we'll be replacing
+                foreach (ZipArchiveEntry entry in archive.Entries) {
 
 					if (entry.ToString() == "expert.cues") {
 						archive.RemoveEntry(entry);
-						
 					} else if (entry.ToString() == "song.desc") {
 						archive.RemoveEntry(entry);
+					}
+					else if (entry.ToString() == audicaFile.desc.moggSong)
+					{	archive.RemoveEntry(entry);
 					} else if (entry.ToString() == "song.mid") {
+						archive.RemoveEntry(entry);
+					} else if (entry.ToString() == "song.png") {
 						archive.RemoveEntry(entry);
 					} else if (entry.ToString() == "advanced.cues") {
 						archive.RemoveEntry(entry);
@@ -83,7 +98,10 @@ namespace NotReaper.IO {
 						archive.RemoveEntry(entry);
 					} else if (entry.ToString() == "beginner.cues") {
 						archive.RemoveEntry(entry);
-					}
+					} else if(entry.ToString() == "modifiers.json")
+                    {
+                        archive.RemoveEntry(entry);
+                    }
 					
 
 				}
@@ -91,20 +109,46 @@ namespace NotReaper.IO {
 				if (advanced) archive.AddEntry("advanced.cues", $"{Application.dataPath}/.cache/advanced-new.cues");
 				if (standard) archive.AddEntry("moderate.cues", $"{Application.dataPath}/.cache/moderate-new.cues");
 				if (easy) archive.AddEntry("beginner.cues", $"{Application.dataPath}/.cache/beginner-new.cues");
+                if (modifiers) archive.AddEntry("modifiers.json", $"{Application.dataPath}/.cache/modifiers-new.json");
 
-				archive.AddEntry("song.desc", $"{Application.dataPath}/.cache/song-new.desc");
+
+               
+                if (autoSave)
+                {
+                    int pos = audicaFile.filepath.LastIndexOf(@"\") + 1;
+                    string fileName = audicaFile.filepath.Substring(pos, audicaFile.filepath.Length - pos);
+                    string shortName = fileName.Substring(0, fileName.LastIndexOf(@"."));
+                    shortName = shortName.Replace(" ", "");
+                    targetPath = $"{Application.dataPath}/autosaves/{shortName}/";
+                    autoSavePath = targetPath;
+                    targetPath += DateTime.Now.ToString("MM-dd_h-mm-ss_");
+                    targetPath += fileName;
+                    if(!Directory.Exists($"{Application.dataPath}/autosaves/")) Directory.CreateDirectory($"{Application.dataPath}/autosaves/");
+                    if (!Directory.Exists($"{Application.dataPath}/autosaves/{shortName}/")) Directory.CreateDirectory($"{Application.dataPath}/autosaves/{shortName}/");
+                }
+                archive.AddEntry($"{audicaFile.desc.moggSong}", $"{Application.dataPath}/.cache/{audicaFile.desc.moggSong}");
+                archive.AddEntry("song.desc", $"{Application.dataPath}/.cache/song-new.desc");
 				archive.AddEntry("song.mid", $"{Application.dataPath}/.cache/song.mid");
+				if (File.Exists($"{Application.dataPath}/.cache/song.png"))
+					{
+					archive.AddEntry("song.png", $"{Application.dataPath}/.cache/song.png");
+				}
 				archive.SaveTo(audicaFile.filepath + ".temp", SharpCompress.Common.CompressionType.None);
 				archive.Dispose();
 
 
 
 			}
-			File.Delete(audicaFile.filepath);
-			File.Move(audicaFile.filepath + ".temp", audicaFile.filepath);
+			File.Delete($"{Application.dataPath}/.cache/{audicaFile.desc.moggSong}");
+			
+            if(!autoSave)
+			    File.Delete(audicaFile.filepath);
+
+			File.Move(audicaFile.filepath + ".temp", targetPath);
 
 
-			Debug.Log("Export finished.");
+            if (autoSave) NRSettings.autosavePath = autoSavePath;
+            Debug.Log("Export finished.");
 
 
 		}
@@ -114,6 +158,17 @@ namespace NotReaper.IO {
 			return JsonUtility.ToJson(cueFile, true);
 		}
 
+        public static string ModifiersToJson2(ModifierList modifiers)
+        {
+            return JsonUtility.ToJson(modifiers, true);
+        }
+
+        public static string ModifiersToJson(ModifierList modifiers)
+        {
+            JsonSerializerSettings settings = new JsonSerializerSettings();
+            settings.TypeNameHandling = TypeNameHandling.All;
+            return JsonConvert.SerializeObject(modifiers, Formatting.Indented, settings);
+        }
 
 	}
 

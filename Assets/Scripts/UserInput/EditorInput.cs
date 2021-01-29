@@ -13,14 +13,19 @@ using UnityEngine.EventSystems;
 using UnityEngine.Networking;
 using UnityEngine.UI;
 using NotReaper.Timing;
+using NotReaper.Modifier;
+using NUnit.Framework;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace NotReaper.UserInput {
 
 
-	public enum EditorTool { Standard, Hold, Horizontal, Vertical, ChainStart, ChainNode, Melee, Mine, DragSelect, ChainBuilder, None }
+	public enum EditorTool { Standard, Hold, Horizontal, Vertical, ChainStart, ChainNode, Melee, Mine, DragSelect, ChainBuilder, ModifierCreator, None }
 
 
 	public class EditorInput : MonoBehaviour {
+		public static bool isTesting = false;
 
 		public static EditorInput I;
 		public static EditorTool selectedTool = EditorTool.Standard;
@@ -31,11 +36,13 @@ namespace NotReaper.UserInput {
 		public static SnappingMode previousSnappingMode = SnappingMode.None;
 		public static TargetBehavior selectedBehavior = TargetBehavior.Standard;
 		public static UITargetVelocity selectedVelocity = UITargetVelocity.Standard;
+        //public static TargetModifier selectedModifier = TargetModifier.None;
 
 		public static EditorMode selectedMode = EditorMode.Compose;
 		public static bool isOverGrid = false;
 		public static bool inUI = false;
-		public static bool isFocusGrid = false;
+		public static bool enableScrolling = false;
+        public static bool isFocusGrid = false;
 
 		//public PlaceNote toolPlaceNote;
 		[SerializeField] public EditorToolkit Tools;
@@ -57,6 +64,18 @@ namespace NotReaper.UserInput {
 		[SerializeField] private GameObject bpmResultWindow;
 		[SerializeField] private CountInWindow countInWindow;
 		[SerializeField] private AddOrTrimAudioWindow addOrTrimAudioWindow;
+        [SerializeField] private AddRepeaterWindow repeaterWindow;
+
+		/// <summary>
+		/// A list of gameobjects that all need to be inactive for the input to be enabled.
+		/// Append your panel's gameobject.activeSelf to this.
+		/// </summary>
+		public static List<GameObject> disableInputWhenActive = new List<GameObject>();
+		
+		/// <summary>
+		/// Checks whether there are any panels active that require the input to be disabled.
+		/// </summary>
+		public static bool InputDisabled { get => disableInputWhenActive.Any(x => x.activeSelf == true); }
 
 
 		public HoverTarget hover;
@@ -65,6 +84,8 @@ namespace NotReaper.UserInput {
 		public GameObject normalGrid;
 		public GameObject noGrid;
 		public GameObject meleeGrid;
+
+		public TimingPointsPanel timingPointsPanel;
 
 
 		public UIModeSelect editorMode;
@@ -78,7 +99,9 @@ namespace NotReaper.UserInput {
 
 		QNT_Timestamp? bpmStartTimestamp = null;
 
-		private void Start() {
+        
+
+        private void Start() {
 			InputManager.LoadHotkeys();
 			NRSettings.OnLoad(SetUserColors);
 			I = this;
@@ -91,7 +114,7 @@ namespace NotReaper.UserInput {
 			SelectHand(TargetHandType.Left);
 			SelectVelocity(UITargetVelocity.Standard);
 
-			NotificationShower.AddNotifToQueue(new NRNotification("Welcome to NotReaper!", 3f));
+			NotificationShower.Queue(new NRNotification("Welcome to NotReaper!", 3f));
 			pauseMenu.OpenPauseMenu();
 			
 			shortcutMenu.LoadUIColors();
@@ -102,6 +125,7 @@ namespace NotReaper.UserInput {
 			StartCoroutine(LoadBGImage(NRSettings.config.bgImagePath));
 			
 			nrDiscordPresence.InitPresence();
+			NRSettings.PostLoad.Invoke();
 		}
 
 
@@ -156,14 +180,14 @@ namespace NotReaper.UserInput {
 				case SnappingMode.Grid:
 					normalGrid.SetActive(true);
 
-					normalGrid.GetComponent<SpriteRenderer>().color = Color.white;
+					//normalGrid.GetComponent<SpriteRenderer>().color = Color.white;
 					
 					noGrid.SetActive(false);
 					meleeGrid.SetActive(false);
 					break;
 				case SnappingMode.None:
 					normalGrid.SetActive(true);
-					normalGrid.GetComponent<SpriteRenderer>().color = normalGridDisabledColor;
+					//normalGrid.GetComponent<SpriteRenderer>().color = normalGridDisabledColor;
 					
 					
 					noGrid.SetActive(false);
@@ -240,21 +264,42 @@ namespace NotReaper.UserInput {
 				return;
 			}
 
-			uiToolSelect.UpdateUINoteSelected(tool);
+            if (ModifierHandler.activated)
+            {
+                switch (tool)
+                {
+                    case EditorTool.ChainNode:
+                    case EditorTool.ChainStart:
+                    case EditorTool.Hold:
+                    case EditorTool.Horizontal:
+                    case EditorTool.Melee:
+                    case EditorTool.Mine:
+                    case EditorTool.Standard:
+                    case EditorTool.Vertical:
+                    case EditorTool.ChainBuilder:
+                    case EditorTool.DragSelect:
+                        return;
+                    default:
+                        break;
+                }
+            }
+
+            uiToolSelect.UpdateUINoteSelected(tool);
 
 			hover.UpdateUITool(tool);
-
-			previousTool = selectedTool;
-			selectedTool = tool;
+            //if(tool != EditorTool.ModifierCreator) previousTool = selectedTool;
+            previousTool = selectedTool;
+            selectedTool = tool;
 
 			if (previousTool == EditorTool.Melee && selectedHand == TargetHandType.Either) {
 				SelectHand(previousHand);
 			} else if (previousTool == EditorTool.Mine && selectedHand == TargetHandType.Either) {
 				SelectHand(previousHand);
 			}
+           
 
-			//Update the UI based on the tool:
-			switch (tool) {
+            //Update the UI based on the tool:
+            switch (tool) {
 				case EditorTool.Standard:
 					selectedBehavior = TargetBehavior.Standard;
 					soundDropdown.SetValueWithoutNotify((int) UITargetVelocity.Standard);
@@ -320,7 +365,6 @@ namespace NotReaper.UserInput {
 				case EditorTool.DragSelect:
 					selectedBehavior = TargetBehavior.None;
 
-
 					Tools.dragSelect.Activate(true);
 					Tools.chainBuilder.Activate(false);
 					break;
@@ -331,7 +375,10 @@ namespace NotReaper.UserInput {
 					Tools.dragSelect.Activate(false);
 					Tools.chainBuilder.Activate(true);
 					break;
-
+                case EditorTool.ModifierCreator:
+                    selectedBehavior = TargetBehavior.None;
+                    Tools.modifierCreator.Activate(true);
+                    break;
 
 				default:
 					break;
@@ -340,20 +387,34 @@ namespace NotReaper.UserInput {
 			if(tool != EditorTool.ChainBuilder) {
 				Tools.chainBuilder.Activate(false);
 			}
+            if (tool != EditorTool.DragSelect)
+            {
+                Tools.dragSelect.Activate(false);
+            }
 
-			if(tool != EditorTool.DragSelect) {
-				Tools.dragSelect.Activate(false); 
-			}
-
-
+            if (tool != EditorTool.ModifierCreator)
+            {
+                /*
+                if (ModifierHandler.instance.activated && tool == EditorTool.DragSelect) return;              
+                Tools.modifierCreator.Activate(false);
+                previousTool = EditorTool.None;*/
+                Tools.modifierCreator.Activate(false);
+            }
 		}
 
 		public void RevertTool() {
 			SelectTool(previousTool);
-			previousTool = selectedTool;
+			if(selectedTool != EditorTool.ModifierCreator) previousTool = selectedTool;
 		}
 
 		public void FigureOutIsInUI() {
+            enableScrolling = false;
+
+            if (InputDisabled)
+            {
+				inUI = true;
+				return;
+            }
 
 			if (pauseMenu.isOpened) {
 				inUI = true;
@@ -364,6 +425,12 @@ namespace NotReaper.UserInput {
 				inUI = true;
 				return;
 			}
+
+            if (ModifierInfo.isOpened)
+            {
+                inUI = true;
+                return;
+            }
 
 			switch (selectedMode) {
 				case EditorMode.Compose:
@@ -380,15 +447,33 @@ namespace NotReaper.UserInput {
 
 			
 
-			if(bpmWindow.activeSelf || bpmResultWindow.activeSelf || countInWindow.gameObject.activeSelf || addOrTrimAudioWindow.gameObject.activeSelf) {
+			if(bpmWindow.activeSelf
+				|| timingPointsPanel.gameObject.activeSelf 
+				|| bpmResultWindow.activeSelf 
+				|| countInWindow.gameObject.activeSelf 
+				|| addOrTrimAudioWindow.gameObject.activeSelf 
+				|| repeaterWindow.gameObject.activeSelf) 
+			{
 				inUI = true;
-				return;
+
+                if(repeaterWindow.gameObject.activeSelf || !timingPointsPanel.isHovering) 
+				{
+                    enableScrolling = true;
+                }
+
+                return;
 			}
 		}
 
 		private void Update() {
+			if(isTesting) {
+				return;
+			}
 
-			if ((Timeline.inTimingMode || countInWindow.gameObject.activeSelf) && inUI) {
+			if (Input.GetKeyDown(KeyCode.F6)) timingPointsPanel.Toggle();
+
+
+            if ((Timeline.inTimingMode || countInWindow.gameObject.activeSelf) && inUI) {
 				if (Input.GetKeyDown(InputManager.timelineTogglePlay)) {
 					timeline.TogglePlayback();
 				}
@@ -419,6 +504,9 @@ namespace NotReaper.UserInput {
 					else if(addOrTrimAudioWindow.gameObject.activeSelf) {
 						addOrTrimAudioWindow.Deactivate();
 					}
+                    else if(addOrTrimAudioWindow.gameObject.activeSelf) {
+                        addOrTrimAudioWindow.Deactivate();
+                    }
 					else {
 						pauseMenu.OpenPauseMenu();
 					}
@@ -431,7 +519,18 @@ namespace NotReaper.UserInput {
 				isShiftDown = false;
 			}
 
-			if(Input.GetKeyDown(KeyCode.B)) {
+            if (Input.GetKeyDown(KeyCode.F7)) {
+                if (isShiftDown)
+				{
+					FindAndRemoveCurrentRepeater();
+				}
+				else {
+                    repeaterWindow.Activate();
+                }
+            }
+
+            if (Input.GetKeyDown(KeyCode.B)) {
+                if (ModifierHandler.activated || BookmarkMenu.isActive) return;
 				if(isShiftDown) {
 					if(bpmStartTimestamp == null) {
 						bpmStartTimestamp = Timeline.time;
@@ -474,9 +573,15 @@ namespace NotReaper.UserInput {
 
 			if(Input.GetKeyDown(KeyCode.F1)) {
 				if(shortcutMenu.isOpened) {
-					shortcutMenu.hide();
+					shortcutMenu.Hide();
 				}
 			}
+
+            if (Input.GetKeyDown(KeyCode.F8))
+            {
+                if (ModifierInfo.isOpened) ModifierInfo.Instance.Hide();
+            }
+
 
 			bool wasInUI = inUI;
 			FigureOutIsInUI();
@@ -491,9 +596,14 @@ namespace NotReaper.UserInput {
 
 			if(Input.GetKeyDown(KeyCode.F1)) {
 				if(!shortcutMenu.isOpened) {
-					shortcutMenu.show();
+					shortcutMenu.Show();
 				}
 			}
+
+            if (Input.GetKeyDown(KeyCode.F8))
+            {
+                if (!ModifierInfo.isOpened) ModifierInfo.Instance.Show();
+            }
 
 			if(Input.GetKeyDown(KeyCode.F5)) {
 				if(!addOrTrimAudioWindow.gameObject.activeSelf) {
@@ -584,7 +694,7 @@ namespace NotReaper.UserInput {
 			}
 
 
-			if (Input.GetKeyDown(InputManager.timelineTogglePlay)) {
+			if (Input.GetKeyDown(InputManager.timelineTogglePlay) && !ModifierHandler.inputFocused && !BookmarkMenu.inputFocused) {
 				timeline.TogglePlayback();
 			}
 
@@ -622,17 +732,34 @@ namespace NotReaper.UserInput {
 			
 			//Toggles the chain builder state
 			if (Input.GetKeyDown(KeyCode.H)) {
-				if (Tools.chainBuilder.activated) {
-					Tools.chainBuilder.Activate(false);
-					RevertTool();
-				}
-				else {
-					SelectTool(EditorTool.ChainBuilder);
-					
-				}
-			}
+                if (Tools.chainBuilder.activated)
+                {
+                    Tools.chainBuilder.Activate(false);
+                    RevertTool();
+                }
+                else
+                {
+                    SelectTool(EditorTool.ChainBuilder);
 
-			if (Input.GetKeyDown(KeyCode.V) && !isCTRLDown) {
+                }
+            }
+            if ((Input.GetKeyDown(KeyCode.O) && !ModifierHandler.inputFocused) && !BookmarkMenu.isActive)
+            {
+                if (ModifierHandler.activated)
+                {
+                    if (ZOffsetBaker.active) ZOffsetBaker.Instance.ToggleWindow();
+                    Tools.modifierCreator.Activate(false);
+                    RevertTool();
+
+                }
+                else
+                {
+                    SelectTool(EditorTool.ModifierCreator);
+
+                }
+            }
+
+            if (Input.GetKeyDown(KeyCode.V) && !isCTRLDown) {
 				SelectTool(EditorTool.DragSelect);
 			}
 
@@ -642,7 +769,7 @@ namespace NotReaper.UserInput {
 			if (Input.GetKeyDown(KeyCode.N)) {
 				SelectSnappingMode(SnappingMode.None);
 			}
-			if (Input.GetKeyDown(KeyCode.M)) {
+			if (Input.GetKeyDown(KeyCode.M) && !ModifierHandler.activated && !BookmarkMenu.isActive) {
 				SelectSnappingMode(SnappingMode.Melee);
 			}
 
@@ -666,16 +793,25 @@ namespace NotReaper.UserInput {
 			}
 
 
-			if (!isShiftDown && isCTRLDown && Input.GetKeyDown(InputManager.undo)) {
+			if (!isShiftDown && isCTRLDown && Input.GetKeyDown(InputManager.undo) && !ModifierHandler.activated) {
 				Tools.undoRedoManager.Undo();
 				Debug.Log("Undoing...");
 			}
 
-			if (isShiftDown && isCTRLDown && Input.GetKeyDown(InputManager.redo)) {
+			if (isShiftDown && isCTRLDown && Input.GetKeyDown(InputManager.redo) && !ModifierHandler.activated) {
 				Tools.undoRedoManager.Redo();
 				Debug.Log("Redoing...");
 			}
 			
+		}
+
+		public void FindAndRemoveCurrentRepeater()
+		{
+			var foundRepeaterSection = timeline.FindRepeaterForTime(Timeline.time);
+			if (foundRepeaterSection != null)
+			{
+				timeline.RemoveRepeaterSection(foundRepeaterSection);
+			}
 		}
 
 		public void ToggleHandColor() {

@@ -13,7 +13,7 @@ namespace NotReaper.IO {
 
 	public class AudicaGenerator {
 
-		public static string Generate(string oggPath, string songID, string songName, string artist, double bpm, string songEndEvent, string author, int offset) {
+		public static string Generate(string oggPath, float moggSongVol, string songID, string songName, string artist, double bpm, string songEndEvent, string author, int offset, string midiPath, string artPath) {
 
 
 			HandleCache.CheckSaveFolderValid();
@@ -25,11 +25,14 @@ namespace NotReaper.IO {
 
 			Encoding encoding = Encoding.GetEncoding("UTF-8");
 
+			//Album art
+			File.Delete(Path.Combine(workFolder, "song.png"));
+			File.Copy(artPath, Path.Combine(workFolder, "song.png"));
 
 			//We need to modify the BPM of the song.mid contained in the template audica to match whatever this is.
 			File.Delete(Path.Combine(workFolder, "song.mid"));
-			File.Copy(Path.Combine(workFolder, "songtemplate.mid"), Path.Combine(workFolder, "song.mid"));
-			
+			File.Copy(midiPath, Path.Combine(workFolder, "song.mid"));
+
 			//Generates the mogg into song.mogg, which is moved to the AudicaTemplate
 			File.Delete(Path.Combine(workFolder, "song.mogg"));
 
@@ -54,7 +57,14 @@ namespace NotReaper.IO {
 
 			ogg2mogg.WaitForExit();
 
+			//Set the song.moggsong volume
+			var moggpath = Path.Combine(workFolder, "song.moggsong");
+			var moggsongTemplate = Path.Combine(workFolder, "MoggsongTemplate", "song.moggsong");
 
+			File.Delete(moggpath);
+			File.Copy(moggsongTemplate, moggpath);
+			File.WriteAllText(moggpath, File.ReadAllText(moggpath).Replace("-5", moggSongVol.ToString("n2")));
+			
 			//Make the song.desc file;
 			File.Delete(Path.Combine(workFolder, "song.desc"));
 			SongDesc songDesc = JsonUtility.FromJson<SongDesc>(File.ReadAllText(Path.Combine(workFolder, "songtemplate.desc")));
@@ -67,15 +77,21 @@ namespace NotReaper.IO {
 			songDesc.offset = offset;
 			File.WriteAllText(Path.Combine(workFolder, "song.desc"), JsonUtility.ToJson(songDesc, true));
 
-			
+            /*File.Delete(Path.Combine(workFolder, "modifiers.json"));
+            ModifierList modifierList = new ModifierList();
+            modifierList.modifiers = ModifierHandler.instance.modifiers;
+            File.WriteAllText(Path.Combine(workFolder, "modifiers.json"), JsonUtility.ToJson(modifierList, true));
+            */
+            File.Create(Path.Combine(workFolder, "modifiers.json"));
 			//Create the actual audica file and save it to the /saves/ folder
 			using(ZipArchive archive = ZipArchive.Create()) {
 				archive.AddAllFromDirectory(audicaTemplate);
 				archive.AddEntry("song.desc", Path.Combine(workFolder, "song.desc"));
 				archive.AddEntry("song.mid", Path.Combine(workFolder, "song.mid"));
+				archive.AddEntry("song.png", Path.Combine(workFolder, "song.png"));
 				archive.AddEntry("song.mogg", Path.Combine(workFolder, "song.mogg"));
-				
-				
+				archive.AddEntry("song.moggsong", Path.Combine(workFolder, "song.moggsong"));
+
 				archive.SaveTo(Path.Combine(Application.dataPath, @"../", "saves", songID + ".audica"), SharpCompress.Common.CompressionType.None);
 			}
 

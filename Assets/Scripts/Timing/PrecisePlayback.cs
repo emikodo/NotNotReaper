@@ -156,6 +156,8 @@ namespace NotReaper.Timing {
 		[SerializeField] private AudioClip HiHat_Hit2;
 		[SerializeField] private AudioClip HiHat_Hit3;
 		[SerializeField] private AudioClip HiHat_Open;
+
+		private bool hitsoundsLoaded = false;
 		
 		public Transform mainCameraTrans;
 		private float mainCameraX;
@@ -196,6 +198,8 @@ namespace NotReaper.Timing {
 			hihat_hit2 = FromAudioClip(HiHat_Hit2);
 			hihat_hit3 = FromAudioClip(HiHat_Hit3);
 			hihat_open = FromAudioClip(HiHat_Open);
+
+			hitsoundsLoaded = true;
 		}
 
 		public enum LoadType {
@@ -338,15 +342,17 @@ namespace NotReaper.Timing {
 			playPreview = true;
 			source.Play();
 
-			List<HitsoundEvent> previewHits = new List<HitsoundEvent>();
-			AddHitsoundEvents(previewHits, time, previewDuration.tick > 0 ? timeline.ShiftTick(time, duration) : time);
-			for(int i = 0; i < previewHits.Count; ++i) {
-				HitsoundEvent ev = previewHits[i];
-				ev.waitSamples = 0;
-				previewHits[i] = ev;
-			}
+			if (NRSettings.config.playNoteSoundsWhileScrolling) {
+				List<HitsoundEvent> previewHits = new List<HitsoundEvent>();
+				AddHitsoundEvents(previewHits, time, previewDuration.tick > 0 ? timeline.ShiftTick(time, duration) : time);
+				for (int i = 0; i < previewHits.Count; ++i) {
+					HitsoundEvent ev = previewHits[i];
+					ev.waitSamples = 0;
+					previewHits[i] = ev;
+				}
 
-			newPreviewHitsoundEvents = previewHits;
+				newPreviewHitsoundEvents = previewHits;
+			}
 		}
 
 		public void PlayHitsound(QNT_Timestamp time) {
@@ -380,6 +386,10 @@ namespace NotReaper.Timing {
 		QNT_Timestamp hitSoundEnd = new QNT_Timestamp(0);
 
 		void AddHitsoundEvents(List<HitsoundEvent> events, QNT_Timestamp start, QNT_Timestamp end) {
+			if(!hitsoundsLoaded) {
+				return;
+			}
+			
 			if(Timeline.orderedNotes.Count == 0) {
 				return;
 			}

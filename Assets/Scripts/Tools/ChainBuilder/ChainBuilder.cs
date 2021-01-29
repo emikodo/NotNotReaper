@@ -64,6 +64,7 @@ namespace NotReaper.Tools.ChainBuilder {
 		public bool isDragging = false;
 		public bool isEditMode = false;
 		public bool activated = false;
+		public bool isHovering = false;
 
 		private Transform draggingPoint;
 		public GameObject activeChain;
@@ -108,6 +109,7 @@ namespace NotReaper.Tools.ChainBuilder {
 		public void Activate(bool active) {
 			bool wasActive = activated == true;
 
+			isHovering = false;
 			activated = active;
 
 			startClickNote = null;
@@ -217,76 +219,84 @@ namespace NotReaper.Tools.ChainBuilder {
 			data.pathBuilderData.createdNotes = true;
 		}
 		
-		public static void CalculateChainNotes(TargetData data) {
-			if(data.behavior != TargetBehavior.NR_Pathbuilder) {
+		public static void CalculateChainNotes(TargetData parentData) {
+			if(parentData.behavior != TargetBehavior.NR_Pathbuilder) {
 				return;
 			}
 
-			if(data.pathBuilderData.createdNotes) {
-				data.pathBuilderData.generatedNotes.ForEach(t => {
+			if(parentData.pathBuilderData.createdNotes) {
+                parentData.pathBuilderData.generatedNotes.ForEach(t => {
 					timeline.DeleteTargetFromAction(t);
 				});
-				data.pathBuilderData.createdNotes = false;
+                parentData.pathBuilderData.createdNotes = false;
 			}
 
 			//No notes can be generated
-			if(data.beatLength.tick == 0) {
+			if(parentData.beatLength.tick == 0) {
 				return;
 			}
 
-			data.pathBuilderData.generatedNotes = new List<TargetData>();
+            parentData.pathBuilderData.generatedNotes = new List<TargetData>();
 
-			////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-			/////////                                            WARNING!                                                      /////////
-			/////////       Chainging this calculation breaks backwards compatibility with saves of older NotReaper versions!  /////////
-			/////////                    Make sure to update NRCueData.Version, and handle an upgrade path!                    /////////
-			////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            foreach (TargetData data in parentData.pathBuilderData.parentNotes) {
+                ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                /////////                                            WARNING!                                                      /////////
+                /////////       Chainging this calculation breaks backwards compatibility with saves of older NotReaper versions!  /////////
+                /////////                    Make sure to update NRCueData.Version, and handle an upgrade path!                    /////////
+                ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-			//Generate first note at the start
-			TargetData firstData = new TargetData();
-			firstData.behavior = data.pathBuilderData.behavior;
-			firstData.velocity = data.pathBuilderData.velocity;
-			firstData.handType = data.pathBuilderData.handType;
-			firstData.time = data.time;
-			firstData.position = data.position;
-			data.pathBuilderData.generatedNotes.Add(firstData);
+                //Generate first note at the start
+                TargetData firstData = new TargetData();
+                firstData.behavior = data.pathBuilderData.behavior;
+                firstData.velocity = data.pathBuilderData.velocity;
+                firstData.handType = data.pathBuilderData.handType;
 
-			//We increment as if all these values were for 1/4 notes over 4 beats, makes the ui much better
-			float quarterIncrConvert = (4.0f / data.pathBuilderData.interval) * (Constants.PulsesPerQuarterNote * 4.0f / data.beatLength.tick);
+                //Force set the time, since these transient notes will get generated for all pathbuilders in repeaters
+                firstData.SetTimeFromAction(data.time);
 
-			//Generate new notes
-			Vector2 currentPos = data.position;
-			Vector2 currentDir = new Vector2(Mathf.Sin(data.pathBuilderData.initialAngle * Mathf.Deg2Rad), Mathf.Cos(data.pathBuilderData.initialAngle * Mathf.Deg2Rad));
-			float currentAngle = (data.pathBuilderData.angle / 4) * quarterIncrConvert;
-			float currentStep = data.pathBuilderData.stepDistance * quarterIncrConvert;
-			
-			TargetBehavior generatedBehavior = data.pathBuilderData.behavior;
-			if(generatedBehavior == TargetBehavior.ChainStart) {
-				generatedBehavior = TargetBehavior.Chain;
-			}
+                firstData.position = data.position;
+                data.pathBuilderData.generatedNotes.Add(firstData);
 
-			TargetVelocity generatedVelocity = data.pathBuilderData.velocity;
-			if(generatedVelocity == TargetVelocity.ChainStart) {
-				generatedVelocity = TargetVelocity.Chain;
-			}
+                //We increment as if all these values were for 1/4 notes over 4 beats, makes the ui much better
+                float quarterIncrConvert = (4.0f / data.pathBuilderData.interval) * (Constants.PulsesPerQuarterNote * 4.0f / data.beatLength.tick);
 
-			for(int i = 1; i <= (data.beatLength.tick / (float)Constants.PulsesPerQuarterNote) * (data.pathBuilderData.interval / 4.0f); ++i) {
-				currentPos += currentDir * currentStep;
-				currentDir = currentDir.Rotate(currentAngle);
+                //Generate new notes
+                Vector2 currentPos = data.position;
+                Vector2 currentDir = new Vector2(Mathf.Sin(data.pathBuilderData.initialAngle * Mathf.Deg2Rad), Mathf.Cos(data.pathBuilderData.initialAngle * Mathf.Deg2Rad));
+                float currentAngle = (data.pathBuilderData.angle / 4) * quarterIncrConvert;
+                float currentStep = data.pathBuilderData.stepDistance * quarterIncrConvert;
 
-				currentAngle += (data.pathBuilderData.angleIncrement / 4) * quarterIncrConvert;
-				currentStep += data.pathBuilderData.stepIncrement * quarterIncrConvert;
+                TargetBehavior generatedBehavior = data.pathBuilderData.behavior;
+                if (generatedBehavior == TargetBehavior.ChainStart) {
+                    generatedBehavior = TargetBehavior.Chain;
+                }
 
-				TargetData newData = new TargetData();
-				newData.behavior = generatedBehavior;
-				newData.velocity = generatedVelocity;
-				newData.handType = data.pathBuilderData.handType;
-				newData.time = data.time + QNT_Duration.FromBeatTime(i * (4.0f / data.pathBuilderData.interval));
-				newData.position = currentPos;
-				data.pathBuilderData.generatedNotes.Add(newData);
-			}
+                TargetVelocity generatedVelocity = data.pathBuilderData.velocity;
+                if (generatedVelocity == TargetVelocity.ChainStart) {
+                    generatedVelocity = TargetVelocity.Chain;
+                }
 
-			data.pathBuilderData.OnFinishRecalculate();
+                for (int i = 1; i <= (data.beatLength.tick / (float)Constants.PulsesPerQuarterNote) * (data.pathBuilderData.interval / 4.0f); ++i) {
+                    currentPos += currentDir * currentStep;
+                    currentDir = currentDir.Rotate(currentAngle);
+
+                    currentAngle += (data.pathBuilderData.angleIncrement / 4) * quarterIncrConvert;
+                    currentStep += data.pathBuilderData.stepIncrement * quarterIncrConvert;
+
+                    TargetData newData = new TargetData();
+                    newData.behavior = generatedBehavior;
+                    newData.velocity = generatedVelocity;
+                    newData.handType = data.pathBuilderData.handType;
+
+                    //Force set the time, since these transient notes will get generated for all pathbuilders in repeaters
+                    newData.SetTimeFromAction(data.time + QNT_Duration.FromBeatTime(i * (4.0f / data.pathBuilderData.interval)));
+
+                    newData.position = currentPos;
+                    data.pathBuilderData.generatedNotes.Add(newData);
+                }
+            }
+
+			parentData.pathBuilderData.OnFinishRecalculate();
 		}
 
 		public void BakePathFromSelectedNote() {
@@ -296,7 +306,7 @@ namespace NotReaper.Tools.ChainBuilder {
 			}
 
 			NRActionBakePath action = new NRActionBakePath();
-			action.data = target.data;
+            action.removeNoteAction = new NRActionRemoveNote { targetData = target.data };
 			timeline.Tools.undoRedoManager.AddAction(action);
 		}
 
@@ -330,7 +340,8 @@ namespace NotReaper.Tools.ChainBuilder {
 
 			if(Input.GetMouseButton(0)) {
 				//We have already selected a pathbuilder note, do the initial angle flow
-				if(timeline.selectedNotes.Count == 1 && timeline.selectedNotes[0] == startClickNote && timeline.selectedNotes[0].data.behavior == TargetBehavior.NR_Pathbuilder) {
+				if (isHovering || !EditorInput.isOverGrid) return;
+				if (timeline.selectedNotes.Count == 1 && timeline.selectedNotes[0] == startClickNote && timeline.selectedNotes[0].data.behavior == TargetBehavior.NR_Pathbuilder) {
 					var mousePosV3 = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 					var mousePos = new Vector2(mousePosV3.x, mousePosV3.y);
 
@@ -351,6 +362,7 @@ namespace NotReaper.Tools.ChainBuilder {
 						}
 
 						startClickNote.data.pathBuilderData.initialAngle = snappedAngle;
+						timeline.ReapplyScale();
 					}
 				}
 			}
@@ -359,6 +371,7 @@ namespace NotReaper.Tools.ChainBuilder {
 			}
 
 			if (Input.GetMouseButtonDown(0)) {
+				if (isHovering || !EditorInput.isOverGrid) return;
 				if(startClickNote == null && iconUnderMouse != null && !iconUnderMouse.target.transient) {
 
 					if(iconUnderMouse.data.behavior != TargetBehavior.NR_Pathbuilder) {

@@ -5,6 +5,7 @@ using NAudio.Midi;
 using NotReaper.Targets;
 using NotReaper.Timing;
 using NotReaper.UI;
+using NotReaper.Modifier;
 
 namespace NotReaper.Models {
 	public struct TempoChange {
@@ -33,6 +34,8 @@ namespace NotReaper.Models {
 		public string artist = "";
 
 		public string midiFile = "";
+
+		public string albumArt = "";
 
 		public string fusionSpatialized = "fusion/guns/default/drums_default_spatial.fusion";
 		public string fusionUnspatialized = "fusion/guns/default/drums_default_sub.fusion";
@@ -74,6 +77,7 @@ namespace NotReaper.Models {
 		public double previewStartSeconds = 0.0d;
 		public List<TempoChange> tempoList;
 		public List<BookmarkData> bookmarks = new List<BookmarkData>();
+        public bool bakedzOffset = false;
 	}
 
 	public class SafeDesc {
@@ -83,6 +87,7 @@ namespace NotReaper.Models {
 		public string title;
 		public string artist;
 		public string midiFile = "song.mid";
+		public string albumArt = "song.png";
 		public string fusionSpatialized = "fusion/guns/default/drums_default_spatial.fusion";
 		public string fusionUnspatialized = "fusion/guns/default/drums_default_sub.fusion";
 		public string sustainSongRight = "song_sustain_r.moggsong";
@@ -114,6 +119,8 @@ namespace NotReaper.Models {
 		
 		public List<Cue> pathBuilderNoteCues = new List<Cue>();
 		public List<PathBuilderData> pathBuilderNoteData = new List<PathBuilderData>();
+        public List<RepeaterSection> repeaterSections = new List<RepeaterSection>();
+        public List<ModifierHandler> modifiers = new List<ModifierHandler>(); //TODO: is this needed?
 	}
 
 	[Serializable]
@@ -142,15 +149,23 @@ namespace NotReaper.Models {
 		public SafeDesc safeDesc = new SafeDesc();
 		public AudioClip song;
 		public DiffsList diffs = new DiffsList();
+        public ModifierList modifiers = new ModifierList();
 		public AudioClip song_extras;
 		public AudioClip song_sustain_l;
 		public AudioClip song_sustain_r;
+		public MoggSong mainMoggSong;
 		public MidiFile song_mid;
 		public string filepath;
 		public bool usesLeftSustain = false;
 		public bool usesRightSustain = false;
 
 	}
+
+    [Serializable]
+    public class ModifierList
+    {
+        public List<Modifier.ModifierDTO> modifiers = new List<Modifier.ModifierDTO>();
+    }
 
 	public static class CuesDifficulty {
 		public static string expert = "expert";
@@ -182,4 +197,7 @@ namespace NotReaper.Models {
 			public double y;
 		}
 	}
+
+
+
 }

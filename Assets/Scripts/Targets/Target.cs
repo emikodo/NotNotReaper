@@ -7,14 +7,15 @@ using NotReaper.Timing;
 using DG.Tweening;
 using System.Collections.Generic;
 using NotReaper.UI;
+using NotReaper.Grid;
 
 namespace NotReaper.Targets {
 
 
 	public class Target {
 
-		private TargetIcon gridTargetIcon;
-		private TargetIcon timelineTargetIcon;
+		public TargetIcon gridTargetIcon;
+		public TargetIcon timelineTargetIcon;
 
 		private bool noteIsAnimating = false;
 
@@ -60,6 +61,8 @@ namespace NotReaper.Targets {
 		public Target(TargetData targetData, TargetIcon timelineIcon, TargetIcon gridIcon, bool transient) {
 			timelineTargetIcon = timelineIcon;
 			gridTargetIcon = gridIcon;
+			//timelineTargetIcon.target = this;
+			//gridTargetIcon.target = this;
 
 			data = targetData;
 			data.PositionChangeEvent += OnGridPositionChanged;
@@ -101,11 +104,14 @@ namespace NotReaper.Targets {
 					}
 				}
 				foreach (Renderer r in timelineTargetIcon.GetComponentsInChildren<SpriteRenderer>(true)) {
-					var color = r.material.color;
-					color.r = 0.5f;
-					color.g = 0.5f;
-					color.b = 0.5f;
-					r.material.color = color;
+					if (r.material.HasProperty("_Color"))
+					{
+						var color = r.material.color;
+						color.r = 0.5f;
+						color.g = 0.5f;
+						color.b = 0.5f;
+						r.material.color = color; 
+					}
 				}
 			}
 
@@ -113,8 +119,9 @@ namespace NotReaper.Targets {
 				data.pathBuilderData.InitialAngleChangedEvent += UpdatePathInitialAngle;
 				data.pathBuilderData.RecalculateEvent += RecalculatePathbuilderData;
 				data.pathBuilderData.RecalculateFinishedEvent += UpdatePath;
+                data.pathBuilderData.parentNotes.Add(data);
 
-				UpdatePathInitialAngle();
+                UpdatePathInitialAngle();
 			}
 		}
 
@@ -136,9 +143,26 @@ namespace NotReaper.Targets {
 				data.pathBuilderData.InitialAngleChangedEvent -= UpdatePathInitialAngle;
 				data.pathBuilderData.RecalculateEvent -= RecalculatePathbuilderData;
 				data.pathBuilderData.RecalculateFinishedEvent -= UpdatePath;
+                data.pathBuilderData.parentNotes.Remove(data);
 
-				data.pathBuilderData.DeleteCreatedNotes(timeline);
+                data.pathBuilderData.DeleteCreatedNotes(timeline);
 			}
+		}
+
+		public void ReplaceData(TargetData newData) {
+			data.PositionChangeEvent -= OnGridPositionChanged;
+			data.HandTypeChangeEvent -= OnHandTypeChanged;
+			data.TickChangeEvent -= OnTickChanged;
+			data.BeatLengthChangeEvent -= OnBeatLengthChanged;
+
+			data = newData;
+			gridTargetIcon.ReplaceData(newData);
+			timelineTargetIcon.ReplaceData(newData);
+
+			newData.PositionChangeEvent += OnGridPositionChanged;
+			newData.HandTypeChangeEvent += OnHandTypeChanged;
+			newData.TickChangeEvent += OnTickChanged;
+			newData.BeatLengthChangeEvent += OnBeatLengthChanged;
 		}
 
 		public float GetRelativeBeatTime() {
@@ -164,8 +188,8 @@ namespace NotReaper.Targets {
 			gridTargetIcon.transform.localPosition = pos;
 
 			if (data.behavior == TargetBehavior.Hold) {
-				var holdEnd = gridTargetIcon.GetComponentInChildren<HoldTargetManager>().endMarker;
-				if (holdEnd) holdEnd.transform.localPosition = new Vector3 (x, y, holdEnd.transform.localPosition.z);
+				//var holdEnd = gridTargetIcon.GetComponentInChildren<HoldTargetManager>().endMarker;
+				//if (holdEnd) holdEnd.transform.localPosition = new Vector3 (x, y, holdEnd.transform.localPosition.z);
 			}
 
 			if(data.behavior == TargetBehavior.NR_Pathbuilder && data.pathBuilderData.generatedNotes.Count > 0) {
@@ -226,7 +250,8 @@ namespace NotReaper.Targets {
 				var delta = firstNote.time - newTime;
 
 				foreach(TargetData note in data.pathBuilderData.generatedNotes) {
-					note.time -= delta;
+					//Force set the time, since these transient notes will get generated for all pathbuilders in repeaters
+					note.SetTimeFromAction(note.time - delta);
 				}
 			}
 		}
@@ -245,10 +270,13 @@ namespace NotReaper.Targets {
 				if(!TargetData.BehaviorSupportsBeatLength(oldBehavior)) {
 					var gridHoldTargetManager = gridTargetIcon.GetComponentInChildren<HoldTargetManager>();
 
-					gridHoldTargetManager.sustainLength = data.beatLength;
-					gridHoldTargetManager.LoadSustainController();
+					if (gridHoldTargetManager != null)
+					{
+						gridHoldTargetManager.sustainLength = data.beatLength;
+						gridHoldTargetManager.LoadSustainController();
 
-					gridHoldTargetManager.OnTryChangeSustainEvent += MakeTimelineUpdateSustainLength;
+						gridHoldTargetManager.OnTryChangeSustainEvent += MakeTimelineUpdateSustainLength; 
+					}
 				}
 
 				gridTargetIcon.UpdatePath();
@@ -269,14 +297,21 @@ namespace NotReaper.Targets {
 				data.pathBuilderData.InitialAngleChangedEvent += UpdatePathInitialAngle;
 				data.pathBuilderData.RecalculateEvent += RecalculatePathbuilderData;
 				data.pathBuilderData.RecalculateFinishedEvent += UpdatePath;
-			}
+            }
 
 			if(oldBehavior == TargetBehavior.NR_Pathbuilder) {
 				data.pathBuilderData.InitialAngleChangedEvent -= UpdatePathInitialAngle;
 				data.pathBuilderData.RecalculateEvent -= RecalculatePathbuilderData;
-				data.pathBuilderData.RecalculateFinishedEvent -= UpdatePath;
-			}
-		}
+                data.pathBuilderData.RecalculateFinishedEvent -= UpdatePath;
+            }
+
+            if (data.behavior != TargetBehavior.NR_Pathbuilder && oldBehavior == TargetBehavior.NR_Pathbuilder) {
+                data.pathBuilderData.parentNotes.Remove(data);
+            }
+            else if(data.behavior == TargetBehavior.NR_Pathbuilder) {
+                data.pathBuilderData.parentNotes.Add(data);
+            }
+        }
 
 		public void UpdateTimelineSustainLength() {
 			if (!data.supportsBeatLength) return;
@@ -346,18 +381,18 @@ namespace NotReaper.Targets {
 			extensionTime /= Timeline.instance.playbackSpeed;
 
 
-			gridTargetIcon.transform.DOLocalRotate(new Vector3(0.0f, 0.0f, 1080), time + extensionTime).SetRelative().SetEase(Ease.InSine);
-			gridTargetIcon.transform.DOScale(0.75f, time + extensionTime).SetEase(Ease.Linear);
+			//gridTargetIcon.transform.DOLocalRotate(new Vector3(0.0f, 0.0f, 1080), time + extensionTime).SetRelative().SetEase(Ease.InSine);
+			//gridTargetIcon.transform.DOScale(0.75f, time + extensionTime).SetEase(Ease.Linear);
 
-			gridTargetIcon.holdEndTrans.DOLocalRotate(new Vector3(0.0f, 0.0f, 1080), time + extensionTime).SetRelative().SetEase(Ease.InSine);
-			gridTargetIcon.holdEndTrans.DOScale(0.75f, time + extensionTime).SetEase(Ease.Linear);
+			//gridTargetIcon.holdEndTrans.DOLocalRotate(new Vector3(0.0f, 0.0f, 1080), time + extensionTime).SetRelative().SetEase(Ease.InSine);
+			//gridTargetIcon.holdEndTrans.DOScale(0.75f, time + extensionTime).SetEase(Ease.Linear);
 			
 			yield return new WaitForSeconds(time + extensionTime);
 
-			if (gridTargetIcon != null) {
-				gridTargetIcon.transform.DOScale(new Vector3(NRSettings.config.noteScale, NRSettings.config.noteScale, 1f), 0.1f).SetEase(Ease.InOutCubic);
-				gridTargetIcon.holdEndTrans.DOScale(new Vector3(NRSettings.config.noteScale, NRSettings.config.noteScale, 1f), 0.1f).SetEase(Ease.InOutCubic);
-			}
+			//if (gridTargetIcon != null) {
+			//	gridTargetIcon.transform.DOScale(new Vector3(NRSettings.config.noteScale, NRSettings.config.noteScale, 1f), 0.1f).SetEase(Ease.InOutCubic);
+			//	gridTargetIcon.holdEndTrans.DOScale(new Vector3(NRSettings.config.noteScale, NRSettings.config.noteScale, 1f), 0.1f).SetEase(Ease.InOutCubic);
+			//}
 
 
 			noteIsAnimating = false;
@@ -366,9 +401,9 @@ namespace NotReaper.Targets {
 		}
 
 		private IEnumerator AnimateNoteBounce() {
-			DOTween.To((float scale) => {
-				gridTargetIcon.transform.localScale = new Vector3(scale, scale, 1f);
-			}, NRSettings.config.noteHitScale, NRSettings.config.noteScale, 0.3f).SetEase(Ease.OutCubic);
+			//DOTween.To((float scale) => {
+			//	gridTargetIcon.transform.localScale = new Vector3(scale, scale, 1f);
+			//}, NRSettings.config.noteHitScale, NRSettings.config.noteScale, 0.3f).SetEase(Ease.OutCubic);
 			
 			yield return new WaitForSeconds(0.3f);
 			noteIsAnimating = false;
@@ -392,5 +427,7 @@ namespace NotReaper.Targets {
 		public bool IsTimelineInsideRect(Rect rect) {
 			return timelineTargetIcon.IsInsideRect(rect);
 		}
+
+		public Cue ToCue() => NotePosCalc.ToCue(this, Timeline.offset);
 	}
 }

@@ -2,10 +2,12 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Runtime.CompilerServices;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Networking;
 using UnityEngine.UI;
 
@@ -18,8 +20,12 @@ namespace NotReaper {
         private static readonly string configFilePath = Path.Combine(Application.persistentDataPath, "NRConfig.txt");
         private static bool failsafeThingy = false;
         private static List<Action> pendingActions = new List<Action>();
+        public static UnityEvent PostLoad = new UnityEvent();
+        public static string autosavePath;
+        private static bool removeOldestAutosave => autosavePath.Length > 0;
 
         public static void LoadSettingsJson(bool regenConfig = false) {
+            if (!regenConfig) RemoveOldAutosaves();
             //If it doesn't exist, we need to gen a new one.
             if (regenConfig || !File.Exists(configFilePath)) {
                 //Gen new config will autoload the new config.
@@ -121,16 +127,16 @@ namespace NotReaper {
         }
 
         public static string GetbgImagePath() {
-            string imagePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "AppData", "LocalLow", Application.companyName, Application.productName, "BG1.png");
+            string imagePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "AppData", "LocalLow", Application.companyName, Application.productName, "BG2.png");
 
             if ((Application.platform == RuntimePlatform.LinuxEditor) || (Application.platform == RuntimePlatform.LinuxPlayer))
-                imagePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "/.config/unity3d/" + Application.companyName + "/" + Application.productName + "/BG1.png");
+                imagePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "/.config/unity3d/" + Application.companyName + "/" + Application.productName + "/BG2.png");
             
             if (Application.platform == RuntimePlatform.OSXEditor)
-                imagePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "/Library/Application Support/" + Application.companyName + "/" + Application.productName + "/BG1.png");
+                imagePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "/Library/Application Support/" + Application.companyName + "/" + Application.productName + "/BG2.png");
 
             if (Application.platform == RuntimePlatform.OSXPlayer)
-                imagePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "/Library/Application Support/" + Application.identifier + "/BG1.png");
+                imagePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "/Library/Application Support/" + Application.identifier + "/BG2.png");
 
             return(imagePath);
         }
@@ -141,6 +147,53 @@ namespace NotReaper {
                 return false;
 
             return true;
+        }
+
+        public static IEnumerator Autosave()
+        {
+            yield return new WaitForSecondsRealtime(config.backupIntervalMinutes * 60f);
+            while (true)
+            {                        
+                if (Timeline.audicaLoaded && !Timeline.isSaving)
+                {
+                    Timeline.instance.Export(true);
+                    yield return new WaitForSeconds(1f);
+                    if (removeOldestAutosave)
+                    {
+                        DirectoryInfo directoryInfo = new DirectoryInfo(autosavePath);
+                        List<FileInfo> result = directoryInfo.GetFiles("*.audica", SearchOption.AllDirectories).OrderBy(t => t.CreationTime).ToList();
+                        while (result.Count > config.maxBackups)
+                        {
+                            File.Delete(result[0].FullName);
+                            result.RemoveAt(0);
+                            yield return new WaitForSecondsRealtime(1f);
+                        }
+                    }
+                }               
+                yield return new WaitForSecondsRealtime(config.backupIntervalMinutes * 60f);
+            }
+        }
+
+        private static void RemoveOldAutosaves()
+        {
+            if (!Directory.Exists($"{Application.dataPath}/autosaves/")) Directory.CreateDirectory($"{Application.dataPath}/autosaves/");
+            string[] files = Directory.GetFiles($"{Application.dataPath}/autosaves/", "*", SearchOption.AllDirectories);
+            foreach (string file in files)
+            {
+                if (File.GetLastWriteTime(file) >= DateTime.Now.AddDays(config.backupDeleteAfterDays))
+                {
+                    File.Delete(file);
+                }
+            }
+            DirectoryInfo directoryInfo = new DirectoryInfo($"{Application.dataPath}/autosaves/");
+            var dirs = directoryInfo.GetDirectories();
+            foreach(var dir in dirs)
+            {
+                if (dir.GetFiles().Length == 0) Directory.Delete(dir.FullName);
+            }
+            var _files = directoryInfo.GetFiles("*.meta", SearchOption.TopDirectoryOnly);
+            foreach (var f in _files) File.Delete(f.FullName);
+
         }
     }
 
@@ -154,10 +207,10 @@ namespace NotReaper {
     [System.Serializable]
     public class NRJsonSettings {
 
-        public Color leftColor = new Color(0.0f, 0.5f, 1.0f, 1.0f);
-        public Color rightColor = new Color(1.0f, 0.47f, 0.14f, 1.0f);
+        public Color leftColor = new Color(0.44f, 0.78f, 1.0f, 1.0f);
+        public Color rightColor = new Color(0.73f, 0.44f, 1.0f, 1.0f);
         public Color selectedHighlightColor = new Color(1.0f, 1.0f, 1.0f, 1.0f);
-        public Color waveformColor = new Color(0f, 255 / 255f, 178 / 255f, 0.75f);
+        public Color waveformColor = new Color(1f,1f,1f,0.2f);
 
         public float mainVol = 0.5f;
         public float noteVol = 0.5f;
@@ -165,10 +218,11 @@ namespace NotReaper {
         public int audioDSP = 480;
         public float noteScale = 1.0f;
         public float noteTimelineScale = 1.0f;
-        public float noteHitScale = 0.8f;
+        public float noteHitScale = 0.94f;
         public float bgMoveMultiplier = 1.0f;
-        public bool useBouncyAnimations = true;
-        
+        public bool useBouncyAnimations = false;
+        public bool playNoteSoundsWhileScrolling = false;
+        public bool autoSongVolume = true;
 
         public bool useAutoZOffsetWith360 = true;
 
@@ -188,8 +242,14 @@ namespace NotReaper {
 
         public string cuesSavePath = "";
 
-        public string bgImagePath = NRSettings.GetbgImagePath();
+        public string savedMapperName = "";
 
+        public string bgImagePath = NRSettings.GetbgImagePath();
+        public bool optimizeInvisibleTargets = true;
+        public bool backups = false;
+        public float backupIntervalMinutes = 15f;
+        public int backupDeleteAfterDays = 7;
+        public int maxBackups = 10;
     }
 
 }

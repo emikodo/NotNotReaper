@@ -7,6 +7,7 @@ using NotReaper.Targets;
 using NotReaper.UI;
 using NotReaper.UserInput;
 using NotReaper.Managers;
+using NotReaper.Models;
 using Sirenix.OdinInspector;
 using UnityEngine.UI;
 
@@ -19,6 +20,8 @@ namespace NotReaper.Tools {
 
         [ChildGameObjectsOnly]
         [SerializeField] private List<Button> selectionTools;
+
+        [SerializeField] private GameObject hiddenButtons;
         
         
 
@@ -28,18 +31,12 @@ namespace NotReaper.Tools {
 
             if (notesSelectedState != timeline.areNotesSelected) {
                 notesSelectedState = timeline.areNotesSelected;
-                
-                UpdateButtonState();
+
+                hiddenButtons.SetActive(notesSelectedState);
             }
             
         }
 
-
-        private void UpdateButtonState() {
-            foreach (Button b in selectionTools) {
-                b.gameObject.SetActive(notesSelectedState);
-            }
-        }
         
 
         public void FlipTargetsVertical() => timeline.FlipTargetsVertical(timeline.selectedNotes);
@@ -52,6 +49,7 @@ namespace NotReaper.Tools {
         public void ScaleDown() => timeline.Scale(timeline.selectedNotes, 0.9f);
         public void undo() => undoRedoManager.Undo();
         public void redo() => undoRedoManager.Redo();
+        public void DeselectBehavior(int behavior) => timeline.DeselectBehavior((TargetBehavior)behavior);
 
     }
 }

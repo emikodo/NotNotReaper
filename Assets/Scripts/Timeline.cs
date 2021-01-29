@@ -23,7 +23,7 @@ using UnityEngine.Networking;
 using UnityEngine.UI;
 using Application = UnityEngine.Application;
 using NotReaper.Timing;
-
+using NotReaper.Modifier;
 using SharpCompress.Archives;
 using SharpCompress.Archives.Zip;
 
@@ -132,13 +132,59 @@ namespace NotReaper {
 		IEnumerator IEnumerable.GetEnumerator() {
 			throw new NotImplementedException();
 		}
+
 	}
 
+    [Serializable]
+    public class RepeaterSection {
+		public RepeaterSection(uint id, QNT_Timestamp start, QNT_Timestamp end) {
+			ID = id;
+			startTime = start;
+			endTime = end;
+		}
+
+        public bool Contains(QNT_Timestamp time)
+        {
+            return time >= startTime && time <= endTime;
+        }
+
+        public static bool operator ==(RepeaterSection lhs, RepeaterSection rhs)
+        {
+            if (ReferenceEquals(lhs, null) && !ReferenceEquals(rhs, null)) { return false; }
+            if (!ReferenceEquals(lhs, null) && ReferenceEquals(rhs, null)) { return false; }
+            if (ReferenceEquals(lhs, null) && ReferenceEquals(rhs, null)) { return true; }
+
+            return lhs.startTime == rhs.startTime;
+        }
+
+        public static bool operator !=(RepeaterSection lhs, RepeaterSection rhs)
+        {
+            if (ReferenceEquals(lhs, null) && !ReferenceEquals(rhs, null)) { return true; }
+            if (!ReferenceEquals(lhs, null) && ReferenceEquals(rhs, null)) { return true; }
+            if (ReferenceEquals(lhs, null) && ReferenceEquals(rhs, null)) { return false; }
+
+            return lhs.startTime != rhs.startTime;
+        }
+
+        [SerializeField]
+		public uint ID;
+
+        [SerializeField]
+        public QNT_Timestamp startTime; //Time when this section starts (inclusive)
+
+        [SerializeField]
+        public QNT_Timestamp endTime; //Time when this section ends (inclusive)
+
+        [NonSerialized]
+        public GameObject timelineSectionObj;
+
+        [NonSerialized]
+        public GameObject miniTimelineSectionObj;
+    }
 
 	public class Timeline : MonoBehaviour {
 
 		public static Timeline instance;
-		
 		//Hidden public values
 		[HideInInspector] public static AudicaFile audicaFile;
 
@@ -159,6 +205,7 @@ namespace NotReaper {
 		public TargetIcon timelineTargetIconPrefab;
 		public TargetIcon gridTargetIconPrefab;
 		public GameObject BPM_MarkerPrefab;
+		public GameObject repeaterSectionPrefab;
 
 		[Header("Extras")]
 		[SerializeField] private NRDiscordPresence nrDiscordPresence;
@@ -170,13 +217,15 @@ namespace NotReaper {
 		public static Transform timelineNotesStatic;
 		[SerializeField] private Renderer timelineBG;
 		[SerializeField] private TextMeshProUGUI beatSnapWarningText;
-		
-		
+		[SerializeField] private TextMeshProUGUI playbackSpeedText;
+
+
 		public Slider musicVolumeSlider;
 		public Slider hitSoundVolumeSlider;
 
 		[Header("Configuration")]
 		public float playbackSpeed = 1f;
+		public string playbackSpeedPercentage = "Playback Speed: 100%";
 
 		public float musicVolume = 0.5f; 
 		public float sustainVolume = 0.5f;
@@ -187,11 +236,14 @@ namespace NotReaper {
 		public static List<Target> orderedNotes;
 		public List<Target> selectedNotes;
 
+		public List<RepeaterSection> repeaterSections = new List<RepeaterSection>();
+
 		public static List<Target> loadedNotes;
 
 		public static bool inTimingMode = false;
 		public static bool audioLoaded = false;
 		public static bool audicaLoaded = false;
+        public static bool isSaving = false;
 
 		private Color leftColor;
 		private Color rightColor;
@@ -221,14 +273,14 @@ namespace NotReaper {
 
 		[HideInInspector] public bool hover = false;
 		public bool paused = true;
-
+		private bool animationsNeedStopping;
 		public Button generateAudicaButton;
 		public Button loadAudioFileTiming;
 
 		public List<TempoChange> tempoChanges = new List<TempoChange>();
 		private List<GameObject> bpmMarkerObjects = new List<GameObject>();
 
-		[SerializeField] private PrecisePlayback songPlayback;
+		[SerializeField] public PrecisePlayback songPlayback;
 
 		[SerializeField]
 		private AudioWaveformVisualizer waveformVisualizer;
@@ -249,6 +301,7 @@ namespace NotReaper {
 			
 			//Load the config file
 			NRSettings.LoadSettingsJson();
+			RecentAudicaFiles.LoadRecents();
 			
 			//Initialize autoupdating:
 			HandleAutoupdater();
@@ -290,10 +343,9 @@ namespace NotReaper {
 				}
 			});
 
-
+			NRSettings.PostLoad.Invoke();
 			beatSnapWarningText.DOFade(0f, 0f);
 		}
-
 
 		private void HandleAutoupdater() {
 
@@ -403,7 +455,7 @@ namespace NotReaper {
 		//When loading from cues, use this.
 		public TargetData GetTargetDataForCue(Cue cue) {
 			TargetData data = new TargetData(cue);
-			if (data.time.tick == 0) data.time = new QNT_Timestamp(120);
+			if (data.time.tick == 0) data.SetTimeFromAction(new QNT_Timestamp(120));
 			return data;
 		}
 
@@ -426,7 +478,7 @@ namespace NotReaper {
 				if (target.data.time ==  tempTime && (target.data.handType == EditorInput.selectedHand) && (EditorInput.selectedTool != EditorTool.Melee) && (EditorInput.selectedTool != EditorTool.Mine)) return;
 			}
 
-			data.time = GetClosestBeatSnapped(time, (uint)beatSnap);
+			data.SetTimeFromAction(GetClosestBeatSnapped(time, (uint)beatSnap));
 
 			//Default sustains length should be more than 0.
 			if (data.supportsBeatLength) {
@@ -473,6 +525,7 @@ namespace NotReaper {
 			Tools.undoRedoManager.AddAction(action);
 
 			songPlayback.PlayHitsound(time);
+			SetScale(scale);
 		}
 
 		//Adds a target directly to the timeline. targetData is kept as a reference NOT copied
@@ -523,10 +576,178 @@ namespace NotReaper {
 			return BPM.Detect(songPlayback.song, this, start, end);
 		}
 
-        private void UpdateSustains() {
+		public void AddRepeaterSection(RepeaterSection newSection) {
+			//Ensure there are no overlaps
+			bool validSpot = true;
+			repeaterSections.ForEach(section => {
+				validSpot &= !(
+				//Start is within new section
+				(section.startTime >= newSection.startTime && section.startTime <= newSection.endTime) ||
+				//End is within new section
+				(section.endTime >= newSection.startTime && section.endTime <= newSection.endTime) ||
+				//New Start is within this section
+				(newSection.startTime >= section.startTime && newSection.startTime <= section.endTime) ||
+				//New End is within this section
+				(newSection.endTime >= section.startTime && newSection.endTime <= section.endTime)
+				);
+			});
+
+			if(!validSpot) {
+				return;
+			}
+
+            var action = new NRActionAddRepeaterSection();
+
+            //Next, gather all other repeaters with the same id
+            List<RepeaterSection> siblingSections = repeaterSections.Where(section => { return section.ID == newSection.ID; }).ToList();
+			if(siblingSections.Count != 0) {
+				//Find the section with the largest length
+				int index = -1;
+				QNT_Duration maxLength = new QNT_Duration(0);
+
+				for(int i = 0; i < siblingSections.Count; ++i) {
+					RepeaterSection section = siblingSections[i];
+					QNT_Duration length = (section.endTime - section.startTime).ToDuration();
+					if(length > maxLength) {
+						index = i;
+						maxLength = length;
+					}
+				}
+
+				//We found another repeater, add all of their notes to us
+				if(index != -1) {
+					List<TargetData> sectionNotes = new List<TargetData>();
+					RepeaterSection masterSection = siblingSections[index];
+					foreach(Target t in new NoteEnumerator(masterSection.startTime, masterSection.endTime)) {
+						sectionNotes.Add(t.data);
+					}
+
+					Relative_QNT offset = (newSection.startTime - masterSection.startTime);
+					sectionNotes.ForEach(data => {
+						action.addTargets.affectedTargets.Add(new TargetData(data, data.time + offset));
+					});
+				}
+			}
+
+            //If there are targets to add from another repeater section, then we need to clear out the notes in our section
+            if (action.addTargets.affectedTargets.Count != 0) {
+                foreach (Target t in new NoteEnumerator(newSection.startTime, newSection.endTime)) {
+                    action.removeTargets.affectedTargets.Add(t.data);
+                }
+            }
+
+            action.section = newSection;
+            Tools.undoRedoManager.AddAction(action);
+		}
+
+        public void AddRepeaterSectionFromAction(RepeaterSection newSection) {
+            var sectionObject = Instantiate(repeaterSectionPrefab, new Vector3(0, 0, 0), Quaternion.identity, timelineNotesStatic);
+            sectionObject.transform.localPosition = new Vector3(newSection.startTime.ToBeatTime(), -0.4f, 1.0f);
+            var lineRenderer = sectionObject.GetComponent<LineRenderer>();
+            lineRenderer.startWidth = lineRenderer.endWidth = 0.2f;
+            lineRenderer.SetPosition(1, new Vector3((newSection.endTime - newSection.startTime).ToBeatTime(), 0, 0));
+
+            newSection.timelineSectionObj = sectionObject;
+
+            repeaterSections.Add(newSection);
+            repeaterSections.OrderBy(section => section.startTime);
+            
+            miniTimeline.AddRepeaterSection(newSection);
+        }
+
+        public void RemoveRepeaterSection(RepeaterSection section) {
+            var action = new NRActionRemoveRepeaterSection();
+            action.section = section;
+            Tools.undoRedoManager.AddAction(action);
+        }
+
+		public void RemoveRepeaterSectionFromAction(RepeaterSection section) {
+            GameObject.Destroy(section.timelineSectionObj);
+            miniTimeline.RemoveRepeaterSection(section);
+            repeaterSections.Remove(section);
+        }
+
+		public void RemoveAllRepeaters() {
+			List<RepeaterSection> sections = repeaterSections.GetRange(0, repeaterSections.Count);
+			foreach(RepeaterSection section in sections) {
+                RemoveRepeaterSectionFromAction(section);
+			}
+		}
+
+        public RepeaterSection FindRepeaterForTime(QNT_Timestamp time) {
+            RepeaterSection targetSection = null;
+            repeaterSections.ForEach(section => {
+                if (section.Contains(time)) {
+                    targetSection = section;
+                    return;
+                }
+            });
+
+            return targetSection;
+        }
+
+        public RepeaterSection FindRepeaterForNote(TargetData data) {
+            return FindRepeaterForTime(data.time);
+        }
+
+		public List<TargetData> GenerateRepeaterTargets(TargetData data) {
+			List<TargetData> newTargets = new List<TargetData>();
+
+			RepeaterSection targetSection = FindRepeaterForNote(data);
+			if(targetSection != null) {
+				for(int i = 0; i < repeaterSections.Count; ++i) {
+					var section = repeaterSections[i];
+
+					if(section.ID == targetSection?.ID && section.startTime != targetSection?.startTime) {
+						Relative_QNT offset = (section.startTime - targetSection.startTime);
+						QNT_Timestamp newTime = data.time + offset;
+						if(newTime >= section.startTime && newTime <= section.endTime) {
+							newTargets.Add(new TargetData(data, data.time + offset));
+						}
+					}
+				}
+			}
+
+			return newTargets;
+		}
+
+		public List<TargetData> FindRepeaterTargets(TargetData data) {
+			List<TargetData> foundTargets = new List<TargetData>();
+
+			RepeaterSection targetSection = FindRepeaterForNote(data);
+			if(targetSection != null) {
+				for(int i = 0; i < repeaterSections.Count; ++i) {
+					var section = repeaterSections[i];
+
+					if(section.ID == targetSection?.ID && section.startTime != targetSection?.startTime) {
+						//Find the note in the sibling section by offsetting our time
+						Relative_QNT offset = (section.startTime - targetSection.startTime);
+						QNT_Timestamp searchTime = data.time + offset;
+						var result = BinarySearchOrderedNotes(searchTime);
+						if(result.found) {
+							int idx = result.index;
+							for(int noteIdx = idx; noteIdx < orderedNotes.Count; ++noteIdx) {
+								Target t = orderedNotes[noteIdx];
+								if(t.data.time > searchTime) {
+									break;
+								}
+								if(t.data.data.InternalId == data.data.InternalId) {
+									foundTargets.Add(t.data);
+								}
+							}
+						}
+					}
+				}
+			}
+
+			return foundTargets;
+		}
+
+		private void UpdateSustains() {
+			return;
 			foreach (var note in loadedNotes) {
 				if (note.data.behavior == TargetBehavior.Hold) {
-					if ((note.GetRelativeBeatTime() < 0) && (note.GetRelativeBeatTime() + note.data.beatLength.ToBeatTime() > 0))
+					if ((note.GetRelativeBeatTime() < 0) && (note.GetRelativeBeatTime() + note.data.beatLength.ToBeatTime() > 0) && !paused)
 					{
 
 						var particles = note.GetHoldParticles();
@@ -566,9 +787,15 @@ namespace NotReaper {
 								songPlayback.rightSustainVolume = 0.0f;
 							}
 						}
+						if (paused && animationsNeedStopping)
+						{
+							//note.gridTargetIcon.transform.DOKill(true);
+							//note.gridTargetIcon.transform.doscale(1f, 0.1f);
+						}
 					}
 				}
 			}
+			if (paused) animationsNeedStopping = false;
 		}
 
 
@@ -641,18 +868,131 @@ namespace NotReaper {
 			Tools.undoRedoManager.AddAction(action);
 		}
 
-		public void MoveTimelineTargets(List<TargetTimelineMoveIntent> intents) {
-			SortOrderedList();
-			var action = new NRActionTimelineMoveNotes();
-			action.targetTimelineMoveIntents = intents.Select(intent => new TargetTimelineMoveIntent(intent)).ToList();
-			Tools.undoRedoManager.AddAction(action);
+        public NRActionTimelineMoveNotes GenerateMoveTimelineAction(List<TargetTimelineMoveIntent> intents) {
+            SortOrderedList();
+            var action = new NRActionTimelineMoveNotes();
+            action.targetTimelineMoveIntents = intents.Select(oldIntent => {
+                var intent = new TargetTimelineMoveIntent(oldIntent);
+                QNT_Timestamp startTime = intent.startTick;
+                QNT_Timestamp endTime = intent.intendedTick;
+                Relative_QNT delta = endTime - startTime;
+
+                //Did we start in a repeater section?
+                RepeaterSection startSection = null;
+                repeaterSections.ForEach(section => {
+                    if (section.Contains(startTime)) {
+                        startSection = section;
+                        return;
+                    }
+                });
+
+                //We did start in a section!
+                if (startSection != null) {
+                    //No matter what, we need to find our siblings in the other sections
+                    List<TargetData> siblings = new List<TargetData>();
+                    List<RepeaterSection> siblingSections = new List<RepeaterSection>();
+                    List<RepeaterSection> otherSiblingSections = new List<RepeaterSection>();
+
+                    repeaterSections.ForEach(section => {
+                        //Same section id, but not the one we've already found
+                        if (section.ID == startSection.ID && section != startSection) {
+                            Relative_QNT offset = (section.startTime - startSection.startTime);
+
+                            if (section.Contains(startTime + offset)) {
+                                var data = FindTargetData(startTime + offset, intent.targetData.behavior, intent.targetData.handType);
+                                if (data == null) {
+                                    Debug.LogError("Expected to find a note for a sibling repeater section but none was found! This means that repeaters failed to replicate at some point!");
+                                }
+                                else {
+                                    siblings.Add(data);
+                                    siblingSections.Add(section);
+                                }
+                            }
+                            else {
+                                otherSiblingSections.Add(section);
+                            }
+                        }
+                    });
+
+                    //If we've moved outside our section, then all of our siblings will be destroyed
+                    if (!startSection.Contains(endTime)) {
+                        intent.startSiblingsToBeDestroyed = siblings;
+                    }
+                    else {
+                        //We need to check our siblings to see if they will survive the move
+                        List<TargetData> moved = new List<TargetData>();
+                        List<TargetData> destroyed = new List<TargetData>();
+                        for (int i = 0; i < siblings.Count; ++i) {
+                            var sibling = siblings[i];
+                            var siblingSection = siblingSections[i];
+
+                            if (siblingSection.Contains(sibling.time + delta)) {
+                                moved.Add(sibling);
+                            }
+                            else {
+                                destroyed.Add(sibling);
+                            }
+                        }
+                        intent.startSiblingsToBeMoved = moved;
+                        intent.startSiblingsToBeDestroyed = destroyed;
+
+                        //We also need to check if any new siblings need to be created from the move (since we can move from a section ouside the bounds of a sibling section to inside their bounds)
+                        List<TargetData> created = new List<TargetData>();
+                        otherSiblingSections.ForEach(section => {
+                            Relative_QNT offset = (section.startTime - startSection.startTime);
+                            if (section.Contains(endTime + offset)) {
+                                created.Add(new TargetData(intent.targetData, endTime + offset));
+                            }
+                        });
+                        intent.endRepeaterSiblingsToBeCreated = created;
+                    }
+                }
+
+                //Did we end in a repeater section that wasn't our start section?
+                RepeaterSection endSection = null;
+                repeaterSections.ForEach(section => {
+                    if (section.Contains(endTime) && startSection != section) {
+                        endSection = section;
+                        return;
+                    }
+                });
+
+                if (endSection != null) {
+                    //Gather all the other sections with the same ID
+                    List<RepeaterSection> otherSections = new List<RepeaterSection>();
+                    repeaterSections.ForEach(section => {
+                        if (section.ID == endSection.ID && section != endSection) {
+                            otherSections.Add(section);
+                        }
+                    });
+
+                    //Create a target in each other section that will contain it
+                    List<TargetData> endTargetsToCreate = new List<TargetData>();
+                    otherSections.ForEach(section => {
+                        Relative_QNT offset = (section.startTime - endSection.startTime);
+                        if (section.Contains(endTime + offset)) {
+                            endTargetsToCreate.Add(new TargetData(intent.targetData, endTime + offset));
+                        }
+                    });
+                    intent.endRepeaterSiblingsToBeCreated = endTargetsToCreate;
+                }
+                return intent;
+
+            }).ToList();
+
+            return action;
+        }
+
+        public void MoveTimelineTargets(List<TargetTimelineMoveIntent> intents) {
+			Tools.undoRedoManager.AddAction(GenerateMoveTimelineAction(intents));
 		}
 
 		public void PasteCues(List<TargetData> cues, QNT_Timestamp pasteBeatTime) {
 
 			// paste new targets in the original locations
 			var targetDataList = cues.Select(copyData => {
-				var data = new TargetData(copyData);
+				var data = new TargetData();
+                data.Copy(copyData);
 
 				if(data.behavior == TargetBehavior.NR_Pathbuilder) {
 					data.pathBuilderData = new PathBuilderData();
@@ -674,7 +1014,7 @@ namespace NotReaper {
 			// shift all by the amount needed to move the earliest note to now
 			Relative_QNT diff = pasteBeatTime - earliestTargetBeatTime;
 			foreach (TargetData data in targetDataList) {
-				data.time += diff;
+				data.SetTimeFromAction(data.time + diff);
 			}
 
 			var action = new NRActionMultiAddNote();
@@ -706,8 +1046,10 @@ namespace NotReaper {
 			Tools.undoRedoManager.AddAction(action);
 		}
 
-		public void Rotate(List<Target> targets, int angle) {
+		public void Rotate(List<Target> targets, float angle, Vector2 ?center = null) {
 			var action = new NRActionRotate();
+			if (center == null) action.rotateCenter = Vector2.zero;
+			else action.rotateCenter = (Vector2)center;
 			action.rotateAngle = angle;
 			action.affectedTargets = targets.Select(target => target.data).ToList();
 			Tools.undoRedoManager.AddAction(action);
@@ -739,6 +1081,13 @@ namespace NotReaper {
 		public void DeleteTarget(Target target) {
 			var action = new NRActionRemoveNote();
 			action.targetData = target.data;
+			Tools.undoRedoManager.AddAction(action);
+		}
+
+		public void DeselectBehavior(TargetBehavior behavior)
+		{
+			var action = new NRActionDeselectBehavior();
+			action.behaviorToDeselect = behavior;
 			Tools.undoRedoManager.AddAction(action);
 		}
 
@@ -777,11 +1126,13 @@ namespace NotReaper {
 			DeleteAllTargets();
 			Tools.undoRedoManager.ClearActions();
 			tempoChanges.Clear();
-		}
+			RemoveAllRepeaters();
+            ModifierHandler.Instance.CleanUp();
+        }
 
-		public void Export()
+		public void Export(bool autoSave = false)
 		{
-
+            isSaving = true;
 			Debug.Log("Saving: " + audicaFile.desc.title);
 			
 			//Ensure all chains are generated
@@ -803,15 +1154,14 @@ namespace NotReaper {
 			CueFile export = new CueFile();
 			export.cues = new List<Cue>();
 			export.NRCueData = new NRCueData();
-
-			foreach (Target target in orderedNotes) {
+         
+            foreach (Target target in orderedNotes) {
 
 				if (target.data.beatLength == 0) target.data.beatLength = Constants.SixteenthNoteDuration;
 				
 				if (target.data.behavior == TargetBehavior.Metronome) continue;
 				
 				var cue = NotePosCalc.ToCue(target, offset);
-
 				if(target.data.behavior == TargetBehavior.NR_Pathbuilder) {
 					export.NRCueData.pathBuilderNoteCues.Add(cue);
 					export.NRCueData.pathBuilderNoteData.Add(target.data.pathBuilderData);
@@ -820,6 +1170,12 @@ namespace NotReaper {
 
 				export.cues.Add(cue);
 			}
+            if (audicaFile.desc.bakedzOffset)
+            {              
+                export.cues = ZOffsetBaker.Instance.Bake(export.cues.ToList());
+            }
+               
+            export.NRCueData.repeaterSections = repeaterSections.GetRange(0, repeaterSections.Count);
 
 			switch (difficultyManager.loadedIndex) {
 				case 0:
@@ -835,15 +1191,15 @@ namespace NotReaper {
 					audicaFile.diffs.beginner = export;
 					break;
 			}
-
+            
 			audicaFile.desc = desc;
 
 			desc.tempoList = tempoChanges;
 			
-			AudicaExporter.ExportToAudicaFile(audicaFile);
+			AudicaExporter.ExportToAudicaFile(audicaFile, autoSave);
 
-			NotificationShower.AddNotifToQueue(new NRNotification("Map saved successfully!"));
-
+			NotificationShower.Queue(new NRNotification("Map saved successfully!"));
+            isSaving = false;
 
 		}
 
@@ -856,7 +1212,6 @@ namespace NotReaper {
 			string newPath = Path.GetFullPath(Path.Combine(songFolder, @"..\..\..\..\"));
 			System.Diagnostics.Process.Start(Path.Combine(newPath, "Audica.exe"));
 		}
-
 
 		public void LoadTimingMode(AudioClip clip) {
 			if (audicaLoaded) return;
@@ -888,13 +1243,11 @@ namespace NotReaper {
 		}
 
 		public bool LoadAudicaFile(bool loadRecent = false, string filePath = null) {
-			readyToRegenerate = false;
-
+            readyToRegenerate = false;
 			inTimingMode = false;
 			SetOffset(new Relative_QNT(0));
-
-			if (audicaLoaded) {
-				miniTimeline.ClearBookmarks(false);
+            if (audicaLoaded) {
+                miniTimeline.ClearBookmarks(false);
 			}
 			
 			if (audicaLoaded && NRSettings.config.saveOnLoadNew) {
@@ -910,6 +1263,7 @@ namespace NotReaper {
 				audicaFile = null;
 				audicaFile = AudicaHandler.LoadAudicaFile(filePath);
 				PlayerPrefs.SetString("recentFile", audicaFile.filepath);
+				RecentAudicaFiles.AddRecentDir(audicaFile.filepath);
 
 			} else {
 
@@ -938,6 +1292,7 @@ namespace NotReaper {
 				
 				audicaFile = AudicaHandler.LoadAudicaFile(paths[0]);
 				PlayerPrefs.SetString("recentFile", paths[0]);
+				RecentAudicaFiles.AddRecentDir(audicaFile.filepath);
 			}
 
 			ResetTimeline();
@@ -1014,20 +1369,41 @@ namespace NotReaper {
 
 			if (audicaFile.desc.bookmarks != null) {
 				foreach (BookmarkData data in audicaFile.desc.bookmarks) {
-					miniTimeline.SetBookmark(data.xPosMini, data.xPosTop, data.type, true, false);
+					miniTimeline.SetBookmark(data.xPosMini, data.xPosTop, data.type, data.text, data.color, (BookmarkUIColor)data.uiColor, true, true);
 				}
-				
-			}
+            }
+
+            if(audicaFile.modifiers != null)
+            {
+                if(audicaFile.modifiers.modifiers.Count > 0)
+                {
+                    ModifierHandler.isLoading = true;
+                    StartCoroutine(ModifierHandler.Instance.LoadModifiers(audicaFile.modifiers.modifiers, true));
+                }
+                        
+            }
 
 			//Loaded successfully
 
-			NotificationShower.AddNotifToQueue(new NRNotification("Map loaded successfully!"));
-			NotificationShower.AddNotifToQueue(new NRNotification("Press F1 to view shortcuts"));
+			NotificationShower.Queue(new NRNotification("Map loaded successfully!"));
+			NotificationShower.Queue(new NRNotification("Press F1 to view shortcuts"));
+            StopCoroutine(NRSettings.Autosave());
+            StartCoroutine(NRSettings.Autosave());
 			return true;
 		}
 
+		public List<RepeaterSection> loadRepeaterSectionAfterAudio;
+		void PostAudioLoad() {
+			if (loadRepeaterSectionAfterAudio != null) {
+				foreach(var section in loadRepeaterSectionAfterAudio) {
+					AddRepeaterSectionFromAction(section);
+				}
+				loadRepeaterSectionAfterAudio = null;
+			}
+		}
 
-		IEnumerator GetAudioClip(string uri) {
+
+        IEnumerator GetAudioClip(string uri) {
 			using(UnityWebRequest www = UnityWebRequestMultimedia.GetAudioClip(uri, AudioType.OGGVORBIS)) {
 				yield return www.SendWebRequest();
 
@@ -1042,6 +1418,30 @@ namespace NotReaper {
 					
 					//Load the preview start point
 					miniTimeline.SetPreviewStartPoint(ShiftTick(new QNT_Timestamp(0), (float)desc.previewStartSeconds));
+
+					readyToRegenerate = true;
+					RegenerateBPMTimelineData();
+
+					PostAudioLoad();
+				}
+			}
+		}
+
+		IEnumerator LoadNewAudioClip(string uri)
+		{
+			using (UnityWebRequest www = UnityWebRequestMultimedia.GetAudioClip(uri, AudioType.OGGVORBIS))
+			{
+				yield return www.SendWebRequest();
+
+				if (www.isNetworkError)
+				{
+					Debug.Log(www.error);
+				}
+				else
+				{
+					AudioClip myClip = DownloadHandlerAudioClip.GetContent(www);
+					songPlayback.LoadAudioClip(myClip, PrecisePlayback.LoadType.MainSong);
+
 
 					readyToRegenerate = true;
 					RegenerateBPMTimelineData();
@@ -1095,6 +1495,8 @@ namespace NotReaper {
 
 			playbackSpeed = speed;
 			songPlayback.speed = speed;
+			string PlaybackText = ("Playback Speed: " + speed.ToString("#%"));
+			playbackSpeedText.text = PlaybackText;
 		}
 		
 		public void SetPlaybackSpeedFromSlider(Slider slider) {
@@ -1207,7 +1609,7 @@ namespace NotReaper {
 
 			//Update all notes
 			foreach(var t in updateTimings) {
-				t.data.time = t.newTime;
+				t.data.SetTimeFromAction(t.newTime);
 			}
 		}
 
@@ -1230,7 +1632,7 @@ namespace NotReaper {
 			if(tempoIndex == 0) {
 				var notif = new NRNotification("Cannot shift first bpm marker!");
 				notif.type = NRNotifType.Fail;
-				NotificationShower.AddNotifToQueue(notif);
+				NotificationShower.Queue(notif);
 				return;
 			}
 
@@ -1265,7 +1667,7 @@ namespace NotReaper {
 
 			//Update all notes
 			foreach(var t in updateTimings) {
-				t.data.time = t.newTime;
+				t.data.SetTimeFromAction(t.newTime);
 			}
 
 			RegenerateBPMTimelineData();
@@ -1294,14 +1696,14 @@ namespace NotReaper {
 			if(foundIndex == 0 && microsecondsPerQuarterNote == 0) {
 				var notif = new NRNotification("Cannot remove initial bpm!");
 				notif.type = NRNotifType.Fail;
-				NotificationShower.AddNotifToQueue(notif);
+				NotificationShower.Queue(notif);
 				return;
 			}
 
 			if(foundIndex == -1 && microsecondsPerQuarterNote == 0) {
 				var notif = new NRNotification("Cannot add 0 bpm!");
 				notif.type = NRNotifType.Fail;
-				NotificationShower.AddNotifToQueue(notif);
+				NotificationShower.Queue(notif);
 				return;
 			}
 
@@ -1352,7 +1754,7 @@ namespace NotReaper {
 
 				//Update all notes
 				foreach(var t in updateTimings) {
-					t.data.time = t.newTime;
+					t.data.SetTimeFromAction(t.newTime);
 				}
 			}
 
@@ -1361,7 +1763,7 @@ namespace NotReaper {
 
 
 		bool readyToRegenerate = false;
-		public void RegenerateBPMTimelineData() {
+		public void RegenerateBPMTimelineData(bool onlyRegenerateMesh = false) {
 			if(!readyToRegenerate) {
 				return;
 			}
@@ -1397,8 +1799,12 @@ namespace NotReaper {
 
 			uint barLengthIncr = 0;
 			for(float t = 0; t < endOfAudio.tick;) {
-				float increment = Constants.PulsesPerWholeNote / currentTempo.timeSignature.Denominator;
+				ulong snap = (ulong)(beatSnap / 4);
+				float increment = 0f;
 
+				if (snap != 0) increment = Constants.PulsesPerWholeNote / currentTempo.timeSignature.Denominator / snap;
+				else increment = Constants.PulsesPerWholeNote / currentTempo.timeSignature.Denominator;
+				
 				int indexStart = vertices.Count;
 
 				const float width = 0.020f;
@@ -1460,7 +1866,7 @@ namespace NotReaper {
 			mesh.vertices = vertices.ToArray();
 			mesh.triangles = indices.ToArray();
 
-			waveformVisualizer.GenerateWaveform(songPlayback.song, this);
+			if(!onlyRegenerateMesh) waveformVisualizer.GenerateWaveform(songPlayback.song, this);
 		}
 
 		public void SetOffset(Relative_QNT newOffset) {
@@ -1484,6 +1890,8 @@ namespace NotReaper {
 			int snap = 4;
 			int.TryParse(temp.Substring(2), out snap);
 			beatSnap = snap;
+
+			RegenerateBPMTimelineData(true);
 
 			if (snap >= 32 && !isBeatSnapWarningActive) {
 				beatSnapWarningText.DOFade(1f, 0.5f);
@@ -1597,9 +2005,17 @@ namespace NotReaper {
 			timelineTransformParent.transform.localPosition = Vector3.left * x / (scale / 20f);
 
 			gridTransformParent.transform.localPosition = Vector3.back * x;
+
+			OptimizeInvisibleTargets();
+		}
+
+		public void ReapplyScale()
+		{
+			SetScale(scale);
 		}
 
 		public void SetScale(int newScale) {
+
 			if (newScale < 5 || newScale > 100) return;
 			timelineBG.material.SetTextureScale("_MainTex", new Vector2(newScale / 4f, 1));
 			scaleOffset = -newScale % 8 / 8f;
@@ -1614,14 +2030,15 @@ namespace NotReaper {
 			foreach (Transform note in timelineTransformParent.transform) {
 				Vector3 noteScale = note.localScale;
 				noteScale.x = targetScale;
+				noteScale.x /= 1.32f; // If you change this you also have to change UpdateTimelineSustainLength. NR is a mess.
 
 				//noteScale.x *= NRSettings.config.noteTimelineScale;
 				//noteScale.y = NRSettings.config.noteTimelineScale;
 				
 				note.localScale = noteScale;
 			}
-
-
+            ModifierHandler.Instance.Scale((float)newScale / scale);
+            BookmarkMenu.Instance.Scale();
 			scale = newScale;
 
 			foreach (Target target in orderedNotes) {
@@ -1659,75 +2076,95 @@ namespace NotReaper {
 		}
 
 		bool checkForNearSustainsOnThisFrame = false;
-		public void Update() {
+		public void Update()
+		{
 			QNT_Timestamp startTime = time;
 
 			UpdateSustains();
 
-			if (!paused) {
+			if (!paused)
+			{
 				time = ShiftTick(new QNT_Timestamp(0), (float)songPlayback.GetTime());
 			}
 
 			bool isScrollingBeatSnap = false;
-			
-			
+
+
 			bool isShiftDown = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);
 			bool isAltDown = Input.GetKey(KeyCode.LeftAlt) || Input.GetKey(KeyCode.RightAlt);
 			bool isCtrlDown = Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl);
 
-			if (hover) {
-				if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)) {
-					if (Input.mouseScrollDelta.y > 0.1f) {
+			if (hover)
+			{
+				if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
+				{
+					if (Input.mouseScrollDelta.y > 0.1f)
+					{
 						SetScale(scale - 1);
-					} else if (Input.mouseScrollDelta.y < -0.1f) {
+					}
+					else if (Input.mouseScrollDelta.y < -0.1f)
+					{
 						SetScale(scale + 1);
 					}
 					SetBeatTime(time);
 				}
 			}
 
-			if (isAltDown && Input.mouseScrollDelta.y < -0.1f) {
+			if (isAltDown && Input.mouseScrollDelta.y < -0.1f)
+			{
 				isScrollingBeatSnap = true;
 				beatSnapSelector.PreviousClick();
+				beatSnapSelector.PreviousClick();
 
-			} else if (isAltDown && Input.mouseScrollDelta.y > 0.11f) {
+
+			}
+			else if (isAltDown && Input.mouseScrollDelta.y > 0.11f)
+			{
 				isScrollingBeatSnap = true;
 				beatSnapSelector.ForwardClick();
+				beatSnapSelector.ForwardClick();
 			}
-			
+
 			//if (!(Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift) && hover))
 
 			bool dragging = Input.GetMouseButton(0) && hover;
 
-			if (!isShiftDown && !isScrollingBeatSnap && Math.Abs(Input.mouseScrollDelta.y) > 0.1f) {
+			if (!isShiftDown && !isScrollingBeatSnap && Math.Abs(Input.mouseScrollDelta.y) > 0.1f && !ModifierHandler.Instance.IsDropdownExpanded())
+			{
 				if (!audioLoaded) return;
-				if (EditorInput.inUI) return;
+				if (EditorInput.inUI && EditorInput.enableScrolling == false) return;
 
 				Relative_QNT jumpDuration = new Relative_QNT((long)Constants.DurationFromBeatSnap((uint)beatSnap).tick);
 
 				bool moveTick = false;
-				if(isCtrlDown && !dragging) {
+				if (isCtrlDown && !dragging)
+				{
 					moveTick = true;
 					jumpDuration = new Relative_QNT(1);
 				}
 
-				if(Input.mouseScrollDelta.y >= -0.1f) {
+				if (Input.mouseScrollDelta.y >= -0.1f)
+				{
 					jumpDuration.tick *= -1;
 				}
 
-				if(!moveTick) {
+				if (!moveTick)
+				{
 					time = GetClosestBeatSnapped(time + jumpDuration, (uint)beatSnap);
 				}
-				else {
+				else
+				{
 					time = time + jumpDuration;
 				}
 
 				SafeSetTime();
-				if (paused) {
+				if (paused)
+				{
 					songPlayback.PlayPreview(time, jumpDuration);
 					checkForNearSustainsOnThisFrame = true;
 				}
-				else {
+				else
+				{
 					songPlayback.Play(time);
 				}
 
@@ -1736,24 +2173,27 @@ namespace NotReaper {
 				StopCoroutine(AnimateSetTime(new QNT_Timestamp(0)));
 			}
 
-            if (Input.GetKeyDown(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.C)) {
-                CopyTimestampToClipboard();
-            }
+			if (Input.GetKeyDown(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.C))
+			{
+				CopyTimestampToClipboard();
+			}
 
-			if (!paused && !animatingTimeline) {
+			if (!paused && !animatingTimeline)
+			{
 				SetBeatTime(time);
 			}
 
 
-			if (Input.GetKeyDown(KeyCode.A) && isCtrlDown) {
-
+			if (Input.GetKeyDown(KeyCode.A) && isCtrlDown && !ModifierHandler.activated)
+			{
 				Camera.main.farClipPlane = 1000;
-				
-				foreach (Target target in orderedNotes) {
+
+				foreach (Target target in orderedNotes)
+				{
 					target.MakeTimelineSelectTarget();
 				}
 			}
-			
+
 
 			songPlayback.volume = NRSettings.config.mainVol;
 			songPlayback.hitSoundVolume = NRSettings.config.noteVol;
@@ -1769,68 +2209,83 @@ namespace NotReaper {
 			List<Target> newLoadedNotes = new List<Target>();
 			QNT_Timestamp loadStart = Timeline.time - Relative_QNT.FromBeatTime(10.0f);
 			QNT_Timestamp loadEnd = Timeline.time + Relative_QNT.FromBeatTime(10.0f);
-			
-			foreach(Target t in new NoteEnumerator(loadStart, loadEnd)) {
+
+			foreach (Target t in new NoteEnumerator(loadStart, loadEnd))
+			{
 				newLoadedNotes.Add(t);
 			}
 			loadedNotes = newLoadedNotes;
 
-			if(startTime != time) {
+			if (startTime != time)
+			{
 				QNT_Timestamp start = startTime;
 				QNT_Timestamp end = time;
 
-				if(start > end) {
+				if (start > end)
+				{
 					QNT_Timestamp temp = start;
 					start = end;
 					end = temp;
 				}
 
-				foreach(Target t in new NoteEnumerator(start, end)) {
+				foreach (Target t in new NoteEnumerator(start, end))
+				{
 					t.OnNoteHit();
 				}
 			}
 
 
 			//Update trace lines
-			if(NRSettings.config.enableTraceLines) {
+			if (NRSettings.config.enableTraceLines)
+			{
 				UpdateTraceLine(leftHandTraceLine, TargetHandType.Left, NRSettings.config.leftColor);
 				UpdateTraceLine(rightHandTraceLine, TargetHandType.Right, NRSettings.config.rightColor);
 			}
 
-			if(NRSettings.config.enableDualines) {
-				foreach(var line in dualNoteTraceLines) {
+
+			if (NRSettings.config.enableDualines)
+			{
+				foreach (var line in dualNoteTraceLines)
+				{
 					line.enabled = false;
 				}
 
 				int index = 0;
 				var backIt = new NoteEnumerator(Timeline.time - Relative_QNT.FromBeatTime(0.3f), Timeline.time + Relative_QNT.FromBeatTime(1.7f));
 				Target lastTarget = null;
-				foreach(Target t in backIt) {
-					if(lastTarget != null && 
+				foreach (Target t in backIt)
+				{
+					if (lastTarget != null &&
 						t.data.behavior != TargetBehavior.Chain && lastTarget.data.behavior != TargetBehavior.Chain &&
-						t.data.handType != TargetHandType.Either && t.data.handType != TargetHandType.None && 
+						t.data.handType != TargetHandType.Either && t.data.handType != TargetHandType.None &&
 						lastTarget.data.handType != TargetHandType.Either && lastTarget.data.handType != TargetHandType.None
-						) {
+						)
+					{
 						TargetHandType expected = TargetHandType.Left;
-						if(lastTarget.data.handType == expected) {
+						if (lastTarget.data.handType == expected)
+						{
 							expected = TargetHandType.Right;
 						}
 
-						if(t.data.time == lastTarget.data.time && t.data.handType == expected) {
+						if (t.data.time == lastTarget.data.time && t.data.handType == expected)
+						{
 							var dualNoteTraceLine = GetOrCreateDualLine(index++);
 							dualNoteTraceLine.enabled = true;
 
 							float alphaVal = 0.0f;
-							if(Timeline.time > t.data.time) {
+							if (Timeline.time > t.data.time)
+							{
 								alphaVal = 1.0f - ((Timeline.time - t.data.time).ToBeatTime() / 0.3f);
 							}
-							else {
+							else
+							{
 								alphaVal = 1.0f - ((t.data.time - Timeline.time).ToBeatTime() / 1.7f);
 							}
 
 							Vector2 leftPos = t.data.position;
 							Vector2 rightPos = lastTarget.data.position;
-							if(t.data.handType == TargetHandType.Right) {
+							if (t.data.handType == TargetHandType.Right)
+							{
 								Vector2 temp = rightPos;
 								rightPos = leftPos;
 								leftPos = temp;
@@ -1854,6 +2309,35 @@ namespace NotReaper {
 					lastTarget = t;
 				}
 			}
+		}
+        private static bool toggle = false;
+		public static void OptimizeInvisibleTargets()
+		{
+			if (NRSettings.config.optimizeInvisibleTargets || ModifierHandler.activated || toggle)
+			{
+				var targetsToShow = new NoteEnumerator(Timeline.time - Relative_QNT.FromBeatTime(10f), Timeline.time + Relative_QNT.FromBeatTime(10f));
+                
+				for (int i = 0; i < orderedNotes.Count; i++)
+				{
+					orderedNotes[i].gridTargetIcon.gameObject.SetActive(false);
+					orderedNotes[i].timelineTargetIcon.gameObject.SetActive(false);
+				}
+                if (!ModifierHandler.activated)
+                {
+                    toggle = false;
+                    foreach (Target target in targetsToShow)
+                    {
+                        target.gridTargetIcon.gameObject.SetActive(true);
+                        target.timelineTargetIcon.gameObject.SetActive(true);
+                    }
+                }
+                else
+                {
+                    ModifierHandler.Instance.OptimizeModifiers();
+                    toggle = true;
+                }
+
+            }
 		}
 
 		private LineRenderer GetOrCreateDualLine(int index) {
@@ -1964,6 +2448,7 @@ namespace NotReaper {
 		}
 
 		public void JumpToX(float x) {
+            if (ModifierHandler.activated) return;
 			StopCoroutine(AnimateSetTime(new QNT_Timestamp(0)));
 
 			float posX = Math.Abs(timelineTransformParent.position.x) + x;
@@ -1999,6 +2484,7 @@ namespace NotReaper {
 				//aud.Pause();
 				songPlayback.Stop();
 				paused = true;
+				animationsNeedStopping = true;
 
 				//Snap to the beat snap when we pause
 				time = GetClosestBeatSnapped(time, (uint)beatSnap);
@@ -2091,6 +2577,15 @@ namespace NotReaper {
 			else
 				return 0;
 		}
+
+        public float GetPercentagePlayed(QNT_Timestamp tick)
+        {
+            if (songPlayback.song != null)
+                return (TimestampToSeconds(tick) / songPlayback.song.length);
+
+            else
+                return 0;
+        }
 
 		//Shifts `startTime` by `duration` seconds, respecting bpm changes in between
 		public QNT_Timestamp ShiftTick(QNT_Timestamp startTime, float duration, bool useBinarySearch = true) {
@@ -2308,6 +2803,65 @@ namespace NotReaper {
 			StartCoroutine(LoadExtraAudio($"file://{oggPath}"));
 		}
 
+		public void ReplaceAudio()
+		{
+			var compatible = new[] { new ExtensionFilter("Compatible Audio Types", "mp3", "ogg") };
+			string[] paths = StandaloneFileBrowser.OpenFilePanel("Select music track", Path.Combine(Application.persistentDataPath), compatible, false);
+			var filePath = paths[0];
+
+			if (filePath == null) return;
+
+			string appPath = Application.dataPath;
+			string mainSongPath = $"{appPath}/.cache/" + $"{audicaFile.desc.cachedMainSong}.ogg";
+			string moggName = "song.mogg";
+			string moggPath = $"{appPath}/.cache/" + moggName;
+
+			var ffmpeg = new System.Diagnostics.Process();
+
+			if (filePath != null)
+			{
+				if (paths[0].EndsWith(".mp3"))
+				{
+					UnityEngine.Debug.Log(String.Format("-y -i \"{0}\" -map 0:a \"{1}\"", paths[0], "converted.ogg"));
+					ffmpeg.StartInfo.Arguments =
+						String.Format("-y -i \"{0}\" -map 0:a \"{1}\"", paths[0], "converted.ogg");
+					ffmpeg.Start();
+					ffmpeg.WaitForExit();
+					filePath = $"file://" + Path.Combine(Application.streamingAssetsPath, "FFMPEG", filePath);
+					StartCoroutine(GetAudioClip(filePath));
+				}
+				else
+				{
+					StartCoroutine(GetAudioClip(filePath));
+				}
+			}
+
+			File.Delete(mainSongPath);
+			File.Copy(filePath, mainSongPath);
+
+			ConvertOggToMogg(filePath, moggPath);
+
+			using (var archive = ZipArchive.Open(audicaFile.filepath))
+			{
+				foreach (ZipArchiveEntry entry in archive.Entries)
+				{
+					if (entry.ToString() == moggName)
+					{
+						archive.RemoveEntry(entry);
+					}
+				}
+				archive.AddEntry(moggName, moggPath);
+				archive.SaveTo(audicaFile.filepath + ".temp", SharpCompress.Common.CompressionType.None);
+				archive.Dispose();
+			}
+			File.Delete(audicaFile.filepath);
+			File.Move(audicaFile.filepath + ".temp", audicaFile.filepath);
+
+			StartCoroutine(LoadNewAudioClip($"file://{filePath}"));
+		}
+
+
+
 		public void ShiftEverythingByTime(Relative_QNT shift_amount) {
 			//Shift tempo markers
 			for(int i = 0; i < tempoChanges.Count; ++i) {
@@ -2321,7 +2875,7 @@ namespace NotReaper {
 
 			//Shift notes
 			foreach(Target note in orderedNotes) {
-				note.data.time += shift_amount;
+				note.data.SetTimeFromAction(note.data.time + shift_amount);
 			}
 		}
 
@@ -2437,5 +2991,28 @@ namespace NotReaper {
 				}
 			}
 		}
+
+
+#if UNITY_EDITOR
+
+	public void SetupBlankTest() {
+		readyToRegenerate = false;
+
+		SetBPM(new QNT_Timestamp(0), Constants.MicrosecondsPerQuarterNoteFromBPM(100), false);
+
+		int sampleRate = 44100;
+		float lengthSeconds = 100;
+		AudioClip blankClip = AudioClip.Create("TestClip", (int)(sampleRate * lengthSeconds * 2), 2, sampleRate, false);
+		songPlayback.LoadAudioClip(blankClip, PrecisePlayback.LoadType.MainSong);
+
+		audioLoaded = true;
+		audicaLoaded = true;
+
+		readyToRegenerate = true;
+		RegenerateBPMTimelineData();
+	}
+
+#endif
+
 	}
 }
