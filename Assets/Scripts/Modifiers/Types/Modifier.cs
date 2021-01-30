@@ -19,6 +19,9 @@ namespace NotReaper.Modifier
         //public float miniEndX;
         public string value1;
         public string value2;
+        public string xoffset;
+        public string yoffset;
+        public string zoffset;
         public bool option1;
         public bool option2;
         public float[] leftHandColor;
@@ -99,9 +102,12 @@ namespace NotReaper.Modifier
             dto.leftHandColor = leftHandColor;
             dto.rightHandColor = rightHandColor;
             dto.option1 = option1;
-            dto.option2 = option2;
+            dto.option2 = option2;       
             dto.value1 = value1;
             dto.value2 = value2;
+            dto.xoffset = xoffset;
+            dto.yoffset = yoffset;
+            dto.zoffset = zoffset;           
             dto.type = modifierType.ToString();
             return dto;
         }
@@ -121,6 +127,9 @@ namespace NotReaper.Modifier
             option2 = dto.option2;
             value1 = dto.value1;
             value2 = dto.value2;
+            xoffset = dto.xoffset;
+            yoffset = dto.yoffset;
+            zoffset = dto.zoffset;
             modifierType = (ModifierHandler.ModifierType)Enum.Parse(typeof(ModifierHandler.ModifierType), dto.type);
         }
 
