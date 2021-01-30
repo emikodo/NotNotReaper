@@ -673,6 +673,7 @@ namespace NotReaper.Modifier
                     break;
                 case ModifierType.TextPopup:
                     amountSlider.SetActive(false);
+                    endTickButton.SetActive(true);
                     value1.GetComponent<LabelSetter>().SetLabelText("Text");
                     value2.GetComponent<LabelSetter>().SetLabelText("Size");
                     value3.GetComponent<LabelSetter>().SetLabelText("X offset");
