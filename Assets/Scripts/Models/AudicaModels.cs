@@ -78,6 +78,10 @@ namespace NotReaper.Models {
 		public List<TempoChange> tempoList;
 		public List<BookmarkData> bookmarks = new List<BookmarkData>();
         public bool bakedzOffset = false;
+		public string customExpert = "";
+		public string customAdvanced = "";
+		public string customModerate = "";
+		public string customBeginner = "";
 	}
 
 	public class SafeDesc {
