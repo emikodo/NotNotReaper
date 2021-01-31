@@ -24,6 +24,7 @@ namespace NotReaper.Modifier
         public string zoffset;
         public bool option1;
         public bool option2;
+        public bool independantBool;
         public float[] leftHandColor;
         public float[] rightHandColor;
 
@@ -105,6 +106,7 @@ namespace NotReaper.Modifier
             dto.option2 = option2;       
             dto.value1 = value1;
             dto.value2 = value2;
+            dto.independantBool = independantBool;
             dto.xoffset = xoffset;
             dto.yoffset = yoffset;
             dto.zoffset = zoffset;           
@@ -125,6 +127,7 @@ namespace NotReaper.Modifier
             rightHandColor = dto.rightHandColor;
             option1 = dto.option1;
             option2 = dto.option2;
+            independantBool = dto.independantBool;
             value1 = dto.value1;
             value2 = dto.value2;
             xoffset = dto.xoffset;

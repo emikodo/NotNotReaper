@@ -35,6 +35,7 @@ namespace NotReaper.Modifier
         [SerializeField] private GameObject value5;
         [SerializeField] private GameObject option1;
         [SerializeField] private GameObject option2;
+        [SerializeField] private GameObject independantBool;
         [SerializeField] private GameObject startTickButton;
         [SerializeField] private GameObject endTickButton;
         [SerializeField] private GameObject createModifierButton;
@@ -68,6 +69,7 @@ namespace NotReaper.Modifier
             value2.SetActive(false);            
             option1.SetActive(false);
             option2.SetActive(false);
+            independantBool.SetActive(false);
             colorPicker.SetActive(false);
             DeactivateSidePanel();
             slider = amountSlider.GetComponent<LabelSetter>();
@@ -333,6 +335,7 @@ namespace NotReaper.Modifier
             value5.GetComponent<LabelSetter>().SetInputText(currentModifier.zoffset);
             option1.GetComponent<LabelSetter>().SetToggleState(currentModifier.option1);
             option2.GetComponent<LabelSetter>().SetToggleState(currentModifier.option2);
+            independantBool.GetComponent<LabelSetter>().SetToggleState(currentModifier.independantBool);
             startTickButton.GetComponent<LabelSetter>().SetLabelText(currentModifier.startTime.tick.ToString());
             endTickButton.GetComponent<LabelSetter>().SetLabelText(currentModifier.endTime.tick.ToString());
             createModifierButton.GetComponent<LabelSetter>().SetLabelText("Update Modifier");
@@ -460,6 +463,13 @@ namespace NotReaper.Modifier
             SetHintText(currentModifier.modifierType);
         }
 
+        public void OnIndependantBoolChanged()
+        {
+            InitializeModifier();
+            currentModifier.independantBool = independantBool.GetComponent<LabelSetter>().GetToggleState();
+            SetHintText(currentModifier.modifierType);
+        }
+
         public void OnOption2Changed()
         {
             InitializeModifier();
@@ -536,6 +546,7 @@ namespace NotReaper.Modifier
             value3.SetActive(false);
             value4.SetActive(false);
             value5.SetActive(false);
+            independantBool.SetActive(false);
         }
         private void ActivateSidePanel()
         {
@@ -680,10 +691,12 @@ namespace NotReaper.Modifier
                     value4.GetComponent<LabelSetter>().SetLabelText("Y offset");
                     value5.GetComponent<LabelSetter>().SetLabelText("Z offset");
                     option1.GetComponent<LabelSetter>().SetLabelText("Glow");
+                    independantBool.GetComponent<LabelSetter>().SetLabelText("Face Forward");
                     value1.SetActive(true);
                     value2.SetActive(true);                   
                     option1.SetActive(true);
                     option2.SetActive(false);
+                    independantBool.SetActive(true);
                     colorPicker.SetActive(false);
                     ActivateSidePanel();
                     break;
@@ -955,6 +968,7 @@ namespace NotReaper.Modifier
             value5.GetComponent<LabelSetter>().SetInputText("");
             option1.GetComponent<LabelSetter>().SetToggleState(false);
             option2.GetComponent<LabelSetter>().SetToggleState(false);
+            independantBool.GetComponent<LabelSetter>().SetToggleState(false);
         }
 
         public enum ModifierType { AimAssist = 0, ColorChange = 1, ColorUpdate = 2, ColorSwap = 3, HiddenTelegraphs = 4, InvisibleGuns = 5, Particles = 6, Psychedelia = 7, PsychedeliaUpdate = 8, Speed = 9, zOffset = 10, ArenaRotation = 11, ArenaBrightness = 12, ArenaChange = 13, Fader = 14, OverlaySetter = 15, TextPopup = 16, AutoLighting = 17 }

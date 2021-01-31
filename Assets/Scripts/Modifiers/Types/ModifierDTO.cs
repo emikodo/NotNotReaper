@@ -22,6 +22,8 @@ namespace NotReaper.Modifier
         public string zoffset;
         public bool option1;
         public bool option2;
+
+        public bool independantBool;
         public float[] leftHandColor;
         public float[] rightHandColor;
     }
