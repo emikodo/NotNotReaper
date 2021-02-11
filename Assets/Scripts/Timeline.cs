@@ -278,6 +278,7 @@ namespace NotReaper {
 		public Button loadAudioFileTiming;
 
 		public List<TempoChange> tempoChanges = new List<TempoChange>();
+		private TimeSignature lastSigniture = new TimeSignature(4,4);
 		private List<GameObject> bpmMarkerObjects = new List<GameObject>();
 
 		[SerializeField] public PrecisePlayback songPlayback;
@@ -1313,7 +1314,7 @@ namespace NotReaper {
 
 				//Now, try to match up time signatures with existing tempo markers
 				foreach(var eventList in audicaFile.song_mid.Events) {
-					foreach(var e in eventList) {
+					foreach(MidiEvent e in eventList) {
 						if(e is TimeSignatureEvent) {
 							TimeSignatureEvent timeSignatureEvent = (e as TimeSignatureEvent);
 							QNT_Timestamp time = new QNT_Timestamp((UInt64)timeSignatureEvent.AbsoluteTime);
@@ -1674,7 +1675,17 @@ namespace NotReaper {
 		}
 
 		public void SetBPM(QNT_Timestamp time, UInt64 microsecondsPerQuarterNote, bool shiftFutureEvents, TimeSignature? signatureArg = null) {
-			TimeSignature signature = signatureArg ?? new TimeSignature(4,4);
+			TimeSignature signature = signatureArg ?? new TimeSignature(0,0);
+
+			//if the given time signature was null
+			if(signature.Numerator == 0 && signature.Denominator == 0)
+			{
+				signature = lastSigniture;
+			}
+			else
+			{
+				lastSigniture = signature;
+			}
 
 			TempoChange c = new TempoChange();
 			c.time = time;
@@ -1979,7 +1990,7 @@ namespace NotReaper {
 				TempoChange change;
 				change.time = t;
 				change.microsecondsPerQuarterNote = Constants.OneMinuteInMicroseconds / 60;
-				change.timeSignature = new TimeSignature(4,4);
+				change.timeSignature = lastSigniture;
 				change.secondsFromStart = TimestampToSeconds(t);
 				return change;
 			}
