@@ -75,7 +75,7 @@ namespace NotReaper.IO {
 			songDesc.songEndEvent = songEndEvent;
 			songDesc.author = author;
 			songDesc.offset = offset;
-			File.WriteAllText(Path.Combine(workFolder, "song.desc"), JsonUtility.ToJson(songDesc, true));
+			File.WriteAllText(Path.Combine(workFolder, "song.desc"), Newtonsoft.Json.JsonConvert.SerializeObject(songDesc, Newtonsoft.Json.Formatting.Indented));
 
             /*File.Delete(Path.Combine(workFolder, "modifiers.json"));
             ModifierList modifierList = new ModifierList();

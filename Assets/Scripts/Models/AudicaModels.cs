@@ -6,6 +6,7 @@ using NotReaper.Targets;
 using NotReaper.Timing;
 using NotReaper.UI;
 using NotReaper.Modifier;
+using Newtonsoft.Json;
 
 namespace NotReaper.Models {
 	public struct TempoChange {
@@ -24,6 +25,8 @@ namespace NotReaper.Models {
 
 		public string moggSong = "";
 		public string moggMainSong = "";
+		
+		[JsonIgnore]
 		public string cachedMainSong {
 			get {
 				return $"{this.songID}";
@@ -44,6 +47,8 @@ namespace NotReaper.Models {
 
 		public string sustainSongRight = "";
 		public string moggSustainSongRight = "";
+		
+		[JsonIgnore]
 		public string cachedSustainSongRight {
 			get {
 				return $"{this.songID}_sustain_r";
@@ -53,6 +58,8 @@ namespace NotReaper.Models {
 
 		public string sustainSongLeft = "";
 		public string moggSustainSongLeft = "";
+		
+		[JsonIgnore]
 		public string cachedSustainSongLeft {
 			get {
 				return $"{this.songID}_sustain_l";
@@ -61,6 +68,8 @@ namespace NotReaper.Models {
 
 		public string fxSong = "";
 		public string moggFxSong = "";
+		
+		[JsonIgnore]
 		public string cachedFxSong {
 			get {
 				return $"{this.songID}_extra";
@@ -75,13 +84,25 @@ namespace NotReaper.Models {
 		public string author = "";
 		public int offset = 0;
 		public double previewStartSeconds = 0.0d;
+		[JsonIgnore]
 		public List<TempoChange> tempoList;
+		[JsonProperty( NullValueHandling = NullValueHandling.Ignore)]
 		public List<BookmarkData> bookmarks = new List<BookmarkData>();
-        public bool bakedzOffset = false;
-		public string customExpert = "";
-		public string customAdvanced = "";
-		public string customModerate = "";
-		public string customBeginner = "";
+        
+		public bool bakedzOffset = false;
+		
+		[JsonProperty( NullValueHandling = NullValueHandling.Ignore)]
+		[System.ComponentModel.DefaultValue("")]
+		public string customExpert;
+		[JsonProperty( NullValueHandling = NullValueHandling.Ignore)]
+		[System.ComponentModel.DefaultValue("")]
+		public string customAdvanced;
+		[JsonProperty( NullValueHandling = NullValueHandling.Ignore)]
+		[System.ComponentModel.DefaultValue("")]
+		public string customModerate;
+		[JsonProperty( NullValueHandling = NullValueHandling.Ignore)]
+		[System.ComponentModel.DefaultValue("")]
+		public string customBeginner;
 	}
 
 	public class SafeDesc {
