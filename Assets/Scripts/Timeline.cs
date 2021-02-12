@@ -1291,7 +1291,6 @@ namespace NotReaper {
 									TempoChange change = tempoChanges[i];
 									change.timeSignature = signature;
 									change.ExplicitSignature = true;
-									Debug.Log ("explixit time sig: " + signature);
 									tempoChanges[i] = change;
 									found = true;
 									break;

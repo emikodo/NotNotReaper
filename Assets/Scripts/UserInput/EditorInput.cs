@@ -20,7 +20,7 @@ using UnityEngine.UI;
 
 namespace NotReaper.UserInput {
 
-	public enum EditorTool { Standard, Hold, Horizontal, Vertical, ChainStart, ChainNode, Melee, Mine, DragSelect, ChainBuilder, ModifierCreator, None }
+	public enum EditorTool { Standard, Hold, Horizontal, Vertical, ChainStart, ChainNode, Melee, Mine, DragSelect, ChainBuilder, ModifierCreator, SnapEditor, None }
 
 	public class EditorInput : MonoBehaviour {
 		public static bool isTesting = false;
@@ -361,7 +361,7 @@ namespace NotReaper.UserInput {
 				case EditorTool.ModifierCreator:
 					selectedBehavior = TargetBehavior.None;
 					Tools.modifierCreator.Activate (true);
-					break;
+					break;					
 
 				default:
 					break;
@@ -430,12 +430,15 @@ namespace NotReaper.UserInput {
 				countInWindow.gameObject.activeSelf ||
 				addOrTrimAudioWindow.gameObject.activeSelf ||
 				repeaterWindow.gameObject.activeSelf||
-				snapWindow.window.activeSelf) {
+				snapWindow.window.gameObject.activeInHierarchy) {
 				inUI = true;
 
 				if (repeaterWindow.gameObject.activeSelf || !timingPointsPanel.isHovering) {
 					enableScrolling = true;
 				}
+
+				if(snapWindow.window.gameObject.activeInHierarchy)
+					enableScrolling = false;
 
 				return;
 			}
