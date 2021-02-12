@@ -13,7 +13,7 @@ namespace NotReaper.Models {
 		public QNT_Timestamp time;
 		public UInt64 microsecondsPerQuarterNote;
 		public TimeSignature timeSignature;
-
+		public bool ExplicitSignature;
 		public float secondsFromStart;
 	}
 

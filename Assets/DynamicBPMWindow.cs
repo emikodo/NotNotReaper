@@ -65,7 +65,7 @@ public class DynamicBPMWindow : MonoBehaviour {
                 }
             }
 
-            timeline.SetBPM(Timeline.time, Constants.MicrosecondsPerQuarterNoteFromBPM(dynamicBpm), true, timeSignature);
+            timeline.SetBPM(Timeline.time, Constants.MicrosecondsPerQuarterNoteFromBPM(dynamicBpm), true, timeSignature.Numerator,timeSignature.Denominator);
             Deactivate();
         }
     }
