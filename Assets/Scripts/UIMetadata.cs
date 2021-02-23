@@ -132,11 +132,15 @@ namespace NotReaper.UI {
         public void ApplyValues() {
             if (Timeline.desc == null) return;
 
-            if (String.IsNullOrEmpty(titleField.text)) return; 
-            
+            if (String.IsNullOrEmpty(titleField.text)) return;
+
             Timeline.desc.title = titleField.text;
             Timeline.desc.artist = artistField.text;
             Timeline.desc.author = mapperField.text;
+            if (String.IsNullOrEmpty(artText.text))
+            {
+                Timeline.desc.albumArt = "song.png";
+            }
             Timeline.audicaFile.mainMoggSong.SetVolume(moggSongVolume.value);
         }
 

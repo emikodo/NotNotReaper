@@ -4,7 +4,7 @@
     "title": "TemplateSong",
     "artist": "AMG",
     "midiFile": "song.mid",
-	"albumArt": "song.png",
+	"albumArt": "",
     "fusionSpatialized": "fusion/guns/default/drums_default_spatial.fusion",
     "fusionUnspatialized": "fusion/guns/default/drums_default_sub.fusion",
     "sustainSongRight": "",
