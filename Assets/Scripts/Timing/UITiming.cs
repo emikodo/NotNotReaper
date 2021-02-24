@@ -274,28 +274,12 @@ namespace NotReaper.Timing {
             {
                 if (loadedMidi != "")
                 {
-                    if (loadedArt != "")
-                    {
-                        return true;
-                    }
-                    else
-                    {
-                        loadedArt = Path.Combine(workFolder, "defaultArt.png");
-                        return true;
-                    }
+                    return true;
                 }
                 else
                 {
                     loadedMidi = Path.Combine(workFolder, "songtemplate.mid");
-                    if (loadedArt != "")
-                    {
-                        return true;
-                    }
-                    else
-                    {
-                        loadedArt = Path.Combine(workFolder, "defaultArt.png");
-                        return true;
-                    }
+                    return true;
                 }
             }
             else

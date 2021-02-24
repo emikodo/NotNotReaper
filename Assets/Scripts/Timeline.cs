@@ -2234,14 +2234,31 @@ namespace NotReaper {
 				}
 			}
 		}
-		private static bool toggle = false;
-		public static void OptimizeInvisibleTargets () {
-			if (NRSettings.config.optimizeInvisibleTargets || ModifierHandler.activated || toggle) {
-				var targetsToShow = new NoteEnumerator (Timeline.time - Relative_QNT.FromBeatTime (10f), Timeline.time + Relative_QNT.FromBeatTime (10f));
-
-				for (int i = 0; i < orderedNotes.Count; i++) {
-					orderedNotes[i].gridTargetIcon.gameObject.SetActive (false);
-					orderedNotes[i].timelineTargetIcon.gameObject.SetActive (false);
+        private static bool toggle = false;
+		public static void OptimizeInvisibleTargets()
+		{
+			if (NRSettings.config.optimizeInvisibleTargets || ModifierHandler.activated || toggle)
+			{
+                QNT_Timestamp start;
+                QNT_Timestamp end;
+                if (NRSettings.config.optimizeInvisibleTargets)
+                {
+                    start = Timeline.time - Relative_QNT.FromBeatTime(10f);
+                    end = Timeline.time + Relative_QNT.FromBeatTime(10f);
+                }
+                else
+                {
+                    start = Timeline.orderedNotes.First().data.time;
+                    end = Timeline.orderedNotes.Last().data.time;
+                }
+                
+                
+				var targetsToShow = new NoteEnumerator(start, end);
+                
+				for (int i = 0; i < orderedNotes.Count; i++)
+				{
+					orderedNotes[i].gridTargetIcon.gameObject.SetActive(false);
+					orderedNotes[i].timelineTargetIcon.gameObject.SetActive(false);
 				}
 				if (!ModifierHandler.activated) {
 					toggle = false;
