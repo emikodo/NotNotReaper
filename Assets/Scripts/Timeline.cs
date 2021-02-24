@@ -1301,11 +1301,11 @@ namespace NotReaper {
 							if (!found) {
 								SetBPM (time, GetTempoForTime (time).microsecondsPerQuarterNote, false, signature.Numerator, signature.Denominator);
 							}
-						} 
-						
+						}
+
 						//go back over the tempo changes and apply previous time signature if one is not explicitly specified
 						else if (e is TempoEvent) {
-							TimeSignature previousTS = new TimeSignature (6, 9);
+							TimeSignature previousTS = new TimeSignature (4, 4);
 							for (int i = 0; i < tempoChanges.Count; ++i) {
 								if (tempoChanges[i].ExplicitSignature) {
 									previousTS = tempoChanges[i].timeSignature;
@@ -1650,94 +1650,92 @@ namespace NotReaper {
 
 			TimeSignature signature = new TimeSignature (Numerator, Denominator);
 
-			//if no time sig was given
-			if (signature.Numerator == 0 && signature.Denominator == 0) {
-				TimeSignature previousTS = new TimeSignature (4, 4);
+			
 
-				TempoChange c = new TempoChange ();
-				c.time = time;
-				c.microsecondsPerQuarterNote = microsecondsPerQuarterNote;
-				c.timeSignature = signature;
-				c.ExplicitSignature = false;
-				c.secondsFromStart = TimestampToSeconds (time);
+			TempoChange c = new TempoChange ();
+			c.time = time;
+			c.microsecondsPerQuarterNote = microsecondsPerQuarterNote;
+			c.timeSignature = signature;
+			c.ExplicitSignature = false;
+			c.secondsFromStart = TimestampToSeconds (time);
 
-				UInt64 prevMicrosecondPerQuarterNote = 0;
+			UInt64 prevMicrosecondPerQuarterNote = 0;
 
-				int foundIndex = -1;
-				for (int i = 0; i < tempoChanges.Count; ++i) {
-					if (tempoChanges[i].time == time) {
-						foundIndex = i;
-						break;
-					}
+			int foundIndex = -1;
+			for (int i = 0; i < tempoChanges.Count; ++i) {
+				if (tempoChanges[i].time == time) {
+					foundIndex = i;
+					break;
 				}
+			}
 
-				//Never attempt to remove the first bpm marker
-				if (foundIndex == 0 && microsecondsPerQuarterNote == 0) {
-					var notif = new NRNotification ("Cannot remove initial bpm!");
-					notif.type = NRNotifType.Fail;
-					NotificationShower.Queue (notif);
-					return;
-				}
+			//Never attempt to remove the first bpm marker
+			if (foundIndex == 0 && microsecondsPerQuarterNote == 0) {
+				var notif = new NRNotification ("Cannot remove initial bpm!");
+				notif.type = NRNotifType.Fail;
+				NotificationShower.Queue (notif);
+				return;
+			}
 
-				if (foundIndex == -1 && microsecondsPerQuarterNote == 0) {
-					var notif = new NRNotification ("Cannot add 0 bpm!");
-					notif.type = NRNotifType.Fail;
-					NotificationShower.Queue (notif);
-					return;
-				}
+			if (foundIndex == -1 && microsecondsPerQuarterNote == 0) {
+				var notif = new NRNotification ("Cannot add 0 bpm!");
+				notif.type = NRNotifType.Fail;
+				NotificationShower.Queue (notif);
+				return;
+			}
 
-				List<TempoFixup> tempoFixes = new List<TempoFixup> ();
+			List<TempoFixup> tempoFixes = new List<TempoFixup> ();
 
-				//Found a bpm, set it to the new value
-				if (foundIndex != -1) {
-					prevMicrosecondPerQuarterNote = tempoChanges[foundIndex].microsecondsPerQuarterNote;
+			//Found a bpm, set it to the new value
+			if (foundIndex != -1) {
+				prevMicrosecondPerQuarterNote = tempoChanges[foundIndex].microsecondsPerQuarterNote;
 
-					//Remove marker
-					if (microsecondsPerQuarterNote == 0) {
-						tempoFixes = GatherTempoFixups (foundIndex);
-						tempoChanges.RemoveAt (foundIndex);
-
-						//Fixup the indices, since they're off by 1 now
-						for (int i = 0; i < tempoFixes.Count; ++i) {
-							TempoFixup newFixup = tempoFixes[i];
-							newFixup.tempoId -= 1;
-							tempoFixes[i] = newFixup;
-						}
-					}
-					//Set to new tempo
-					else {
-						tempoFixes = GatherTempoFixups (foundIndex);
-						tempoChanges[foundIndex] = c;
-					}
-				} else {
-					int index = GetCurrentBPMIndex (time);
-					tempoFixes = GatherTempoFixups (index);
-					tempoChanges.Add (c);
+				//Remove marker
+				if (microsecondsPerQuarterNote == 0) {
+					tempoFixes = GatherTempoFixups (foundIndex);
+					tempoChanges.RemoveAt (foundIndex);
 
 					//Fixup the indices, since they're off by 1 now
 					for (int i = 0; i < tempoFixes.Count; ++i) {
 						TempoFixup newFixup = tempoFixes[i];
-						newFixup.tempoId += 1;
+						newFixup.tempoId -= 1;
 						tempoFixes[i] = newFixup;
 					}
 				}
-
-				tempoChanges = tempoChanges.OrderBy (tempo => tempo.time.tick).ToList ();
-
-				//Move all future targets back
-				if (shiftFutureEvents) {
-					//ShiftNotesByBPM(prevMicrosecondPerQuarterNote, time, tempoFixes);
-					List<UpdateTiming> updateTimings = new List<UpdateTiming> ();
-					FixupTempoTimings (tempoFixes, updateTimings);
-
-					//Update all notes
-					foreach (var t in updateTimings) {
-						t.data.SetTimeFromAction (t.newTime);
-					}
+				//Set to new tempo
+				else {
+					tempoFixes = GatherTempoFixups (foundIndex);
+					tempoChanges[foundIndex] = c;
 				}
+			} else {
+				int index = GetCurrentBPMIndex (time);
+				tempoFixes = GatherTempoFixups (index);
+				tempoChanges.Add (c);
 
-				RegenerateBPMTimelineData ();
+				//Fixup the indices, since they're off by 1 now
+				for (int i = 0; i < tempoFixes.Count; ++i) {
+					TempoFixup newFixup = tempoFixes[i];
+					newFixup.tempoId += 1;
+					tempoFixes[i] = newFixup;
+				}
 			}
+
+			tempoChanges = tempoChanges.OrderBy (tempo => tempo.time.tick).ToList ();
+
+			//Move all future targets back
+			if (shiftFutureEvents) {
+				//ShiftNotesByBPM(prevMicrosecondPerQuarterNote, time, tempoFixes);
+				List<UpdateTiming> updateTimings = new List<UpdateTiming> ();
+				FixupTempoTimings (tempoFixes, updateTimings);
+
+				//Update all notes
+				foreach (var t in updateTimings) {
+					t.data.SetTimeFromAction (t.newTime);
+				}
+			}
+
+			RegenerateBPMTimelineData ();
+
 		}
 
 		bool readyToRegenerate = false;
