@@ -19,6 +19,7 @@ namespace NotReaper.Tools.CustomSnapMenu {
         public GameObject window;
 
         public Michsky.UI.ModernUIPack.HorizontalSelector HorizontalSnapSelector;
+        public Michsky.UI.ModernUIPack.HorizontalSelector ChainbuilderIntervalSelector;
 
         public Color ErrorColor = new Color (255, 10, 10, 0.59f);
         public Color NormalColor;
@@ -44,6 +45,7 @@ namespace NotReaper.Tools.CustomSnapMenu {
         }
         private void loadSavedSnaps () {
             HorizontalSnapSelector.elements = NRSettings.config.snaps;
+            ChainbuilderIntervalSelector.elements = HorizontalSnapSelector.elements;
         }
         public void OnSnapSet () {
             int snap = 0;
@@ -148,6 +150,7 @@ namespace NotReaper.Tools.CustomSnapMenu {
                 RemoveSnap (snap);
             }
 
+            ChainbuilderIntervalSelector.elements = HorizontalSnapSelector.elements;
             NRSettings.config.snaps = HorizontalSnapSelector.elements;
             NRSettings.SaveSettingsJson ();
         }
@@ -171,6 +174,7 @@ namespace NotReaper.Tools.CustomSnapMenu {
                 SetConfirmButtonInfo ();
             }
 
+            ChainbuilderIntervalSelector.elements = HorizontalSnapSelector.elements;
             NRSettings.config.snaps = HorizontalSnapSelector.elements;
             NRSettings.SaveSettingsJson ();
         }
@@ -200,6 +204,8 @@ namespace NotReaper.Tools.CustomSnapMenu {
             } else {
                 NRSettings.config.snaps = deafultSnaps;
                 HorizontalSnapSelector.elements = deafultSnaps;
+                ChainbuilderIntervalSelector.elements = deafultSnaps;
+
                 NRSettings.SaveSettingsJson ();
                 confirmationOfDestructiveActionRequired = true;
 
