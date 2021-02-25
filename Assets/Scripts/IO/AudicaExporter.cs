@@ -63,7 +63,7 @@ namespace NotReaper.IO {
                 }
 
 				File.WriteAllText($"{Application.dataPath}/.cache/{audicaFile.desc.moggSong}", audicaFile.mainMoggSong.ExportToText());
-				File.WriteAllText($"{Application.dataPath}/.cache/song-new.desc", JsonUtility.ToJson(audicaFile.desc));
+				File.WriteAllText($"{Application.dataPath}/.cache/song-new.desc", Newtonsoft.Json.JsonConvert.SerializeObject(audicaFile.desc, Formatting.Indented));
 
 				var workFolder = Path.Combine(Application.streamingAssetsPath, "Ogg2Audica");
 				MidiFile songMidi = new MidiFile(Path.Combine(workFolder, "songtemplate.mid"));

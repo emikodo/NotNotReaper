@@ -48,6 +48,7 @@ namespace NotReaper.UI {
 
         public Image AlbumArtImg;
         public TextMeshProUGUI artText;
+        public TMP_InputField DifficultyName;
 
 
         public void Start() {
@@ -68,6 +69,7 @@ namespace NotReaper.UI {
 
             diffDropdown.value = difficultyManager.loadedIndex;
             ChangeSelectedDifficulty(difficultyManager.loadedIndex);
+            LoadCurrentDifficultyName(difficultyManager.loadedIndex);
             // Song end pitch event
             switch (Timeline.desc.songEndEvent)
             {
@@ -182,6 +184,70 @@ namespace NotReaper.UI {
             } else {
                 generateDiff.interactable = true;
                 loadThisDiff.interactable = false;
+            }
+        }
+
+        public void SetDifficultyName()
+        {
+            if (Timeline.desc == null) return;
+
+            int difficultyIndex = difficultyManager.loadedIndex;
+            
+            if (difficultyIndex == -1) return;
+            
+            switch(difficultyIndex)
+            {
+                //expert
+                case 0:
+                    Timeline.desc.customExpert = DifficultyName.text; 
+                    break;
+
+                //Advanced
+                case 1:
+                    Timeline.desc.customAdvanced = DifficultyName.text; 
+                    break;
+
+                //Moderate
+                case 2:
+                    Timeline.desc.customModerate = DifficultyName.text; 
+                    break;
+
+                //Beginner
+                case 3:
+                    Timeline.desc.customBeginner = DifficultyName.text; 
+                    break;
+
+            }
+        }
+
+        public void LoadCurrentDifficultyName(int difficultyIndex)
+        {
+            if (Timeline.desc == null) return;
+            
+            if (difficultyIndex == -1) return;
+            
+            switch(difficultyIndex)
+            {
+                //expert
+                case 0:
+                    DifficultyName.text = Timeline.desc.customExpert; 
+                    break;
+
+                //Advanced
+                case 1:
+                    DifficultyName.text = Timeline.desc.customAdvanced; 
+                    break;
+
+                //Moderate
+                case 2:
+                    DifficultyName.text = Timeline.desc.customModerate; 
+                    break;
+
+                //Beginner
+                case 3:
+                    DifficultyName.text = Timeline.desc.customBeginner; 
+                    break;
+
             }
         }
 

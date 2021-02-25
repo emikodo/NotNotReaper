@@ -27,8 +27,6 @@ public class OptionsMenu : MonoBehaviour {
     public InputField songPreRoll;
     public InputField songAuthor;
     public InputField Moggsong;
-
-
     public TargetIcon hover;
     public NoteGridSnap noteGrid;
 
