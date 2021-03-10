@@ -250,6 +250,20 @@ namespace NotReaper {
         public float backupIntervalMinutes = 15f;
         public int backupDeleteAfterDays = 7;
         public int maxBackups = 10;
+        public List<string> snaps = new List<string>(){
+            "1/1",
+            "1/2",
+            "1/3",
+            "1/4",
+            "1/6",
+            "1/8",
+            "1/12",
+            "1/16",
+            "1/24",
+            "1/32",
+            "1/48",
+            "1/64"
+        };
     }
 
 }

@@ -27,7 +27,11 @@ namespace NotReaper.IO {
 
 			//Album art
 			File.Delete(Path.Combine(workFolder, "song.png"));
-			File.Copy(artPath, Path.Combine(workFolder, "song.png"));
+			if (!string.IsNullOrEmpty(artPath))
+			{
+				UnityEngine.Debug.Log("Album art found");
+				File.Copy(artPath, Path.Combine(workFolder, "song.png"));
+			}
 
 			//We need to modify the BPM of the song.mid contained in the template audica to match whatever this is.
 			File.Delete(Path.Combine(workFolder, "song.mid"));
@@ -71,11 +75,15 @@ namespace NotReaper.IO {
 			songDesc.songID = songID;
 			songDesc.title = songName;
 			songDesc.artist = artist;
+			if (!string.IsNullOrEmpty(artPath))
+			{
+				songDesc.albumArt = "song.png";
+			}
 			songDesc.tempo = (float)bpm;
 			songDesc.songEndEvent = songEndEvent;
 			songDesc.author = author;
 			songDesc.offset = offset;
-			File.WriteAllText(Path.Combine(workFolder, "song.desc"), JsonUtility.ToJson(songDesc, true));
+			File.WriteAllText(Path.Combine(workFolder, "song.desc"), Newtonsoft.Json.JsonConvert.SerializeObject(songDesc, Newtonsoft.Json.Formatting.Indented));
 
             /*File.Delete(Path.Combine(workFolder, "modifiers.json"));
             ModifierList modifierList = new ModifierList();
@@ -88,9 +96,12 @@ namespace NotReaper.IO {
 				archive.AddAllFromDirectory(audicaTemplate);
 				archive.AddEntry("song.desc", Path.Combine(workFolder, "song.desc"));
 				archive.AddEntry("song.mid", Path.Combine(workFolder, "song.mid"));
-				archive.AddEntry("song.png", Path.Combine(workFolder, "song.png"));
 				archive.AddEntry("song.mogg", Path.Combine(workFolder, "song.mogg"));
 				archive.AddEntry("song.moggsong", Path.Combine(workFolder, "song.moggsong"));
+				if (!string.IsNullOrEmpty(artPath))
+				{
+					archive.AddEntry("song.png", Path.Combine(workFolder, "song.png"));
+				}
 
 				archive.SaveTo(Path.Combine(Application.dataPath, @"../", "saves", songID + ".audica"), SharpCompress.Common.CompressionType.None);
 			}

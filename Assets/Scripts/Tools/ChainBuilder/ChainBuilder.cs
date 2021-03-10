@@ -114,6 +114,8 @@ namespace NotReaper.Tools.ChainBuilder {
 
 			startClickNote = null;
 
+			pathBuilderInterval.elements = NRSettings.config.snaps;
+
 			if(active) {
 				bool validNoteSelected = (timeline.selectedNotes.Count == 1 && timeline.selectedNotes[0].data.behavior == TargetBehavior.NR_Pathbuilder);
 

@@ -25,7 +25,7 @@ public class TimingPointItem : MonoBehaviour
 
     public void RemoveTimingPoint()
     {
-        timeline.SetBPM(tempoData.time, Constants.MicrosecondsPerQuarterNoteFromBPM(0f), true, tempoData.timeSignature);
+        timeline.SetBPM(tempoData.time, Constants.MicrosecondsPerQuarterNoteFromBPM(0f), true, tempoData.timeSignature.Numerator,tempoData.timeSignature.Denominator);
         GameObject.FindObjectOfType<TimingPointsPanel>().UpdateTimingPointList(timeline.tempoChanges);
     }
 
