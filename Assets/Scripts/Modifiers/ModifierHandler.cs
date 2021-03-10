@@ -298,7 +298,8 @@ namespace NotReaper.Modifier
         {
             return dropdown.IsExpanded;
         }
-        
+
+        public bool fillingData = false;
         public void FillData(Modifier modifier, bool shouldFill, bool isEmpty)
         {
              if (!shouldFill || isEmpty)
@@ -313,14 +314,13 @@ namespace NotReaper.Modifier
                 }                
                  return;
              }
-
+            fillingData = true;
             int modType = (int)modifier.modifierType;
             skipRefresh = dropdown.value != modType;
             currentModifier = modifier;
             modifiers.Remove(modifier);
             dropdown.value = modType;
 
-            amountSlider.GetComponent<LabelSetter>().SetSliderValue(currentModifier.amount);
             value1.GetComponent<LabelSetter>().SetInputText(currentModifier.value1);
             value2.GetComponent<LabelSetter>().SetInputText(currentModifier.value2);
             option1.GetComponent<LabelSetter>().SetToggleState(currentModifier.option1);
@@ -330,6 +330,8 @@ namespace NotReaper.Modifier
             createModifierButton.GetComponent<LabelSetter>().SetLabelText("Update Modifier");
             colorPicker.GetComponent<LabelSetter>().SetColorSliderLeft(currentModifier.leftHandColor);
             colorPicker.GetComponent<LabelSetter>().SetColorSliderRight(currentModifier.rightHandColor);
+            amountSlider.GetComponent<LabelSetter>().SetSliderValue(currentModifier.amount);
+            fillingData = false;
         }
 
         private void SetStartTick(QNT_Timestamp tick)
@@ -429,6 +431,7 @@ namespace NotReaper.Modifier
 
         public void OnOption1Changed()
         {
+            if (fillingData) return;
             InitializeModifier();
             currentModifier.option1 = option1.GetComponent<LabelSetter>().GetToggleState();
             SetHintText(currentModifier.modifierType);
@@ -436,6 +439,7 @@ namespace NotReaper.Modifier
 
         public void OnOption2Changed()
         {
+            if (fillingData) return;
             InitializeModifier();
             currentModifier.option2 = option2.GetComponent<LabelSetter>().GetToggleState();
             SetHintText(currentModifier.modifierType);
@@ -622,6 +626,7 @@ namespace NotReaper.Modifier
                     break;
                 case ModifierType.TextPopup:
                     amountSlider.SetActive(false);
+                    endTickButton.SetActive(true);
                     value1.GetComponent<LabelSetter>().SetLabelText("Text");
                     value2.GetComponent<LabelSetter>().SetLabelText("Size");
                     option1.GetComponent<LabelSetter>().SetLabelText("Glow");
@@ -632,6 +637,7 @@ namespace NotReaper.Modifier
                     colorPicker.SetActive(false);
                     break;
                 case ModifierType.AutoLighting:
+                    endTickButton.SetActive(true);
                     amountSlider.SetActive(true);
                     value1.SetActive(false);
                     value2.SetActive(false);
@@ -695,6 +701,8 @@ namespace NotReaper.Modifier
                             text = "Amount represents flashes per beat (1/4 note)";
                             slider.SetMinValue(1f);
                             slider.SetMaxValue(128f);
+                            //float amnt = currentModifier.amount >= 1f && currentModifier.amount <= 128f ? currentModifier.amount : 1f;
+                            //slider.SetSliderValue(currentModifier.amount);
                             endTickButton.SetActive(true);
                             break;
                         }

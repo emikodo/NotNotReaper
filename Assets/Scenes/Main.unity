@@ -67864,6 +67864,7 @@ MonoBehaviour:
   rightMax: {fileID: 1680971285}
   modifierCount: {fileID: 875606983}
   modifiers: []
+  fillingData: 0
 --- !u!114 &1288364401
 MonoBehaviour:
   m_ObjectHideFlags: 0
