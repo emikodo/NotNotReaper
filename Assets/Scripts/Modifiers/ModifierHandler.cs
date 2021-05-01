@@ -54,7 +54,7 @@ namespace NotReaper.Modifier
         private bool isHidden = false;
         private bool parentSet = false;
 
-        public void Start()
+        public void Awake()
         {
             if (Instance is null)
             {

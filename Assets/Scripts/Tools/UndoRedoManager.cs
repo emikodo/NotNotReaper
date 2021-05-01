@@ -111,7 +111,6 @@ namespace NotReaper.Tools {
 				actions = affectedTargets.Select(targetData => { var action = new NRActionAddNote(); action.targetData = targetData; return action; }).ToList();
 				affectedTargets = null;
 			}
-
 			actions.ForEach(action => { action.DoAction(timeline); });
 			TransformTool.instance.UpdateOverlay();
 		}

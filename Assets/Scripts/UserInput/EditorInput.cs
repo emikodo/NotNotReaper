@@ -86,7 +86,7 @@ namespace NotReaper.UserInput {
 
 		public UIModeSelect editorMode;
 
-		public Image bgImage;
+		public RawImage bgImage;
 
 		public Color normalGridDisabledColor;
 
@@ -127,10 +127,11 @@ namespace NotReaper.UserInput {
 				byte[] imageBytes = System.IO.File.ReadAllBytes (URL);
 				Texture2D texture = new Texture2D (1, 1);
 				texture.LoadImage (imageBytes);
-
+				texture.wrapMode = TextureWrapMode.Repeat;
 				Sprite sprite = Sprite.Create (texture,
 					new Rect (0, 0, texture.width, texture.height), Vector2.zero);
-				bgImage.sprite = sprite;
+				bgImage.texture = texture;
+				//bgImage.sprite = sprite;
 			} catch (System.Exception e) {
 				Debug.LogError (e.Message);
 			}

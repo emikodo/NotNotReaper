@@ -7,6 +7,7 @@ using NotReaper.Timing;
 using NotReaper.UserInput;
 using Random = UnityEngine.Random;
 using NotReaper.Modifier;
+using Newtonsoft.Json;
 
 namespace NotReaper.UI {
 	public class MiniTimeline : MonoBehaviour {
@@ -248,7 +249,7 @@ namespace NotReaper.UI {
 
         public void SaveBookmark(Bookmark b)
         {            
-            Timeline.audicaFile.desc.bookmarks.Add(new BookmarkData() { type = b.handType, xPosMini = b.xPosMini, xPosTop = b.transform.localPosition.x, text = b.GetText(), color = b.GetColor(), uiColor = (int)b.GetUIColor()});
+            Timeline.audicaFile.desc.bookmarks.Add(new BookmarkData() { type = b.handType, xPosMini = b.xPosMini, xPosTop = b.transform.localPosition.x, text = b.GetText(), r = b.GetColor().r, g = b.GetColor().g, b = b.GetColor().b, uiColor = (int)b.GetUIColor()});
         }
 
         public void DeleteBookmark()
@@ -363,7 +364,23 @@ namespace NotReaper.UI {
 		public float xPosMini = 0.0f;
 		public float xPosTop = 0.0f;
         public string text;
-        public Color color;
+		public Color color;
+		/*public Color color
+        {
+			get 
+			{
+				if (r == 0 && g == 0 && b == 0) return new Color(r, g, b);
+				else return color;
+			}
+            set { r = value.r; g = value.g; b = value.b; }
+        }*/
+		public bool ShouldSerializecolor()
+        {
+			return false;
+        }
+		public float r;
+		public float g;
+		public float b;
         public int uiColor;
 	}
 }

@@ -61,8 +61,8 @@ namespace NotReaper.IO {
                     File.WriteAllText($"{Application.dataPath}/.cache/modifiers-new.json", ModifiersToJson2(audicaFile.modifiers));
                     modifiers = true;
                 }
-
 				File.WriteAllText($"{Application.dataPath}/.cache/{audicaFile.desc.moggSong}", audicaFile.mainMoggSong.ExportToText());
+
 				File.WriteAllText($"{Application.dataPath}/.cache/song-new.desc", Newtonsoft.Json.JsonConvert.SerializeObject(audicaFile.desc, Formatting.Indented));
 
 				var workFolder = Path.Combine(Application.streamingAssetsPath, "Ogg2Audica");
@@ -152,7 +152,6 @@ namespace NotReaper.IO {
 
 
 		}
-
 
 		public static string CuesToJson(CueFile cueFile) {
 			return JsonUtility.ToJson(cueFile, true);

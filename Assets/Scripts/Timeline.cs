@@ -460,9 +460,42 @@ namespace NotReaper {
 			data.behavior = EditorInput.selectedBehavior;
 
 			QNT_Timestamp tempTime = GetClosestBeatSnapped (time, (uint) beatSnap);
-
+			int leftHandMeleeCount = 0;
+			int rightHandMeleeCount = 0;
+			int meleeCount = 0;
 			foreach (Target target in loadedNotes) {
-				if (target.data.time == tempTime && (target.data.handType == EditorInput.selectedHand) && (EditorInput.selectedTool != EditorTool.Melee) && (EditorInput.selectedTool != EditorTool.Mine)) return;
+				if (target.data.time == tempTime)
+				{
+					if(target.data.handType == EditorInput.selectedHand && EditorInput.selectedTool != EditorTool.Melee)
+                    {
+						if (EditorInput.selectedTool != EditorTool.Mine) return;
+					}
+					else if(EditorInput.selectedTool == EditorTool.Melee)
+                    {
+						if (target.data.x == data.x && target.data.y == data.y) return;
+
+						if (target.data.handType == TargetHandType.Left) leftHandMeleeCount++;
+						else if (target.data.handType == TargetHandType.Right) rightHandMeleeCount++;
+						else meleeCount++;
+
+						if (leftHandMeleeCount == 1 && data.handType == TargetHandType.Left)
+                        {
+							Debug.Log("already have rh melee");
+							return;
+                        }
+						else if (rightHandMeleeCount == 1 && data.handType == TargetHandType.Right)
+                        {
+							Debug.Log("already have lh melee");
+							return;
+                        }
+						else if(meleeCount + rightHandMeleeCount + leftHandMeleeCount == 2)
+						{
+							Debug.Log("already have 2 melees");
+							return;
+						}						
+					}						
+				}
+				
 			}
 
 			data.SetTimeFromAction (GetClosestBeatSnapped (time, (uint) beatSnap));
@@ -1351,7 +1384,17 @@ namespace NotReaper {
 
 			if (audicaFile.desc.bookmarks != null) {
 				foreach (BookmarkData data in audicaFile.desc.bookmarks) {
-					miniTimeline.SetBookmark (data.xPosMini, data.xPosTop, data.type, data.text, data.color, (BookmarkUIColor) data.uiColor, true, true);
+					if(data.r == 0 && data.g == 0 && data.b == 0)
+                    {
+						miniTimeline.SetBookmark(data.xPosMini, data.xPosTop, data.type, data.text, data.color, (BookmarkUIColor)data.uiColor, true, true);
+						/*data.r = data.color.r;
+						data.g = data.color.g;
+						data.b = data.color.b;*/
+                    }
+                    else
+                    {
+						miniTimeline.SetBookmark(data.xPosMini, data.xPosTop, data.type, data.text, new Color(data.r, data.g, data.b), (BookmarkUIColor)data.uiColor, true, true);
+					}
 				}
 			}
 
@@ -2119,6 +2162,7 @@ namespace NotReaper {
 				SetBeatTime (time);
 
 				StopCoroutine (AnimateSetTime (new QNT_Timestamp (0)));
+			    if(!paused && ModifierPreviewer.Instance.isPlaying) ModifierPreviewer.Instance.UpdateModifierList(ModifierHandler.Instance.modifiers, time.tick);
 			}
 
 			if (Input.GetKeyDown (KeyCode.LeftControl) && Input.GetKeyDown (KeyCode.C)) {
@@ -2368,7 +2412,6 @@ namespace NotReaper {
 
 		public void JumpToPercent (float percent) {
 			if (!audioLoaded) return;
-
 			time = ShiftTick (new QNT_Timestamp (0), songPlayback.song.length * percent);
 
 			SafeSetTime ();
@@ -2404,7 +2447,7 @@ namespace NotReaper {
 				//gameObject.GetComponent<AudioSource>().Play();
 				//aud.Play();
 				//previewAud.Pause();
-
+				if(Input.GetKey(KeyCode.X)) ModifierPreviewer.Instance.UpdateModifierList(ModifierHandler.Instance.modifiers, time.tick);
 				if (isCtrlDown) {
 					songPlayback.StartMetronome ();
 				}
@@ -2413,6 +2456,7 @@ namespace NotReaper {
 				paused = false;
 			} else {
 				//aud.Pause();
+				ModifierPreviewer.Instance.Stop();
 				songPlayback.Stop ();
 				paused = true;
 				animationsNeedStopping = true;

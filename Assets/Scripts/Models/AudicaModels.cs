@@ -86,7 +86,7 @@ namespace NotReaper.Models {
 		public double previewStartSeconds = 0.0d;
 		[JsonIgnore]
 		public List<TempoChange> tempoList;
-		[JsonProperty( NullValueHandling = NullValueHandling.Ignore)]
+		[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
 		public List<BookmarkData> bookmarks = new List<BookmarkData>();
         
 		public bool bakedzOffset = false;
