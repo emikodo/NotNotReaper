@@ -36,7 +36,6 @@ namespace NotReaper.IO {
 					ms.Dispose();
 					continue;
 				}
-
 				//Extract the cues files.
 				else if (entry.FileName == "expert.cues")
 				{
@@ -78,8 +77,32 @@ namespace NotReaper.IO {
 				audicaZip[audicaFile.desc.moggSong].Extract($"{appPath}/.cache");
 			}
 			else Debug.Log("Moggsong not found");
-
-
+			string l = "song_sustain_l.moggsong";
+			if (audicaZip.ContainsEntry(l))
+            {
+				
+				MemoryStream ms = new MemoryStream();
+				audicaZip[l].Extract(ms);
+				UISustainHandler.Instance.sustainSongLeft = new MoggSong(ms, true);
+				audicaZip[l].Extract($"{appPath}/.cache", ExtractExistingFileAction.OverwriteSilently);
+			}
+            else
+            {
+				Debug.Log("Sustain Song Left not found");
+            }
+			string r = "song_sustain_r.moggsong";
+			if (audicaZip.ContainsEntry(r))
+			{
+				MemoryStream ms = new MemoryStream();
+				audicaZip[r].Extract(ms);
+				UISustainHandler.Instance.sustainSongRight = new MoggSong(ms, true);
+				audicaZip[r].Extract($"{appPath}/.cache", ExtractExistingFileAction.OverwriteSilently);				
+			}
+			else
+			{
+				Debug.Log("Sustain Song Right not found");
+			}
+			UISustainHandler.Instance.LoadVolume(audicaZip.ContainsEntry("song_sustain_r.mogg"));
 			//Now we fill the audicaFile var with all the things it needs.
 			//Remember, all props in audicaFile.desc refer to either moggsong or the name of the mogg.
 			//Real clips are stored in main audicaFile object.
@@ -115,15 +138,17 @@ namespace NotReaper.IO {
 				}
 				else if (entry.FileName == audicaFile.desc.sustainSongLeft)
 				{
-					entry.Extract(temp);
-					audicaFile.desc.moggSustainSongLeft = MoggSongParser.parse_metadata(Encoding.UTF8.GetString(temp.ToArray()))[0];
+					//entry.Extract(temp);
+					//audicaFile.desc.moggSustainSongLeft = MoggSongParser.parse_metadata(Encoding.UTF8.GetString(temp.ToArray()))[0];
 
+					//UISustainHandler.Instance.moggSustainLeft = new MoggSong(temp);
 				}
 				else if (entry.FileName == audicaFile.desc.sustainSongRight)
 				{
-					entry.Extract(temp);
-					audicaFile.desc.moggSustainSongRight = MoggSongParser.parse_metadata(Encoding.UTF8.GetString(temp.ToArray()))[0];
+					//entry.Extract(temp);
+					//audicaFile.desc.moggSustainSongRight = MoggSongParser.parse_metadata(Encoding.UTF8.GetString(temp.ToArray()))[0];
 
+					//UISustainHandler.Instance.moggSustainRight = new MoggSong(temp);
 				}
 				else if (entry.FileName == audicaFile.desc.fxSong)
 				{

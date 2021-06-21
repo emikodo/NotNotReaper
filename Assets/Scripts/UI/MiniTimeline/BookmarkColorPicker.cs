@@ -90,6 +90,27 @@ public class BookmarkColorPicker : MonoBehaviour
     {
         return selectedUIColor;
     }
+
+    public Color GetUIColor(BookmarkUIColor uiColor)
+    {
+        switch (uiColor)
+        {
+            case BookmarkUIColor.Blue:
+                return blue.color;
+            case BookmarkUIColor.Green:
+                return green.color;
+            case BookmarkUIColor.Icy:
+                return icy.color;
+            case BookmarkUIColor.Purple:
+                return purple.color;
+            case BookmarkUIColor.Red:
+                return red.color;
+            case BookmarkUIColor.Yellow:
+                return yellow.color;
+            default:
+                return Color.red;
+        }
+    }
 }
 
 public enum BookmarkUIColor

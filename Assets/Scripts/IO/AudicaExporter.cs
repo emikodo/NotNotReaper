@@ -61,8 +61,9 @@ namespace NotReaper.IO {
                     File.WriteAllText($"{Application.dataPath}/.cache/modifiers-new.json", ModifiersToJson2(audicaFile.modifiers));
                     modifiers = true;
                 }
-				File.WriteAllText($"{Application.dataPath}/.cache/{audicaFile.desc.moggSong}", audicaFile.mainMoggSong.ExportToText());
-
+				File.WriteAllText($"{Application.dataPath}/.cache/{audicaFile.desc.moggSong}", audicaFile.mainMoggSong.ExportToText(false));
+				File.WriteAllText($"{Application.dataPath}/.cache/song_sustain_l.moggsong", UISustainHandler.Instance.sustainSongLeft.ExportToText(true));
+				File.WriteAllText($"{Application.dataPath}/.cache/song_sustain_r.moggsong", UISustainHandler.Instance.sustainSongRight.ExportToText(true));								
 				File.WriteAllText($"{Application.dataPath}/.cache/song-new.desc", Newtonsoft.Json.JsonConvert.SerializeObject(audicaFile.desc, Formatting.Indented));
 
 				var workFolder = Path.Combine(Application.streamingAssetsPath, "Ogg2Audica");
@@ -101,6 +102,16 @@ namespace NotReaper.IO {
 					} else if(entry.ToString() == "modifiers.json")
                     {
                         archive.RemoveEntry(entry);
+                    } else if(entry.ToString() == "song_sustain_r.moggsong")
+                    {
+						archive.RemoveEntry(entry);
+                    } else if(entry.ToString() == "song_sustain_l.moggsong")
+                    {
+						archive.RemoveEntry(entry);
+                    } else if(UISustainHandler.PendingDelete && (entry.ToString() == "song_sustain_r.mogg" || entry.ToString() == "song_sustain_l.mogg"))
+                    {
+						Debug.Log("Sustain .moggs successfully deleted");
+						archive.RemoveEntry(entry);
                     }
 					
 
@@ -127,7 +138,9 @@ namespace NotReaper.IO {
                     if (!Directory.Exists($"{Application.dataPath}/autosaves/{shortName}/")) Directory.CreateDirectory($"{Application.dataPath}/autosaves/{shortName}/");
                 }
                 archive.AddEntry($"{audicaFile.desc.moggSong}", $"{Application.dataPath}/.cache/{audicaFile.desc.moggSong}");
-                archive.AddEntry("song.desc", $"{Application.dataPath}/.cache/song-new.desc");
+				archive.AddEntry($"song_sustain_l.moggsong", $"{Application.dataPath}/.cache/song_sustain_l.moggsong");
+				archive.AddEntry($"song_sustain_r.moggsong", $"{Application.dataPath}/.cache/song_sustain_r.moggsong");
+				archive.AddEntry("song.desc", $"{Application.dataPath}/.cache/song-new.desc");
 				archive.AddEntry("song.mid", $"{Application.dataPath}/.cache/song.mid");
 				if (File.Exists($"{Application.dataPath}/.cache/song.png"))
 					{

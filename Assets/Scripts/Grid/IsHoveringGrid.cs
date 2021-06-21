@@ -13,7 +13,6 @@ namespace NotReaper.Grid {
 
         public HoverTarget hover;
 
-
         public void OnPointerEnter(PointerEventData eventData)
         {
             EditorInput.isOverGrid = true;
@@ -25,6 +24,8 @@ namespace NotReaper.Grid {
             EditorInput.isOverGrid = false;
             hover.TryDisable();
         }
+
+       
     }
 
 }

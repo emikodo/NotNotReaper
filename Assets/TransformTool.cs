@@ -28,14 +28,29 @@ public class TransformTool : MonoBehaviour
     {
         if (timeline.selectedNotes.Count < 2 || chainBuilderWindow.gameObject.activeSelf)
         {
-            canvasGroup.alpha = 0f;
+            ShowOverlay(false);
             return;
         }
         else if(timeline.selectedNotes.Count != lastSelectedTargetCount)
         {
-            canvasGroup.alpha = 1f;
+            ShowOverlay(true);
+
             lastSelectedTargetCount = timeline.selectedNotes.Count;
             UpdateOverlay();
+        }
+    }
+
+    private void ShowOverlay(bool show)
+    {
+        if (show)
+        {
+            canvasGroup.alpha = 1f;
+            canvasGroup.blocksRaycasts = true;
+        }
+        else
+        {
+            canvasGroup.alpha = 0f;
+            canvasGroup.blocksRaycasts = false;
         }
     }
 

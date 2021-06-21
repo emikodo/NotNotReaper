@@ -562,6 +562,7 @@ namespace NotReaper {
 
 			var gridTargetIcon = Instantiate (gridTargetIconPrefab, gridTransformParent);
 			gridTargetIcon.transform.localPosition = new Vector3 (targetData.x, targetData.y, targetData.time.ToBeatTime ());
+            
 			gridTargetIcon.transform.localScale = new Vector3 (NRSettings.config.noteScale, NRSettings.config.noteScale, 1f);
 			gridTargetIcon.location = TargetIconLocation.Grid;
 
@@ -764,12 +765,12 @@ namespace NotReaper {
 		}
 
 		private void UpdateSustains () {
-			return;
+			//return; return again if performance is too shit
 			foreach (var note in loadedNotes) {
 				if (note.data.behavior == TargetBehavior.Hold) {
 					if ((note.GetRelativeBeatTime () < 0) && (note.GetRelativeBeatTime () + note.data.beatLength.ToBeatTime () > 0) && !paused) {
 
-						var particles = note.GetHoldParticles ();
+                        /*var particles = note.GetHoldParticles ();
 						if (!particles.isEmitting) {
 							particles.Play ();
 
@@ -784,9 +785,23 @@ namespace NotReaper {
 
 							var main = particles.main;
 							main.startColor = note.data.handType == TargetHandType.Left ? new Color (leftColor.r, leftColor.g, leftColor.b, 1) : new Color (rightColor.r, rightColor.g, rightColor.b, 1);
+						}*/
+                        if (!note.isPlayingSustains)
+                        {
+							float panPos = (float)(note.data.x / 7.15);
+							if (audicaFile.usesLeftSustain && note.data.handType == TargetHandType.Left)
+							{
+								songPlayback.leftSustainVolume = sustainVolume;
+								songPlayback.leftSustain.pan = panPos;
+							}
+							else if (audicaFile.usesRightSustain && note.data.handType == TargetHandType.Right)
+							{
+								songPlayback.rightSustainVolume = sustainVolume;
+								songPlayback.rightSustain.pan = panPos;
+							}
+							note.isPlayingSustains = true;
 						}
-
-						ParticleSystem.Particle[] parts = new ParticleSystem.Particle[particles.particleCount];
+						/*ParticleSystem.Particle[] parts = new ParticleSystem.Particle[particles.particleCount];
 						particles.GetParticles (parts);
 
 						for (int i = 0; i < particles.particleCount; ++i) {
@@ -794,9 +809,10 @@ namespace NotReaper {
 						}
 
 						particles.SetParticles (parts, particles.particleCount);
+						*/
 
 					} else {
-						var particles = note.GetHoldParticles ();
+                        /*var particles = note.GetHoldParticles ();
 						if (particles.isEmitting) {
 							particles.Stop ();
 							if (note.data.handType == TargetHandType.Left) {
@@ -809,6 +825,19 @@ namespace NotReaper {
 							//note.gridTargetIcon.transform.DOKill(true);
 							//note.gridTargetIcon.transform.doscale(1f, 0.1f);
 						}
+						*/
+                        if (note.isPlayingSustains)
+                        {
+							if (note.data.handType == TargetHandType.Left)
+							{
+								songPlayback.leftSustainVolume = 0.0f;
+							}
+							else if (note.data.handType == TargetHandType.Right)
+							{
+								songPlayback.rightSustainVolume = 0.0f;
+							}
+							note.isPlayingSustains = false;
+                        }
 					}
 				}
 			}
@@ -1381,22 +1410,27 @@ namespace NotReaper {
 			loadAudioFileTiming.interactable = false;
 
 			//Load bookmarks
-
 			if (audicaFile.desc.bookmarks != null) {
 				foreach (BookmarkData data in audicaFile.desc.bookmarks) {
 					if(data.r == 0 && data.g == 0 && data.b == 0)
                     {
-						miniTimeline.SetBookmark(data.xPosMini, data.xPosTop, data.type, data.text, data.color, (BookmarkUIColor)data.uiColor, true, true);
-						/*data.r = data.color.r;
-						data.g = data.color.g;
-						data.b = data.color.b;*/
+						Color c = BookmarkColorPicker.Instance.GetUIColor((BookmarkUIColor)data.uiColor);
+						data.r = c.r;
+						data.g = c.g;
+						data.b = c.b;
+						miniTimeline.SetBookmark(data.xPosMini, data.xPosTop, data.type, data.text, c, (BookmarkUIColor)data.uiColor, true, true);
                     }
-                    else
-                    {
-						miniTimeline.SetBookmark(data.xPosMini, data.xPosTop, data.type, data.text, new Color(data.r, data.g, data.b), (BookmarkUIColor)data.uiColor, true, true);
-					}
+
+					miniTimeline.SetBookmark(data.xPosMini, data.xPosTop, data.type, data.text, new Color(data.r, data.g, data.b), (BookmarkUIColor)data.uiColor, true, true);
+					
 				}
 			}
+
+			//Load metadata
+			if(audicaFile.desc != null)
+            {
+				UIMetadata.Instance.UpdateUIValues();
+            }
 
 			if (audicaFile.modifiers != null) {
 				if (audicaFile.modifiers.modifiers.Count > 0) {
@@ -1466,7 +1500,6 @@ namespace NotReaper {
 		}
 
 		IEnumerator LoadLeftSustain (string uri) {
-			Debug.Log ("Loading left sustian.");
 			using (UnityWebRequest www = UnityWebRequestMultimedia.GetAudioClip (uri, AudioType.OGGVORBIS)) {
 				yield return www.SendWebRequest ();
 
@@ -2283,38 +2316,44 @@ namespace NotReaper {
 		{
 			if (NRSettings.config.optimizeInvisibleTargets || ModifierHandler.activated || toggle)
 			{
-                QNT_Timestamp start;
-                QNT_Timestamp end;
-                if (NRSettings.config.optimizeInvisibleTargets)
+				if(Timeline.orderedNotes != null && Timeline.orderedNotes.Count > 0)
                 {
-                    start = Timeline.time - Relative_QNT.FromBeatTime(10f);
-                    end = Timeline.time + Relative_QNT.FromBeatTime(10f);
-                }
-                else
-                {
-                    start = Timeline.orderedNotes.First().data.time;
-                    end = Timeline.orderedNotes.Last().data.time;
-                }
-                
-                
-				var targetsToShow = new NoteEnumerator(start, end);
-                
-				for (int i = 0; i < orderedNotes.Count; i++)
-				{
-					orderedNotes[i].gridTargetIcon.gameObject.SetActive(false);
-					orderedNotes[i].timelineTargetIcon.gameObject.SetActive(false);
-				}
-				if (!ModifierHandler.activated) {
-					toggle = false;
-					foreach (Target target in targetsToShow) {
-						target.gridTargetIcon.gameObject.SetActive (true);
-						target.timelineTargetIcon.gameObject.SetActive (true);
+					QNT_Timestamp start;
+					QNT_Timestamp end;
+					if (NRSettings.config.optimizeInvisibleTargets)
+					{
+						start = Timeline.time - Relative_QNT.FromBeatTime(10f);
+						end = Timeline.time + Relative_QNT.FromBeatTime(10f);
 					}
-				} else {
-					ModifierHandler.Instance.OptimizeModifiers ();
-					toggle = true;
-				}
+					else
+					{
+						start = Timeline.orderedNotes.First().data.time;
+						end = Timeline.orderedNotes.Last().data.time;
+					}
 
+
+					var targetsToShow = new NoteEnumerator(start, end);
+
+					for (int i = 0; i < orderedNotes.Count; i++)
+					{
+						orderedNotes[i].gridTargetIcon.gameObject.SetActive(false);
+						orderedNotes[i].timelineTargetIcon.gameObject.SetActive(false);
+					}
+					if (!ModifierHandler.activated)
+					{
+						toggle = false;
+						foreach (Target target in targetsToShow)
+						{
+							target.gridTargetIcon.gameObject.SetActive(true);
+							target.timelineTargetIcon.gameObject.SetActive(true);
+						}
+					}
+					else
+					{
+						ModifierHandler.Instance.OptimizeModifiers();
+						toggle = true;
+					}
+				}               
 			}
 		}
 
@@ -2773,17 +2812,37 @@ namespace NotReaper {
 			StartCoroutine (LoadExtraAudio ($"file://{oggPath}"));
 		}
 
-		public void ReplaceAudio () {
+		public void ReplaceSongAudio()
+        {
+			ReplaceAudio(LoadType.Song);
+        }
+
+		public bool ReplaceAudio (LoadType type) {
 			var compatible = new [] { new ExtensionFilter ("Compatible Audio Types", "mp3", "ogg") };
 			string[] paths = StandaloneFileBrowser.OpenFilePanel ("Select music track", Path.Combine (Application.persistentDataPath), compatible, false);
+			if (paths is null || paths.Length == 0) return false;
 			var filePath = paths[0];
 
-			if (filePath == null) return;
+			if (filePath == null) return false;
 
 			string appPath = Application.dataPath;
-			string mainSongPath = $"{appPath}/.cache/" + $"{audicaFile.desc.cachedMainSong}.ogg";
-			string moggName = "song.mogg";
-			string moggPath = $"{appPath}/.cache/" + moggName;
+			string _p = "";
+			string moggName = "";
+            switch (type)
+            {
+				case LoadType.Song:
+					_p = audicaFile.desc.cachedMainSong;
+					moggName = "song.mogg";
+					break;
+				case LoadType.Sustain:
+					_p = audicaFile.desc.cachedSustainSongLeft;
+					moggName = "song_sustain_l.mogg";
+					break;
+            }
+			string mainSongPathBase = $"{appPath}/.cache/";
+			string mainSongPath = mainSongPathBase + $"{_p}.ogg";
+			string moggPathBase = $"{appPath}/.cache/";
+			string moggPath = moggPathBase + moggName;
 
 			var ffmpeg = new System.Diagnostics.Process ();
 
@@ -2795,32 +2854,72 @@ namespace NotReaper {
 					ffmpeg.Start ();
 					ffmpeg.WaitForExit ();
 					filePath = $"file://" + Path.Combine (Application.streamingAssetsPath, "FFMPEG", filePath);
-					StartCoroutine (GetAudioClip (filePath));
+					if(type == LoadType.Song) StartCoroutine (GetAudioClip (filePath));
 				} else {
-					StartCoroutine (GetAudioClip (filePath));
+					if (type == LoadType.Song) StartCoroutine (GetAudioClip (filePath));
 				}
 			}
 
 			File.Delete (mainSongPath);
 			File.Copy (filePath, mainSongPath);
+			if(type == LoadType.Sustain)
+            {
+				string sustainR = mainSongPathBase + $"{audicaFile.desc.cachedSustainSongRight}.ogg";
+				File.Delete(sustainR);
+				File.Copy(filePath, sustainR);
+            }
 
 			ConvertOggToMogg (filePath, moggPath);
-
+			if(type == LoadType.Sustain)
+            {
+				string sustainR = moggPathBase + "song_sustain_r.mogg";
+				File.Delete(sustainR);
+				File.Copy(moggPath, sustainR);
+            }
 			using (var archive = ZipArchive.Open (audicaFile.filepath)) {
 				foreach (ZipArchiveEntry entry in archive.Entries) {
-					if (entry.ToString () == moggName) {
-						archive.RemoveEntry (entry);
+					if(type == LoadType.Song)
+                    {
+						if (entry.ToString() == moggName)
+						{
+							archive.RemoveEntry(entry);
+						}
 					}
+                    else
+                    {
+						if (entry.ToString() == "song_sustain_l.mogg") archive.RemoveEntry(entry);
+						if (entry.ToString() == "song_sustain_r.mogg") archive.RemoveEntry(entry);
+                    }
 				}
-				archive.AddEntry (moggName, moggPath);
+				if(type == LoadType.Song) archive.AddEntry (moggName, moggPath);
+                else
+                {
+					string sustainL = "song_sustain_l.mogg";
+					string sustainR = "song_sustain_r.mogg";
+					archive.AddEntry(sustainL, moggPathBase + sustainL);
+					archive.AddEntry(sustainR, moggPathBase + sustainR);
+
+				}
 				archive.SaveTo (audicaFile.filepath + ".temp", SharpCompress.Common.CompressionType.None);
 				archive.Dispose ();
 			}
 			File.Delete (audicaFile.filepath);
 			File.Move (audicaFile.filepath + ".temp", audicaFile.filepath);
-
-			StartCoroutine (LoadNewAudioClip ($"file://{filePath}"));
+			string file = $"file://{filePath}";
+			if (type == LoadType.Song) StartCoroutine(LoadNewAudioClip(file));
+			else
+            {
+				if (audicaFile.desc.sustainSongLeft != "") StartCoroutine(LoadLeftSustain(file));
+				if (audicaFile.desc.sustainSongRight != "") StartCoroutine(LoadRightSustain(file));
+			}
+			return true;
 		}
+
+		public enum LoadType
+        {
+			Song,
+			Sustain
+        }
 
 		public void ShiftEverythingByTime (Relative_QNT shift_amount) {
 			//Shift tempo markers

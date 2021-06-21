@@ -21,7 +21,8 @@ namespace NotReaper.Targets {
 
 		public TargetData data;
 		public bool transient;
-
+		[HideInInspector]
+		public bool isPlayingSustains = false;
 		//Events and stuff:
 		public event Action<Target> DeleteNoteEvent;
 		public void DeleteNote() {
@@ -185,7 +186,9 @@ namespace NotReaper.Targets {
 			var pos = gridTargetIcon.transform.localPosition;
 			pos.x = x;
 			pos.y = y;
+
 			gridTargetIcon.transform.localPosition = pos;
+            
 
 			if (data.behavior == TargetBehavior.Hold) {
 				//var holdEnd = gridTargetIcon.GetComponentInChildren<HoldTargetManager>().endMarker;

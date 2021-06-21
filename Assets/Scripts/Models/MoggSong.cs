@@ -4,7 +4,6 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
-
 namespace NotReaper.Models
 {
     public class MoggSong
@@ -14,27 +13,33 @@ namespace NotReaper.Models
         public MoggVol pan;
         public string[] moggString;
 
-        public MoggSong(MemoryStream ms)
+        public MoggSong(MemoryStream ms, bool isSustain = false)
         {
             StreamReader reader = new StreamReader(ms);
             moggString = Encoding.UTF8.GetString(ms.ToArray()).Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
             foreach (var line in moggString)
             {
-                if (line.Contains("(vol")) this.volume = GetMoggVolFromLine(line);
-                if (line.Contains("(pans")) this.volume = GetMoggVolFromLine(line);
+                if (line.Contains("(vol")) this.volume = GetMoggVolFromLine(line, isSustain);
+                if (line.Contains("(pans")) this.volume = GetMoggVolFromLine(line, isSustain);
             }
         }
-        public MoggVol GetMoggVolFromLine(string line)
+        public MoggVol GetMoggVolFromLine(string line, bool isSustain)
         {
             try
             {
                 var split = line.Split(new char[] { '(', ')' });
                 string[] values;
+                if (isSustain)
+                {
+                    return new MoggVol(float.Parse(split[2], new CultureInfo("en-US")), float.Parse(split[2], new CultureInfo("en-US")));
+                }
                 if (split[2].Contains("    ")) values = split[2].Split(new string[] { "    " }, StringSplitOptions.None);
                 else if (split[2].Contains("   ")) values = split[2].Split(new string[] { "   " }, StringSplitOptions.None);
                 else if (split[2].Contains("  ")) values = split[2].Split(new string[] { "  " }, StringSplitOptions.None);
                 else values = split[2].Split(new string[] { " " }, StringSplitOptions.None);
+
                 return new MoggVol(float.Parse(values[0], new CultureInfo("en-US")), float.Parse(values[1], new CultureInfo("en-US")));
+                
             }
             catch (Exception)
             {
@@ -44,7 +49,7 @@ namespace NotReaper.Models
             }
         }
 
-        public string ExportToText()
+        public string ExportToText(bool isSustain)
         {
             string[] exportString = moggString;
             int volIndex = 0;
@@ -55,16 +60,26 @@ namespace NotReaper.Models
                 if (exportString[i].Contains("(vols")) volIndex = i;
                 if (exportString[i].Contains("(pan")) panIndex = i;
             }
-            exportString[volIndex] = $"(vols ({volume.l.ToString("n2", new CultureInfo("en-US"))}   {volume.r.ToString("n2", new CultureInfo("en-US"))}))";
-            exportString[panIndex] = $"(pans ({pan.l.ToString("n2", new CultureInfo("en-US"))}   {pan.r.ToString("n2", new CultureInfo("en-US"))}))";
+            if (isSustain)
+            {
+                exportString[volIndex] = $"(vols ({volume.l.ToString("n2", new CultureInfo("en-US"))}))";
+                exportString[panIndex] = $"(pans ({pan.l.ToString("n2", new CultureInfo("en-US"))}))";
+            }
+            else
+            {
+                exportString[volIndex] = $"(vols ({volume.l.ToString("n2", new CultureInfo("en-US"))}   {volume.r.ToString("n2", new CultureInfo("en-US"))}))";
+                exportString[panIndex] = $"(pans ({pan.l.ToString("n2", new CultureInfo("en-US"))}   {pan.r.ToString("n2", new CultureInfo("en-US"))}))";
+            }
+            
             return string.Join(Environment.NewLine, exportString);
         }
 
-        public void SetVolume(float value)
+        public void SetVolume(float value, bool isSustain)
         {
             this.volume.l = this.volume.r = value;
-            this.pan.l = -1;
-            this.pan.r = 1;
+            int val = isSustain ? 0 : 1;
+            this.pan.l = val * -1;
+            this.pan.r = val;
         }
     }
 

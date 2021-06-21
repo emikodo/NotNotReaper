@@ -24,7 +24,7 @@ namespace NotReaper.Modifier
         public GameObject hueSlider;
         public GameObject saturationSlider;
         public SpriteRenderer colorField;
-
+        public LabelSetter labelSetter;
         public event Action<float> OnValueChanged = delegate { };
 
 
@@ -33,13 +33,19 @@ namespace NotReaper.Modifier
         {
             var slider = hueSlider.GetComponent<Slider>();
             slider.onValueChanged.AddListener(delegate { SliderValueChangeCheck(); });
-            slider = saturationSlider.GetComponent<Slider>();
-            slider.onValueChanged.AddListener(delegate { SliderValueChangeCheck(); });
-
             inputFieldHue.GetComponent<TMP_InputField>().text = slider.value.ToString("F2");
             inputFieldHue.GetComponent<TMP_InputField>().onEndEdit.AddListener(delegate { TextValueChangeCheck(); });
+
+            slider = saturationSlider.GetComponent<Slider>();
+            slider.onValueChanged.AddListener(delegate { SliderValueChangeCheck(); });
             inputFieldSaturation.GetComponent<TMP_InputField>().text = slider.value.ToString("F2");
             inputFieldSaturation.GetComponent<TMP_InputField>().onEndEdit.AddListener(delegate { TextValueChangeCheck(); });
+        }
+
+        public void UpdateValues()
+        {
+            inputFieldHue.GetComponent<TMP_InputField>().text = hueSlider.GetComponent<Slider>().value.ToString("F2");
+            inputFieldSaturation.GetComponent<TMP_InputField>().text = saturationSlider.GetComponent<Slider>().value.ToString("F2");
         }
 
         public void SliderValueChangeCheck()
@@ -51,6 +57,23 @@ namespace NotReaper.Modifier
 
             inputFieldHue.GetComponent<TMP_InputField>().text = valueHue.ToString("F2");
             inputFieldSaturation.GetComponent<TMP_InputField>().text = valueSaturation.ToString("F2");
+            if(labelSetter != null)
+            {
+                if (!labelSetter.IsColorPicker())
+                {
+                    //float[] col = labelSetter.GetSkyboxColor();
+                    labelSetter.UpdateSkyboxColor();
+                    /*if (isLeftHandColorPicker)
+                    {
+                        colorField.color = new Color(col[0], col[1], col[2]);
+                    }
+                    else
+                    {
+                        labelSetter.color
+                    }*/
+                    return;
+                }
+            }
             colorField.color = Color.HSVToRGB(valueHue, valueSaturation, 1f);
             // OnValueChanged(value);
         }
@@ -67,7 +90,17 @@ namespace NotReaper.Modifier
 
             hueSlider.GetComponent<Slider>().value = newValueHue;
             saturationSlider.GetComponent<Slider>().value = newValueSaturation;
-
+            if (labelSetter != null)
+            {
+                if (!labelSetter.IsColorPicker())
+                {
+                    labelSetter.UpdateSkyboxColor();
+                    return;
+                    /*float[] col = labelSetter.GetSkyboxColor();
+                    colorField.color = new Color(col[0], col[1], col[2]);
+                    return;*/
+                }
+            }
             colorField.color = Color.HSVToRGB(newValueHue, newValueSaturation, 1f);
             //OnValueChanged(newValue);
         }
