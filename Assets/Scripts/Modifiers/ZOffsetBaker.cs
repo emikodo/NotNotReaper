@@ -121,7 +121,7 @@ namespace NotReaper.Modifier
         private void Update()
         {
             if (!ModifierHandler.activated) return;
-            if (Input.GetKeyDown(KeyCode.B))
+            if (Input.GetKeyDown(KeyCode.B) && !ModifierHandler.inputFocused)
             {
                 ToggleWindow();
             }

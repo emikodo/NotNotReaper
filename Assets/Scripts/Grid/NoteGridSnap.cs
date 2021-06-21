@@ -12,6 +12,8 @@ namespace NotReaper.Grid {
 
     public class NoteGridSnap {
 
+           
+
         private static Vector2 GetNearestPointOnGrid(Vector2 pos, SnappingMode mode) {
 
             //pos -= gridOffset; //Enable if grid is actually offset.
@@ -23,7 +25,6 @@ namespace NotReaper.Grid {
             result.x += NotePosCalc.xSize / 2; //0.65f; //from 1.3 / 2
 
             //result += gridOffset; //Enable if grid is actually offset.
-
             return result;
         }
 
@@ -42,14 +43,15 @@ namespace NotReaper.Grid {
 
 	                if (pos.y < 0) y = NotePosCalc.ySize * -1;
 	                else y = NotePosCalc.ySize * 1;
-	                
-	                return new Vector3(x, y, pos.z + 5);
 
+                    return new Vector3(x, y, pos.z + 5);
             }
-            return new Vector3(pos.x, pos.y, pos.z + 5);
+            //return new Vector3(pos.x, pos.y, pos.z + 5);
+            //return new Vector3(pos.x, pos.y, 0f);
+            return new Vector2(pos.x, pos.y);
         }
 
-
+        
     }
 
 

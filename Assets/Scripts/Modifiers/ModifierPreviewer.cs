@@ -13,6 +13,7 @@ namespace NotReaper.Modifier
         public static ModifierPreviewer Instance = null;
         public SpriteRenderer lightRend;
         public SpriteRenderer psyRend;
+        public SpriteRenderer skyboxRend;
         public RawImage backgroundImage;
         private Color lightColor;
         private List<Modifier> modifiers = new List<Modifier>();
@@ -21,6 +22,8 @@ namespace NotReaper.Modifier
         private float currentBrightness = 0f;
         private float currentPsySpeed = 0f;
         public TextMeshProUGUI textPopup;
+        private Dictionary<int, TextMeshProUGUI> textDict = new Dictionary<int, TextMeshProUGUI>();
+        private int textIndex = 0;
         private void Start()
         {
             if (Instance is null) Instance = this;
@@ -54,6 +57,8 @@ namespace NotReaper.Modifier
             StopPsy();
             ResetRotation();
             ResetPopup();
+            skyboxRend.color = new Color(0f, 0f, 0f, 0f);
+            skyboxRend.gameObject.SetActive(false);
         }
 
         private void StopPsy()
@@ -89,6 +94,21 @@ namespace NotReaper.Modifier
             StopPsy();
         }
 
+        private IEnumerator HandleSkyboxColor(Modifier modifier)
+        {
+            skyboxRend.gameObject.SetActive(true);
+            Color startColor = skyboxRend.color;
+            Color endColor = modifier.option2 ? new Color(0f, 0f, 0f, 0f) : new Color(modifier.leftHandColor[0], modifier.leftHandColor[1], modifier.leftHandColor[2], .35f);
+            float percentage;
+            while (modifier.endTime > Timeline.time && modifier.startTime <= Timeline.time)
+            {
+                percentage = ((Timeline.time.tick - modifier.startTime.tick) * 100f) / (modifier.endTime.tick - modifier.startTime.tick);
+                Color c = Color.Lerp(startColor, endColor, percentage / 100f);
+                skyboxRend.color = c;
+                yield return new WaitForSecondsRealtime(Time.unscaledDeltaTime);
+            }            
+        }
+
         private void Update()
         {
             if (!isPlaying) return;
@@ -112,6 +132,9 @@ namespace NotReaper.Modifier
                     case ModifierHandler.ModifierType.TextPopup:
                         StartCoroutine(HandlePopup(m));
                         break;
+                    case ModifierHandler.ModifierType.SkyboxColor:
+                        StartCoroutine(HandleSkyboxColor(m));
+                        break;
                     default:
                         break;
                 }                
@@ -121,26 +144,48 @@ namespace NotReaper.Modifier
 
         private IEnumerator HandlePopup(Modifier modifier)
         {
+            int index = CreatePopup(modifier);
+            while (modifier.endTime > Timeline.time && modifier.startTime <= Timeline.time)
+            {
+                yield return new WaitForSecondsRealtime(Time.unscaledDeltaTime);
+            }
+            RemovePopup(index);
+        }
+
+        private int CreatePopup(Modifier modifier)
+        {
             float x, y;
             float.TryParse(modifier.xoffset, out x);
             float.TryParse(modifier.yoffset, out y);
             x /= 10f;
             y /= 10f;
-            textPopup.transform.position = new Vector2(x, y);
-            textPopup.text = modifier.value1;
-            textPopup.fontSize = float.Parse(modifier.value2);
-            while (modifier.endTime > Timeline.time && modifier.startTime <= Timeline.time)
+            TextMeshProUGUI txt = Instantiate(textPopup, textPopup.transform.parent);
+            txt.transform.position = new Vector2(x, y);
+            txt.text = modifier.value1;
+            float fontSize = 0f;
+            if (!float.TryParse(modifier.value2, out fontSize)) fontSize = 24f;
+            txt.fontSize = fontSize;
+            textIndex++;
+            textDict.Add(textIndex, txt);
+            return textIndex;
+        }
+
+        private void RemovePopup(int index)
+        {
+            if (textDict.ContainsKey(index))
             {
-                yield return new WaitForSecondsRealtime(Time.unscaledDeltaTime);
-            }
-            ResetPopup();
+                GameObject.Destroy(textDict[index].gameObject);
+                textDict.Remove(index);
+            }          
         }
 
         private void ResetPopup()
         {
-            textPopup.transform.position = Vector2.zero;
-            textPopup.text = "";
-            textPopup.fontSize = 12;
+            foreach(KeyValuePair<int, TextMeshProUGUI> entry in textDict)
+            {
+                GameObject.Destroy(entry.Value.gameObject);
+            }
+            textDict.Clear();
         }
 
         private void HandleRotation(Modifier modifier)

@@ -70,10 +70,26 @@ namespace NotReaper.Modifier
             option1.SetActive(false);
             option2.SetActive(false);
             independantBool.SetActive(false);
+            colorPicker.GetComponent<LabelSetter>().InitializeColorFields();
             colorPicker.SetActive(false);
             DeactivateSidePanel();
             slider = amountSlider.GetComponent<LabelSetter>();
-            
+            dropdown.options.RemoveAt(19);
+            dropdown.options.RemoveAt(19);
+            dropdown.options.RemoveAt(19);
+        }
+
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.V))
+            {
+                Vector2 ray = new Vector2(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, Camera.main.ScreenToWorldPoint(Input.mousePosition).y);
+                RaycastHit2D[] hits = Physics2D.RaycastAll(ray, ray);
+                for(int i = 0; i < hits.Length; i++)
+                {
+                    Debug.Log(hits[i].transform.name);
+                }
+            }
         }
 
         private void UpdateModifierCount()
@@ -175,6 +191,11 @@ namespace NotReaper.Modifier
                     OnDropdownValueChanged();
                     init = true;
                 }
+                ModifierType mType = (ModifierType)dropdown.value;
+                if(mType == ModifierType.ColorChange || mType == ModifierType.ColorUpdate || mType == ModifierType.SkyboxColor)
+                {
+                    colorPicker.SetActive(true);
+                }
             }
             else
             {
@@ -193,6 +214,7 @@ namespace NotReaper.Modifier
                 {
                     activatePosition = modifierWindow.transform.localPosition;
                 }
+                colorPicker.SetActive(false);
                 modifierWindow.SetActive(false);
             }
         }
@@ -339,8 +361,16 @@ namespace NotReaper.Modifier
             startTickButton.GetComponent<LabelSetter>().SetLabelText(currentModifier.startTime.tick.ToString());
             endTickButton.GetComponent<LabelSetter>().SetLabelText(currentModifier.endTime.tick.ToString());
             createModifierButton.GetComponent<LabelSetter>().SetLabelText("Update Modifier");
-            colorPicker.GetComponent<LabelSetter>().SetColorSliderLeft(currentModifier.leftHandColor);
-            colorPicker.GetComponent<LabelSetter>().SetColorSliderRight(currentModifier.rightHandColor);
+            if(modifier.modifierType != ModifierType.SkyboxColor)
+            {
+                colorPicker.GetComponent<LabelSetter>().SetColorSliderLeft(currentModifier.leftHandColor);
+                colorPicker.GetComponent<LabelSetter>().SetColorSliderRight(currentModifier.rightHandColor);
+            }
+            else
+            {
+                colorPicker.GetComponent<LabelSetter>().SetSkyboxColor(currentModifier.leftHandColor);
+            }
+
             amountSlider.GetComponent<LabelSetter>().SetSliderValue(currentModifier.amount);
             fillingData = false;
         }
@@ -490,13 +520,27 @@ namespace NotReaper.Modifier
         public void OnLeftColorChanged()
         {
             InitializeModifier();
-            currentModifier.leftHandColor = colorPicker.GetComponent<LabelSetter>().GetLeftColor();
+            if(currentModifier.modifierType == ModifierType.ColorChange)
+            {
+                currentModifier.leftHandColor = colorPicker.GetComponent<LabelSetter>().GetLeftColor();
+            }
+            else
+            {
+                currentModifier.leftHandColor = colorPicker.GetComponent<LabelSetter>().GetSkyboxColor();
+            }
         }
 
         public void OnRightColorChanged()
         {
             InitializeModifier();
-            currentModifier.rightHandColor = colorPicker.GetComponent<LabelSetter>().GetRightColor();
+            if(currentModifier.modifierType == ModifierType.ColorChange)
+            {
+                currentModifier.rightHandColor = colorPicker.GetComponent<LabelSetter>().GetRightColor();
+            }
+            else
+            {
+                currentModifier.leftHandColor = colorPicker.GetComponent<LabelSetter>().GetSkyboxColor();
+            }
         }
 
         public void DeleteModifier()
@@ -564,6 +608,7 @@ namespace NotReaper.Modifier
         {
             if (!skipRefresh) ResetCurrentData();
             endTickButton.GetComponentsInChildren<TextMeshProUGUI>()[0].text = "Set End Tick";
+            option1.GetComponent<LabelSetter>().EnableToggleGroup(true);
             ModifierType type = (ModifierType)dropdown.value;
             switch (type)
             {
@@ -614,6 +659,7 @@ namespace NotReaper.Modifier
                     value1.SetActive(false);
                     value2.SetActive(false);
                     colorPicker.SetActive(true);
+                    colorPicker.GetComponent<LabelSetter>().SetIsColorPicker(true);
                     DeactivateSidePanel();
                     break;
                 case ModifierType.ColorUpdate:
@@ -624,6 +670,19 @@ namespace NotReaper.Modifier
                     value1.SetActive(false);
                     value2.SetActive(false);
                     colorPicker.SetActive(true);
+                    colorPicker.GetComponent<LabelSetter>().SetIsColorPicker(true);
+                    DeactivateSidePanel();
+                    break;
+                case ModifierType.SkyboxColor:
+                    amountSlider.SetActive(false);
+                    endTickButton.SetActive(true);
+                    value1.SetActive(false);
+                    value2.SetActive(false);
+                    option1.SetActive(false);
+                    option2.SetActive(true);
+                    colorPicker.SetActive(true);
+                    colorPicker.GetComponent<LabelSetter>().SetIsColorPicker(false);
+                    option2.GetComponent<LabelSetter>().SetLabelText("Reset");
                     DeactivateSidePanel();
                     break;
                 case ModifierType.PsychedeliaUpdate:
@@ -714,6 +773,21 @@ namespace NotReaper.Modifier
                     option2.SetActive(false);
                     colorPicker.SetActive(false);
                     DeactivateSidePanel();
+                    break;
+                case ModifierType.ArenaPosition:
+                case ModifierType.ArenaSpin:
+                case ModifierType.ArenaScale:
+                    endTickButton.SetActive(true);
+                    amountSlider.SetActive(false);
+                    value3.GetComponent<LabelSetter>().SetLabelText("X");
+                    value4.GetComponent<LabelSetter>().SetLabelText("Y");
+                    value5.GetComponent<LabelSetter>().SetLabelText("Z");
+                    option1.GetComponent<LabelSetter>().SetLabelText("Reset");
+                    option2.GetComponent<LabelSetter>().SetLabelText("Preload");
+                    option1.SetActive(true);
+                    option2.SetActive(true);
+                    colorPicker.SetActive(false);
+                    ActivateSidePanel();
                     break;
             }
             SetHintText(type);
@@ -847,10 +921,10 @@ namespace NotReaper.Modifier
                     sh = "AA";
                     break;
                 case ModifierType.ArenaBrightness:
-                    sh = "AB";
+                    sh = "SB";
                     break;
                 case ModifierType.ArenaRotation:
-                    sh = "AR";
+                    sh = "SR";
                     break;
                 case ModifierType.ColorChange:
                     sh = "CC";
@@ -862,7 +936,7 @@ namespace NotReaper.Modifier
                     sh = "CU";
                     break;
                 case ModifierType.Fader:
-                    sh = "FA";
+                    sh = "SF";
                     break;
                 case ModifierType.HiddenTelegraphs:
                     sh = "HT";
@@ -896,6 +970,18 @@ namespace NotReaper.Modifier
                     break;
                 case ModifierType.AutoLighting:
                     sh = "AL";
+                    break;
+                case ModifierType.ArenaPosition:
+                    sh = "AP";
+                    break;
+                case ModifierType.ArenaSpin:
+                    sh = "AR";
+                    break;
+                case ModifierType.ArenaScale:
+                    sh = "AS";
+                    break;
+                case ModifierType.SkyboxColor:
+                    sh = "SC";
                     break;
                 default:
                     break;
@@ -939,6 +1025,7 @@ namespace NotReaper.Modifier
                     break;
                 case ModifierType.ColorChange:
                 case ModifierType.ColorUpdate:
+                case ModifierType.SkyboxColor:
                     colorPicker.GetComponent<LabelSetter>().SetMinMaxColorSliders(0f, 1f);
                     break;
                 case ModifierType.AutoLighting:
@@ -976,10 +1063,37 @@ namespace NotReaper.Modifier
             option1.GetComponent<LabelSetter>().SetToggleState(false);
             option2.GetComponent<LabelSetter>().SetToggleState(false);
             independantBool.GetComponent<LabelSetter>().SetToggleState(false);
+            colorPicker.GetComponent<LabelSetter>().SetColorSliderLeft(new float[] { 0f, 0f, 0f });
+            colorPicker.GetComponent<LabelSetter>().SetColorSliderRight(new float[] { 0f, 0f, 0f });
+            colorPicker.GetComponent<LabelSetter>().InitializeColorFields();
         }
 
-        public enum ModifierType { AimAssist = 0, ColorChange = 1, ColorUpdate = 2, ColorSwap = 3, HiddenTelegraphs = 4, InvisibleGuns = 5, Particles = 6, Psychedelia = 7, PsychedeliaUpdate = 8, Speed = 9, zOffset = 10, ArenaRotation = 11, ArenaBrightness = 12, ArenaChange = 13, Fader = 14, OverlaySetter = 15, TextPopup = 16, AutoLighting = 17 }
-
+        //public enum ModifierType { AimAssist = 0, ColorChange = 1, ColorUpdate = 2, ColorSwap = 3, HiddenTelegraphs = 4, InvisibleGuns = 5, Particles = 6, Psychedelia = 7, PsychedeliaUpdate = 8, Speed = 9, zOffset = 10, ArenaRotation = 11, ArenaBrightness = 12, ArenaChange = 13, Fader = 14, OverlaySetter = 15, TextPopup = 16, AutoLighting = 17, ArenaPosition = 18, ArenaSpin = 19, ArenaScale = 20, SkyboxColor = 21 }
+        public enum ModifierType
+        {
+            AimAssist = 0,
+            ArenaChange = 1,
+            ColorChange = 2,
+            ColorSwap = 3,
+            ColorUpdate = 4,
+            HiddenTelegraphs = 5,
+            InvisibleGuns = 6,
+            OverlaySetter = 7,
+            Particles = 8,
+            Psychedelia = 9,
+            PsychedeliaUpdate = 10,
+            AutoLighting = 11,
+            SkyboxColor = 12,
+            ArenaBrightness = 13,
+            Fader = 14,
+            ArenaRotation = 15,
+            Speed = 16,
+            TextPopup = 17,
+            zOffset = 18,
+            ArenaPosition = 19,
+            ArenaSpin = 20,
+            ArenaScale = 21
+        }
     }
 }
 

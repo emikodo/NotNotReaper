@@ -21,6 +21,19 @@ namespace NotReaper.Modifier
         [SerializeField] private SpriteRenderer colorFieldLeft;
         [SerializeField] private SpriteRenderer colorFieldRight;
 
+        [SerializeField] private TextMeshProUGUI colorHueLeftLabel;
+        [SerializeField] private TextMeshProUGUI colorSaturationLeftLabel;
+        [SerializeField] private TextMeshProUGUI colorHueRightLabel;
+
+        [SerializeField] private TextMeshProUGUI leftColorLabel;
+        [SerializeField] private TextMeshProUGUI rightColorLabel;
+        [SerializeField] private bool isColorPicker = false;
+
+        [SerializeField] private ToggleGroup toggleGroup;
+
+        [SerializeField] private ColorPicker colorPickerLeft;
+        [SerializeField] private ColorPicker colorPickerRight;
+
         public void Start()
         {
             if(inputField != null)
@@ -28,6 +41,7 @@ namespace NotReaper.Modifier
                 inputField.onSelect.AddListener(ModifierHandler.Instance.OnInputFocusChange);
                 inputField.onDeselect.AddListener(ModifierHandler.Instance.OnInputFocusChange);
             }
+            /*
             if(colorFieldLeft != null)
             {
                 colorSliderHueLeft.value = 0f;
@@ -38,6 +52,37 @@ namespace NotReaper.Modifier
                 colorSliderHueRight.value = 0f;
                 colorSliderSaturationRight.value = 0f;
             }
+            */
+        }
+
+        private void UpdateColors()
+        {
+            colorPickerLeft.UpdateValues();
+            colorPickerRight.UpdateValues();
+        }
+
+        public void InitializeColorFields()
+        {
+            colorFieldLeft.color = Color.white;
+            colorFieldRight.color = Color.white;
+        }
+
+        public void SetSkyboxColor(float[] col)
+        {
+            if(col.Length < 3)
+            {
+                col = new float[] { 0f, 0f, 0f };
+            }
+            colorSliderHueLeft.value = col[0];
+            colorSliderSaturationLeft.value = col[1];
+            colorSliderHueRight.value = col[2];
+            UpdateSkyboxColor();
+        }
+
+        public void UpdateSkyboxColor()
+        {
+            float[] col = GetSkyboxColor();
+            colorFieldLeft.color = new Color(col[0], col[1], col[2]);
         }
 
         public void SetLabelText(string text)
@@ -133,6 +178,57 @@ namespace NotReaper.Modifier
         {
             Color c = Color.HSVToRGB(colorSliderHueRight.value, colorSliderSaturationRight.value, 1f);
             return new float[] { c.r, c.g, c.b };
+        }
+
+        public float[] GetSkyboxColor()
+        {
+            Color c = new Color(colorSliderHueLeft.value, colorSliderSaturationLeft.value, colorSliderHueRight.value);
+            return new float[] { c.r, c.g, c.b };
+        }
+
+        private void SetRightHueLabel(string label)
+        {
+            colorHueRightLabel.text = label;
+        }
+        private void SetLeftHueLabel(string label)
+        {
+            colorHueLeftLabel.text = label;
+        }
+        private void SetLeftSaturationlabel(string label)
+        {
+            colorSaturationLeftLabel.text = label;
+        }
+
+        public void SetIsColorPicker(bool _isColorPicker)
+        {
+            isColorPicker = _isColorPicker;
+            leftColorLabel.enabled = _isColorPicker;
+            rightColorLabel.enabled = _isColorPicker;
+            colorSliderSaturationRight.transform.parent.gameObject.SetActive(_isColorPicker);
+            colorFieldRight.enabled = _isColorPicker;
+            if (_isColorPicker)
+            {
+                SetLeftHueLabel("Hue");
+                SetRightHueLabel("Hue");
+                SetLeftSaturationlabel("Saturation");
+            }
+            else
+            {
+                SetLeftHueLabel("Red");
+                SetLeftSaturationlabel("Green");
+                SetRightHueLabel("Blue");
+            }
+            UpdateColors();
+        }
+
+        public void EnableToggleGroup(bool enable)
+        {
+            toggleGroup.enabled = enable;
+        }
+
+        public bool IsColorPicker()
+        {
+            return isColorPicker;
         }
     }
 }

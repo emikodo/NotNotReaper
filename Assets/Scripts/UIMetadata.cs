@@ -15,7 +15,7 @@ namespace NotReaper.UI {
 
     public class UIMetadata : MonoBehaviour {
 
-
+        public static UIMetadata Instance = null;
         public DifficultyManager difficultyManager;
 
         public Image BG;
@@ -52,6 +52,12 @@ namespace NotReaper.UI {
 
 
         public void Start() {
+            if (Instance is null) Instance = this;
+            else
+            {
+                UnityEngine.Debug.Log("Trying to create second UIMetadata instance.");
+                return;
+            }
             var t = transform;
             var position = t.localPosition;
             t.localPosition = new Vector3(0, position.y, position.z);
@@ -143,7 +149,7 @@ namespace NotReaper.UI {
             {
                 Timeline.desc.albumArt = "song.png";
             }
-            Timeline.audicaFile.mainMoggSong.SetVolume(moggSongVolume.value);
+            Timeline.audicaFile.mainMoggSong.SetVolume(moggSongVolume.value, false);
         }
 
         public void TryCopyCuesToOther() {

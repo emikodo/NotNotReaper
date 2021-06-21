@@ -37,7 +37,7 @@ namespace NotReaper.UserInput {
 		//public static TargetModifier selectedModifier = TargetModifier.None;
 
 		public static EditorMode selectedMode = EditorMode.Compose;
-		public static bool isOverGrid = false;
+		public static bool isOverGrid { get; set; }
 		public static bool inUI = false;
 		public static bool enableScrolling = false;
 		public static bool isFocusGrid = false;
@@ -240,7 +240,6 @@ namespace NotReaper.UserInput {
 		public void SelectMode (EditorMode mode) {
 
 			if (selectedMode == EditorMode.Timing && Timeline.inTimingMode) return;
-
 			editorMode.UpdateUI (mode);
 			selectedMode = mode;
 
@@ -271,7 +270,6 @@ namespace NotReaper.UserInput {
 			}
 
 			uiToolSelect.UpdateUINoteSelected (tool);
-
 			hover.UpdateUITool (tool);
 			//if(tool != EditorTool.ModifierCreator) previousTool = selectedTool;
 			previousTool = selectedTool;
@@ -584,6 +582,7 @@ namespace NotReaper.UserInput {
 			if (Input.GetKeyUp (KeyCode.LeftControl) || Input.GetKeyUp (KeyCode.RightControl)) {
 				Tools.dragSelect.EndAllDragStuff ();
 				if (selectedTool == EditorTool.DragSelect) {
+					isOverGrid = false;
 					RevertTool ();
 				}
 				SelectSnappingMode (previousSnappingMode);
