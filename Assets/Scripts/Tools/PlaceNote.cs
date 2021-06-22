@@ -19,7 +19,10 @@ namespace NotReaper.Tools {
 		
 
 		public void TryPlaceNote() {
-			if (!EditorInput.isOverGrid || EditorInput.inUI) return;
+			if (!EditorInput.isOverGrid || EditorInput.inUI)
+            {
+				return;
+            }
 			
 			//We check if the target is valid in the timeline function instead now.
 			timeline.AddTarget(ghost.position.x, ghost.position.y);

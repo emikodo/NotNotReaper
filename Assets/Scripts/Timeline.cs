@@ -2814,11 +2814,11 @@ namespace NotReaper {
 
 		public void ReplaceSongAudio()
         {
-			ReplaceAudio(LoadType.Song);
+			ReplaceAudio(LoadType.Song, UISustainHandler.SustainTrack.None);
         }
 
-		public bool ReplaceAudio (LoadType type) {
-			var compatible = new [] { new ExtensionFilter ("Compatible Audio Types", "mp3", "ogg") };
+		public bool ReplaceAudio (LoadType type, UISustainHandler.SustainTrack track) {
+			var compatible = new [] { type == LoadType.Song ? new ExtensionFilter ("Compatible Audio Types", "mp3", "ogg") : new ExtensionFilter("Compatible Audio Types", "ogg") };
 			string[] paths = StandaloneFileBrowser.OpenFilePanel ("Select music track", Path.Combine (Application.persistentDataPath), compatible, false);
 			if (paths is null || paths.Length == 0) return false;
 			var filePath = paths[0];
@@ -2837,6 +2837,16 @@ namespace NotReaper {
 				case LoadType.Sustain:
 					_p = audicaFile.desc.cachedSustainSongLeft;
 					moggName = "song_sustain_l.mogg";
+					/*if(track == UISustainHandler.SustainTrack.Left)
+                    {
+						_p = audicaFile.desc.cachedSustainSongLeft;
+						moggName = "song_sustain_l.mogg";
+                    }
+					else if(track == UISustainHandler.SustainTrack.Right)
+                    {
+						_p = audicaFile.desc.cachedSustainSongRight;
+						moggName = "song_sustain_r.mogg";
+					}*/
 					break;
             }
 			string mainSongPathBase = $"{appPath}/.cache/";
@@ -2887,17 +2897,30 @@ namespace NotReaper {
 					}
                     else
                     {
-						if (entry.ToString() == "song_sustain_l.mogg") archive.RemoveEntry(entry);
-						if (entry.ToString() == "song_sustain_r.mogg") archive.RemoveEntry(entry);
+						if(track == UISustainHandler.SustainTrack.Left)
+                        {
+							if (entry.ToString() == "song_sustain_l.mogg") archive.RemoveEntry(entry);
+                        }
+						else if(track == UISustainHandler.SustainTrack.Right)
+                        {
+							if (entry.ToString() == "song_sustain_r.mogg") archive.RemoveEntry(entry);
+                        }
                     }
 				}
 				if(type == LoadType.Song) archive.AddEntry (moggName, moggPath);
                 else
                 {
-					string sustainL = "song_sustain_l.mogg";
-					string sustainR = "song_sustain_r.mogg";
-					archive.AddEntry(sustainL, moggPathBase + sustainL);
-					archive.AddEntry(sustainR, moggPathBase + sustainR);
+					if(track == UISustainHandler.SustainTrack.Left)
+                    {
+						string sustainL = "song_sustain_l.mogg";
+						archive.AddEntry(sustainL, moggPathBase + sustainL);
+
+                    }
+					else if(track == UISustainHandler.SustainTrack.Right)
+                    {
+						string sustainR = "song_sustain_r.mogg";
+						archive.AddEntry(sustainR, moggPathBase + sustainR);
+                    }
 
 				}
 				archive.SaveTo (audicaFile.filepath + ".temp", SharpCompress.Common.CompressionType.None);
@@ -2909,8 +2932,14 @@ namespace NotReaper {
 			if (type == LoadType.Song) StartCoroutine(LoadNewAudioClip(file));
 			else
             {
-				if (audicaFile.desc.sustainSongLeft != "") StartCoroutine(LoadLeftSustain(file));
-				if (audicaFile.desc.sustainSongRight != "") StartCoroutine(LoadRightSustain(file));
+				if(track == UISustainHandler.SustainTrack.Left)
+                {
+					if (audicaFile.desc.sustainSongLeft != "") StartCoroutine(LoadLeftSustain(file));
+                }
+				else if(track == UISustainHandler.SustainTrack.Right)
+                {
+					if (audicaFile.desc.sustainSongRight != "") StartCoroutine(LoadRightSustain(file));
+                }
 			}
 			return true;
 		}

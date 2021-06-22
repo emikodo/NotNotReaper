@@ -251,7 +251,7 @@ namespace NotReaper.UserInput {
 				return;
 			}
 
-			if (ModifierHandler.activated) {
+			if (ModifierHandler.activated && !ModifierHandler.pendingClose) {
 				switch (tool) {
 					case EditorTool.ChainNode:
 					case EditorTool.ChainStart:

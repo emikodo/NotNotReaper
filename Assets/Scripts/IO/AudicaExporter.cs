@@ -108,10 +108,20 @@ namespace NotReaper.IO {
                     } else if(entry.ToString() == "song_sustain_l.moggsong")
                     {
 						archive.RemoveEntry(entry);
-                    } else if(UISustainHandler.PendingDelete && (entry.ToString() == "song_sustain_r.mogg" || entry.ToString() == "song_sustain_l.mogg"))
+                    } else if(UISustainHandler.PendingDelete)
                     {
-						Debug.Log("Sustain .moggs successfully deleted");
-						archive.RemoveEntry(entry);
+						if(UISustainHandler.LoadedTracks == UISustainHandler.SustainTrack.Left && entry.ToString() == "song_sustain_r.mogg")
+                        {
+							archive.RemoveEntry(entry);
+                        }
+						else if(UISustainHandler.LoadedTracks == UISustainHandler.SustainTrack.Right && entry.ToString() == "song_sustain_l.mogg")
+                        {
+							archive.RemoveEntry(entry);
+                        }
+						else if(UISustainHandler.LoadedTracks == UISustainHandler.SustainTrack.None && (entry.ToString() == "song_sustain_r.mogg" || entry.ToString() == "song_sustain_l.mogg"))
+						{
+							archive.RemoveEntry(entry);
+                        }
                     }
 					
 

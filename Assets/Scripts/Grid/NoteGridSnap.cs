@@ -46,9 +46,9 @@ namespace NotReaper.Grid {
 
                     return new Vector3(x, y, pos.z + 5);
             }
-            //return new Vector3(pos.x, pos.y, pos.z + 5);
+            return new Vector3(pos.x, pos.y, pos.z + 5);
             //return new Vector3(pos.x, pos.y, 0f);
-            return new Vector2(pos.x, pos.y);
+            //return new Vector2(pos.x, pos.y);
         }
 
         

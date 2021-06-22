@@ -20,6 +20,7 @@ namespace NotReaper.Modifier
         public static bool inputFocused = false;
         public static bool activated;
         public static bool isLoading = false;
+        public static bool pendingClose = false;
         [HideInInspector] public bool isHovering;
 
         [Header("References")]
@@ -163,7 +164,16 @@ namespace NotReaper.Modifier
 
         public void OnButtonClicked()
         {
-            EditorInput.I.SelectTool(EditorTool.ModifierCreator);
+            if(EditorInput.selectedTool == EditorTool.ModifierCreator)
+            {
+                pendingClose = true;
+                EditorInput.I.RevertTool();
+                pendingClose = false;
+            }
+            else
+            {
+                EditorInput.I.SelectTool(EditorTool.ModifierCreator);
+            }
         }
 
         public void HideWindow(bool hide)

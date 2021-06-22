@@ -78,7 +78,7 @@ namespace NotReaper.Grid {
                     //return;
                     //}
                     //lastPos = newPos;
-                    newPos.z = 1;
+                    //newPos.z = 1;
                     transform.position = newPos;
                     //transform.position = Vector3.SmoothDamp(transform.position, newPos, ref velocity, 0.3f);
                     break;
@@ -110,6 +110,8 @@ namespace NotReaper.Grid {
                 cursor.SetActive(true);
             } else {
                 cursor.SetActive(false);
+                iconEnabled = false;
+                icon.SetActive(false);
             }
 
             standard.gameObject.SetActive(tool == EditorTool.Standard);

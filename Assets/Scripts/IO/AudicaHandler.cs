@@ -102,7 +102,7 @@ namespace NotReaper.IO {
 			{
 				Debug.Log("Sustain Song Right not found");
 			}
-			UISustainHandler.Instance.LoadVolume(audicaZip.ContainsEntry("song_sustain_r.mogg"));
+			UISustainHandler.Instance.LoadVolume(audicaZip.ContainsEntry("song_sustain_l.mogg"), audicaZip.ContainsEntry("song_sustain_r.mogg"));
 			//Now we fill the audicaFile var with all the things it needs.
 			//Remember, all props in audicaFile.desc refer to either moggsong or the name of the mogg.
 			//Real clips are stored in main audicaFile object.

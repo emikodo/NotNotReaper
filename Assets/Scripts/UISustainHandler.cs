@@ -12,13 +12,22 @@ using NotReaper.IO;
 public class UISustainHandler : MonoBehaviour
 {
     public static UISustainHandler Instance = null;
-    public static bool PendingDelete = false;
+    public static bool PendingDelete { get; set; } = false;
     public DisplaySliderCombo volumeSlider;
     public TextMeshProUGUI statusText;
-    public TextMeshProUGUI loadSustainButtonText;
-    public GameObject deleteSustainButton;
+    public TextMeshProUGUI loadSustainButtonTextLeft;
+    public TextMeshProUGUI loadSustainButtonTextRight;
+    public GameObject deleteSustainButtonLeft;
+    public GameObject deleteSustainButtonRight;
+    public Image leftButtonPanel;
+    public Image rightButtonPanel;
     public MoggSong sustainSongLeft { get; set; }
     public MoggSong sustainSongRight { get; set; }
+
+    public Color defaultColor;
+    public Color loadedColor;
+
+    public static SustainTrack LoadedTracks { get; set; } = SustainTrack.None;
 
     private void Start()
     {
@@ -36,76 +45,250 @@ public class UISustainHandler : MonoBehaviour
 
     public void UpdateVolume(float value)
     {
-        sustainSongLeft.SetVolume(value, true);
-        sustainSongRight.SetVolume(value, true);
-    }
-
-    public void LoadSustainTrack()
-    {
-        FillSustainDescData();
-        if (!Timeline.instance.ReplaceAudio(Timeline.LoadType.Sustain))
+        switch (LoadedTracks)
         {
-            Debug.Log("No valid path selected");
-            FillSustainDescData(true);
-            return;
-        }
-        sustainSongLeft.SetVolume(0f, true);
-        Timeline.instance.Export();
-        volumeSlider.gameObject.SetActive(true);
-        deleteSustainButton.SetActive(true);
-        loadSustainButtonText.text = "Replace";
-        volumeSlider.value = 4f;
-        statusText.text = "Sustains loaded";
-    }
-
-    public void DeleteSustainTrack()
-    {
-        PendingDelete = true;
-        FillSustainDescData(true);
-        Timeline.instance.Export();
-        statusText.text = "No Sustains loaded";
-        Timeline.audicaFile.usesLeftSustain = false;
-        Timeline.audicaFile.usesRightSustain = false;
-        deleteSustainButton.SetActive(false);
-        volumeSlider.gameObject.SetActive(false);
-        loadSustainButtonText.text = "Load";
-        PendingDelete = false;
-    }
-
-    private void FillSustainDescData(bool clear = false)
-    {
-        if (clear)
-        {
-            Timeline.audicaFile.desc.sustainSongLeft = "";
-            Timeline.audicaFile.desc.sustainSongRight = "";
-            Timeline.audicaFile.desc.moggSustainSongLeft = "";
-            Timeline.audicaFile.desc.moggSustainSongRight = "";
-        }
-        else
-        {
-            Timeline.audicaFile.desc.sustainSongLeft = "song_sustain_l.moggsong";
-            Timeline.audicaFile.desc.sustainSongRight = "song_sustain_r.moggsong";
-            Timeline.audicaFile.desc.moggSustainSongLeft = "song_sustain_l.mogg";
-            Timeline.audicaFile.desc.moggSustainSongRight = "song_sustain_r.mogg";
+            case SustainTrack.Both:
+                sustainSongLeft.SetVolume(value, true);
+                sustainSongRight.SetVolume(value, true);
+                break;
+            case SustainTrack.Left:
+                sustainSongLeft.SetVolume(value, true);
+                break;
+            case SustainTrack.Right:
+                sustainSongLeft.SetVolume(value, true);
+                break;
+            default:
+                break;
         }
         
     }
 
-    public void LoadVolume(bool hasSustains)
+    public void LoadSustainTrack(SustainTrack track)
     {
-        if (!hasSustains)
+        FillSustainDescData(track);
+        //FillSustainDescData();
+        if (!Timeline.instance.ReplaceAudio(Timeline.LoadType.Sustain, track))
         {
-            loadSustainButtonText.text = "Load";
-            statusText.text = "No Sustains loaded";
-            volumeSlider.gameObject.SetActive(false);
-            deleteSustainButton.SetActive(false);
+            Debug.Log("No valid path selected");
+            FillSustainDescData(track, true);
             return;
         }
-        loadSustainButtonText.text = "Replace";
+        UpdateLoadedSustains(track, false);
+        if(track == SustainTrack.Left) sustainSongLeft.SetVolume(0f, true);
+        else if(track  == SustainTrack.Right) sustainSongRight.SetVolume(0f, true);
+        UpdateSustainUI();
+        Timeline.instance.Export();
+    }
+
+    private void UpdateLoadedSustains(SustainTrack loadedNew, bool delete)
+    {
+        if (delete)
+        {
+            switch (LoadedTracks)
+            {
+                case SustainTrack.Left:
+                    if (loadedNew == SustainTrack.Left)
+                    {
+                        LoadedTracks = SustainTrack.None;
+                    }
+                    break;
+                case SustainTrack.Right:
+                    if (loadedNew == SustainTrack.Right)
+                    {
+                        LoadedTracks = SustainTrack.None;
+                    }
+                    break;
+                case SustainTrack.Both:
+                    if(loadedNew == SustainTrack.Left)
+                    {
+                        LoadedTracks = SustainTrack.Right;
+                    }
+                    else if(loadedNew == SustainTrack.Right)
+                    {
+                        LoadedTracks = SustainTrack.Left;
+                    }
+                    break;
+            }
+        }
+        else
+        {
+            switch (LoadedTracks)
+            {
+                case SustainTrack.Left:
+                    if (loadedNew == SustainTrack.Right)
+                    {
+                        LoadedTracks = SustainTrack.Both;
+                    }
+                    break;
+                case SustainTrack.Right:
+                    if (loadedNew == SustainTrack.Left)
+                    {
+                        LoadedTracks = SustainTrack.Both;
+                    }
+                    break;
+                case SustainTrack.None:
+                    LoadedTracks = loadedNew;
+                    break;
+            }
+        }
+        
+    }
+
+    public void DeleteSustainTrack(SustainTrack track)
+    {
+        PendingDelete = true;
+        UpdateLoadedSustains(track, true);
+        FillSustainDescData(track, true);
+        Timeline.instance.Export();
+        UpdateSustainUI();
+        if(track == SustainTrack.Left) Timeline.audicaFile.usesLeftSustain = false;
+        else if(track == SustainTrack.Right) Timeline.audicaFile.usesRightSustain = false;
+        PendingDelete = false;
+    }
+
+    private void FillSustainDescData(SustainTrack track, bool clear = false)
+    {
+        if (clear)
+        {
+            if(track == SustainTrack.Left)
+            {
+                Timeline.audicaFile.desc.sustainSongLeft = "";
+                Timeline.audicaFile.desc.moggSustainSongLeft = "";
+            }
+            else if(track == SustainTrack.Right)
+            {
+                Timeline.audicaFile.desc.sustainSongRight = "";
+                Timeline.audicaFile.desc.moggSustainSongRight = "";
+            }
+        }
+        else
+        {
+            if(track == SustainTrack.Left)
+            {
+                Timeline.audicaFile.desc.sustainSongLeft = "song_sustain_l.moggsong";
+                Timeline.audicaFile.desc.moggSustainSongLeft = "song_sustain_l.mogg";
+            }
+            else if(track == SustainTrack.Right)
+            {
+                Timeline.audicaFile.desc.sustainSongRight = "song_sustain_r.moggsong";
+                Timeline.audicaFile.desc.moggSustainSongRight = "song_sustain_r.mogg";
+            }
+        }
+        
+    }
+
+    private void UpdateSustainUI()
+    {
+        switch (LoadedTracks)
+        {
+            case SustainTrack.None:
+                statusText.text = "No Sustains loaded";
+                loadSustainButtonTextLeft.text = "Load L";
+                loadSustainButtonTextRight.text = "Load R";
+                volumeSlider.gameObject.SetActive(false);
+                deleteSustainButtonLeft.SetActive(false);
+                deleteSustainButtonRight.SetActive(false);
+                leftButtonPanel.color = defaultColor;
+                rightButtonPanel.color = defaultColor;
+
+                break;
+            case SustainTrack.Left:
+                statusText.text = "Left Sustain loaded";
+                loadSustainButtonTextLeft.text = "Replace L";
+                loadSustainButtonTextRight.text = "Load R";
+                volumeSlider.gameObject.SetActive(true);
+                deleteSustainButtonLeft.SetActive(true);
+                deleteSustainButtonRight.SetActive(false);
+                leftButtonPanel.color = loadedColor;
+                rightButtonPanel.color = defaultColor;
+                break;
+            case SustainTrack.Right:
+                statusText.text = "Right Sustain loaded";
+                loadSustainButtonTextLeft.text = "Load L";
+                loadSustainButtonTextRight.text = "Replace R";
+                volumeSlider.gameObject.SetActive(true);
+                deleteSustainButtonLeft.SetActive(false);
+                deleteSustainButtonRight.SetActive(true);
+                leftButtonPanel.color = defaultColor;
+                rightButtonPanel.color = loadedColor;
+                break;
+            case SustainTrack.Both:
+                statusText.text = "Both Sustains loaded";
+                loadSustainButtonTextLeft.text = "Replace L";
+                loadSustainButtonTextRight.text = "Replace R";
+                volumeSlider.gameObject.SetActive(true);
+                deleteSustainButtonLeft.SetActive(true);
+                deleteSustainButtonRight.SetActive(true);
+                leftButtonPanel.color = loadedColor;
+                rightButtonPanel.color = loadedColor;
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void LoadVolume(bool hasLeftSustain, bool hasRightSustain)
+    {
+        if (hasLeftSustain && hasRightSustain) LoadedTracks = SustainTrack.Both;
+        else if (hasLeftSustain) LoadedTracks = SustainTrack.Left;
+        else if (hasRightSustain) LoadedTracks = SustainTrack.Right;
+        UpdateSustainUI();
+        switch (LoadedTracks)
+        {
+            case SustainTrack.Left:
+            case SustainTrack.Both:
+                volumeSlider.value = sustainSongLeft.volume.l;
+                break;
+            case SustainTrack.Right:
+                volumeSlider.value = sustainSongRight.volume.r;
+                break;
+            default:
+                break;
+        }
+        
+        /*
+        if(hasLeftSustain && hasRightSustain)
+        statusText.text = "Sustains loaded";
+        if (!hasLeftSustain)
+        {
+            loadSustainButtonTextLeft.text = "Load";
+            statusText.text = "Right Sustain loaded";
+
+        }
+        if (!hasRightSustain)
+        {
+            loadSustainButtonTextLeft.text = "Load";
+            statusText.text = "No Sustains loaded";
+            volumeSlider.gameObject.SetActive(false);
+            deleteSustainButtonLeft.SetActive(false);
+            return;
+        }
+        loadSustainButtonTextLeft.text = "Replace";
         statusText.text = "Sustains loaded";
         volumeSlider.gameObject.SetActive(true);
-        deleteSustainButton.SetActive(true);
+        deleteSustainButtonLeft.SetActive(true);
         volumeSlider.value = sustainSongLeft.volume.l;
+        */
+    }
+
+    public void UpdateSustainTrackLeft(bool delete)
+    {
+        if (delete) DeleteSustainTrack(SustainTrack.Left);
+        else LoadSustainTrack(SustainTrack.Left);
+    }
+
+    public void UpdateSustainTrackRight(bool delete)
+    {
+        if (delete) DeleteSustainTrack(SustainTrack.Right);
+        else LoadSustainTrack(SustainTrack.Right);
+    }
+
+    public enum SustainTrack
+    {
+        None,
+        Left,
+        Right,
+        Both
     }
 
 }
