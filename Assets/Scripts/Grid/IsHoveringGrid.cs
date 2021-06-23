@@ -28,7 +28,15 @@ namespace NotReaper.Grid {
         */
         public void OnMouseOver()
         {
-            if (!EditorInput.isOverGrid && !EditorInput.inUI)
+            if(EditorInput.inUI)
+            {
+                if (hover.iconEnabled)
+                {
+                    hover.TryDisable();
+                }
+                return;
+            }
+            if (!hover.iconEnabled)
             {
                 EditorInput.isOverGrid = true;
                 hover.TryEnable();

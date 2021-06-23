@@ -14,7 +14,7 @@ namespace NotReaper.Grid {
     public class HoverTarget : MonoBehaviour {
 
         public GameObject icon;
-        private bool iconEnabled = true;
+        public bool iconEnabled = true;
         public GameObject cursor;
         public Image cursorTint;
 
