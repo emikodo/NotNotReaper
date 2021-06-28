@@ -429,7 +429,8 @@ namespace NotReaper.UserInput {
 				countInWindow.gameObject.activeSelf ||
 				addOrTrimAudioWindow.gameObject.activeSelf ||
 				repeaterWindow.gameObject.activeSelf||
-				snapWindow.window.gameObject.activeInHierarchy) {
+				snapWindow.window.gameObject.activeInHierarchy||
+				BookmarkMenu.isActive) {
 				inUI = true;
 
 				if (repeaterWindow.gameObject.activeSelf || !timingPointsPanel.isHovering) {

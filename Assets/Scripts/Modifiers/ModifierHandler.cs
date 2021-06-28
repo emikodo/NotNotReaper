@@ -75,9 +75,9 @@ namespace NotReaper.Modifier
             colorPicker.SetActive(false);
             DeactivateSidePanel();
             slider = amountSlider.GetComponent<LabelSetter>();
+            /*dropdown.options.RemoveAt(19);
             dropdown.options.RemoveAt(19);
-            dropdown.options.RemoveAt(19);
-            dropdown.options.RemoveAt(19);
+            dropdown.options.RemoveAt(19);*/
         }
 
         private void Update()

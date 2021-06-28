@@ -36,7 +36,7 @@ namespace NotReaper.Grid {
                 }
                 return;
             }
-            if (!hover.iconEnabled)
+            if (!hover.iconEnabled || ((EditorInput.selectedTool == EditorTool.ChainBuilder || EditorInput.selectedTool == EditorTool.DragSelect) && !EditorInput.isOverGrid))
             {
                 EditorInput.isOverGrid = true;
                 hover.TryEnable();

@@ -6,6 +6,7 @@ using UnityEngine.EventSystems;
 
 public class ChainBuilderWindow : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
+    
     public ChainBuilder chainBuilder;
 
     public void OnPointerEnter(PointerEventData eventData)
