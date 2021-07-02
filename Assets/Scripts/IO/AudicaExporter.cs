@@ -14,12 +14,13 @@ using SharpCompress.Writers;
 using UnityEngine;
 using NotReaper.Timing;
 using NotReaper.Modifier;
+using NotReaper.UI;
 
 namespace NotReaper.IO {
 
 	public class AudicaExporter {
 
-		
+
 		public static void ExportToAudicaFile(AudicaFile audicaFile, bool autoSave) {
 
 			if (!File.Exists(audicaFile.filepath)) {
@@ -27,153 +28,161 @@ namespace NotReaper.IO {
 				return;
 			}
 
-			Encoding encoding = Encoding.GetEncoding(437);
-            string targetPath = audicaFile.filepath;
-            string autoSavePath = "";
-            using (var archive = ZipArchive.Open(audicaFile.filepath)) {
+			try
+			{			
+				Encoding encoding = Encoding.GetEncoding(437);
+				string targetPath = audicaFile.filepath;
+				string autoSavePath = "";
+				using (var archive = ZipArchive.Open(audicaFile.filepath)) {
 
 
-				HandleCache.CheckCacheFolderValid();
-				HandleCache.CheckSaveFolderValid();
+					HandleCache.CheckCacheFolderValid();
+					HandleCache.CheckSaveFolderValid();
 
-                bool expert = false, advanced = false, standard = false, easy = false, modifiers = false;
-				//Write the cues files to disk so we can add them to the audica file.
-				if (audicaFile.diffs.expert.cues != null) {
-					File.WriteAllText($"{Application.dataPath}/.cache/expert-new.cues", CuesToJson(audicaFile.diffs.expert));
-					expert = true;
-				}
-				if (audicaFile.diffs.advanced.cues != null) {
-					File.WriteAllText($"{Application.dataPath}/.cache/advanced-new.cues", CuesToJson(audicaFile.diffs.advanced));
-					advanced = true;
-				}
-				if (audicaFile.diffs.moderate.cues != null) {
-					File.WriteAllText($"{Application.dataPath}/.cache/moderate-new.cues", CuesToJson(audicaFile.diffs.moderate));
-					standard = true;
-				}
-				if (audicaFile.diffs.beginner.cues != null) {
-					File.WriteAllText($"{Application.dataPath}/.cache/beginner-new.cues", CuesToJson(audicaFile.diffs.beginner));
-					easy = true;
-				}
-                audicaFile.modifiers = new ModifierList();
-                audicaFile.modifiers.modifiers = ModifierHandler.Instance.MapToDTO();               
-                if (audicaFile.modifiers.modifiers.Count > 0)
-                {
-                    File.WriteAllText($"{Application.dataPath}/.cache/modifiers-new.json", ModifiersToJson2(audicaFile.modifiers));
-                    modifiers = true;
-                }
-				File.WriteAllText($"{Application.dataPath}/.cache/{audicaFile.desc.moggSong}", audicaFile.mainMoggSong.ExportToText(false));
-				File.WriteAllText($"{Application.dataPath}/.cache/song_sustain_l.moggsong", UISustainHandler.Instance.sustainSongLeft.ExportToText(true));
-				File.WriteAllText($"{Application.dataPath}/.cache/song_sustain_r.moggsong", UISustainHandler.Instance.sustainSongRight.ExportToText(true));								
-				File.WriteAllText($"{Application.dataPath}/.cache/song-new.desc", Newtonsoft.Json.JsonConvert.SerializeObject(audicaFile.desc, Formatting.Indented));
-
-				var workFolder = Path.Combine(Application.streamingAssetsPath, "Ogg2Audica");
-				MidiFile songMidi = new MidiFile(Path.Combine(workFolder, "songtemplate.mid"));
-
-				MidiEventCollection events = new MidiEventCollection(0, (int)Constants.PulsesPerQuarterNote);
-				foreach(var tempo in audicaFile.desc.tempoList) {
-					events.AddEvent(new TempoEvent((int)tempo.microsecondsPerQuarterNote, (long)tempo.time.tick), 0);
-					events.AddEvent(new TimeSignatureEvent((long)tempo.time.tick, (int)tempo.timeSignature.Numerator, (int)TimeSignature.GetMIDIDenominator(tempo.timeSignature.Denominator), 0, 8), 0);
-				}
-
-				events.PrepareForExport();
-				MidiFile.Export(Path.Combine(workFolder, $"{Application.dataPath}/.cache/song.mid"), events);
-
-              
-                //Remove any files we'll be replacing
-                foreach (ZipArchiveEntry entry in archive.Entries) {
-
-					if (entry.ToString() == "expert.cues") {
-						archive.RemoveEntry(entry);
-					} else if (entry.ToString() == "song.desc") {
-						archive.RemoveEntry(entry);
+					bool expert = false, advanced = false, standard = false, easy = false, modifiers = false;
+					//Write the cues files to disk so we can add them to the audica file.
+					if (audicaFile.diffs.expert.cues != null) {
+						File.WriteAllText($"{Application.dataPath}/.cache/expert-new.cues", CuesToJson(audicaFile.diffs.expert));
+						expert = true;
 					}
-					else if (entry.ToString() == audicaFile.desc.moggSong)
-					{	archive.RemoveEntry(entry);
-					} else if (entry.ToString() == "song.mid") {
-						archive.RemoveEntry(entry);
-					} else if (entry.ToString() == "song.png") {
-						archive.RemoveEntry(entry);
-					} else if (entry.ToString() == "advanced.cues") {
-						archive.RemoveEntry(entry);
-					} else if (entry.ToString() == "moderate.cues") {
-						archive.RemoveEntry(entry);
-					} else if (entry.ToString() == "beginner.cues") {
-						archive.RemoveEntry(entry);
-					} else if(entry.ToString() == "modifiers.json")
-                    {
-                        archive.RemoveEntry(entry);
-                    } else if(entry.ToString() == "song_sustain_r.moggsong")
-                    {
-						archive.RemoveEntry(entry);
-                    } else if(entry.ToString() == "song_sustain_l.moggsong")
-                    {
-						archive.RemoveEntry(entry);
-                    } else if(UISustainHandler.PendingDelete)
-                    {
-						if(UISustainHandler.LoadedTracks == UISustainHandler.SustainTrack.Left && entry.ToString() == "song_sustain_r.mogg")
-                        {
+					if (audicaFile.diffs.advanced.cues != null) {
+						File.WriteAllText($"{Application.dataPath}/.cache/advanced-new.cues", CuesToJson(audicaFile.diffs.advanced));
+						advanced = true;
+					}
+					if (audicaFile.diffs.moderate.cues != null) {
+						File.WriteAllText($"{Application.dataPath}/.cache/moderate-new.cues", CuesToJson(audicaFile.diffs.moderate));
+						standard = true;
+					}
+					if (audicaFile.diffs.beginner.cues != null) {
+						File.WriteAllText($"{Application.dataPath}/.cache/beginner-new.cues", CuesToJson(audicaFile.diffs.beginner));
+						easy = true;
+					}
+					audicaFile.modifiers = new ModifierList();
+					audicaFile.modifiers.modifiers = ModifierHandler.Instance.MapToDTO();
+					if (audicaFile.modifiers.modifiers.Count > 0)
+					{
+						File.WriteAllText($"{Application.dataPath}/.cache/modifiers-new.json", ModifiersToJson2(audicaFile.modifiers));
+						modifiers = true;
+					}
+					File.WriteAllText($"{Application.dataPath}/.cache/{audicaFile.desc.moggSong}", audicaFile.mainMoggSong.ExportToText(false));
+					File.WriteAllText($"{Application.dataPath}/.cache/song_sustain_l.moggsong", UISustainHandler.Instance.sustainSongLeft.ExportToText(true));
+					File.WriteAllText($"{Application.dataPath}/.cache/song_sustain_r.moggsong", UISustainHandler.Instance.sustainSongRight.ExportToText(true));
+					File.WriteAllText($"{Application.dataPath}/.cache/song-new.desc", Newtonsoft.Json.JsonConvert.SerializeObject(audicaFile.desc, Formatting.Indented));
+
+					var workFolder = Path.Combine(Application.streamingAssetsPath, "Ogg2Audica");
+					MidiFile songMidi = new MidiFile(Path.Combine(workFolder, "songtemplate.mid"));
+
+					MidiEventCollection events = new MidiEventCollection(0, (int)Constants.PulsesPerQuarterNote);
+					foreach (var tempo in audicaFile.desc.tempoList) {
+						events.AddEvent(new TempoEvent((int)tempo.microsecondsPerQuarterNote, (long)tempo.time.tick), 0);
+						events.AddEvent(new TimeSignatureEvent((long)tempo.time.tick, (int)tempo.timeSignature.Numerator, (int)TimeSignature.GetMIDIDenominator(tempo.timeSignature.Denominator), 0, 8), 0);
+					}
+
+					events.PrepareForExport();
+					MidiFile.Export(Path.Combine(workFolder, $"{Application.dataPath}/.cache/song.mid"), events);
+
+
+					//Remove any files we'll be replacing
+					foreach (ZipArchiveEntry entry in archive.Entries) {
+
+						if (entry.ToString() == "expert.cues") {
 							archive.RemoveEntry(entry);
-                        }
-						else if(UISustainHandler.LoadedTracks == UISustainHandler.SustainTrack.Right && entry.ToString() == "song_sustain_l.mogg")
-                        {
+						} else if (entry.ToString() == "song.desc") {
 							archive.RemoveEntry(entry);
-                        }
-						else if(UISustainHandler.LoadedTracks == UISustainHandler.SustainTrack.None && (entry.ToString() == "song_sustain_r.mogg" || entry.ToString() == "song_sustain_l.mogg"))
+						}
+						else if (entry.ToString() == audicaFile.desc.moggSong)
+						{ archive.RemoveEntry(entry);
+						} else if (entry.ToString() == "song.mid") {
+							archive.RemoveEntry(entry);
+						} else if (entry.ToString() == "song.png") {
+							archive.RemoveEntry(entry);
+						} else if (entry.ToString() == "advanced.cues") {
+							archive.RemoveEntry(entry);
+						} else if (entry.ToString() == "moderate.cues") {
+							archive.RemoveEntry(entry);
+						} else if (entry.ToString() == "beginner.cues") {
+							archive.RemoveEntry(entry);
+						} else if (entry.ToString() == "modifiers.json")
 						{
 							archive.RemoveEntry(entry);
-                        }
-                    }
-					
+						} else if (entry.ToString() == "song_sustain_r.moggsong")
+						{
+							archive.RemoveEntry(entry);
+						} else if (entry.ToString() == "song_sustain_l.moggsong")
+						{
+							archive.RemoveEntry(entry);
+						} else if (UISustainHandler.PendingDelete)
+						{
+							if (UISustainHandler.LoadedTracks == UISustainHandler.SustainTrack.Left && entry.ToString() == "song_sustain_r.mogg")
+							{
+								archive.RemoveEntry(entry);
+							}
+							else if (UISustainHandler.LoadedTracks == UISustainHandler.SustainTrack.Right && entry.ToString() == "song_sustain_l.mogg")
+							{
+								archive.RemoveEntry(entry);
+							}
+							else if (UISustainHandler.LoadedTracks == UISustainHandler.SustainTrack.None && (entry.ToString() == "song_sustain_r.mogg" || entry.ToString() == "song_sustain_l.mogg"))
+							{
+								archive.RemoveEntry(entry);
+							}
+						}
 
-				}
-				if (expert) archive.AddEntry("expert.cues", $"{Application.dataPath}/.cache/expert-new.cues");
-				if (advanced) archive.AddEntry("advanced.cues", $"{Application.dataPath}/.cache/advanced-new.cues");
-				if (standard) archive.AddEntry("moderate.cues", $"{Application.dataPath}/.cache/moderate-new.cues");
-				if (easy) archive.AddEntry("beginner.cues", $"{Application.dataPath}/.cache/beginner-new.cues");
-                if (modifiers) archive.AddEntry("modifiers.json", $"{Application.dataPath}/.cache/modifiers-new.json");
+
+					}
+					if (expert) archive.AddEntry("expert.cues", $"{Application.dataPath}/.cache/expert-new.cues");
+					if (advanced) archive.AddEntry("advanced.cues", $"{Application.dataPath}/.cache/advanced-new.cues");
+					if (standard) archive.AddEntry("moderate.cues", $"{Application.dataPath}/.cache/moderate-new.cues");
+					if (easy) archive.AddEntry("beginner.cues", $"{Application.dataPath}/.cache/beginner-new.cues");
+					if (modifiers) archive.AddEntry("modifiers.json", $"{Application.dataPath}/.cache/modifiers-new.json");
 
 
-               
-                if (autoSave)
-                {
-                    int pos = audicaFile.filepath.LastIndexOf(@"\") + 1;
-                    string fileName = audicaFile.filepath.Substring(pos, audicaFile.filepath.Length - pos);
-                    string shortName = fileName.Substring(0, fileName.LastIndexOf(@"."));
-                    shortName = shortName.Replace(" ", "");
-                    targetPath = $"{Application.dataPath}/autosaves/{shortName}/";
-                    autoSavePath = targetPath;
-                    targetPath += DateTime.Now.ToString("MM-dd_h-mm-ss_");
-                    targetPath += fileName;
-                    if(!Directory.Exists($"{Application.dataPath}/autosaves/")) Directory.CreateDirectory($"{Application.dataPath}/autosaves/");
-                    if (!Directory.Exists($"{Application.dataPath}/autosaves/{shortName}/")) Directory.CreateDirectory($"{Application.dataPath}/autosaves/{shortName}/");
-                }
-                archive.AddEntry($"{audicaFile.desc.moggSong}", $"{Application.dataPath}/.cache/{audicaFile.desc.moggSong}");
-				archive.AddEntry($"song_sustain_l.moggsong", $"{Application.dataPath}/.cache/song_sustain_l.moggsong");
-				archive.AddEntry($"song_sustain_r.moggsong", $"{Application.dataPath}/.cache/song_sustain_r.moggsong");
-				archive.AddEntry("song.desc", $"{Application.dataPath}/.cache/song-new.desc");
-				archive.AddEntry("song.mid", $"{Application.dataPath}/.cache/song.mid");
-				if (File.Exists($"{Application.dataPath}/.cache/song.png"))
+
+					if (autoSave)
 					{
-					archive.AddEntry("song.png", $"{Application.dataPath}/.cache/song.png");
+						int pos = audicaFile.filepath.LastIndexOf(@"\") + 1;
+						string fileName = audicaFile.filepath.Substring(pos, audicaFile.filepath.Length - pos);
+						string shortName = fileName.Substring(0, fileName.LastIndexOf(@"."));
+						shortName = shortName.Replace(" ", "");
+						targetPath = $"{Application.dataPath}/autosaves/{shortName}/";
+						autoSavePath = targetPath;
+						targetPath += DateTime.Now.ToString("MM-dd_h-mm-ss_");
+						targetPath += fileName;
+						if (!Directory.Exists($"{Application.dataPath}/autosaves/")) Directory.CreateDirectory($"{Application.dataPath}/autosaves/");
+						if (!Directory.Exists($"{Application.dataPath}/autosaves/{shortName}/")) Directory.CreateDirectory($"{Application.dataPath}/autosaves/{shortName}/");
+					}
+					archive.AddEntry($"{audicaFile.desc.moggSong}", $"{Application.dataPath}/.cache/{audicaFile.desc.moggSong}");
+					archive.AddEntry($"song_sustain_l.moggsong", $"{Application.dataPath}/.cache/song_sustain_l.moggsong");
+					archive.AddEntry($"song_sustain_r.moggsong", $"{Application.dataPath}/.cache/song_sustain_r.moggsong");
+					archive.AddEntry("song.desc", $"{Application.dataPath}/.cache/song-new.desc");
+					archive.AddEntry("song.mid", $"{Application.dataPath}/.cache/song.mid");
+					if (File.Exists($"{Application.dataPath}/.cache/song.png"))
+					{
+						archive.AddEntry("song.png", $"{Application.dataPath}/.cache/song.png");
+					}
+					archive.SaveTo(audicaFile.filepath + ".temp", SharpCompress.Common.CompressionType.None);
+					archive.Dispose();
+
+
+
 				}
-				archive.SaveTo(audicaFile.filepath + ".temp", SharpCompress.Common.CompressionType.None);
-				archive.Dispose();
+				File.Delete($"{Application.dataPath}/.cache/{audicaFile.desc.moggSong}");
+
+				if (!autoSave)
+					File.Delete(audicaFile.filepath);
+
+				File.Move(audicaFile.filepath + ".temp", targetPath);
 
 
+				if (autoSave) NRSettings.autosavePath = autoSavePath;
+				NotificationShower.Queue(new NRNotification("Map saved successfully!"));
+				Debug.Log("Export finished.");
 
-			}
-			File.Delete($"{Application.dataPath}/.cache/{audicaFile.desc.moggSong}");
-			
-            if(!autoSave)
-			    File.Delete(audicaFile.filepath);
-
-			File.Move(audicaFile.filepath + ".temp", targetPath);
-
-
-            if (autoSave) NRSettings.autosavePath = autoSavePath;
-            Debug.Log("Export finished.");
-
-
+            }
+            catch (IOException)
+            {
+				NRNotification notification = new NRNotification("Audica file is in use!", NRNotifType.Fail);
+				NotificationShower.Queue(notification);
+            }
 		}
 
 		public static string CuesToJson(CueFile cueFile) {

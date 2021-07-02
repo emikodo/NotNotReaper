@@ -53,6 +53,11 @@ public class CalculatedDifficulty
     public void EvaluateCues(List<Target> targets)
     {
         var timeline = GameObject.FindObjectOfType<Timeline>();
+        if (targets is null || targets.Count == 0)
+        {
+            difficultyRating = 0f;
+            return;
+        }
         this.length = (timeline.TimestampToSeconds(targets.Last().data.time) - timeline.TimestampToSeconds(targets.First().data.time)) * 1000f;
         if (targets.Count >= 15 && this.length > 30000f)
         {

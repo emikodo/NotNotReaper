@@ -55,6 +55,8 @@ namespace NotReaper.Modifier
         private bool isHidden = false;
         private bool parentSet = false;
 
+        private static bool IsPrivateBuild = false;
+
         public void Awake()
         {
             if (Instance is null)
@@ -75,9 +77,13 @@ namespace NotReaper.Modifier
             colorPicker.SetActive(false);
             DeactivateSidePanel();
             slider = amountSlider.GetComponent<LabelSetter>();
-            /*dropdown.options.RemoveAt(19);
-            dropdown.options.RemoveAt(19);
-            dropdown.options.RemoveAt(19);*/
+
+            if (!IsPrivateBuild)
+            {
+                dropdown.options.RemoveAt(19);
+                dropdown.options.RemoveAt(19);
+                dropdown.options.RemoveAt(19);
+            }
         }
 
         private void Update()
@@ -530,26 +536,28 @@ namespace NotReaper.Modifier
         public void OnLeftColorChanged()
         {
             InitializeModifier();
-            if(currentModifier.modifierType == ModifierType.ColorChange)
+            if(currentModifier.modifierType == ModifierType.ColorChange || currentModifier.modifierType == ModifierType.ColorUpdate)
             {
                 currentModifier.leftHandColor = colorPicker.GetComponent<LabelSetter>().GetLeftColor();
             }
             else
             {
                 currentModifier.leftHandColor = colorPicker.GetComponent<LabelSetter>().GetSkyboxColor();
+                currentModifier.amount = colorPicker.GetComponent<LabelSetter>().GetSaturation();
             }
         }
 
         public void OnRightColorChanged()
         {
             InitializeModifier();
-            if(currentModifier.modifierType == ModifierType.ColorChange)
+            if(currentModifier.modifierType == ModifierType.ColorChange || currentModifier.modifierType == ModifierType.ColorUpdate)
             {
                 currentModifier.rightHandColor = colorPicker.GetComponent<LabelSetter>().GetRightColor();
             }
             else
             {
                 currentModifier.leftHandColor = colorPicker.GetComponent<LabelSetter>().GetSkyboxColor();
+                currentModifier.amount = colorPicker.GetComponent<LabelSetter>().GetSaturation();
             }
         }
 
@@ -789,6 +797,8 @@ namespace NotReaper.Modifier
                 case ModifierType.ArenaScale:
                     endTickButton.SetActive(true);
                     amountSlider.SetActive(false);
+                    value1.SetActive(false);
+                    value2.SetActive(false);
                     value3.GetComponent<LabelSetter>().SetLabelText("X");
                     value4.GetComponent<LabelSetter>().SetLabelText("Y");
                     value5.GetComponent<LabelSetter>().SetLabelText("Z");
@@ -1037,6 +1047,14 @@ namespace NotReaper.Modifier
                 case ModifierType.ColorUpdate:
                 case ModifierType.SkyboxColor:
                     colorPicker.GetComponent<LabelSetter>().SetMinMaxColorSliders(0f, 1f);
+                    if(type == ModifierType.SkyboxColor)
+                    {
+                        colorPicker.GetComponent<LabelSetter>().SetSaturationRightValue(1f);
+                    }
+                    else
+                    {
+                        colorPicker.GetComponent<LabelSetter>().SetSaturationRightValue(0f);
+                    }
                     break;
                 case ModifierType.AutoLighting:
                     slider.SetMinValue(0f);

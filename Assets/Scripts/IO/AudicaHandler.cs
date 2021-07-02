@@ -9,7 +9,6 @@ using NotReaper.Models;
 using UnityEngine;
 using UnityEngine.Networking;
 using NotReaper.Modifier;
-
 namespace NotReaper.IO {
 
 	public class AudicaHandler : MonoBehaviour {
@@ -17,8 +16,18 @@ namespace NotReaper.IO {
 		public static AudicaFile LoadAudicaFile(string path) {
 
 			AudicaFile audicaFile = new AudicaFile();
-			ZipFile audicaZip = ZipFile.Read(path);
-			
+			ZipFile audicaZip = null;
+            try
+            {
+				audicaZip = ZipFile.Read(path);
+            }
+			catch (IOException)
+			{
+				UI.NRNotification notification = new UI.NRNotification("Audica file is in use externally.", UI.NRNotifType.Fail);
+				UI.NotificationShower.Queue(notification);
+				return null;
+			}
+
 
 			string appPath = Application.dataPath;
 			bool easy = false, standard = false, advanced = false, expert = false, modifiers = false;
@@ -248,7 +257,6 @@ namespace NotReaper.IO {
 
 				audicaFile.filepath = path;
 			audicaZip.Dispose();
-
 			return audicaFile;
 		}
 

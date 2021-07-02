@@ -9,7 +9,7 @@ ffmpeg version git-2020-01-01-7b58702 Copyright (c) 2000-2020 the FFmpeg develop
   libswscale      5.  6.100 /  5.  6.100
   libswresample   3.  6.100 /  3.  6.100
   libpostproc    55.  6.100 / 55.  6.100
-Input #0, mp3, from 'D:\Desktop\AudicaMapping\Songs\mp3\cooking by the book remix  ft lil jon.mp3':
+Input #0, mp3, from 'D:\Desktop\AudicaMapping\Songs\mp3\_hq\cooking by the book remix  ft lil jon.mp3':
   Metadata:
     encoder         : Lavf57.71.100
   Duration: 00:01:18.65, start: 0.023021, bitrate: 230 kb/s
@@ -25,9 +25,9 @@ Output #0, null, to '/dev/null':
     Stream #0:0: Audio: pcm_s16le, 48000 Hz, stereo, s16, 1536 kb/s
     Metadata:
       encoder         : Lavc58.65.100 pcm_s16le
-size=N/A time=00:01:18.60 bitrate=N/A speed= 796x    
+size=N/A time=00:01:18.60 bitrate=N/A speed= 674x    
 video:0kB audio:14739kB subtitle:0kB other streams:0kB global headers:0kB muxing overhead: unknown
-[Parsed_volumedetect_0 @ 000002159f697e40] n_samples: 7546182
-[Parsed_volumedetect_0 @ 000002159f697e40] mean_volume: -11.5 dB
-[Parsed_volumedetect_0 @ 000002159f697e40] max_volume: 0.0 dB
-[Parsed_volumedetect_0 @ 000002159f697e40] histogram_0db: 10000
+[Parsed_volumedetect_0 @ 000001cdb9c57f40] n_samples: 7546182
+[Parsed_volumedetect_0 @ 000001cdb9c57f40] mean_volume: -11.5 dB
+[Parsed_volumedetect_0 @ 000001cdb9c57f40] max_volume: 0.0 dB
+[Parsed_volumedetect_0 @ 000001cdb9c57f40] histogram_0db: 10000

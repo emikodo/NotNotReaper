@@ -85,9 +85,17 @@ namespace NotReaper.Tools.ChainBuilder {
 		[SerializeField] private TextSliderCombo stepDistance;
 		[SerializeField] private TextSliderCombo stepIncrement;
 
-		
+		public static ChainBuilder Instance = null;
 
 		void Start() {
+
+			if (Instance is null) Instance = this;
+            else
+            {
+				Debug.LogWarning("ChainBuilder already exists.");
+				return;
+            }
+
 			Vector3 defaultPos;
 			defaultPos.x = 289.0f;
 			defaultPos.y = -92.2f;
@@ -165,6 +173,13 @@ namespace NotReaper.Tools.ChainBuilder {
 
 			target.data.pathBuilderData.interval = snap;
 		}
+
+		public void ChangeInterval(bool next)
+        {
+			if (next) pathBuilderInterval.ForwardClick();
+			else pathBuilderInterval.PreviousClick();
+        }
+
 
 		public void OnAngleVelocityChange(float value) {
 			Target target = timeline.selectedNotes.First();
@@ -376,7 +391,6 @@ namespace NotReaper.Tools.ChainBuilder {
 				//if (isHovering || !EditorInput.isOverGrid) return;
 				if (!EditorInput.isOverGrid) return;
 				if(startClickNote == null && iconUnderMouse != null && !iconUnderMouse.target.transient) {
-
 					if(iconUnderMouse.data.behavior != TargetBehavior.NR_Pathbuilder) {
 						NRActionConvertNoteToPathbuilder action = new NRActionConvertNoteToPathbuilder();
 						action.data = iconUnderMouse.data;

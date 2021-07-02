@@ -36,6 +36,8 @@ namespace NotReaper.UI {
             text.alpha = 0;
             nImage.DOFade(0, 0);
             successIcon.DOFade(0, 0);
+            failIcon.DOFade(0, 0);
+            infoIcon.DOFade(0, 0);
         }
 
         public static void Queue(NRNotification notif) {
@@ -81,14 +83,20 @@ namespace NotReaper.UI {
 
         IEnumerator PlayAndHideNotification(NRNotification notification) {
             float fadeDuration = (float)NRSettings.config.UIFadeDuration;
-
+            SpriteRenderer iconRend;
             //TODO: Set icon to success or fail or info
             switch (notification.type) {
-                case NRNotifType.Success:
-
+                case NRNotifType.Info:
+                    iconRend = infoIcon;
                     break;
+                case NRNotifType.Fail:
+                    iconRend = failIcon;
+                    break;
+                default:
+                    iconRend = successIcon;
+                    break;
+                    
             }
-
             //Reset the notif;
             text.SetText(notification.content);
             sliderImg.color = EditorInput.GetSelectedColor();
@@ -96,7 +104,8 @@ namespace NotReaper.UI {
 
             //FADE IN
             nImage.DOFade(notifOpacity, fadeDuration / 2f);
-            successIcon.DOFade(1f, fadeDuration / 2f);
+            //successIcon.DOFade(1f, fadeDuration / 2f);
+            iconRend.DOFade(1f, fadeDuration / 2f);
             text.DOFade(1f, fadeDuration / 2f);
             sliderImg.DOFade(1f, fadeDuration / 2f);
             
@@ -108,7 +117,8 @@ namespace NotReaper.UI {
 
             //FADE OUT
             nImage.DOFade(0, fadeDuration / 2f);
-            successIcon.DOFade(0, fadeDuration / 2f);
+            //successIcon.DOFade(0, fadeDuration / 2f);
+            iconRend.DOFade(0, fadeDuration / 2f);
             text.DOFade(0, fadeDuration / 2f);
             sliderImg.DOFade(0, fadeDuration / 2f);
 

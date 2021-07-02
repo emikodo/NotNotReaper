@@ -6,7 +6,7 @@ using NotReaper.Targets;
 using NotReaper.Tools.ChainBuilder;
 using TMPro;
 using UnityEngine;
-
+using NotReaper.Grid;
 namespace NotReaper.Managers {
 
 
@@ -181,6 +181,7 @@ namespace NotReaper.Managers {
                     Timeline.audicaFile.diffs.beginner.cues = cues;
                     break;
             }
+            LoadDifficulty(dest); //Load difficulty after copying to it from other difficulty
         }
 
 
@@ -286,9 +287,6 @@ namespace NotReaper.Managers {
                     timeline.loadRepeaterSectionAfterAudio = cueFile.NRCueData.repeaterSections;
                 }
             }
-
-            
-
             return true;
         }
 

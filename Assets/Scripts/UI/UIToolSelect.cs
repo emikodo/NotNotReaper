@@ -5,6 +5,7 @@ using NotReaper.Models;
 using NotReaper.UserInput;
 using DG.Tweening;
 using UnityEngine.UI;
+using NotReaper.Tools;
 
 namespace NotReaper.UI {
 
@@ -47,43 +48,59 @@ namespace NotReaper.UI {
 
 
         public void SelectFromUI(string name) {
+            TargetBehavior behavior = TargetBehavior.None;
             switch (name) {
                 case "standard":
+                    behavior = TargetBehavior.Standard;
                     editorInput.SelectTool(EditorTool.Standard);      
                     break;
                 case "hold":
+                    behavior = TargetBehavior.Hold;
                     editorInput.SelectTool(EditorTool.Hold);
                     break;
                 case "vertical":
+                    behavior = TargetBehavior.Vertical;
                     editorInput.SelectTool(EditorTool.Vertical);
                     break;
                 case "horizontal":
+                    behavior = TargetBehavior.Horizontal;
                     editorInput.SelectTool(EditorTool.Horizontal);
                     break;
                 case "chainstart":
+                    behavior = TargetBehavior.ChainStart;
                     editorInput.SelectTool(EditorTool.ChainStart);
                     break;
                 case "chainnode":
+                    behavior = TargetBehavior.Chain;
                     editorInput.SelectTool(EditorTool.ChainNode);
                     break;
                 case "melee":
+                    behavior = TargetBehavior.Melee;
                     editorInput.SelectTool(EditorTool.Melee);
                     break;
-
-
                 case "dragselect":
                     editorInput.SelectTool(EditorTool.DragSelect);
                     break;
                 case "chainbuilder":
                     editorInput.SelectTool(EditorTool.ChainBuilder);
                     break;
-            }         
+                default:
+                    break;
+            }
+
+            if(Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl))
+            {
+                if(behavior != TargetBehavior.None)
+                {
+                    DragSelect.Instance.SetBehaviorAction(behavior);
+                }
+            }
         }
 
         public void UpdateUINoteSelected(EditorTool type) {
 
             Color color = EditorInput.GetSelectedColor();
-            float fadeDuration = (float)NRSettings.config.UIFadeDuration;
+            float fadeDuration = (float)NRSettings.config.UIFadeDuration;         
 
             switch (type) {
                 case EditorTool.Standard:
@@ -339,7 +356,7 @@ namespace NotReaper.UI {
                     break;
 
             }
-            
+
         }
 
 

@@ -890,7 +890,6 @@ namespace NotReaper {
 		/// <param name="increase">If true, increase by one beat snap, if false, the opposite.</param>
 		public void UpdateSustainLength (Target target, bool increase) {
 			if (!target.data.supportsBeatLength) return;
-
 			QNT_Duration increment = Constants.DurationFromBeatSnap ((uint) beatSnap);
 			QNT_Duration minimum = Constants.SixteenthNoteDuration;
 
@@ -1031,7 +1030,6 @@ namespace NotReaper {
 			var targetDataList = cues.Select (copyData => {
 				var data = new TargetData ();
 				data.Copy (copyData);
-
 				if (data.behavior == TargetBehavior.NR_Pathbuilder) {
 					data.pathBuilderData = new PathBuilderData ();
 					data.pathBuilderData.Copy (copyData.pathBuilderData);
@@ -1233,7 +1231,7 @@ namespace NotReaper {
 
 			AudicaExporter.ExportToAudicaFile (audicaFile, autoSave);
 
-			NotificationShower.Queue (new NRNotification ("Map saved successfully!"));
+			
 			isSaving = false;
 
 		}
@@ -1296,6 +1294,7 @@ namespace NotReaper {
 			} else if (filePath != null) {
 				audicaFile = null;
 				audicaFile = AudicaHandler.LoadAudicaFile (filePath);
+				if (audicaFile == null) return false;
 				PlayerPrefs.SetString ("recentFile", audicaFile.filepath);
 				RecentAudicaFiles.AddRecentDir (audicaFile.filepath);
 
@@ -1319,6 +1318,7 @@ namespace NotReaper {
 				audicaFile = null;
 
 				audicaFile = AudicaHandler.LoadAudicaFile (paths[0]);
+				if (audicaFile == null) return false;
 				PlayerPrefs.SetString ("recentFile", paths[0]);
 				RecentAudicaFiles.AddRecentDir (audicaFile.filepath);
 			}
@@ -2818,8 +2818,10 @@ namespace NotReaper {
         }
 
 		public bool ReplaceAudio (LoadType type, UISustainHandler.SustainTrack track) {
+			string lastPath = type == LoadType.Song ? PlayerPrefs.GetString("lastSong") : PlayerPrefs.GetString("lastSustain");
 			var compatible = new [] { type == LoadType.Song ? new ExtensionFilter ("Compatible Audio Types", "mp3", "ogg") : new ExtensionFilter("Compatible Audio Types", "ogg") };
-			string[] paths = StandaloneFileBrowser.OpenFilePanel ("Select music track", Path.Combine (Application.persistentDataPath), compatible, false);
+			//string[] paths = StandaloneFileBrowser.OpenFilePanel ("Select music track", Path.Combine (Application.persistentDataPath), compatible, false);
+			string[] paths = StandaloneFileBrowser.OpenFilePanel("Select music track", lastPath, compatible, false);
 			if (paths is null || paths.Length == 0) return false;
 			var filePath = paths[0];
 
@@ -2833,10 +2835,12 @@ namespace NotReaper {
 				case LoadType.Song:
 					_p = audicaFile.desc.cachedMainSong;
 					moggName = "song.mogg";
+					PlayerPrefs.SetString("lastSong", Path.GetDirectoryName(filePath));
 					break;
 				case LoadType.Sustain:
 					_p = audicaFile.desc.cachedSustainSongLeft;
 					moggName = "song_sustain_l.mogg";
+					PlayerPrefs.SetString("lastSustain", Path.GetDirectoryName(filePath));
 					/*if(track == UISustainHandler.SustainTrack.Left)
                     {
 						_p = audicaFile.desc.cachedSustainSongLeft;

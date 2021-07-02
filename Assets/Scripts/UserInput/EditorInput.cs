@@ -33,7 +33,7 @@ namespace NotReaper.UserInput {
 		public static SnappingMode selectedSnappingMode = SnappingMode.None;
 		public static SnappingMode previousSnappingMode = SnappingMode.None;
 		public static TargetBehavior selectedBehavior = TargetBehavior.Standard;
-		public static UITargetVelocity selectedVelocity = UITargetVelocity.Standard;
+		public static UITargetVelocity selectedVelocity { get; set; } = UITargetVelocity.Standard;
 		//public static TargetModifier selectedModifier = TargetModifier.None;
 
 		public static EditorMode selectedMode = EditorMode.Compose;
@@ -107,6 +107,7 @@ namespace NotReaper.UserInput {
 			SelectTool (EditorTool.Standard);
 			SelectHand (TargetHandType.Left);
 			SelectVelocity (UITargetVelocity.Standard);
+			SelectSnappingMode(SnappingMode.Grid);
 
 			NotificationShower.Queue (new NRNotification ("Welcome to NotReaper!", 3f));
 			pauseMenu.OpenPauseMenu ();
@@ -237,6 +238,27 @@ namespace NotReaper.UserInput {
 
 		}
 
+		private TargetVelocity ConvertUIVelocity(UITargetVelocity uiVelocity)
+		{
+			switch (uiVelocity)
+			{
+				case UI.UITargetVelocity.Chain:
+					return TargetVelocity.Chain;
+				case UI.UITargetVelocity.ChainStart:
+					return TargetVelocity.ChainStart;
+				case UI.UITargetVelocity.Melee:
+					return TargetVelocity.Melee;
+				case UI.UITargetVelocity.Mine:
+					return TargetVelocity.Mine;
+				case UI.UITargetVelocity.Percussion:
+					return TargetVelocity.Percussion;
+				case UI.UITargetVelocity.Snare:
+					return TargetVelocity.Snare;
+				default:
+					return TargetVelocity.Standard;
+			}
+		}
+
 		public void SelectMode (EditorMode mode) {
 
 			if (selectedMode == EditorMode.Timing && Timeline.inTimingMode) return;
@@ -286,44 +308,58 @@ namespace NotReaper.UserInput {
 				case EditorTool.Standard:
 					selectedBehavior = TargetBehavior.Standard;
 					soundDropdown.SetValueWithoutNotify ((int) UITargetVelocity.Standard);
-					SelectVelocity (UITargetVelocity.Standard);
-					SelectSnappingMode (SnappingMode.Grid);
-
+					//SelectVelocity (UITargetVelocity.Standard);
+					SelectVelocity(selectedVelocity);
+					//SelectSnappingMode (SnappingMode.Grid);
+					if (previousSnappingMode == SnappingMode.Melee) SelectSnappingMode(SnappingMode.Grid);
+					else SelectSnappingMode(selectedSnappingMode);
 					break;
 
 				case EditorTool.Hold:
 					selectedBehavior = TargetBehavior.Hold;
 					soundDropdown.SetValueWithoutNotify ((int) UITargetVelocity.Standard);
-					SelectVelocity (UITargetVelocity.Standard);
-					SelectSnappingMode (SnappingMode.Grid);
+					//SelectVelocity (UITargetVelocity.Standard);
+					SelectVelocity(selectedVelocity);
+					//SelectSnappingMode (SnappingMode.Grid);
+					if (previousSnappingMode == SnappingMode.Melee) SelectSnappingMode(SnappingMode.Grid);
+					else SelectSnappingMode(selectedSnappingMode);
 					break;
 
 				case EditorTool.Horizontal:
 					selectedBehavior = TargetBehavior.Horizontal;
 					soundDropdown.SetValueWithoutNotify ((int) UITargetVelocity.Standard);
-					SelectVelocity (UITargetVelocity.Standard);
-					SelectSnappingMode (SnappingMode.Grid);
+					//SelectVelocity (UITargetVelocity.Standard);
+					SelectVelocity(selectedVelocity);
+					//SelectSnappingMode (SnappingMode.Grid);
+					if (previousSnappingMode == SnappingMode.Melee) SelectSnappingMode(SnappingMode.Grid);
+					else SelectSnappingMode(selectedSnappingMode);
 					break;
 
 				case EditorTool.Vertical:
 					selectedBehavior = TargetBehavior.Vertical;
 					soundDropdown.SetValueWithoutNotify ((int) UITargetVelocity.Standard);
-					SelectVelocity (UITargetVelocity.Standard);
-					SelectSnappingMode (SnappingMode.Grid);
+					//SelectVelocity (UITargetVelocity.Standard);
+					SelectVelocity(selectedVelocity);
+					//SelectSnappingMode (SnappingMode.Grid);
+					if (previousSnappingMode == SnappingMode.Melee) SelectSnappingMode(SnappingMode.Grid);
+					else SelectSnappingMode(selectedSnappingMode);
 					break;
 
 				case EditorTool.ChainStart:
 					selectedBehavior = TargetBehavior.ChainStart;
 					soundDropdown.SetValueWithoutNotify ((int) UITargetVelocity.ChainStart);
 					SelectVelocity (UITargetVelocity.ChainStart);
-					SelectSnappingMode (SnappingMode.Grid);
+					//SelectSnappingMode (SnappingMode.Grid);
+					if (previousSnappingMode == SnappingMode.Melee) SelectSnappingMode(SnappingMode.Grid);
+					else SelectSnappingMode(selectedSnappingMode);
 					break;
 
 				case EditorTool.ChainNode:
 					selectedBehavior = TargetBehavior.Chain;
 					soundDropdown.SetValueWithoutNotify ((int) UITargetVelocity.Chain);
 					SelectVelocity (UITargetVelocity.Chain);
-					SelectSnappingMode (SnappingMode.None);
+					if (previousSnappingMode == SnappingMode.Melee) SelectSnappingMode(SnappingMode.Grid);
+					else SelectSnappingMode(selectedSnappingMode);
 					break;
 
 				case EditorTool.Melee:
@@ -368,6 +404,7 @@ namespace NotReaper.UserInput {
 
 			if (tool != EditorTool.ChainBuilder) {
 				Tools.chainBuilder.Activate (false);
+				if(previousTool == EditorTool.ChainBuilder) timeline.DeselectAllTargets(); //Disappearing chains fix
 			}
 			if (tool != EditorTool.DragSelect) {
 				Tools.dragSelect.Activate (false);

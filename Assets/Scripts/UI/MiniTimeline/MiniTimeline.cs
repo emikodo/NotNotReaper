@@ -306,7 +306,7 @@ namespace NotReaper.UI {
 			bool isShiftDown = false;
 
 
-			if (Input.GetKeyDown(KeyCode.P) && !ModifierHandler.inputFocused && !BookmarkMenu.inputFocused) {
+			if (Input.GetKeyDown(KeyCode.P) && !ModifierHandler.inputFocused && !BookmarkMenu.inputFocused && !EditorInput.inUI) {
 				SetPreviewStartPoint(Timeline.time);
 				Debug.Log(MinitimelineToSeconds(songPreviewIcon.localPosition.x));
 			}

@@ -105,6 +105,13 @@ namespace NotReaper.Grid {
             cursorTint.DOColor(color, animColorSpeed);
         }
 
+        public delegate void OnUIToolUpdated(EditorTool tool);
+        private List<OnUIToolUpdated> callbacks = new List<OnUIToolUpdated>();
+        public void RegisterOnUIToolUpdatedCallback(OnUIToolUpdated callback)
+        {
+            callbacks.Add(callback);
+        }
+
         public void UpdateUITool(EditorTool tool) {
             if (tool == EditorTool.DragSelect || tool == EditorTool.ChainBuilder) {
                 cursor.SetActive(true);
@@ -122,6 +129,10 @@ namespace NotReaper.Grid {
             chainnode.gameObject.SetActive(tool == EditorTool.ChainNode);
             melee.gameObject.SetActive(tool == EditorTool.Melee);
             mine.gameObject.SetActive(tool == EditorTool.Mine);
+            foreach(var callback in callbacks)
+            {
+                callback.Invoke(tool);
+            }
         }
 
 

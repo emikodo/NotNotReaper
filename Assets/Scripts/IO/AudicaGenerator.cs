@@ -13,7 +13,7 @@ namespace NotReaper.IO {
 
 	public class AudicaGenerator {
 
-		public static string Generate(string oggPath, float moggSongVol, string songID, string songName, string artist, double bpm, string songEndEvent, string author, int offset, string midiPath, string artPath) {
+		public static string Generate(string oggPath, float moggSongVol, string songID, string songName, string artist, double bpm, string songEndEvent, string author, int offset, string midiPath, string artPath, Difficulty difficulty) {
 
 
 			HandleCache.CheckSaveFolderValid();
@@ -22,6 +22,25 @@ namespace NotReaper.IO {
 
 			
 			string audicaTemplate = Path.Combine(workFolder, "AudicaTemplate/");
+			string cuesFile = Path.Combine(audicaTemplate, "expert.cues");
+			string newCuesName = "expert.cues";
+            switch (difficulty)
+            {
+				case Difficulty.Expert:
+					break;
+				case Difficulty.Advanced:
+					newCuesName = "advanced.cues";
+					break;
+				case Difficulty.Standard:
+					newCuesName = "moderate.cues";
+					break;
+				case Difficulty.Easy:
+					newCuesName = "beginner.cues";
+					break;
+				default:
+					break;
+            }
+			if(difficulty != Difficulty.Expert) File.Move(cuesFile, Path.Combine(audicaTemplate, newCuesName));
 
 			Encoding encoding = Encoding.GetEncoding("UTF-8");
 
@@ -105,7 +124,7 @@ namespace NotReaper.IO {
 
 				archive.SaveTo(Path.Combine(Application.dataPath, @"../", "saves", songID + ".audica"), SharpCompress.Common.CompressionType.None);
 			}
-
+			if (difficulty != Difficulty.Expert) File.Move(Path.Combine(audicaTemplate, newCuesName), cuesFile);
 			return Path.Combine(Application.dataPath, @"../", "saves", songID + ".audica");
 			
 		/*

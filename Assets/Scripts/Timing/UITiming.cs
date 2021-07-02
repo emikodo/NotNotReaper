@@ -15,6 +15,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
+using NotReaper.Models;
 
 namespace NotReaper.Timing {
 
@@ -40,7 +41,7 @@ namespace NotReaper.Timing {
         public Image AlbumArtImg;
         public CanvasGroup window;
         public EditorInput editorInput;
-
+        public TMP_Dropdown difficultyDrop;
 
         private AudioClip audioFile;
         public Timeline timeline;
@@ -104,10 +105,12 @@ namespace NotReaper.Timing {
 
 
         public void SelectAudioFile() {
-            var compatible = new[] { new ExtensionFilter("Compatible Audio Types", "mp3", "ogg", "flac") }; 
-            string[] paths = StandaloneFileBrowser.OpenFilePanel("Select music track", Path.Combine(Application.persistentDataPath), compatible, false);
+            var compatible = new[] { new ExtensionFilter("Compatible Audio Types", "mp3", "ogg", "flac") };
+            //string[] paths = StandaloneFileBrowser.OpenFilePanel("Select music track", Path.Combine(Application.persistentDataPath), compatible, false);
+            string[] paths = StandaloneFileBrowser.OpenFilePanel("Select music track", PlayerPrefs.GetString("lastSong"), compatible, false);
+            if (paths is null || paths.Length == 0) return;
             var filePath = paths[0];
-
+            PlayerPrefs.SetString("lastSong", Path.GetDirectoryName(filePath));
             if (filePath != null) {
                 // if user loads mp3 or flac instead of ogg, do the conversion first
                 if (paths[0].EndsWith(".mp3") || paths[0].EndsWith(".flac"))
@@ -182,9 +185,11 @@ namespace NotReaper.Timing {
         public void SelectMidiFile() // Load Midi for tempo
         {
             var compatible = new[] { new ExtensionFilter("MIDI", "mid") };
-            string[] paths = StandaloneFileBrowser.OpenFilePanel("Select midi tempo map", Path.Combine(Application.persistentDataPath), compatible, false);
+            //string[] paths = StandaloneFileBrowser.OpenFilePanel("Select midi tempo map", Path.Combine(Application.persistentDataPath), compatible, false);
+            string[] paths = StandaloneFileBrowser.OpenFilePanel("Select midi tempo map", PlayerPrefs.GetString("lastMidi"), compatible, false);
+            if (paths is null || paths.Length == 0) return;
             var filePath = paths[0];
-
+            PlayerPrefs.SetString("lastMidi", Path.GetDirectoryName(filePath));
             if (filePath != null)
             {
                 midiText.text = System.IO.Path.GetFileName(paths[0]);
@@ -195,9 +200,11 @@ namespace NotReaper.Timing {
         public void SelectAlbumArtFile() // Album art
         {
             var compatible = new[] { new ExtensionFilter("Compatible Image Types", "png", "jpeg", "jpg") };
-            string[] paths = StandaloneFileBrowser.OpenFilePanel("Select album art", Path.Combine(Application.persistentDataPath), compatible, false);
+            //string[] paths = StandaloneFileBrowser.OpenFilePanel("Select album art", Path.Combine(Application.persistentDataPath), compatible, false);
+            string[] paths = StandaloneFileBrowser.OpenFilePanel("Select album art", PlayerPrefs.GetString("lastAlbumArt"), compatible, false);
+            if (paths is null || paths.Length == 0) return;
             var filePath = paths[0];
-
+            PlayerPrefs.SetString("lastAlbumArt", Path.GetDirectoryName(filePath));
             if (filePath != null)
             {
 
@@ -249,14 +256,32 @@ namespace NotReaper.Timing {
             
 
 	        string path;
-
+            Difficulty difficulty;
+            switch (difficultyDrop.value)
+            {
+                case 0:
+                    difficulty = Difficulty.Expert;
+                    break;
+                case 1:
+                    difficulty = Difficulty.Advanced;
+                    break;
+                case 2:
+                    difficulty = Difficulty.Standard;
+                    break;
+                case 3: 
+                    difficulty = Difficulty.Easy;
+                    break;
+                default:
+                    difficulty = Difficulty.Expert;
+                    break;
+            }
 	        if (isMp3 || !skipOffset) {
                 trimAudio.SetAudioLength(loadedSong, Path.Combine(Application.streamingAssetsPath, "FFMPEG", "output.ogg"), 0, DefaultBPM, skipOffset);
-                path = AudicaGenerator.Generate(Path.Combine(Application.streamingAssetsPath, "FFMPEG", "output.ogg"), moggSongVolume, RemoveSpecialCharacters(songName + "-" + mapperName), songName, artistName, DefaultBPM, songEndEvent, mapperName, 0, loadedMidi, loadedArt);
+                path = AudicaGenerator.Generate(Path.Combine(Application.streamingAssetsPath, "FFMPEG", "output.ogg"), moggSongVolume, RemoveSpecialCharacters(songName + "-" + mapperName), songName, artistName, DefaultBPM, songEndEvent, mapperName, 0, loadedMidi, loadedArt, difficulty);
 		        
 	        }
 	        else {
-                path = AudicaGenerator.Generate(loadedSong, moggSongVolume, RemoveSpecialCharacters(songName + "-" + mapperName), songName, artistName, DefaultBPM, songEndEvent, mapperName, 0, loadedMidi, loadedArt);
+                path = AudicaGenerator.Generate(loadedSong, moggSongVolume, RemoveSpecialCharacters(songName + "-" + mapperName), songName, artistName, DefaultBPM, songEndEvent, mapperName, 0, loadedMidi, loadedArt, difficulty);
 	        }
 	        
             timeline.LoadAudicaFile(false, path);

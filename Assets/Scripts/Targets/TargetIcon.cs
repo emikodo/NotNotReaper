@@ -5,6 +5,8 @@ using NotReaper.Models;
 using UnityEngine;
 using UnityEngine.UI;
 using NotReaper.Timing;
+using NotReaper.Tools.ChainBuilder;
+using System.Linq;
 
 namespace NotReaper.Targets {
 
@@ -266,11 +268,53 @@ namespace NotReaper.Targets {
         }
 
         public void IncreaseBeatLength() {
-            target.MakeTimelineUpdateSustainLength(true);
+
+            if (target.data.pathBuilderData != null && (Input.GetKey(KeyCode.LeftAlt) || Input.GetKey(KeyCode.RightAlt)))              
+            {
+                if (ChainBuilder.Instance.activated) ChainBuilder.Instance.ChangeInterval(true);
+                else target.data.pathBuilderData.interval = GetInterval(target.data.pathBuilderData.interval, true);
+                
+                ChainBuilder.GenerateChainNotes(target.data);
+
+            }
+            else
+            {
+                target.MakeTimelineUpdateSustainLength(true);
+            }
+            
         }
 
         public void DescreseBeatLength() {
-            target.MakeTimelineUpdateSustainLength(false);
+
+            if (target.data.pathBuilderData != null && (Input.GetKey(KeyCode.LeftAlt) || Input.GetKey(KeyCode.RightAlt)))
+            {
+                if(ChainBuilder.Instance.activated) ChainBuilder.Instance.ChangeInterval(false);
+                else target.data.pathBuilderData.interval = GetInterval(target.data.pathBuilderData.interval, false);
+               
+                ChainBuilder.GenerateChainNotes(target.data);
+                
+            }
+            else
+            {
+                target.MakeTimelineUpdateSustainLength(false);
+            }
+        }
+
+        private int GetInterval(int currentInterval, bool increase)
+        {
+            List<int> intervals = new List<int>();
+            foreach(string s in NRSettings.config.snaps)
+            {
+                string temp = s;
+                int snap = 4;
+                int.TryParse(temp.Substring(2), out snap);
+                intervals.Add(snap);
+            }
+            int index = intervals.IndexOf(currentInterval);
+            if (index == intervals.Count - 1 && increase) return currentInterval;
+            else if (index == 0 && !increase) return currentInterval;
+            else if (increase) return intervals[index + 1];
+            else return intervals[index - 1];
         }
 
         public void UpdateTimelineSustainLength() {

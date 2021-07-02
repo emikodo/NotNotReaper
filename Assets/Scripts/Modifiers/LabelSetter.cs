@@ -24,6 +24,7 @@ namespace NotReaper.Modifier
         [SerializeField] private TextMeshProUGUI colorHueLeftLabel;
         [SerializeField] private TextMeshProUGUI colorSaturationLeftLabel;
         [SerializeField] private TextMeshProUGUI colorHueRightLabel;
+        [SerializeField] private TextMeshProUGUI colorSaturationRightLabel;
 
         [SerializeField] private TextMeshProUGUI leftColorLabel;
         [SerializeField] private TextMeshProUGUI rightColorLabel;
@@ -82,7 +83,18 @@ namespace NotReaper.Modifier
         public void UpdateSkyboxColor()
         {
             float[] col = GetSkyboxColor();
+            float saturation = GetSaturation();
+            for(int i = 0; i < col.Length; i++)
+            {
+                col[i] *= saturation;
+            }
             colorFieldLeft.color = new Color(col[0], col[1], col[2]);
+        }
+
+        public void SetSaturationRightValue(float value)
+        {
+            colorSliderSaturationRight.value = value;
+            Debug.Log(value);
         }
 
         public void SetLabelText(string text)
@@ -186,6 +198,11 @@ namespace NotReaper.Modifier
             return new float[] { c.r, c.g, c.b };
         }
 
+        public float GetSaturation()
+        {
+            return colorSliderSaturationRight.value;
+        }
+
         private void SetRightHueLabel(string label)
         {
             colorHueRightLabel.text = label;
@@ -194,9 +211,14 @@ namespace NotReaper.Modifier
         {
             colorHueLeftLabel.text = label;
         }
-        private void SetLeftSaturationlabel(string label)
+        private void SetLeftSaturationLabel(string label)
         {
             colorSaturationLeftLabel.text = label;
+        }
+
+        private void SetRightSaturationLabel(string label)
+        {
+            colorSaturationRightLabel.text = label;
         }
 
         public void SetIsColorPicker(bool _isColorPicker)
@@ -204,18 +226,18 @@ namespace NotReaper.Modifier
             isColorPicker = _isColorPicker;
             leftColorLabel.enabled = _isColorPicker;
             rightColorLabel.enabled = _isColorPicker;
-            colorSliderSaturationRight.transform.parent.gameObject.SetActive(_isColorPicker);
+            //colorSliderSaturationRight.transform.parent.gameObject.SetActive(_isColorPicker);
             colorFieldRight.enabled = _isColorPicker;
             if (_isColorPicker)
             {
                 SetLeftHueLabel("Hue");
                 SetRightHueLabel("Hue");
-                SetLeftSaturationlabel("Saturation");
+                SetLeftSaturationLabel("Saturation");
             }
             else
             {
                 SetLeftHueLabel("Red");
-                SetLeftSaturationlabel("Green");
+                SetLeftSaturationLabel("Green");
                 SetRightHueLabel("Blue");
             }
             UpdateColors();

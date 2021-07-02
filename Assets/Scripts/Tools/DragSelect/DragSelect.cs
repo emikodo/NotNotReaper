@@ -71,6 +71,8 @@ namespace NotReaper.Tools {
 		private List<TargetTimelineMoveIntent> timelineTargetMoveIntents = new List<TargetTimelineMoveIntent>();
 		private List<TargetSetHitsoundIntent> targetSetHitsoundIntents = new List<TargetSetHitsoundIntent>();
 
+		public static DragSelect Instance = null;
+
 		/** Fetch all icons currently under the mouse
 		 *  Will only ever happen once per frame */
 		public TargetIcon[] iconsUnderMouse {
@@ -101,7 +103,17 @@ namespace NotReaper.Tools {
 			activated = active;
 		}
 
-		public void Update() {
+        public void Start()
+        {
+			if (Instance is null) Instance = this;
+            else
+            {
+				Debug.LogWarning("Dragselect Instance already exists.");
+				return;
+            }
+        }
+
+        public void Update() {
 			CaptureInput();
 			UpdateActions();
 			UpdateSelections();
@@ -344,7 +356,7 @@ namespace NotReaper.Tools {
 			timeline.SetTargetHitsounds(targetSetHitsoundIntents);
 		}
 
-		private void SetBehaviorAction(TargetBehavior behavior) {
+		public void SetBehaviorAction(TargetBehavior behavior) {
 			NRActionSetTargetBehavior setBehaviorAction = new NRActionSetTargetBehavior();
 			setBehaviorAction.newBehavior = behavior;
 			timeline.selectedNotes.ForEach(target => {
