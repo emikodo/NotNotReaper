@@ -107,7 +107,7 @@ namespace NotReaper.Managers {
 
 		private IEnumerator Init() {
 		
-			string url = "https://raw.githubusercontent.com/CircuitLord/NotReaper/master/updates.json";
+			string url = "https://raw.githubusercontent.com/octoberU/NotReaper/master/updates.json";
 			
 			UnityWebRequest www = UnityWebRequest.Get(url);
 			yield return www.SendWebRequest();
