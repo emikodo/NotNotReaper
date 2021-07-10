@@ -68,7 +68,7 @@ namespace NotReaper.Modifier
             colorFieldRight.color = Color.white;
         }
 
-        public void SetSkyboxColor(float[] col)
+        public void SetSkyboxColor(float[] col, float saturation)
         {
             if(col.Length < 3)
             {
@@ -77,6 +77,7 @@ namespace NotReaper.Modifier
             colorSliderHueLeft.value = col[0];
             colorSliderSaturationLeft.value = col[1];
             colorSliderHueRight.value = col[2];
+            colorSliderSaturationRight.value = saturation;
             UpdateSkyboxColor();
         }
 
@@ -94,7 +95,6 @@ namespace NotReaper.Modifier
         public void SetSaturationRightValue(float value)
         {
             colorSliderSaturationRight.value = value;
-            Debug.Log(value);
         }
 
         public void SetLabelText(string text)

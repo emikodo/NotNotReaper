@@ -7,7 +7,7 @@ using UnityEngine.UI;
 namespace NotReaper.UI {
 
     public enum UITargetVelocity {
-        Standard = 0, Snare = 1, Percussion = 2, ChainStart = 3, Chain = 4, Melee = 5, Metronome = 6, Mine = 7
+        Standard = 0, Snare = 1, Percussion = 2, ChainStart = 3, Chain = 4, Melee = 5, Metronome = 6, Mine = 7, Silent = 8
     }
     public class SoundSelect : MonoBehaviour {
         // Start is called before the first frame update
@@ -35,9 +35,8 @@ namespace NotReaper.UI {
         }
 
         public void ValueChanged(int value) {
-
-
-            editorInput.SelectVelocity((UITargetVelocity)value);
+            UITargetVelocity velocity = value == 6 ? UITargetVelocity.Silent : (UITargetVelocity)value; //6 = Silent
+            editorInput.SelectVelocity(velocity);
         }
 
 

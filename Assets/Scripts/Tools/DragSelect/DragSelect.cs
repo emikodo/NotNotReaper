@@ -53,6 +53,7 @@ namespace NotReaper.Tools {
 		private bool frameIntentSetHitSoundChainStart = false;
 		private bool frameIntentSetHitSoundChain = false;
 		private bool frameIntentSetHitSoundMelee = false;
+		private bool frameIntentSetHitSoundSilent = false;
 
 		//Change note behavior
 		private TargetBehavior frameIntentSetBehavior = TargetBehavior.None;
@@ -450,6 +451,7 @@ namespace NotReaper.Tools {
 				frameIntentSetHitSoundChainStart = Input.GetKeyDown(KeyCode.R);
 				frameIntentSetHitSoundChain = Input.GetKeyDown(KeyCode.T);
 				frameIntentSetHitSoundMelee = Input.GetKeyDown(KeyCode.Y);
+				frameIntentSetHitSoundSilent = Input.GetKeyDown(KeyCode.X);
 			}
 
 			// Mouse input
@@ -522,6 +524,7 @@ namespace NotReaper.Tools {
 			if (frameIntentSetHitSoundChain) SetHitsoundAction(TargetVelocity.Chain);
 			if (frameIntentSetHitSoundChainStart) SetHitsoundAction(TargetVelocity.ChainStart);
 			if (frameIntentSetHitSoundMelee) SetHitsoundAction(TargetVelocity.Melee);
+			if (frameIntentSetHitSoundSilent) SetHitsoundAction(TargetVelocity.None);
 
 			if(frameIntentSetBehavior != TargetBehavior.None) {
 				SetBehaviorAction(frameIntentSetBehavior);

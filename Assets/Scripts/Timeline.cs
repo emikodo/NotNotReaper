@@ -463,12 +463,22 @@ namespace NotReaper {
 			int leftHandMeleeCount = 0;
 			int rightHandMeleeCount = 0;
 			int meleeCount = 0;
+			//int eitherHandCount = 0;
+			int targetCount = 0;
 			foreach (Target target in loadedNotes) {
 				if (target.data.time == tempTime)
 				{
-					if(target.data.handType == EditorInput.selectedHand && EditorInput.selectedTool != EditorTool.Melee)
+					if (target.data.behavior != TargetBehavior.Melee && target.data.behavior != TargetBehavior.Mine)
                     {
-						if (EditorInput.selectedTool != EditorTool.Mine) return;
+						targetCount++;
+                    }
+					if (target.data.handType == TargetHandType.Either && target.data.behavior != TargetBehavior.Melee && target.data.behavior != TargetBehavior.Mine)
+					{
+						if (targetCount == 2) return;
+					}
+					if (target.data.handType == EditorInput.selectedHand && EditorInput.selectedTool != EditorTool.Melee)
+                    {
+						if (EditorInput.selectedTool != EditorTool.Mine && target.data.handType != TargetHandType.Either) return;
 					}
 					else if(EditorInput.selectedTool == EditorTool.Melee)
                     {
@@ -497,6 +507,12 @@ namespace NotReaper {
 				}
 				
 			}
+
+			if (data.handType == TargetHandType.Either && data.behavior != TargetBehavior.Melee && data.behavior != TargetBehavior.Mine)
+			{
+				if (targetCount == 2) return;
+			}
+
 
 			data.SetTimeFromAction (GetClosestBeatSnapped (time, (uint) beatSnap));
 
@@ -535,7 +551,9 @@ namespace NotReaper {
 				case UITargetVelocity.Mine:
 					data.velocity = TargetVelocity.Mine;
 					break;
-
+				case UITargetVelocity.Silent:
+					data.velocity = TargetVelocity.None;
+					break;
 				default:
 					data.velocity = TargetVelocity.Standard;
 					break;

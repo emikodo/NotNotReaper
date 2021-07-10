@@ -393,7 +393,6 @@ namespace NotReaper.Timing {
 			if(Timeline.orderedNotes.Count == 0) {
 				return;
 			}
-
 			if(start > end) {
 				QNT_Timestamp temp = start;
 				start = end;
@@ -407,6 +406,10 @@ namespace NotReaper.Timing {
 				if(data.time < start) {
 					continue;
 				}
+				if(data.velocity == TargetVelocity.None)
+                {
+					continue;
+                }
 				if(data.time > end) {
 					return;
 				}
@@ -458,7 +461,9 @@ namespace NotReaper.Timing {
 						case TargetVelocity.Mine:
 							ev.sound = mine;
 							break;
-
+						case TargetVelocity.None:
+							ev.sound = null;
+							break;
 						default:
 							continue;
 					}

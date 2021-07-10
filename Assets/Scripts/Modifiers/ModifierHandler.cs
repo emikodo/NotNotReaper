@@ -384,7 +384,7 @@ namespace NotReaper.Modifier
             }
             else
             {
-                colorPicker.GetComponent<LabelSetter>().SetSkyboxColor(currentModifier.leftHandColor);
+                colorPicker.GetComponent<LabelSetter>().SetSkyboxColor(currentModifier.leftHandColor, currentModifier.amount);
             }
 
             amountSlider.GetComponent<LabelSetter>().SetSliderValue(currentModifier.amount);

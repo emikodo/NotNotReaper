@@ -231,6 +231,9 @@ namespace NotReaper.UserInput {
 				case UITargetVelocity.Melee:
 					soundDropdown.SetValueWithoutNotify ((int) UITargetVelocity.Melee);
 					break;
+				case UITargetVelocity.Silent:
+					soundDropdown.SetValueWithoutNotify(6);
+					break;
 
 			}
 
@@ -267,6 +270,15 @@ namespace NotReaper.UserInput {
 
 			FigureOutIsInUI ();
 		}
+
+		private UITargetVelocity GetVelocityOnToolChange()
+        {
+			if (previousTool == EditorTool.ChainStart && selectedVelocity == UITargetVelocity.ChainStart) return UITargetVelocity.Standard;
+			else if (previousTool == EditorTool.ChainNode && selectedVelocity == UITargetVelocity.Chain) return UITargetVelocity.Standard;
+			else if (previousTool == EditorTool.Melee && selectedVelocity == UITargetVelocity.Melee) return UITargetVelocity.Standard;
+			else if (previousTool == EditorTool.Mine && selectedVelocity == UITargetVelocity.Mine) return UITargetVelocity.Standard;
+			else return selectedVelocity;
+        }
 
 		public void SelectTool (EditorTool tool) {
 			if (tool == selectedTool) {
@@ -309,9 +321,9 @@ namespace NotReaper.UserInput {
 					selectedBehavior = TargetBehavior.Standard;
 					soundDropdown.SetValueWithoutNotify ((int) UITargetVelocity.Standard);
 					//SelectVelocity (UITargetVelocity.Standard);
-					SelectVelocity(selectedVelocity);
+					SelectVelocity(GetVelocityOnToolChange());
 					//SelectSnappingMode (SnappingMode.Grid);
-					if (previousSnappingMode == SnappingMode.Melee) SelectSnappingMode(SnappingMode.Grid);
+					if (selectedSnappingMode == SnappingMode.Melee) SelectSnappingMode(SnappingMode.Grid);
 					else SelectSnappingMode(selectedSnappingMode);
 					break;
 
@@ -319,9 +331,9 @@ namespace NotReaper.UserInput {
 					selectedBehavior = TargetBehavior.Hold;
 					soundDropdown.SetValueWithoutNotify ((int) UITargetVelocity.Standard);
 					//SelectVelocity (UITargetVelocity.Standard);
-					SelectVelocity(selectedVelocity);
+					SelectVelocity(GetVelocityOnToolChange());
 					//SelectSnappingMode (SnappingMode.Grid);
-					if (previousSnappingMode == SnappingMode.Melee) SelectSnappingMode(SnappingMode.Grid);
+					if (selectedSnappingMode == SnappingMode.Melee) SelectSnappingMode(SnappingMode.Grid);
 					else SelectSnappingMode(selectedSnappingMode);
 					break;
 
@@ -329,9 +341,9 @@ namespace NotReaper.UserInput {
 					selectedBehavior = TargetBehavior.Horizontal;
 					soundDropdown.SetValueWithoutNotify ((int) UITargetVelocity.Standard);
 					//SelectVelocity (UITargetVelocity.Standard);
-					SelectVelocity(selectedVelocity);
+					SelectVelocity(GetVelocityOnToolChange());
 					//SelectSnappingMode (SnappingMode.Grid);
-					if (previousSnappingMode == SnappingMode.Melee) SelectSnappingMode(SnappingMode.Grid);
+					if (selectedSnappingMode == SnappingMode.Melee) SelectSnappingMode(SnappingMode.Grid);
 					else SelectSnappingMode(selectedSnappingMode);
 					break;
 
@@ -339,9 +351,9 @@ namespace NotReaper.UserInput {
 					selectedBehavior = TargetBehavior.Vertical;
 					soundDropdown.SetValueWithoutNotify ((int) UITargetVelocity.Standard);
 					//SelectVelocity (UITargetVelocity.Standard);
-					SelectVelocity(selectedVelocity);
+					SelectVelocity(GetVelocityOnToolChange());
 					//SelectSnappingMode (SnappingMode.Grid);
-					if (previousSnappingMode == SnappingMode.Melee) SelectSnappingMode(SnappingMode.Grid);
+					if (selectedSnappingMode == SnappingMode.Melee) SelectSnappingMode(SnappingMode.Grid);
 					else SelectSnappingMode(selectedSnappingMode);
 					break;
 
@@ -350,7 +362,7 @@ namespace NotReaper.UserInput {
 					soundDropdown.SetValueWithoutNotify ((int) UITargetVelocity.ChainStart);
 					SelectVelocity (UITargetVelocity.ChainStart);
 					//SelectSnappingMode (SnappingMode.Grid);
-					if (previousSnappingMode == SnappingMode.Melee) SelectSnappingMode(SnappingMode.Grid);
+					if (selectedSnappingMode == SnappingMode.Melee) SelectSnappingMode(SnappingMode.Grid);
 					else SelectSnappingMode(selectedSnappingMode);
 					break;
 
@@ -358,7 +370,7 @@ namespace NotReaper.UserInput {
 					selectedBehavior = TargetBehavior.Chain;
 					soundDropdown.SetValueWithoutNotify ((int) UITargetVelocity.Chain);
 					SelectVelocity (UITargetVelocity.Chain);
-					if (previousSnappingMode == SnappingMode.Melee) SelectSnappingMode(SnappingMode.Grid);
+					if (selectedSnappingMode == SnappingMode.Melee) SelectSnappingMode(SnappingMode.Grid);
 					else SelectSnappingMode(selectedSnappingMode);
 					break;
 
@@ -765,6 +777,10 @@ namespace NotReaper.UserInput {
 			if (Input.GetKeyDown (InputManager.toggleColor)) {
 				ToggleHandColor ();
 			}
+            if (Input.GetKeyDown(KeyCode.Alpha0) && !inUI)
+            {
+				SelectHand(TargetHandType.Either);
+            }
 
 			if (Input.GetKeyDown (InputManager.selectSoundKick)) {
 				soundDropdown.value = 0;
@@ -778,7 +794,10 @@ namespace NotReaper.UserInput {
 				soundDropdown.value = 4;
 			} else if (Input.GetKeyDown (InputManager.selectSoundMelee)) {
 				soundDropdown.value = 5;
-			}
+			} else if (Input.GetKeyDown(KeyCode.X))
+            {
+				soundDropdown.value = 6;
+            }
 
 			if (!isShiftDown && isCTRLDown && Input.GetKeyDown (InputManager.undo) && !ModifierHandler.activated) {
 				Tools.undoRedoManager.Undo ();
