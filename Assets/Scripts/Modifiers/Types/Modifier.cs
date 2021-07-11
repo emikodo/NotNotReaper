@@ -25,8 +25,8 @@ namespace NotReaper.Modifier
         public bool option1;
         public bool option2;
         public bool independantBool;
-        public float[] leftHandColor;
-        public float[] rightHandColor;
+        public float[] leftHandColor = new float[] { 0f, 0f, 0f };
+        public float[] rightHandColor = new float[] { 0f, 0f, 0f };
 
         [Header("Data")]
         public ModifierHandler.ModifierType modifierType;
@@ -116,6 +116,7 @@ namespace NotReaper.Modifier
 
         public void LoadFromDTO(ModifierDTO dto)
         {
+            modifierType = (ModifierHandler.ModifierType)Enum.Parse(typeof(ModifierHandler.ModifierType), dto.type);
             amount = dto.amount;
             startPosX = dto.startPosX;
             endPosX = dto.endPosX;
@@ -133,7 +134,6 @@ namespace NotReaper.Modifier
             xoffset = dto.xoffset;
             yoffset = dto.yoffset;
             zoffset = dto.zoffset;
-            modifierType = (ModifierHandler.ModifierType)Enum.Parse(typeof(ModifierHandler.ModifierType), dto.type);
         }
 
         public void Scale(float targetScale)

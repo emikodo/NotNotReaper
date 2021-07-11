@@ -15,6 +15,8 @@ namespace NotReaper.UI {
         public Button saveButton;
         public Button newAudicaButton;
         [SerializeField] RecentPanel recentPanel;
+        public Button selectSongButton;
+        public Button generateButton;
 
         public CanvasGroup window;
         public Image BG;
@@ -31,10 +33,14 @@ namespace NotReaper.UI {
 
         public void NewAudica() {
             ClosePauseMenu();
-
+            if (Timeline.audicaLoaded)
+            {
+                timeline.Export();
+                System.Diagnostics.Process.Start(Application.dataPath + "/../NotReaper.exe");
+                Application.Quit();
+            }
             editorInput.SelectMode(EditorMode.Timing);
             Timeline.inTimingMode = true;
-
             //newAudicaButton.interactable = false;
             
         }
@@ -61,7 +67,7 @@ namespace NotReaper.UI {
                 saveButton.interactable = false;
             }
 
-            newAudicaButton.interactable = !Timeline.audicaLoaded;
+            //newAudicaButton.interactable = !Timeline.audicaLoaded;
             
             BG.gameObject.SetActive(true);
             window.gameObject.SetActive(true);

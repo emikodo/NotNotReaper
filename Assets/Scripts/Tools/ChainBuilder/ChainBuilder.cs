@@ -354,7 +354,33 @@ namespace NotReaper.Tools.ChainBuilder {
 		private void Update() {
 			if (!activated) return;
 
-			if(Input.GetMouseButton(0)) {
+			if (Input.GetMouseButtonDown(0))
+			{
+				//if (isHovering || !EditorInput.isOverGrid) return;
+				if (!EditorInput.isOverGrid) return;
+				if (startClickNote == null && iconUnderMouse != null && !iconUnderMouse.target.transient)
+				{
+					if (iconUnderMouse.data.behavior != TargetBehavior.NR_Pathbuilder)
+					{
+						NRActionConvertNoteToPathbuilder action = new NRActionConvertNoteToPathbuilder();
+						action.data = iconUnderMouse.data;
+
+						timeline.Tools.undoRedoManager.AddAction(action);
+					}
+
+					timeline.DeselectAllTargets();
+					iconUnderMouse.TrySelect();
+
+					startClickNote = iconUnderMouse.target;
+
+					if (timeline.selectedNotes.Count == 1)
+					{
+						SetPathbuilderStateToSelectedNote();
+					}
+				}
+			}
+
+			if (Input.GetMouseButton(0)) {
 				//We have already selected a pathbuilder note, do the initial angle flow
 				//if (isHovering || !EditorInput.isOverGrid) return;
 				if (!EditorInput.isOverGrid) return;
@@ -387,27 +413,7 @@ namespace NotReaper.Tools.ChainBuilder {
 				startClickNote = null;
 			}
 
-			if (Input.GetMouseButtonDown(0)) {
-				//if (isHovering || !EditorInput.isOverGrid) return;
-				if (!EditorInput.isOverGrid) return;
-				if(startClickNote == null && iconUnderMouse != null && !iconUnderMouse.target.transient) {
-					if(iconUnderMouse.data.behavior != TargetBehavior.NR_Pathbuilder) {
-						NRActionConvertNoteToPathbuilder action = new NRActionConvertNoteToPathbuilder();
-						action.data = iconUnderMouse.data;
-
-						timeline.Tools.undoRedoManager.AddAction(action);
-					}
-
-					timeline.DeselectAllTargets();
-					iconUnderMouse.TrySelect();
-
-					startClickNote = iconUnderMouse.target;
-
-					if(timeline.selectedNotes.Count == 1) {
-						SetPathbuilderStateToSelectedNote();
-					}
-				}
-			}
+			
 			
 			
 

@@ -95,6 +95,7 @@ namespace NotReaper.Modifier
         public void SetSaturationRightValue(float value)
         {
             colorSliderSaturationRight.value = value;
+            UpdateSkyboxColor();
         }
 
         public void SetLabelText(string text)

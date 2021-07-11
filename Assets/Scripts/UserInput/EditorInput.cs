@@ -277,6 +277,7 @@ namespace NotReaper.UserInput {
 			else if (previousTool == EditorTool.ChainNode && selectedVelocity == UITargetVelocity.Chain) return UITargetVelocity.Standard;
 			else if (previousTool == EditorTool.Melee && selectedVelocity == UITargetVelocity.Melee) return UITargetVelocity.Standard;
 			else if (previousTool == EditorTool.Mine && selectedVelocity == UITargetVelocity.Mine) return UITargetVelocity.Standard;
+			else if (previousTool == EditorTool.ChainBuilder && selectedVelocity == UITargetVelocity.ChainStart) return UITargetVelocity.Standard;
 			else return selectedVelocity;
         }
 
@@ -416,7 +417,7 @@ namespace NotReaper.UserInput {
 
 			if (tool != EditorTool.ChainBuilder) {
 				Tools.chainBuilder.Activate (false);
-				if(previousTool == EditorTool.ChainBuilder) timeline.DeselectAllTargets(); //Disappearing chains fix
+				if(previousTool == EditorTool.ChainBuilder && tool != EditorTool.DragSelect) timeline.DeselectAllTargets(); //Disappearing chains fix
 			}
 			if (tool != EditorTool.DragSelect) {
 				Tools.dragSelect.Activate (false);

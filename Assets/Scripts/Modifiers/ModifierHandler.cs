@@ -241,15 +241,20 @@ namespace NotReaper.Modifier
             modifierCount.gameObject.SetActive(show);
         }
 
+        private bool isUpdatingLevels = false;
         public IEnumerator IUpdateLevels()
         {
             if (ModifierUndoRedo.undoRedoActive) yield break;
+            while (isUpdatingLevels) yield return new WaitForSeconds(.2f);
+            isUpdatingLevels = true;
             modifiers.Sort((mod1, mod2) => mod1.startTime.tick.CompareTo(mod2.startTime.tick));
             foreach (Modifier m in modifiers)
             {
                 m.UpdateLevel();
-                yield return new WaitForSeconds(.01f);
-            }                          
+                //yield return new WaitForSeconds(.01f);
+                yield return null;
+            }
+            isUpdatingLevels = false;
         }
 
         public IEnumerator LoadModifiers(List<ModifierDTO> modList, bool fromLoad = false, bool fromAction = false)
@@ -362,32 +367,32 @@ namespace NotReaper.Modifier
             fillingData = true;
             int modType = (int)modifier.modifierType;
             skipRefresh = dropdown.value != modType;
-            currentModifier = modifier;
+            //currentModifier = modifier;
             modifiers.Remove(modifier);
             dropdown.value = modType;
-
-            value1.GetComponent<LabelSetter>().SetInputText(currentModifier.value1);
-            value2.GetComponent<LabelSetter>().SetInputText(currentModifier.value2);
-            value3.GetComponent<LabelSetter>().SetInputText(currentModifier.xoffset);
-            value4.GetComponent<LabelSetter>().SetInputText(currentModifier.yoffset);
-            value5.GetComponent<LabelSetter>().SetInputText(currentModifier.zoffset);
-            option1.GetComponent<LabelSetter>().SetToggleState(currentModifier.option1);
-            option2.GetComponent<LabelSetter>().SetToggleState(currentModifier.option2);
-            independantBool.GetComponent<LabelSetter>().SetToggleState(currentModifier.independantBool);
-            startTickButton.GetComponent<LabelSetter>().SetLabelText(currentModifier.startTime.tick.ToString());
-            endTickButton.GetComponent<LabelSetter>().SetLabelText(currentModifier.endTime.tick.ToString());
+            value1.GetComponent<LabelSetter>().SetInputText(modifier.value1);
+            value2.GetComponent<LabelSetter>().SetInputText(modifier.value2);
+            value3.GetComponent<LabelSetter>().SetInputText(modifier.xoffset);
+            value4.GetComponent<LabelSetter>().SetInputText(modifier.yoffset);
+            value5.GetComponent<LabelSetter>().SetInputText(modifier.zoffset);
+            option1.GetComponent<LabelSetter>().SetToggleState(modifier.option1);
+            option2.GetComponent<LabelSetter>().SetToggleState(modifier.option2);
+            independantBool.GetComponent<LabelSetter>().SetToggleState(modifier.independantBool);
+            startTickButton.GetComponent<LabelSetter>().SetLabelText(modifier.startTime.tick.ToString());
+            endTickButton.GetComponent<LabelSetter>().SetLabelText(modifier.endTime.tick.ToString());
             createModifierButton.GetComponent<LabelSetter>().SetLabelText("Update Modifier");
-            if(modifier.modifierType != ModifierType.SkyboxColor)
+            if (modifier.modifierType != ModifierType.SkyboxColor)
             {
-                colorPicker.GetComponent<LabelSetter>().SetColorSliderLeft(currentModifier.leftHandColor);
-                colorPicker.GetComponent<LabelSetter>().SetColorSliderRight(currentModifier.rightHandColor);
+                colorPicker.GetComponent<LabelSetter>().SetColorSliderLeft(modifier.leftHandColor);
+                colorPicker.GetComponent<LabelSetter>().SetColorSliderRight(modifier.rightHandColor);
             }
             else
-            {
-                colorPicker.GetComponent<LabelSetter>().SetSkyboxColor(currentModifier.leftHandColor, currentModifier.amount);
+            {              
+                colorPicker.GetComponent<LabelSetter>().SetSkyboxColor(modifier.leftHandColor, modifier.amount);
             }
 
-            amountSlider.GetComponent<LabelSetter>().SetSliderValue(currentModifier.amount);
+            amountSlider.GetComponent<LabelSetter>().SetSliderValue(modifier.amount);
+            currentModifier = modifier;
             fillingData = false;
         }
 

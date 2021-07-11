@@ -1292,6 +1292,15 @@ namespace NotReaper {
 
 		}
 
+		public void UnloadAudicaFile()
+        {
+			if (audicaLoaded) Export(false);
+			//ModifierHandler.Instance.CleanUp();
+			ResetTimeline();
+			audicaFile = null;
+			
+        }
+
 		public bool LoadAudicaFile (bool loadRecent = false, string filePath = null) {
 			readyToRegenerate = false;
 			inTimingMode = false;
@@ -1871,7 +1880,6 @@ namespace NotReaper {
 			for (float t = 0; t < endOfAudio.tick;) {
 				ulong snap = (ulong) (beatSnap / 4);
 				float increment = 0f;
-
 				if (snap != 0) increment = Constants.PulsesPerWholeNote / currentTempo.timeSignature.Denominator / snap;
 				else increment = Constants.PulsesPerWholeNote / currentTempo.timeSignature.Denominator;
 
