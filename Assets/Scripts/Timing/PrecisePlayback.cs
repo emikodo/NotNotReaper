@@ -515,7 +515,8 @@ namespace NotReaper.Timing {
 			}
 		}
 
-		void PlayHitsounds(CopyContext ctx, List<HitsoundEvent> events) {
+		void PlayHitsounds(CopyContext ctx, List<HitsoundEvent> events)
+        {
 			kick.duckVolume = 0.0f;
 			snare.duckVolume = 0.0f;
 			percussion.duckVolume = 0.0f;
@@ -584,7 +585,8 @@ namespace NotReaper.Timing {
 			public UInt64 currentSample;
 		};
 
-		List<ClickTrackEvent> clickTrackEvents = new List<ClickTrackEvent>();
+		
+                List<ClickTrackEvent> clickTrackEvents = new List<ClickTrackEvent>();
 		bool clearClicksounds = false;
 
 		void TryAddClickEvent(QNT_Timestamp current, QNT_Timestamp beat, ClipData clip) {
@@ -596,8 +598,8 @@ namespace NotReaper.Timing {
 						break;
 					}
 				}
-
-				if(!addedSound) {
+                
+                if (!addedSound) {
 					ClickTrackEvent ev;
 					ev.clip = clip;
 					ev.currentSample = 0;
