@@ -84,7 +84,7 @@ namespace NotReaper.UI {
 		{
 			double newPos = pos + (barLength * 2);
 			double percent = newPos / barLength;
-			double seconds = timeline.songPlayback.song.length / 100d * percent;
+			double seconds = timeline.songPlayback.song.Length / 100d * percent;
 			return seconds;
 		}
 

@@ -394,7 +394,12 @@ namespace NotReaper {
 			return result;
 		}
 
-		public TargetData FindTargetData (QNT_Timestamp time, TargetBehavior behavior, TargetHandType handType) {
+        internal Target FindNote(bool v)
+        {
+            throw new NotImplementedException();
+        }
+
+        public TargetData FindTargetData (QNT_Timestamp time, TargetBehavior behavior, TargetHandType handType) {
 			BinarySearchResult res = BinarySearchOrderedNotes (time);
 			if (res.found == false) {
 				Debug.LogWarning ("Couldn't find note with time " + time);
@@ -1869,7 +1874,7 @@ namespace NotReaper {
 				return;
 			}
 
-			QNT_Timestamp endOfAudio = ShiftTick (new QNT_Timestamp (0), songPlayback.song.length);
+			QNT_Timestamp endOfAudio = ShiftTick (new QNT_Timestamp (0), songPlayback.song.Length);
 
 			List<Vector3> vertices = new List<Vector3> ();
 			List<int> indices = new List<int> ();
@@ -2472,12 +2477,12 @@ namespace NotReaper {
 		}
 
 		public double GetPercentPlayedFromSeconds (double seconds) {
-			return seconds / songPlayback.song.length;
+			return seconds / songPlayback.song.Length;
 		}
 
 		public void JumpToPercent (float percent) {
 			if (!audioLoaded) return;
-			time = ShiftTick (new QNT_Timestamp (0), songPlayback.song.length * percent);
+			time = ShiftTick (new QNT_Timestamp (0), songPlayback.song.Length * percent);
 
 			SafeSetTime ();
 			SetCurrentTime ();
@@ -2530,8 +2535,8 @@ namespace NotReaper {
 				time = GetClosestBeatSnapped (time, (uint) beatSnap);
 
 				float currentTimeSeconds = TimestampToSeconds (time);
-				if (currentTimeSeconds > songPlayback.song.length) {
-					time = ShiftTick (new QNT_Timestamp (0), songPlayback.song.length);
+				if (currentTimeSeconds > songPlayback.song.Length) {
+					time = ShiftTick (new QNT_Timestamp (0), songPlayback.song.Length);
 				}
 
 				SetBeatTime (time);
@@ -2547,9 +2552,9 @@ namespace NotReaper {
 
 			float currentTimeSeconds = TimestampToSeconds (time);
 
-			if (currentTimeSeconds > songPlayback.song.length) {
-				time = ShiftTick (new QNT_Timestamp (0), songPlayback.song.length);
-				currentTimeSeconds = songPlayback.song.length;
+			if (currentTimeSeconds > songPlayback.song.Length) {
+				time = ShiftTick (new QNT_Timestamp (0), songPlayback.song.Length);
+				currentTimeSeconds = songPlayback.song.Length;
 			}
 		}
 
@@ -2559,8 +2564,8 @@ namespace NotReaper {
 
 			if (!audioLoaded) yield break;
 
-			if (TimestampToSeconds (newTime) > songPlayback.song.length) {
-				newTime = ShiftTick (new QNT_Timestamp (0), songPlayback.song.length);
+			if (TimestampToSeconds (newTime) > songPlayback.song.Length) {
+				newTime = ShiftTick (new QNT_Timestamp (0), songPlayback.song.Length);
 			}
 
 			//DOTween.Play
@@ -2612,7 +2617,7 @@ namespace NotReaper {
 
 		public float GetPercentagePlayed () {
 			if (songPlayback.song != null)
-				return (TimestampToSeconds (time) / songPlayback.song.length);
+				return (TimestampToSeconds (time) / songPlayback.song.Length);
 
 			else
 				return 0;
@@ -2620,7 +2625,7 @@ namespace NotReaper {
 
 		public float GetPercentagePlayed (QNT_Timestamp tick) {
 			if (songPlayback.song != null)
-				return (TimestampToSeconds (tick) / songPlayback.song.length);
+				return (TimestampToSeconds (tick) / songPlayback.song.Length);
 
 			else
 				return 0;
