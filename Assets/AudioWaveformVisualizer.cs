@@ -55,10 +55,10 @@ public class AudioWaveformVisualizer : MonoBehaviour {
         int nextTempoChange = 1;
 
         List<GenerationSections> sections = new List<GenerationSections>();
-        for(float t = 0; t < aud.length;) {
+        for(float t = 0; t < aud.Length;) {
             float endOfSection = t + SecondsPerTexture;
-            if(endOfSection > aud.length) {
-                endOfSection = aud.length;
+            if(endOfSection > aud.Length) {
+                endOfSection = aud.Length;
             }
 
             if(nextTempoChange < tempoChanges.Count) {

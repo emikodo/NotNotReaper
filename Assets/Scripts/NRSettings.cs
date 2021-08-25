@@ -230,6 +230,7 @@ namespace NotReaper {
 
         public bool useDiscordRichPresence = NRSettings.GetDiscordRichPresence();
         public bool showTimeElapsed = true;
+        //public bool showTargetAmount = true;
 
         public bool clearCacheOnStartup = true;
         public bool saveOnLoadNew = true;
