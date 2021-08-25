@@ -572,6 +572,7 @@ namespace NotReaper.Tools {
             foreach (var target in deselectedTargets)
             {
 				target.Deselect();
+                timeline.selectedNotes.Remove(target);
             }
 			TransformTool.instance.UpdateOverlay();
 		}
@@ -581,6 +582,7 @@ namespace NotReaper.Tools {
             foreach (var target in deselectedTargets)
 			{
 				target.Select();
+                timeline.selectedNotes.Add(target);
             }
 			TransformTool.instance.UpdateOverlay();
 		}

@@ -188,7 +188,7 @@ AudioMixerController:
     - 0394267d4cf9de34886a05db0fb5fab9
     - 15525dd3027aad049848524044c09539
     name: Sus
-  m_CurrentViewIndex: 1
+  m_CurrentViewIndex: 0
   m_TargetSnapshot: {fileID: 24500006}
 --- !u!243 &24300002
 AudioMixerGroupController:
@@ -239,6 +239,7 @@ AudioMixerSnapshotController:
   m_FloatValues:
     7c74ea90e247cf54bbd602ac68d01e97: 0
     a962dac0614cce34bb3d7f8a74604ac4: 0
+    231525b119dcb1648a9560daa2b1d9c2: 0.04171297
     1ee56dd6943396a4d8ca32b0a20251ab: -80
     2ac49ab7b7647d548b03ec00da23c59b: 0.13552584
     7fc27958de0ff0943b6068afd2d3c37f: 2314

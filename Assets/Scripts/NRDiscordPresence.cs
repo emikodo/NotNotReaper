@@ -13,6 +13,7 @@ namespace NotReaper {
         public DifficultyManager difficultyManager;
 
         public bool showTime;
+        //public bool showTargetAmount;
 
         public DiscordPresence presence;
 

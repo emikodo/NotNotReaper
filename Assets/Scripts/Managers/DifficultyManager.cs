@@ -20,6 +20,7 @@ namespace NotReaper.Managers {
 
         [SerializeField] private TextMeshProUGUI curSongName;
 		[SerializeField] private TextMeshProUGUI curSongDiff;
+        [SerializeField] private TextMeshProUGUI curTargetAmount;
 
 
         private void Start() {
