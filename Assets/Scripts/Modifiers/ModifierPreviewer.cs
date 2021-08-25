@@ -1,4 +1,6 @@
-﻿using NotReaper.Timing;
+﻿using NotReaper.Models;
+using NotReaper.Targets;
+using NotReaper.Timing;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,6 +26,7 @@ namespace NotReaper.Modifier
         public TextMeshProUGUI textPopup;
         private Dictionary<int, TextMeshProUGUI> textDict = new Dictionary<int, TextMeshProUGUI>();
         private int textIndex = 0;
+        private bool zOffsetCalculated = false;
         private void Start()
         {
             if (Instance is null) Instance = this;
@@ -59,6 +62,12 @@ namespace NotReaper.Modifier
             ResetPopup();
             skyboxRend.color = new Color(0f, 0f, 0f, 0f);
             skyboxRend.gameObject.SetActive(false);
+
+            if (zOffsetCalculated)
+            {
+                ResetZOffset();
+                zOffsetCalculated = false;
+            }
         }
 
         private void StopPsy()
@@ -111,8 +120,19 @@ namespace NotReaper.Modifier
 
         private void Update()
         {
-            if (!isPlaying) return;
+            if (ModifierHandler.activated && ModifierHandler.Instance.isEditingManipulation) ModifierHandler.Instance.UpdateManipulationValues();
             if (modifiers is null || modifiers.Count == 0) return;
+            if (!isPlaying)
+            {
+                return;
+            }
+
+            if (!zOffsetCalculated)
+            {
+                HandleZOffset();
+                zOffsetCalculated = true;
+            }
+
             if (modifiers[0].startTime <= Timeline.time)
             {
                 Modifier m = modifiers[0];
@@ -139,6 +159,66 @@ namespace NotReaper.Modifier
                         break;
                 }                
                 modifiers.RemoveAt(0);
+            }
+        }
+
+        private void ResetZOffset()
+        {
+            foreach(Target target in Timeline.orderedNotes)
+            {
+                target.gridTargetIcon.transform.localScale = new Vector3(.4f, .4f, .4f);
+            }
+        }
+
+        private void HandleZOffset()
+        {
+            List<Modifier> zOffsetList = ModifierHandler.Instance.GetZOffsetModifiers();
+            zOffsetList.Sort((mod1, mod2) => mod1.startTime.CompareTo(mod2.startTime));
+
+            Dictionary<Target, float> oldOffsetDict = new Dictionary<Target, float>();
+            foreach (Target t in Timeline.orderedNotes) oldOffsetDict.Add(t, t.gridTargetIcon.transform.localScale.x);
+
+            foreach (Modifier m in zOffsetList)
+            {
+                float currentCount = 1f;
+                bool endTickSet = m.endTime.tick != 0 && m.startTime.tick != m.endTime.tick;
+                foreach (Target target in Timeline.orderedNotes)
+                {
+                    var targetData = target.data;
+                    if (targetData.time.tick < m.startTime.tick) continue;
+                    if (targetData.time.tick > m.endTime.tick && endTickSet) break;
+                    if (targetData.behavior != TargetBehavior.Melee && targetData.behavior != TargetBehavior.Mine)
+                    {
+                        float transitionNumberOfTargets = 0f;
+                        float.TryParse(m.value1, out transitionNumberOfTargets);
+                        if (transitionNumberOfTargets > 0)
+                        {
+                            float percent = m.amount / 500f * -1f;
+                            float sign = Mathf.Sign(percent);
+                            float scaledTargetAmount = percent * 0.3f;
+                            if (m.amount < 0) scaledTargetAmount *= 10f;
+                            float targetScale = Mathf.Lerp(target.gridTargetIcon.transform.localScale.x, .4f + scaledTargetAmount, currentCount / (float)transitionNumberOfTargets);
+                            target.gridTargetIcon.transform.localScale = new Vector3(targetScale, targetScale, targetScale);
+                        }
+                        else
+                        {
+                            if(m.amount != 0f)
+                            {
+                                float scale = .4f - (m.amount / 1000f);
+                                target.gridTargetIcon.transform.localScale = new Vector3(scale, scale, scale);
+                                Debug.Log(.4f - (m.amount / 1000f));
+                            }
+                            else
+                            {
+                                target.gridTargetIcon.transform.localScale = new Vector3(.4f, .4f, .4f);
+                            }
+                            
+                            //cue.zOffset = m.amount;
+                        }
+                        //cue.zOffset /= 100f;
+                        if (currentCount < transitionNumberOfTargets) currentCount++;
+                    }
+                }
             }
         }
 

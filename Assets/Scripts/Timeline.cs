@@ -489,23 +489,24 @@ namespace NotReaper {
                     {
 						if (target.data.x == data.x && target.data.y == data.y) return;
 
-						if (target.data.handType == TargetHandType.Left) leftHandMeleeCount++;
-						else if (target.data.handType == TargetHandType.Right) rightHandMeleeCount++;
-						else meleeCount++;
+						if(target.data.behavior == TargetBehavior.Melee)
+                        {
+							if (target.data.handType == TargetHandType.Left) leftHandMeleeCount++;
+							else if (target.data.handType == TargetHandType.Right) rightHandMeleeCount++;
+							else meleeCount++;
+						}
+						
 
-						if (leftHandMeleeCount == 1 && data.handType == TargetHandType.Left)
+						if (leftHandMeleeCount == 1 && data.handType == TargetHandType.Left && data.behavior == TargetBehavior.Melee)
                         {
-							Debug.Log("already have rh melee");
 							return;
                         }
-						else if (rightHandMeleeCount == 1 && data.handType == TargetHandType.Right)
+						else if (rightHandMeleeCount == 1 && data.handType == TargetHandType.Right && data.behavior == TargetBehavior.Melee)
                         {
-							Debug.Log("already have lh melee");
 							return;
                         }
-						else if(meleeCount + rightHandMeleeCount + leftHandMeleeCount == 2)
+						else if(meleeCount + rightHandMeleeCount + leftHandMeleeCount == 2 && data.behavior == TargetBehavior.Melee)
 						{
-							Debug.Log("already have 2 melees");
 							return;
 						}						
 					}						
@@ -609,6 +610,7 @@ namespace NotReaper {
 			targetData.Copy (targetData);
 
 			//Also generate chains if needed
+			//this might be the culprit of chain nodes staying on grid + hitsounds not working.
 			if (targetData.behavior == TargetBehavior.NR_Pathbuilder) {
 				ChainBuilder.GenerateChainNotes (targetData);
 			}
@@ -1190,7 +1192,7 @@ namespace NotReaper {
 
 		public void Export (bool autoSave = false) {
 			isSaving = true;
-			Debug.Log ("Saving: " + audicaFile.desc.title);
+			//Debug.Log ("Saving: " + audicaFile.desc.title);
 
 			//Ensure all chains are generated
 			List<TargetData> nonGeneratedNotes = new List<TargetData> ();
@@ -2227,6 +2229,7 @@ namespace NotReaper {
 
 				StopCoroutine (AnimateSetTime (new QNT_Timestamp (0)));
 			    if(!paused && ModifierPreviewer.Instance.isPlaying) ModifierPreviewer.Instance.UpdateModifierList(ModifierHandler.Instance.modifiers, time.tick);
+				if (ModifierHandler.activated && ModifierHandler.Instance.isEditingManipulation) ModifierHandler.Instance.UpdateManipulationValues();
 			}
 
 			if (Input.GetKeyDown (KeyCode.LeftControl) && Input.GetKeyDown (KeyCode.C)) {
@@ -2581,7 +2584,6 @@ namespace NotReaper {
 
 			SetCurrentTime ();
 			SetCurrentTick ();
-
 			songPlayback.PlayPreview (time, new Relative_QNT ((long) Constants.DurationFromBeatSnap ((uint) beatSnap).tick));
 
 			yield break;

@@ -11,6 +11,7 @@ using NotReaper.Targets;
 using System;
 using NotReaper.Modifier;
 using NotReaper.UserInput;
+using System.Linq;
 
 namespace NotReaper.Modifier
 {
@@ -44,6 +45,7 @@ namespace NotReaper.Modifier
         [SerializeField] private Transform leftMax;
         [SerializeField] private Transform rightMax;
         [SerializeField] private TextMeshProUGUI modifierCount;
+        [SerializeField] private GameObject trackerText;
         public List<Modifier> modifiers = new List<Modifier>();
         private Modifier currentModifier;
 
@@ -56,6 +58,7 @@ namespace NotReaper.Modifier
         private bool parentSet = false;
 
         private static bool IsPrivateBuild = false;
+        public bool isEditingManipulation => dropdown.value == 19 || dropdown.value == 20 || dropdown.value == 21;
 
         public void Awake()
         {
@@ -145,6 +148,7 @@ namespace NotReaper.Modifier
             }
            
             currentModifier = null;
+            modifiers.Sort((mod1, mod2) => mod1.startTime.tick.CompareTo(mod2.startTime.tick));
         }
 
         public void CleanUp()
@@ -274,6 +278,7 @@ namespace NotReaper.Modifier
             yield return new WaitForSeconds(.001f);
             ShowModifiers(activated);
             isLoading = false;
+            modifiers.Sort((mod1, mod2) => mod1.startTime.tick.CompareTo(mod2.startTime.tick));
         }
 
         public void LoadModifier(Modifier modifier)
@@ -316,6 +321,7 @@ namespace NotReaper.Modifier
             currentModifier = null;
             OnDropdownValueChanged();
             UpdateModifierCount();
+            if(!isLoading) modifiers.Sort((mod1, mod2) => mod1.startTime.tick.CompareTo(mod2.startTime.tick));
         }
 
         public bool CanCreateModifier(ModifierType type, QNT_Timestamp tick)
@@ -632,6 +638,7 @@ namespace NotReaper.Modifier
             if (!skipRefresh) ResetCurrentData();
             endTickButton.GetComponentsInChildren<TextMeshProUGUI>()[0].text = "Set End Tick";
             option1.GetComponent<LabelSetter>().EnableToggleGroup(true);
+            trackerText.SetActive(false);
             ModifierType type = (ModifierType)dropdown.value;
             switch (type)
             {
@@ -812,6 +819,17 @@ namespace NotReaper.Modifier
                     option1.SetActive(true);
                     option2.SetActive(true);
                     colorPicker.SetActive(false);
+                    trackerText.SetActive(true);
+                    if (type == ModifierType.ArenaSpin)
+                    {
+                        independantBool.GetComponent<LabelSetter>().SetLabelText("Shortest way");
+                        independantBool.SetActive(true);
+                    }
+                    else
+                    {
+                        independantBool.SetActive(false);
+                    }
+                    GetCurrentManipulationValues(type);
                     ActivateSidePanel();
                     break;
             }
@@ -820,6 +838,43 @@ namespace NotReaper.Modifier
             if (!skipRefresh) createModifierButton.GetComponent<LabelSetter>().SetLabelText("Create Modifier");
            
             skipRefresh = false;
+        }
+
+        public void UpdateManipulationValues()
+        {
+            GetCurrentManipulationValues((ModifierType)dropdown.value);
+        }
+
+        private void GetCurrentManipulationValues(ModifierType type)
+        {
+            Vector3 current = Vector3.zero;
+            Vector3 lastValues = Vector3.zero;
+            if (type == ModifierType.ArenaScale) lastValues = new Vector3(1f, 1f, 1f);
+            bool found = false;
+            foreach(Modifier m in modifiers)
+            {
+                if (m.startTime > Timeline.time) break;
+                if (m.modifierType != type) continue;
+                found = true;
+                float x, y, z;
+                if (!float.TryParse(m.xoffset, out x)) x = lastValues.x;
+                if (!float.TryParse(m.yoffset, out y)) y = lastValues.y;
+                if (!float.TryParse(m.zoffset, out z)) z = lastValues.z;
+                Vector3 amnt = new Vector3(x, y, z);
+                if (m.option1)
+                {
+                    if (type == ModifierType.ArenaScale) current = new Vector3(1f, 1f, 1f);
+                    else current = Vector3.zero;
+                }
+                else current = amnt;
+
+                lastValues = current;
+            }
+            if (!found && type == ModifierType.ArenaScale) current = new Vector3(1f, 1f, 1f);
+            string text = "Current ";
+            text += (type == ModifierType.ArenaPosition ? "position" : type == ModifierType.ArenaSpin ? "rotation" : "scale") + "\n\n";
+            text += $"{current.x}/{current.y}/{current.z}";
+            trackerText.GetComponent<LabelSetter>().SetTrackerText(text);
         }
 
         private void PickLastUsedColor()

@@ -37,8 +37,8 @@ public class RecentPanel : MonoBehaviour
             string path = RecentAudicaFiles.audicaPaths[i];
             buttons[i].NROnClick = new UnityEvent();
             buttons[i].NROnClick.AddListener(new UnityAction(() => 
-            { 
-                timeline.LoadAudicaFile(false, path);
+            {
+                if (!timeline.LoadAudicaFile(false, path)) return;
                 pauseMenu.ClosePauseMenu();
             }));
             buttons[i].GetComponentInChildren<TextMeshProUGUI>().text = path.Split(Path.DirectorySeparatorChar).Last();

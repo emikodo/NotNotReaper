@@ -234,6 +234,7 @@ public class UISustainHandler : MonoBehaviour
         if (hasLeftSustain && hasRightSustain) LoadedTracks = SustainTrack.Both;
         else if (hasLeftSustain) LoadedTracks = SustainTrack.Left;
         else if (hasRightSustain) LoadedTracks = SustainTrack.Right;
+        else LoadedTracks = SustainTrack.None;
         UpdateSustainUI();
         switch (LoadedTracks)
         {

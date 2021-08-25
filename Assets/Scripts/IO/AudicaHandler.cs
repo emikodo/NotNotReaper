@@ -23,7 +23,7 @@ namespace NotReaper.IO {
             }
 			catch (IOException)
 			{
-				UI.NRNotification notification = new UI.NRNotification("Audica file is in use externally.", UI.NRNotifType.Fail);
+				UI.NRNotification notification = new UI.NRNotification("Audica file not found.", UI.NRNotifType.Fail);
 				UI.NotificationShower.Queue(notification);
 				return null;
 			}
@@ -187,7 +187,7 @@ namespace NotReaper.IO {
 				else if (entry.FileName == "song.png" || entry.FileName == audicaFile.desc.albumArt)
 				{
 					string albumArtName = $"{appPath}/.cache/song.png";
-
+					Debug.Log("Loading album art");
 					entry.Extract($"{appPath}/.cache", ExtractExistingFileAction.OverwriteSilently);
 
 					if (entry.FileName != "song.png")

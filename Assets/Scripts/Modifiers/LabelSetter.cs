@@ -35,6 +35,8 @@ namespace NotReaper.Modifier
         [SerializeField] private ColorPicker colorPickerLeft;
         [SerializeField] private ColorPicker colorPickerRight;
 
+        [SerializeField] private TextMeshProUGUI trackerText;
+
         public void Start()
         {
             if(inputField != null)
@@ -252,6 +254,11 @@ namespace NotReaper.Modifier
         public bool IsColorPicker()
         {
             return isColorPicker;
+        }
+
+        public void SetTrackerText(string text)
+        {
+            trackerText.text = text;
         }
     }
 }
