@@ -1151,6 +1151,13 @@ namespace NotReaper {
 			Tools.undoRedoManager.AddAction (action);
 		}
 
+		public void DeselectHand(TargetHandType handType)
+        {
+			var action = new NRActionDeselectHand();
+			action.handToDeselect = handType;
+			Tools.undoRedoManager.AddAction(action);
+        }
+
 		public void DeleteTargetFromAction (TargetData targetData) {
 			Target target = FindNote (targetData);
 			if (target == null) return;

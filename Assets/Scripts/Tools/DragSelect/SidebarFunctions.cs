@@ -50,6 +50,7 @@ namespace NotReaper.Tools {
         public void undo() => undoRedoManager.Undo();
         public void redo() => undoRedoManager.Redo();
         public void DeselectBehavior(int behavior) => timeline.DeselectBehavior((TargetBehavior)behavior);
+        public void DeselectHand(int handType) => timeline.DeselectHand((TargetHandType)handType);
 
     }
 }

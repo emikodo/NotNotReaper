@@ -8,6 +8,7 @@ using NotReaper.Models;
 using NotReaper.Modifier;
 using NotReaper.Targets;
 using NotReaper.Timing;
+using NotReaper.Tools.ChainBuilder;
 using NotReaper.Tools.CustomSnapMenu;
 using NotReaper.UI;
 using NUnit.Framework;
@@ -551,7 +552,7 @@ namespace NotReaper.UserInput {
 				}
 			}
 
-			if (Input.GetKeyDown (KeyCode.B)) {
+			if (Input.GetKeyDown (KeyCode.B) && !Input.GetKey(KeyCode.LeftControl) && !Input.GetKeyUp(KeyCode.RightControl)) {
 				if (ModifierHandler.activated || BookmarkMenu.isActive) return;
 				if (isShiftDown) {
 					if (bpmStartTimestamp == null) {
@@ -570,6 +571,15 @@ namespace NotReaper.UserInput {
 					}
 				}
 			}
+
+			if(Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl))
+            {
+                if (Input.GetKeyDown(KeyCode.B))
+                {
+					List<Target> pathbuilderTargets = Timeline.instance.selectedNotes.Where(target => target.data.pathBuilderData != null).ToList();
+					foreach (Target target in pathbuilderTargets) ChainBuilder.Instance.BakePathFromSelectedNote();
+				}
+            }
 
 			if (Input.GetKeyUp (KeyCode.LeftShift) || Input.GetKeyUp (KeyCode.RightShift)) {
 				if (selectedSnappingMode != previousSnappingMode) {

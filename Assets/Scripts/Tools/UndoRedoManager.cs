@@ -587,6 +587,33 @@ namespace NotReaper.Tools {
 			TransformTool.instance.UpdateOverlay();
 		}
     }
+
+    public class NRActionDeselectHand : NRAction
+    {
+		public TargetHandType handToDeselect;
+		Target[] deselectedTargets;
+        public override void DoAction(Timeline timeline)
+        {
+			deselectedTargets = timeline.selectedNotes.Where(target => target.data.handType == handToDeselect).ToArray();
+			foreach(var target in deselectedTargets)
+            {
+				target.Deselect();
+				timeline.selectedNotes.Remove(target);
+            }
+			TransformTool.instance.UpdateOverlay();
+        }
+
+        public override void UndoAction(Timeline timeline)
+        {
+            foreach(var target in deselectedTargets)
+            {
+				target.Select();
+				timeline.selectedNotes.Add(target);
+            }
+			TransformTool.instance.UpdateOverlay();
+        }
+    }
+
     public class NRActionConvertNoteToPathbuilder : NRAction {
 		public TargetData data;
 		public QNT_Duration oldBeatLength;

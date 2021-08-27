@@ -82,7 +82,6 @@ namespace NotReaper.IO {
 				MemoryStream ms = new MemoryStream();
 				audicaZip[audicaFile.desc.moggSong].Extract(ms);
 				audicaFile.mainMoggSong = new MoggSong(ms);
-				Debug.Log($"MoggSong volumes: L{audicaFile.mainMoggSong.volume.l}, R{audicaFile.mainMoggSong.volume.r} ");
 				audicaZip[audicaFile.desc.moggSong].Extract($"{appPath}/.cache");
 			}
 			else Debug.Log("Moggsong not found");

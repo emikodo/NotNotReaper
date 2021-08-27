@@ -106,7 +106,6 @@ namespace NotReaper.Managers {
 		
 
 		private IEnumerator Init() {
-		
 			string url = "https://raw.githubusercontent.com/octoberU/NotReaper/master/updates.json";
 			
 			UnityWebRequest www = UnityWebRequest.Get(url);
@@ -116,9 +115,7 @@ namespace NotReaper.Managers {
 				Debug.Log(www.error);
 			}
 			else {
-
 				updateData = JsonUtility.FromJson<AutoUpdaterJSON>(www.downloadHandler.text);
-
 				HandleUpdate(updateData);
 			}
 			
@@ -129,7 +126,10 @@ namespace NotReaper.Managers {
 		private void HandleUpdate(AutoUpdaterJSON data) {
 
 
-			if (!IsNewUpdate(data)) return;
+			if (!IsNewUpdate(data))
+            {
+				return;
+            }
 
 			if (IsIgnoringUpdate(data)) return;
 			
