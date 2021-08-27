@@ -1,11 +1,7 @@
 {
     "latestVersion" : "7.5.0",
     "downloadLink" : "https://github.com/octoberU/NotReaper/raw/master/updateOnly.zip",
-    "changelog" : "- added sustain volume slider (credits to Xion) 
-	- fixed bug where the right target selection panel wouldn't actually deselct them (credits to Xion) 
-	- added mines to error checker (credits to Xion) 
-	- added zOffset to modifier preview 
-	- fixed bug where melee and pathbuilder note couldn't be placed on the same tick",
+    "changelog" : "- added sustain volume slider (credits to Xion)\n - fixed bug where the right target selection panel wouldn't actually deselct them (credits to Xion) \n - added mines to error checker (credits to Xion) \n - added zOffset to modifier preview \n - fixed bug where melee and pathbuilder note couldn't be placed on the same tick",
     "forced" : false
 
 
