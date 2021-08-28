@@ -55,3 +55,7 @@ song.desc
 .idea/.idea.NotReaper/.idea/contentModel.xml
 *.meta
 Packages/packages-lock.json
+*.audica
+*.meta
+Packages/packages-lock.json
+ProjectSettings/QualitySettings.asset

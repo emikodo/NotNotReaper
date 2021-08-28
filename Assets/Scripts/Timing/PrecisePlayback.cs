@@ -8,6 +8,7 @@ using NotReaper.Targets;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Audio;
+using NotReaper.IO;
 
 namespace NotReaper.Timing {
 	public struct CopyContext {
@@ -135,6 +136,7 @@ namespace NotReaper.Timing {
         public float speed = 1.0f;
 		public float volume = 1.0f;
 		public float hitSoundVolume = 1.0f;
+        public Slider hitSoundSlider;
 
 		private double dspStartTime = 0.0f;
 		private double songStartTime = 0.0f;
@@ -188,15 +190,38 @@ namespace NotReaper.Timing {
             sustainL.outputAudioMixerGroup = susLvol;
             leftSustainVolume = leftSUSslider.value;
             rightSustainVolume = rightSUSslider.value;
+            hitSoundVolume = hitSoundSlider.value;
+            
+            leftSUSslider.onValueChanged.AddListener(val => {
+                leftSUSslider.value = val;
+                NRSettings.config.EditorSustainVol = leftSUSslider.value;
+                NRSettings.SaveSettingsJson();
+            });
+            NRSettings.OnLoad(() => {
+                leftSUSslider.value = NRSettings.config.EditorSustainVol;
+
+                
+
+                if (NRSettings.config.clearCacheOnStartup)
+                {
+                   HandleCache.ClearCache();
+                }
+            });
             source.Play();
 			StartCoroutine(LoadHitsounds());
 		}
 
+
+
+
+
 		private void Update() {
 			mainCameraX = mainCameraTrans.position.x;
-		}
+            
 
-		IEnumerator LoadHitsounds() {
+        }
+
+        IEnumerator LoadHitsounds() {
 			while (KickClip.loadState != AudioDataLoadState.Loaded) yield return null;
 			while (SnareClip.loadState != AudioDataLoadState.Loaded) yield return null;
 			while (PercussionClip.loadState != AudioDataLoadState.Loaded) yield return null;
