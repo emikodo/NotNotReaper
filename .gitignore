@@ -11,11 +11,14 @@ Assets/AssetStoreTools*
 .vs/
 Assets/saves/
 Assets/StreamingAssets/Ogg2Audica/song.mogg
+Assets/StreamingAssets/Ogg2Audica/song.mogg.meta
 CACHE/
 Assets/StreamingAssets/build_info.txt
 Assets/StreamingAssets/Ogg2Audica/song.desc.meta
 Assets/StreamingAssets/FFMPEG/output.ogg
 Assets/StreamingAssets/FFMPEG/converted.ogg
+Assets/StreamingAssets/FFMPEG/output.ogg.meta
+Assets/StreamingAssets/FFMPEG/converted.ogg.meta
 
 
 #Assets/ModernUIPack/
@@ -50,3 +53,9 @@ sysinfo.txt
 *.unitypackage
 song.desc
 .idea/.idea.NotReaper/.idea/contentModel.xml
+*.meta
+Packages/packages-lock.json
+*.audica
+*.meta
+Packages/packages-lock.json
+ProjectSettings/QualitySettings.asset

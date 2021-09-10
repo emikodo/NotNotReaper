@@ -8,6 +8,7 @@ using NotReaper.Models;
 using System.IO;
 using System;
 using NotReaper.IO;
+using NotReaper.Targets;
 
 public class UISustainHandler : MonoBehaviour
 {
@@ -15,6 +16,8 @@ public class UISustainHandler : MonoBehaviour
     public static bool PendingDelete { get; set; } = false;
     public DisplaySliderCombo volumeSlider;
     public Slider SustainVol;
+    //public AudioSource SustainL;
+    //public AudioSource SustainR;
     public TextMeshProUGUI statusText;
     public TextMeshProUGUI loadSustainButtonTextLeft;
     public TextMeshProUGUI loadSustainButtonTextRight;
@@ -25,10 +28,14 @@ public class UISustainHandler : MonoBehaviour
     public MoggSong sustainSongLeft { get; set; }
     public MoggSong sustainSongRight { get; set; }
 
+    //public bool isPlayingSustains = false;
+
     public Color defaultColor;
     public Color loadedColor;
 
     public static SustainTrack LoadedTracks { get; set; } = SustainTrack.None;
+
+   //private readonly Target target;
 
     private void Start()
     {
@@ -36,14 +43,34 @@ public class UISustainHandler : MonoBehaviour
         {
             Instance = this;
             volumeSlider.OnValueChanged += UpdateVolume;
-            
         }
         else
         {
             Debug.LogWarning("Trying to create second UISustianHandler instance.");
             return;
         }
+        
     }
+
+    
+
+   /* private void Update()
+    {
+
+
+        if (!target.isPlayingSustains == true)
+        {
+            SustainL.mute = true;
+            SustainR.mute = true;
+        }
+        else
+        {
+            SustainL.mute = false;
+            SustainR.mute = false;
+        }
+    } */
+
+
 
     public void UpdateVolume(float value)
     {
@@ -293,5 +320,7 @@ public class UISustainHandler : MonoBehaviour
         Right,
         Both
     }
+
+    
 
 }

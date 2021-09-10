@@ -18,13 +18,13 @@ namespace NotReaper.Targets {
 		public TargetIcon timelineTargetIcon;
 
 		private bool noteIsAnimating = false;
-
 		public TargetData data;
 		public bool transient;
-		[HideInInspector]
-		public bool isPlayingSustains = false;
-		//Events and stuff:
-		public event Action<Target> DeleteNoteEvent;
+
+        [HideInInspector]
+        public bool isPlayingSustains = false;
+        //Events and stuff:
+        public event Action<Target> DeleteNoteEvent;
 		public void DeleteNote() {
 			DeleteNoteEvent(this);
 		}
@@ -51,6 +51,8 @@ namespace NotReaper.Targets {
 				TargetDeselectEvent(this, false);
 			}
 		}
+
+     
 
 		//I'm so good at naming stuff.
 		public event Action<Target, bool> MakeTimelineUpdateSustainLengthEvent;
@@ -366,10 +368,12 @@ namespace NotReaper.Targets {
 
 			if (data.behavior == TargetBehavior.Hold) {
 				Timeline.instance.StartCoroutine(AnimateHoldSpin());
+                //isPlayingSustains = true;
 			}
 			else {
 				
 				Timeline.instance.StartCoroutine(AnimateNoteBounce());
+                //isPlayingSustains = false;
 			}
 			
 

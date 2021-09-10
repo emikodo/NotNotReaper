@@ -319,17 +319,18 @@ namespace NotReaper {
 			});
 
 			hitSoundVolumeSlider.onValueChanged.AddListener (val => {
+                //hitSoundVolume = val;
 				NRSettings.config.noteVol = val;
 				NRSettings.SaveSettingsJson ();
 			});
-
-			NRSettings.OnLoad (() => {
+            
+            NRSettings.OnLoad (() => {
 				sustainVolume = NRSettings.config.sustainVol;
 				musicVolume = NRSettings.config.mainVol;
 				musicVolumeSlider.value = musicVolume;
 				hitSoundVolumeSlider.value = NRSettings.config.noteVol;
-
-				SetAudioDSP ();
+                
+                SetAudioDSP ();
 
 				if (NRSettings.config.clearCacheOnStartup) {
 					HandleCache.ClearCache ();
@@ -2257,8 +2258,9 @@ namespace NotReaper {
 
 			songPlayback.volume = NRSettings.config.mainVol;
 			songPlayback.hitSoundVolume = NRSettings.config.noteVol;
-
-			SetCurrentTime ();
+            //songPlayback.rightSustainVolume = NRSettings.config.editorSustainVol.value;
+            //songPlayback.leftSustainVolume = NRSettings.config.editorSustainVol.value;
+            SetCurrentTime();
 			SetCurrentTick ();
 
 			miniTimeline.SetPercentagePlayed (GetPercentagePlayed ());
