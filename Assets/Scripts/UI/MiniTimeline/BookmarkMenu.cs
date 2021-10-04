@@ -42,6 +42,15 @@ public class BookmarkMenu : MonoBehaviour
 
     public void Save()
     {
+        if(inputField.text == "lowerdiffspls")
+        {
+            PlayerPrefs.SetInt("l_diffs", 1);
+            PlayerPrefs.Save();
+            inputField.text = "";
+            MiniTimeline.Instance.OpenBookmarksMenu("");
+            NotificationShower.Queue("Downmap function unlocked!", NRNotifType.Success);
+            return;
+        }
         MiniTimeline.Instance.selectedBookmark.SetText(inputField.text);
         MiniTimeline.Instance.selectedBookmark.SetColor(BookmarkColorPicker.selectedColor, BookmarkColorPicker.selectedUIColor);
         MiniTimeline.Instance.SaveSelectedBookmark();
