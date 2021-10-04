@@ -47,8 +47,9 @@ public class BookmarkMenu : MonoBehaviour
             PlayerPrefs.SetInt("l_diffs", 1);
             PlayerPrefs.Save();
             inputField.text = "";
-            MiniTimeline.Instance.OpenBookmarksMenu("");
-            NotificationShower.Queue("Downmap function unlocked!", NRNotifType.Success);
+            NotificationShower.Queue("Downmapper unlocked!", NRNotifType.Success);
+            LowerDifficultyGenerator.Instance.Activate();
+            Delete();
             return;
         }
         MiniTimeline.Instance.selectedBookmark.SetText(inputField.text);
