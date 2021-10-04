@@ -1,7 +1,7 @@
 {
-    "latestVersion" : "7.5.1",
+    "latestVersion" : "7.5.2",
     "downloadLink" : "https://github.com/octoberU/NotReaper/raw/master/updateOnly.zip",
-    "changelog" : "- added left hand/right hand deselection tool in sidebar on the right \n - added new shortcut to bake selected pathbuilder notes (Ctrl + B) \n - added sustain volume slider (credits to Xion)\n - fixed bug where the right target selection panel wouldn't actually deselct them (credits to Xion) \n - added mines to error checker (credits to Xion) \n - added zOffset to modifier preview \n - fixed bug where melee and pathbuilder note couldn't be placed on the same tick",
+    "changelog" : "- Sustain volume now saves and loads \n - Fix for deselecting LH/RH \n - F1 Menu scrolling fix",
     "forced" : false
 
 
