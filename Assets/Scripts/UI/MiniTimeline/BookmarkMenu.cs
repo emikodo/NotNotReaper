@@ -48,7 +48,7 @@ public class BookmarkMenu : MonoBehaviour
             PlayerPrefs.Save();
             inputField.text = "";
             NotificationShower.Queue("Downmapper unlocked!", NRNotifType.Success);
-            LowerDifficultyGenerator.Instance.Activate();
+            Downmapper.Instance.Activate();
             Delete();
             return;
         }

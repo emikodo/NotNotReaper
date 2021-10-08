@@ -1,7 +1,7 @@
 {
-    "latestVersion" : "7.5.2",
+    "latestVersion" : "7.5.3",
     "downloadLink" : "https://github.com/octoberU/NotReaper/raw/master/updateOnly.zip",
-    "changelog" : "- Sustain volume now saves and loads \n - Fix for deselecting LH/RH \n - F1 Menu scrolling fix",
+    "changelog" : "- Removed a debug function \n",
     "forced" : false
 
 

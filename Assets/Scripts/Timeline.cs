@@ -2493,7 +2493,7 @@ namespace NotReaper {
 		}
 
 		public void JumpToPercent (float percent) {
-			if (!audioLoaded) return;
+			if (!audioLoaded || EditorInput.selectedMode != EditorMode.Compose) return;
 			time = ShiftTick (new QNT_Timestamp (0), songPlayback.song.Length * percent);
 
 			SafeSetTime ();
@@ -2505,7 +2505,7 @@ namespace NotReaper {
 		}
 
 		public void JumpToX (float x) {
-			if (ModifierHandler.activated) return;
+			if (ModifierHandler.activated || EditorInput.selectedMode != EditorMode.Compose) return;
 			StopCoroutine (AnimateSetTime (new QNT_Timestamp (0)));
 
 			float posX = Math.Abs (timelineTransformParent.position.x) + x;

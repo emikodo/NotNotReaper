@@ -23,7 +23,7 @@ namespace NotReaper.Managers {
         //[SerializeField] private TextMeshProUGUI curTargetAmount;
 
 
-        private void Start() {
+        private void Awake() {
             I = this;
         }
 
