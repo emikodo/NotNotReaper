@@ -9,18 +9,18 @@ namespace NotReaper.ReviewSystem
     [System.Serializable]
     public class ReviewContainer
     {
-        public SongDesc songDesc;
+        public string songID;
         public List<ReviewComment> comments = new List<ReviewComment>();
         public string reviewAuthor;
 
-        public ReviewContainer(SongDesc songDesc)
+        public ReviewContainer(string songID)
         {
-            this.songDesc = songDesc;
+            this.songID = songID;
         }
 
         public ReviewContainer()
         {
-            this.songDesc = Timeline.desc;
+            //this.songID = Timeline.desc.songID;
         }
 
         public static ReviewContainer Read(string path)
@@ -31,12 +31,13 @@ namespace NotReaper.ReviewSystem
 
         public void Export()
         {
+            songID = Timeline.desc.songID;
             string dataDirectory = Application.dataPath;
             string exportFolder = Path.Combine(Directory.GetParent(dataDirectory).ToString(), "reviews");
             if (!Directory.Exists(exportFolder)) Directory.CreateDirectory(exportFolder);
             string reviewText = JsonConvert.SerializeObject(this);
-            string exportPath = Path.Combine(exportFolder, $"{songDesc.songID}_{reviewAuthor}.review");
-            File.WriteAllText(reviewText, exportPath);
+            string exportPath = Path.Combine(exportFolder, $"{songID}_{reviewAuthor}.review");
+            File.WriteAllText(exportPath, reviewText);
         }
     }
 
@@ -46,12 +47,13 @@ namespace NotReaper.ReviewSystem
         public Cue[] selectedCues;
         public string description;
         public CommentType type;
-
-        public ReviewComment(Cue[] selectedCues, string description, CommentType type)
+        [System.NonSerialized, JsonIgnore] public CommentEntry entry;
+        public ReviewComment(Cue[] selectedCues, string description, CommentType type, CommentEntry entry = null)
         {
             this.selectedCues = selectedCues;
             this.description = description;
             this.type = type;
+            this.entry = entry;
         }
     }
     

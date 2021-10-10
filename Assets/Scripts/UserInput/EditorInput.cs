@@ -6,6 +6,7 @@ using NotReaper.Grid;
 using NotReaper.Managers;
 using NotReaper.Models;
 using NotReaper.Modifier;
+using NotReaper.ReviewSystem;
 using NotReaper.Targets;
 using NotReaper.Timing;
 using NotReaper.Tools.ChainBuilder;
@@ -608,6 +609,10 @@ namespace NotReaper.UserInput {
 			if (Input.GetKeyDown (KeyCode.F8)) {
 				if (ModifierInfo.isOpened) ModifierInfo.Instance.Hide ();
 			}
+            if (Input.GetKeyDown(KeyCode.F9))
+            {
+				if (ReviewWindow.IsOpen) ReviewWindow.Instance.ShowWindow(false);
+            }
 
 			bool wasInUI = inUI;
 			FigureOutIsInUI ();
@@ -629,6 +634,11 @@ namespace NotReaper.UserInput {
 			if (Input.GetKeyDown (KeyCode.F8)) {
 				if (!ModifierInfo.isOpened) ModifierInfo.Instance.Show ();
 			}
+
+            if (Input.GetKeyDown(KeyCode.F9))
+            {
+				if (!ReviewWindow.IsOpen) ReviewWindow.Instance.ShowWindow(true);
+            }
 
 			if (Input.GetKeyDown (KeyCode.F5)) {
 				if (!addOrTrimAudioWindow.gameObject.activeSelf) {
