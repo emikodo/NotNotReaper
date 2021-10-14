@@ -70,6 +70,11 @@ namespace NotReaper.ReviewSystem
             window.SetActive(show);
             window.transform.localPosition = show ? lastOpenPosition : new Vector2(-4300f, 0f);
             if (!init) init = true;
+            if (!show)
+            {
+                foreach (GameObject go in bottomBarButtons) go.SetActive(true);
+                selectCuesPanel.SetActive(false);
+            }
         }
 
         public void ToggleWindow()
@@ -104,6 +109,8 @@ namespace NotReaper.ReviewSystem
             StartCoroutine(Timeline.instance.AnimateSetTime(new QNT_Timestamp((ulong)firstCue.tick)));
 
             FillData();
+            foreach (CommentEntry ce in commentEntries) ce.IsSelected = false;
+            commentEntries[index].IsSelected = true;
         }
 
         public void FillData()
@@ -143,8 +150,12 @@ namespace NotReaper.ReviewSystem
         /// </summary>
         public void CreateComment()
         {
+            if(Timeline.instance.selectedNotes.Count == 0)
+            {
+                NotificationShower.Queue($"Couldn't add comment. No targets selected.", NRNotifType.Fail);
+                return;
+            }
             var selectedCues = new List<Cue>();
-            
             foreach (Target target in Timeline.instance.selectedNotes)
             {
                 selectedCues.Add(target.ToCue());
@@ -161,11 +172,13 @@ namespace NotReaper.ReviewSystem
 
             CreateCommentEntry(comment);
             currentComment = new ReviewComment();
+            foreach (CommentEntry ce in commentEntries) ce.IsSelected = false;
             FillData();
         }
 
         public void CreateCommentEntry(ReviewComment comment)
         {
+            if (comment.selectedCues is null || comment.selectedCues.Length == 0) return;
             var entry = GameObject.Instantiate(commentEntryPrefab, commentListContent);
             comment.entry = entry;
             entry.SetComment(comment);
@@ -241,6 +254,7 @@ namespace NotReaper.ReviewSystem
                     currentComment = new ReviewComment();
 
                     loadedContainer = container;
+                    if(loadedContainer.comments.Count > 1) loadedContainer.comments.Sort((c1, c2) => c1.selectedCues.First().tick.CompareTo(c2.selectedCues.First().tick));
                     NotificationShower.Queue($"Loaded {loadedContainer.reviewAuthor}'s review", NRNotifType.Success);
                     authorField.text = loadedContainer.reviewAuthor;
                     authorText.text = loadedContainer.reviewAuthor;

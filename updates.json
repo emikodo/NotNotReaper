@@ -1,7 +1,7 @@
 {
-    "latestVersion" : "7.6",
+    "latestVersion" : "7.6.1",
     "downloadLink" : "https://github.com/octoberU/NotReaper/raw/master/updateOnly.zip",
-    "changelog" : "- Implemented a Review System to provide Feedback \n - Fixed old album art persisting when loading a new map (hopefully) \n - Fixed chain node hitbox being too small in the left tool panel",
+    "changelog" : "- Minor bugfixes and improvements for the review system",
     "forced" : false
 
 

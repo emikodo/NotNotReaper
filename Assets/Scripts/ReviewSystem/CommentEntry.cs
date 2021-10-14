@@ -13,6 +13,7 @@ namespace NotReaper.ReviewSystem
         [SerializeField] private TextMeshProUGUI indexDisplay;
         [SerializeField] private TextMeshProUGUI tickDisplay;
         [SerializeField] private Image typeDisplay;
+        [SerializeField] private Outline outline;
         [Space]
         [Header("Icons")]
         [SerializeField] private Sprite pog;
@@ -31,8 +32,19 @@ namespace NotReaper.ReviewSystem
                 SetIndex(value);
             }
         }
+        public bool IsSelected
+        {
+            get
+            {
+                return _isSelected;
+            }
+            set
+            {
+                SetSelected(value);
+            }
+        }
         private int _index = 0;
-
+        private bool _isSelected = false;
 
         private void SetIndex(int value)
         {
@@ -63,6 +75,14 @@ namespace NotReaper.ReviewSystem
         public void SelectComment()
         {
             ReviewWindow.Instance.SelectComment(Index);
+
+            SetSelected(true);          
+        }
+
+        public void SetSelected(bool selected)
+        {
+            _isSelected = selected;
+            outline.effectColor = _isSelected ? Color.green : Color.white;
         }
     }
 }
