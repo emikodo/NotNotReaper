@@ -13,12 +13,16 @@ namespace NotReaper.ReviewSystem
         [SerializeField] private TextMeshProUGUI indexDisplay;
         [SerializeField] private TextMeshProUGUI tickDisplay;
         [SerializeField] private Image typeDisplay;
-        [SerializeField] private Outline outline;
+        [SerializeField] private Image suggestionDisplay;
+        [SerializeField] private Image outline;
         [Space]
         [Header("Icons")]
         [SerializeField] private Sprite pog;
         [SerializeField] private Sprite notLikeThis;
         [SerializeField] private Sprite thonk;
+        [SerializeField] private Sprite checkSprite;
+
+        private CommentType commentType;
 
         public int StartTick;
         public int Index
@@ -49,7 +53,7 @@ namespace NotReaper.ReviewSystem
         private void SetIndex(int value)
         {
             _index = value;
-            indexDisplay.text = _index.ToString();
+            indexDisplay.text = (_index + 1).ToString();
             transform.SetSiblingIndex(value);
         }
 
@@ -57,7 +61,21 @@ namespace NotReaper.ReviewSystem
         {
             StartTick = comment.selectedCues.First().tick;
             tickDisplay.text = StartTick.ToString();
-            switch (comment.type)
+            commentType = comment.type;
+            EnableSuggestion(comment.HasSuggestion);
+            SetSprite(commentType);
+            SetChecked(comment.isChecked);
+            
+        }
+
+        public void EnableSuggestion(bool enable)
+        {
+            suggestionDisplay.enabled = enable;
+        }
+
+        private void SetSprite(CommentType type)
+        {
+            switch (type)
             {
                 case CommentType.Negative:
                     typeDisplay.sprite = notLikeThis;
@@ -69,7 +87,7 @@ namespace NotReaper.ReviewSystem
                     typeDisplay.sprite = thonk;
                     break;
             }
-            
+            typeDisplay.color = Color.white;
         }
 
         public void SelectComment()
@@ -82,7 +100,17 @@ namespace NotReaper.ReviewSystem
         public void SetSelected(bool selected)
         {
             _isSelected = selected;
-            outline.effectColor = _isSelected ? Color.green : Color.white;
+            outline.color = _isSelected ? Color.green : Color.white;
+        }
+
+        public void SetChecked(bool check)
+        {
+            if (check)
+            {
+                typeDisplay.sprite = checkSprite;
+                typeDisplay.color = Color.green;
+            }
+            else SetSprite(commentType);
         }
     }
 }

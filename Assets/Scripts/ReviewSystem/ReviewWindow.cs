@@ -10,25 +10,32 @@ using UnityEngine;
 using UnityEngine.UI;
 using Sirenix.Utilities;
 using TMPro;
+using System.Collections;
+
 namespace NotReaper.ReviewSystem
 {
-    [RequireComponent(typeof(EditorInputDisabler))]
+    //[RequireComponent(typeof(EditorInputDisabler))]
     public class ReviewWindow : MonoBehaviour
     {
         public static ReviewWindow Instance = null;
         public static bool IsOpen = false;
         #region References
         [SerializeField] private GameObject window;
+        [SerializeField] private CanvasGroup windowCanvas;
         [SerializeField] private GameObject selectCuesPanel;
+        [SerializeField] private GameObject editSuggestionPanel;
+        [SerializeField] private GameObject viewSuggestionPanel;
         [SerializeField] private TMP_InputField commentField;
         [SerializeField] private TMP_InputField authorField;
+        [SerializeField] private GameObject makeSuggestionButton;
+        [SerializeField] private GameObject showSuggestionButton;
         [SerializeField] private TextMeshProUGUI authorText;
         [SerializeField] private TMP_Dropdown commentTypeDrop;
         [SerializeField] private TextMeshProUGUI commentTypeText;
         [SerializeField] private TextMeshProUGUI modeText;
-        [SerializeField] private Button addCommentButton;
-        [SerializeField] private Button deleteCommentButton;
-        [SerializeField] private Button selectCuesButton;
+        [SerializeField] private GameObject writeModeButtonsPanel;
+        [SerializeField] private GameObject readModeButtonsPanel;
+        [SerializeField] private TextMeshProUGUI checkCommentButtonText;
         [SerializeField] private GameObject writeSidePanel;
         [SerializeField] private List<GameObject> bottomBarButtons;
         [SerializeField] private TextMeshProUGUI toggleCommentsButtonText;
@@ -36,14 +43,16 @@ namespace NotReaper.ReviewSystem
         [SerializeField] private GameObject commentListPanel;
         [SerializeField] private CommentEntry commentEntryPrefab;
         [SerializeField] private RectTransform commentListContent;
+        [SerializeField] private ScrollRect scroller;
         #endregion
 
         private ReviewContainer loadedContainer = new ReviewContainer();
-        private ReviewComment currentComment;
-        private ReviewMode reviewMode = ReviewMode.Read;
+        private ReviewComment currentComment = new ReviewComment();
+        public ReviewMode SelectedMode { get; set; } = ReviewMode.Read;
 
         private List<CommentEntry> commentEntries = new List<CommentEntry>();
         private Vector2 lastOpenPosition = Vector2.zero;
+        private float lastScrollPosition = 1f;
         private void Awake()
         {
             if (Instance is null) Instance = this;
@@ -59,7 +68,8 @@ namespace NotReaper.ReviewSystem
         {
             SetMode(ReviewMode.Read);
             ShowWindow(false);
-
+            makeSuggestionButton.SetActive(false);
+            showSuggestionButton.SetActive(false);
             string exportFolder = Path.Combine(Directory.GetParent(Application.dataPath).ToString(), "reviews");
             if (!Directory.Exists(exportFolder)) Directory.CreateDirectory(exportFolder);
         }
@@ -67,13 +77,23 @@ namespace NotReaper.ReviewSystem
         {
             IsOpen = show;
             if (!show && init) lastOpenPosition = window.transform.localPosition;
-            window.SetActive(show);
             window.transform.localPosition = show ? lastOpenPosition : new Vector2(-4300f, 0f);
             if (!init) init = true;
+            window.SetActive(show);
             if (!show)
             {
                 foreach (GameObject go in bottomBarButtons) go.SetActive(true);
+                lastScrollPosition = scroller.verticalNormalizedPosition;
+            }
+            else
+            {
+                if (isShowingSuggestion)
+                {
+                    ShowSuggestion();
+                }
+                editSuggestionPanel.SetActive(false);
                 selectCuesPanel.SetActive(false);
+                StartCoroutine(UpdateScroller(lastScrollPosition));
             }
         }
 
@@ -111,6 +131,18 @@ namespace NotReaper.ReviewSystem
             FillData();
             foreach (CommentEntry ce in commentEntries) ce.IsSelected = false;
             commentEntries[index].IsSelected = true;
+            checkCommentButtonText.text = currentComment.isChecked ? "Uncheck Comment" : "Check Comment";
+            currentComment.entry.SetChecked(currentComment.isChecked);
+            makeSuggestionButton.SetActive(currentComment.HasSelectedCues);
+            showSuggestionButton.SetActive(currentComment.HasSuggestion);
+        }
+
+        public void DeselectComment()
+        {
+            currentComment.entry.IsSelected = false;
+            currentComment = new ReviewComment();
+            makeSuggestionButton.SetActive(false);
+            showSuggestionButton.SetActive(false);
         }
 
         public void FillData()
@@ -171,22 +203,20 @@ namespace NotReaper.ReviewSystem
             NotificationShower.Queue($"Added comment for {selectedCues.Count} {targetPlural}", NRNotifType.Success);
 
             CreateCommentEntry(comment);
-            currentComment = new ReviewComment();
-            foreach (CommentEntry ce in commentEntries) ce.IsSelected = false;
+            DeselectComment();
             FillData();
+            StartCoroutine(UpdateScroller(0f));
         }
 
         public void CreateCommentEntry(ReviewComment comment)
         {
             if (comment.selectedCues is null || comment.selectedCues.Length == 0) return;
             var entry = GameObject.Instantiate(commentEntryPrefab, commentListContent);
-            comment.entry = entry;
             entry.SetComment(comment);
+            comment.entry = entry;
             entry.Index = loadedContainer.comments.IndexOf(comment);
             commentEntries.Add(entry);
-            SortEntries();
-           
-          
+            SortEntries();    
         }
         public void RemoveCommentEntry(ReviewComment comment)
         {
@@ -195,6 +225,7 @@ namespace NotReaper.ReviewSystem
             commentEntries.RemoveAt(index);
             Destroy(entry.gameObject);
             SortEntries();
+            DeselectComment();
         }
 
         private void SortEntries()
@@ -213,6 +244,14 @@ namespace NotReaper.ReviewSystem
             string path = StandaloneFileBrowser.OpenFilePanel("Select review file", reviewDirectory, "review", false).FirstOrDefault();
             if (File.Exists(path) && path.Contains(".review")) LoadContainer(path);
             else NotificationShower.Queue($"Review file doesn't exist", NRNotifType.Fail);
+            StartCoroutine(UpdateScroller(1f));
+        }
+
+        private IEnumerator UpdateScroller(float newPos)
+        {
+            if (!commentListPanel.activeSelf) yield break;
+            yield return new WaitForEndOfFrame();
+            scroller.verticalNormalizedPosition = newPos;
         }
 
         public void SetMode(ReviewMode mode)
@@ -221,25 +260,24 @@ namespace NotReaper.ReviewSystem
             commentTypeDrop.gameObject.SetActive(!isReadMode);
             commentTypeText.gameObject.SetActive(isReadMode);
             commentField.interactable = !isReadMode;
-            addCommentButton.gameObject.SetActive(!isReadMode);
-            selectCuesButton.gameObject.SetActive(!isReadMode);
-            deleteCommentButton.gameObject.SetActive(!isReadMode);
+            writeModeButtonsPanel.SetActive(!isReadMode);
+            readModeButtonsPanel.SetActive(isReadMode);
             writeSidePanel.gameObject.SetActive(!isReadMode);
-
-            reviewMode = mode;
+            modeText.text = isReadMode ? "Read Mode" : "Write Mode";
+            SelectedMode = mode;
         }
 
         public void SelectCues(bool selectMode)
         {
-            window.SetActive(!selectMode);
             selectCuesPanel.SetActive(selectMode);
-
+            //window.SetActive(!selectMode);
+            ShowWindow(!selectMode);
             foreach (GameObject go in bottomBarButtons) go.SetActive(!selectMode);
         }
 
         public void ToggleMode()
         {
-            SetMode(reviewMode == ReviewMode.Read ? ReviewMode.Write : ReviewMode.Read);
+            SetMode(SelectedMode == ReviewMode.Read ? ReviewMode.Write : ReviewMode.Read);
         }
 
         void LoadContainer(string path)
@@ -259,7 +297,11 @@ namespace NotReaper.ReviewSystem
                     authorField.text = loadedContainer.reviewAuthor;
                     authorText.text = loadedContainer.reviewAuthor;
                     SetMode(ReviewMode.Read);
-                    foreach (ReviewComment comment in loadedContainer.comments) CreateCommentEntry(comment);
+
+                    foreach (ReviewComment comment in loadedContainer.comments)
+                    {
+                        CreateCommentEntry(comment);
+                    }
                     NextComment();
                 }
                 else NotificationShower.Queue("This review was made for a different song.", NRNotifType.Fail);
@@ -288,6 +330,84 @@ namespace NotReaper.ReviewSystem
             toggleCommentsButtonText.text = active ? "Hide Comments" : "Show Comments";
         }
 
+        public void ToggleCommentChecked()
+        {
+            if (!currentComment.HasSelectedCues) return;
+            currentComment.isChecked = !currentComment.isChecked;
+            currentComment.entry.SetChecked(currentComment.isChecked);
+            checkCommentButtonText.text = currentComment.isChecked ? "Uncheck Comment" : "Check Comment";
+        }
+
+        private bool isEditingSuggestion = false;
+        public void EditSuggestion()
+        {
+            if (!currentComment.HasSelectedCues) return;
+            isEditingSuggestion = !isEditingSuggestion;
+            editSuggestionPanel.SetActive(isEditingSuggestion);
+            ShowWindow(!isEditingSuggestion);
+            if (isEditingSuggestion)
+            {
+                if (currentComment.HasSuggestion)
+                {
+                    SpawnTargets(false);
+                }
+            }
+            else
+            {
+                if(Timeline.instance.selectedNotes.Count > 0)
+                {
+                    var selectedCues = new List<Cue>();
+                    foreach (Target target in Timeline.instance.selectedNotes)
+                    {
+                        selectedCues.Add(target.ToCue());
+                    }
+                    selectedCues.Sort((c1, c2) => c1.tick.CompareTo(c2.tick));
+                    currentComment.suggestionCues = selectedCues.ToArray();
+                    currentComment.entry.EnableSuggestion(true);
+                }
+                else
+                {
+                    currentComment.suggestionCues = null;
+                    currentComment.entry.EnableSuggestion(false);
+                }
+                SpawnTargets(true);
+            }
+        }
+        private bool isShowingSuggestion = false;
+        public void ShowSuggestion(bool applySuggestion = false)
+        {
+            if (!currentComment.HasSuggestion) return;
+            isShowingSuggestion = !isShowingSuggestion;
+            viewSuggestionPanel.SetActive(isShowingSuggestion);
+            ShowWindow(!isShowingSuggestion);
+            if (isShowingSuggestion)
+            {
+                SpawnTargets(false);
+            }
+            else if (!applySuggestion)
+            {              
+                SpawnTargets(true);                          
+            }
+        }
+
+        private void SpawnTargets(bool original)
+        {
+            List<Cue> targetsToSpawn = (original ? currentComment.selectedCues : currentComment.suggestionCues).ToList();
+            List<Cue> targetsToSelect = (original ? currentComment.suggestionCues : currentComment.selectedCues).ToList();
+            Timeline.instance.DeselectAllTargets();
+            foreach(Target target in SelectTargets(targetsToSelect.First().tick, targetsToSelect.Last().tick))
+            {
+                Timeline.instance.SelectTarget(target);
+            }
+            Timeline.instance.DeleteTargets(Timeline.instance.selectedNotes);
+            foreach(Cue cue in targetsToSpawn)
+            {
+                TargetData data = Timeline.instance.GetTargetDataForCue(cue);
+                Target target = Timeline.instance.AddTargetFromAction(data);
+                Timeline.instance.SelectTarget(target);
+            }
+        }
+
         void OpenReviewFolder()
         {
             string arguments = Path.Combine(Directory.GetParent(Application.dataPath).ToString(), "reviews");
@@ -300,6 +420,19 @@ namespace NotReaper.ReviewSystem
         {
             Read,
             Write
+        }
+
+        private bool fade = false;
+        private void Update()
+        {
+            if (SelectedMode != ReviewMode.Read) return;
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                fade = !fade;
+                Timeline.instance.TogglePlayback();
+                windowCanvas.alpha = fade ? .4f : 1f;
+                windowCanvas.interactable = !fade;
+            }
         }
 
         bool VerifyReview(ReviewContainer container) 

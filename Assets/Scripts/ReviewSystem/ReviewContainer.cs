@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using NotReaper.Models;
+using NotReaper.Targets;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
@@ -42,18 +43,28 @@ namespace NotReaper.ReviewSystem
     }
 
     [System.Serializable]
-    public struct ReviewComment
+    public class ReviewComment
     {
         public Cue[] selectedCues;
+        public Cue[] suggestionCues;
         public string description;
         public CommentType type;
+        public bool isChecked;
         [System.NonSerialized, JsonIgnore] public CommentEntry entry;
-        public ReviewComment(Cue[] selectedCues, string description, CommentType type, CommentEntry entry = null)
+        [JsonIgnore] public bool HasSuggestion => suggestionCues != null && suggestionCues.Length > 0;
+        [JsonIgnore] public bool HasSelectedCues => selectedCues != null && selectedCues.Length > 0;
+        [JsonConstructor]
+        public ReviewComment(Cue[] selectedCues, string description, CommentType type, Cue[] suggestionCues = null, bool isChecked = false, CommentEntry entry = null)
         {
             this.selectedCues = selectedCues;
             this.description = description;
             this.type = type;
+            this.isChecked = isChecked;
             this.entry = entry;
+            this.suggestionCues = suggestionCues;
+        }
+        public ReviewComment()
+        {
         }
     }
     

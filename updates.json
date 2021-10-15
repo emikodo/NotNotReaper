@@ -1,7 +1,7 @@
 {
-    "latestVersion" : "7.6.1",
+    "latestVersion" : "7.6.2",
     "downloadLink" : "https://github.com/octoberU/NotReaper/raw/master/updateOnly.zip",
-    "changelog" : "- Minor bugfixes and improvements for the review system",
+    "changelog" : "- Added visible suggestions to the Review System \n - Made Timeline play/pause work when in Review Read Mode \n - various small bugfixes regarding the Review System",
     "forced" : false
 
 

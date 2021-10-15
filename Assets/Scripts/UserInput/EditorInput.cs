@@ -444,6 +444,10 @@ namespace NotReaper.UserInput {
 
 			if (InputDisabled) {
 				inUI = true;
+				if (ReviewWindow.IsOpen && ReviewWindow.Instance.SelectedMode == ReviewWindow.ReviewMode.Read && !Timeline.instance.paused)
+				{
+					enableScrolling = true;
+				}
 				return;
 			}
 
@@ -492,6 +496,7 @@ namespace NotReaper.UserInput {
 				if(snapWindow.window.gameObject.activeInHierarchy)
 					enableScrolling = false;
 
+				
 				return;
 			}
 		}
