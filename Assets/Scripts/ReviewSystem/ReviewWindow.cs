@@ -139,10 +139,11 @@ namespace NotReaper.ReviewSystem
 
         public void DeselectComment()
         {
-            currentComment.entry.IsSelected = false;
+            if(currentComment.entry != null) currentComment.entry.IsSelected = false;
             currentComment = new ReviewComment();
             makeSuggestionButton.SetActive(false);
             showSuggestionButton.SetActive(false);
+            Timeline.instance.DeselectAllTargets();
         }
 
         public void FillData()
@@ -180,11 +181,11 @@ namespace NotReaper.ReviewSystem
         /// <summary>
         /// Creates a review comment using selected notes and text fields.
         /// </summary>
-        public void CreateComment()
+        public void SaveComment()
         {
             if(Timeline.instance.selectedNotes.Count == 0)
             {
-                NotificationShower.Queue($"Couldn't add comment. No targets selected.", NRNotifType.Fail);
+                NotificationShower.Queue($"Couldn't save comment. No targets selected.", NRNotifType.Fail);
                 return;
             }
             var selectedCues = new List<Cue>();
@@ -193,24 +194,39 @@ namespace NotReaper.ReviewSystem
                 selectedCues.Add(target.ToCue());
             }
             selectedCues.Sort((c1, c2) => c1.tick.CompareTo(c2.tick));
-            var comment = new ReviewComment(selectedCues.ToArray(),
+            /*currentComment = new ReviewComment(selectedCues.ToArray(),
                 commentField.text,
-                (CommentType)commentTypeDrop.value);
+                (CommentType)commentTypeDrop.value);*/
+            currentComment.selectedCues = selectedCues.ToArray();
+            currentComment.description = commentField.text;
+            currentComment.type = (CommentType)commentTypeDrop.value;
             
-            loadedContainer.comments.Add(comment);
+            if(!loadedContainer.comments.Contains(currentComment)) loadedContainer.comments.Add(currentComment);
             if(loadedContainer.comments.Count > 1) loadedContainer.comments.Sort((c1, c2) => c1.selectedCues.First().tick.CompareTo(c2.selectedCues.First().tick));
             string targetPlural = selectedCues.Count == 1 ? "target" : "targets";
-            NotificationShower.Queue($"Added comment for {selectedCues.Count} {targetPlural}", NRNotifType.Success);
+            NotificationShower.Queue($"Saved comment for {selectedCues.Count} {targetPlural}", NRNotifType.Success);
 
-            CreateCommentEntry(comment);
+            if (currentComment.entry is null) CreateCommentEntry(currentComment);
+            else
+            {
+                currentComment.entry.UpdateEntry();
+                SortEntries();
+            }
+
             DeselectComment();
             FillData();
-            StartCoroutine(UpdateScroller(0f));
+            //StartCoroutine(UpdateScroller(0f));
+        }
+
+        public void NewComment()
+        {
+            DeselectComment();
+            FillData();
         }
 
         public void CreateCommentEntry(ReviewComment comment)
         {
-            if (comment.selectedCues is null || comment.selectedCues.Length == 0) return;
+            if (!comment.HasSelectedCues) return;
             var entry = GameObject.Instantiate(commentEntryPrefab, commentListContent);
             entry.SetComment(comment);
             comment.entry = entry;
@@ -220,12 +236,11 @@ namespace NotReaper.ReviewSystem
         }
         public void RemoveCommentEntry(ReviewComment comment)
         {
-            int index = loadedContainer.comments.IndexOf(comment);
-            var entry = commentEntries[index];
-            commentEntries.RemoveAt(index);
-            Destroy(entry.gameObject);
-            SortEntries();
+            commentEntries.Remove(comment.entry);
+            Destroy(comment.entry.gameObject);
             DeselectComment();
+            SortEntries();
+            FillData();
         }
 
         private void SortEntries()

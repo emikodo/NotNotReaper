@@ -23,7 +23,7 @@ namespace NotReaper.ReviewSystem
         [SerializeField] private Sprite checkSprite;
 
         private CommentType commentType;
-
+        private ReviewComment comment;
         public int StartTick;
         public int Index
         {
@@ -59,13 +59,18 @@ namespace NotReaper.ReviewSystem
 
         public void SetComment(ReviewComment comment)
         {
+            this.comment = comment;
+            UpdateEntry();            
+        }
+
+        public void UpdateEntry()
+        {
             StartTick = comment.selectedCues.First().tick;
             tickDisplay.text = StartTick.ToString();
             commentType = comment.type;
             EnableSuggestion(comment.HasSuggestion);
             SetSprite(commentType);
             SetChecked(comment.isChecked);
-            
         }
 
         public void EnableSuggestion(bool enable)
