@@ -34,11 +34,14 @@ namespace NotReaper.MapBrowser
         [SerializeField] private Sprite noStandardSprite;
         [SerializeField] private Sprite noAdvancedSprite;
         [SerializeField] private Sprite noExpertSprite;
+        [SerializeField] private Image downloadedSprite;
         #endregion
 
         public MapData Data { get; private set; }
         private Color defaultColor;
         private SelectedMapEntry selectedEntry = null;
+        private Color notDownloadedColor = new Color(.54f, .54f, .54f, .4f);
+        private Color downloadedColor = new Color(.1f, .7f, .1f, 1f);
         private void Start()
         {
             defaultColor = outline.color;
@@ -69,11 +72,17 @@ namespace NotReaper.MapBrowser
             //SetSelected(Data.Selected);
             outline.color = Data.Selected ? selectedColor : defaultColor;
             songNameDisplay.text = Data.SongName.ToLower();
+            downloadedSprite.color = Data.Downloaded ? downloadedColor : notDownloadedColor;
             artistAuthorNameDisplay.text = $"{Data.Artist} ・ map by {Data.Mapper}".ToLower();
             Sprite sprite = GetCuratedSprite(Data.State);
             curatedDisplay.sprite = sprite;
             curatedDisplay.color = sprite is null ? noSpriteColor : Color.white;
             SetDifficultySprites();
+        }
+
+        public void UpdateDownloadedIcon()
+        {
+            downloadedSprite.color = Data.Downloaded ? downloadedColor : notDownloadedColor;
         }
 
         private Sprite GetCuratedSprite(State state)

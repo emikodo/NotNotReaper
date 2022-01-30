@@ -38,6 +38,7 @@ namespace NotReaper.MapBrowser
         [SerializeField] private GameObject middlePanel;
         [SerializeField] private GameObject navigationPanel;
         [SerializeField] private GameObject sidePanel;
+        [SerializeField] private GameObject downloadPanel;
         [SerializeField] private GameObject retryButton;
         [SerializeField] private ScrollRect selectedScrollRect;
         [SerializeField] private GameObject cancelButton;
@@ -54,11 +55,12 @@ namespace NotReaper.MapBrowser
                 return;
             }
             Instance = this;
-            buttonDownload.interactable = false;
+            //buttonDownload.interactable = false;
             buttonDownloadAll.interactable = false;
             buttonNext.interactable = false;
             buttonPrevious.interactable = false;
-            buttonClearSelection.interactable = false;
+            //buttonClearSelection.interactable = false;
+            EnableDownloadPanel(false);
         }
 
         #region UI Events
@@ -145,21 +147,24 @@ namespace NotReaper.MapBrowser
         {
             noResults.SetActive(true);
             buttonDownloadAll.interactable = false;
+            buttonNext.interactable = false;
+            buttonPrevious.interactable = false;
+            pageText.text = "";
         }
 
         public void UpdateSelectedCount(int count)
         {
-            if(count == 0)
-            {
-                selectedMapCount.text = "no maps selected";
-                buttonClearSelection.interactable = false;
-            }
-            else
-            {
-                selectedMapCount.text = $"{count} {(count == 1 ? "map" : "maps")} selected";
-                buttonClearSelection.interactable = true;
-            }
             
+            selectedMapCount.text = count == 0 ? "no maps selected" : $"{count} {(count == 1 ? "map" : "maps")} selected";
+            //buttonClearSelection.interactable = count != 0;
+            EnableDownloadPanel(count != 0);
+        }
+
+        private void EnableDownloadPanel(bool enable)
+        {
+            downloadPanel.SetActive(enable);
+            buttonDownload.gameObject.SetActive(enable);
+            buttonClearSelection.gameObject.SetActive(enable);
         }
 
         public void UpdateDownloadButton()
@@ -190,8 +195,8 @@ namespace NotReaper.MapBrowser
 
             var rounded = Mathf.Ceil(percentage);
             downloadProgress.text = rounded.ToString() + "%";
-            StartCoroutine(MoveScroller(GetScrollerSnapPosition(rectTransform)));
-            if(rounded == 100f)
+            if(rectTransform) StartCoroutine(MoveScroller(GetScrollerSnapPosition(rectTransform)));
+            if (rounded == 100f)
             {
                 downloadOverlay.SetActive(false);
                 downloadComplete.SetActive(true);

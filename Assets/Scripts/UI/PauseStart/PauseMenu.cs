@@ -24,7 +24,7 @@ namespace NotReaper.UI {
         public Image BG;
 
         public bool isOpened = false;
-
+        private BoxCollider2D[] colliders;
 
         public void Start() {
             if(Instance != null)
@@ -35,6 +35,7 @@ namespace NotReaper.UI {
             Instance = this;
             var t = transform;
             var position = t.localPosition;
+            colliders = GetComponents<BoxCollider2D>();
             t.localPosition = new Vector3(0, position.y, position.z);
             recentPanel.Show();
         }
@@ -68,7 +69,7 @@ namespace NotReaper.UI {
 
         public void OpenPauseMenu() {
             isOpened = true;
-
+            EnableColliders(true);
             if (Timeline.audicaLoaded) {
                 saveButton.interactable = true;
             } else {
@@ -85,13 +86,17 @@ namespace NotReaper.UI {
 
         public void ClosePauseMenu() {
             isOpened = false;
-
+            EnableColliders(false);
             BG.gameObject.SetActive(false);
             window.gameObject.SetActive(false);
 
 
         }
 
+        private void EnableColliders(bool enable)
+        {
+            foreach (var collider in colliders) collider.enabled = enable;
+        }
 
 
 

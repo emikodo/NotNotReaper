@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
+using NotReaper.RecentDownloads;
+using System.IO;
 
 namespace NotReaper.MapBrowser
 {
@@ -23,7 +25,8 @@ namespace NotReaper.MapBrowser
         private int downloadedCount = 0;
         private APISongList songList = null;
         private List<MapData> failedMaps = new List<MapData>();
-
+        private List<string> localMaps = new List<string>();
+        private string downloadsFolder;
         private void Start()
         {
             if (Instance != null)
@@ -34,6 +37,23 @@ namespace NotReaper.MapBrowser
             Instance = this;
             apiHandler = new APIHandler();
             cache = new MapBrowserCache();
+            HandleLocalMaps();
+            //foreach (var file in files) localMaps.Add(new FileInfo(file).Name);
+        }
+        private const int DeleteAfterDays = 7;
+        private void HandleLocalMaps()
+        {
+            List<string> files = new List<string>();
+            files = Directory.GetFiles(Path.Combine(Application.dataPath, @"../", "downloads")).ToList();
+            if (files.Count == 0) return;
+
+            foreach (string file in files)
+            {
+                FileInfo fi = new FileInfo(file);
+                if (fi.CreationTime < DateTime.Now.AddDays(DeleteAfterDays * -1)) fi.Delete();
+                else localMaps.Add(fi.Name);
+            }
+            
         }
 
         public void Search(string searchText, bool[] difficulties)
@@ -73,7 +93,7 @@ namespace NotReaper.MapBrowser
                 for (int i = 0; i < songList.maps.Length; i++)
                 {
                     var song = songList.maps[i];
-                    var data = new MapData(song.id, song.title, song.artist, song.author, song.curated, song.filename, requestUrl, song.difficulties);
+                    var data = new MapData(song.id, song.title, song.artist, song.author, song.curated, song.filename, requestUrl, IsDownloaded(song.filename), song.difficulties);
                     maps.Add(data);
                     MapEntrySpawnManager.Instance.SpawnEntry(data);
                 }
@@ -85,6 +105,11 @@ namespace NotReaper.MapBrowser
             }
             lastSearchText = searchText;  
             MapBrowserWindow.Instance.UpdateNavigation(hasMore, page != 1, page, count);
+        }
+
+        private bool IsDownloaded(string filename)
+        {
+            return localMaps.Any(m => m == filename);
         }
 
         public int ChangePage(int direction, bool[] difficulties)
@@ -160,11 +185,14 @@ namespace NotReaper.MapBrowser
         {
             if (!success) failedMaps.Add(data);
             data.SetDownloaded(success);
-            var entry = MapEntrySpawnManager.Instance.GetSelectedMapEntry(data);
-            if (entry != null) entry.OnDownloaded(success);
+            if (data.SelectedEntry)
+            {
+                data.SelectedEntry.OnDownloaded(success);
+            }
             downloadedCount++;
             float percentage = ((float)downloadedCount / (float)numMapsDownloading) * 100f;
-            MapBrowserWindow.Instance.UpdateDownloadProgress(percentage, entry.GetComponent<RectTransform>());
+            if(success) RecentsManager.AddRecent(data.Filename);
+            MapBrowserWindow.Instance.UpdateDownloadProgress(percentage, data.SelectedEntry.GetComponent<RectTransform>());
         }
 
         private void OnSearchDone(APISongList songList)
@@ -178,7 +206,7 @@ namespace NotReaper.MapBrowser
             MapEntrySpawnManager.Instance.ClearSelectedEntries();
             foreach(var map in page)
             {
-                map.SetSelected(true);
+                if(!map.Data.Downloaded) map.SetSelected(true);
             }
             //MapBrowserWindow.Instance.EnableDownloadOverlay(true);
             //StartCoroutine(DownloadSelectedMaps());

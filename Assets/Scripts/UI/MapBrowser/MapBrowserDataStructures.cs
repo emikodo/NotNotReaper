@@ -26,7 +26,9 @@ namespace NotReaper.MapBrowser
         public string RequestUrl { get; }
         public string Filename { get; }
         public bool Downloaded { get; private set; }
-        public MapData(int id, string songName, string artist, string mapper, bool curated, string filename, string requestUrl, params string[] difficulties)
+        public MapBrowserEntry BrowserEntry => MapEntrySpawnManager.Instance.GetBrowserEntry(this);
+        public SelectedMapEntry SelectedEntry => MapEntrySpawnManager.Instance.GetSelectedMapEntry(this);
+        public MapData(int id, string songName, string artist, string mapper, bool curated, string filename, string requestUrl, bool downloaded, params string[] difficulties)
         {
             this.ID = id;
             this.SongName = songName;
@@ -37,7 +39,7 @@ namespace NotReaper.MapBrowser
             this.Selected = false;
             this.RequestUrl = requestUrl;
             this.Filename = filename;
-            this.Downloaded = false;
+            this.Downloaded = downloaded;
             for(int i = 0; i < difficulties.Length; i++)
             {
                 switch (difficulties[i])

@@ -86,7 +86,7 @@ namespace NotReaper.MapBrowser
             if (entry is null || !activeSelectedEntries.Contains(entry)) return;
             selectedPool.Add(entry);
             activeSelectedEntries.Remove(entry);
-            SetCorrespondingEntrySelected(entry.GetMapData(), false);
+            SetCorrespondingEntrySelected(entry.Data, false);
             entry.ClearData();
             entry.transform.SetParent(null);
             entry.gameObject.SetActive(false);
@@ -132,14 +132,19 @@ namespace NotReaper.MapBrowser
             List<MapData> data = new List<MapData>();
             foreach(var map in activeSelectedEntries)
             {
-                data.Add(map.GetMapData());
+                data.Add(map.Data);
             }
             return data;
         }
 
         public SelectedMapEntry GetSelectedMapEntry(MapData data)
         {
-            return activeSelectedEntries.Where(m => m.GetMapData().ID == data.ID).FirstOrDefault();
+            return activeSelectedEntries.Where(m => m.Data.ID == data.ID).FirstOrDefault();
+        }
+
+        public MapBrowserEntry GetBrowserEntry(MapData data)
+        {
+            return activeMapEntries.Where(m => m.Data.ID == data.ID).FirstOrDefault();
         }
 
         public List<MapBrowserEntry> GetActiveEntries()
@@ -157,7 +162,7 @@ namespace NotReaper.MapBrowser
             for(int i = activeSelectedEntries.Count - 1; i >= 0; i--)
             {
                 var entry = activeSelectedEntries[i];
-                if (entry.GetMapData().Downloaded) RemoveSelectedEntry(entry);
+                if (entry.Data.Downloaded) RemoveSelectedEntry(entry);
                 else entry.ResetAnimation();
             }
         }
