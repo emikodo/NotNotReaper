@@ -43,18 +43,26 @@ namespace NotReaper.MapBrowser
         [SerializeField] private ScrollRect selectedScrollRect;
         [SerializeField] private GameObject cancelButton;
         [SerializeField] private GameObject closeButton;
+        [SerializeField] private Toggle songToggle;
+        [SerializeField] private Toggle artistToggle;
+        [SerializeField] private Toggle mapperToggle;
+        [SerializeField] private Toggle curatedToggle;
+        [SerializeField] private Toggle almostCuratedToggle;
         #endregion
 
         private float timeToScroll = 1f;
-
-        private void Start()
+        private void Awake()
         {
             if(Instance != null)
             {
                 Debug.Log("MapBrowserWindow already exists.");
                 return;
             }
-            Instance = this;
+            Instance = this;           
+        }
+
+        private void Start()
+        {
             //buttonDownload.interactable = false;
             buttonDownloadAll.interactable = false;
             buttonNext.interactable = false;
@@ -72,17 +80,25 @@ namespace NotReaper.MapBrowser
         /// <param name="state">The state to filter for.</param>
         public void SetCurationToggleState(int state)
         {
-            MapBrowser.CurationState = (State)state;
+            MapBrowser.CurationState = (CurationState)state;
         }
 
         /// <summary>
         /// Searches maudica.com API for input in search field.
         /// </summary>
-        public void OnSearchClicked()
+        public void Search()
         {
             //bool success = MapBrowser.Instance.Search(inputSearch.text, GetDifficultyFilter());
-            MapBrowser.Instance.Search(inputSearch.text, GetDifficultyFilter());
+            UpdateFilters();
+            MapBrowser.Instance.Search(inputSearch.text, GetDifficulties());
             //buttonDownloadAll.interactable = success;
+        }
+
+        private void UpdateFilters()
+        {
+            MapBrowser.CurationState = curatedToggle.isOn ? CurationState.Curated : almostCuratedToggle.isOn ? CurationState.Semi : CurationState.None;
+            MapBrowser.FilterState = songToggle.isOn ? FilterState.Song : artistToggle.isOn ? FilterState.Artist : mapperToggle.isOn ? FilterState.Mapper : FilterState.All;
+            
         }
         /// <summary>
         /// Downloads the selected map.
@@ -106,7 +122,7 @@ namespace NotReaper.MapBrowser
         /// </summary>
         public void OnChangePageClicked(int direction)
         {
-            MapBrowser.Instance.ChangePage(direction, GetDifficultyFilter());
+            MapBrowser.Instance.ChangePage(direction, GetDifficulties());
         }
 
         public void OnClearSelectionClicked()
@@ -140,6 +156,15 @@ namespace NotReaper.MapBrowser
         public void OnOpenClicked(bool open)
         {
             gameObject.SetActive(open);
+        }
+
+        public void OnClearSearchClicked()
+        {
+            inputSearch.text = "";
+            beginnerToggle.isOn = standardToggle.isOn = advancedToggle.isOn = expertToggle.isOn = false;
+            curatedToggle.isOn = almostCuratedToggle.isOn = false;
+            songToggle.isOn = artistToggle.isOn = mapperToggle.isOn = false;
+            Search();
         }
         #endregion
         #region UI Update
@@ -190,13 +215,14 @@ namespace NotReaper.MapBrowser
             foreach (var map in selectedMaps) map.SetButtonInteractable(enable);
         }
 
-        public void UpdateDownloadProgress(float percentage, RectTransform rectTransform)
+        public void UpdateDownloadProgress(int numMap, int total, RectTransform rectTransform)
         {
-
+            float percentage = ((float)(numMap - 1) / (float)total) * 100f;
             var rounded = Mathf.Ceil(percentage);
-            downloadProgress.text = rounded.ToString() + "%";
+            downloadProgress.text = $"Map {numMap}/{total}\t({rounded}%)";
             if(rectTransform) StartCoroutine(MoveScroller(GetScrollerSnapPosition(rectTransform)));
-            if (rounded == 100f)
+            //if (rounded == 100f)
+            if(numMap > total)
             {
                 downloadOverlay.SetActive(false);
                 downloadComplete.SetActive(true);
@@ -250,12 +276,12 @@ namespace NotReaper.MapBrowser
         {
             if (Input.GetKeyDown(KeyCode.Return))
             {
-                OnSearchClicked();
+                Search();
             }
         }
         #endregion
         #region Helpers
-        private bool[] GetDifficultyFilter()
+        private bool[] GetDifficulties()
         {
             return new bool[] { beginnerToggle.isOn, standardToggle.isOn, advancedToggle.isOn, expertToggle.isOn };     
         }

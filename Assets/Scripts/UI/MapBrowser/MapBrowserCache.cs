@@ -45,7 +45,6 @@ namespace NotReaper.MapBrowser
             public List<MapData> maps;
             public bool hasMore;
             public int count;
-
             public CacheEntry(List<MapData> maps, bool hasMore, int count)
             {
                 this.maps = maps;

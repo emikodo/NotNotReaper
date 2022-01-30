@@ -26,7 +26,7 @@ namespace NotReaper.MapBrowser
             if (!Directory.Exists(DownloadFolder)) Directory.CreateDirectory(DownloadFolder);
         }
 
-        internal string GetRequestUrl(string searchText, State filter, int page, bool[] difficulties)
+        internal string GetRequestUrl(string searchText, CurationState curationState, int page, bool[] difficulties)
         {
             string webSearch;
 
@@ -37,7 +37,7 @@ namespace NotReaper.MapBrowser
             if (difficulties[1]) webDifficulty += "&difficulties%5B%5D=moderate";
             if (difficulties[2]) webDifficulty += "&difficulties%5B%5D=advanced";
             if (difficulties[3]) webDifficulty += "&difficulties%5B%5D=expert";
-            string curated = filter == State.None ? "" : "&curated=true";
+            string curated = curationState == CurationState.None ? "" : "&curated=true";
             return ApiUrl + webSearch + webPage + webDifficulty + curated;
         }
 

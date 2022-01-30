@@ -21,7 +21,7 @@ namespace NotReaper.MapBrowser
         private List<SelectedMapEntry> selectedPool = new List<SelectedMapEntry>();
         private List<SelectedMapEntry> activeSelectedEntries = new List<SelectedMapEntry>();
 
-        private void Start()
+        private void Awake()
         {
             if(Instance != null)
             {

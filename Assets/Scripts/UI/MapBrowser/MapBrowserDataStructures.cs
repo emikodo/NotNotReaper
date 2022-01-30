@@ -4,11 +4,19 @@ using UnityEngine;
 
 namespace NotReaper.MapBrowser
 {
-    public enum State
+    public enum CurationState
     {
         None,
         Semi,
         Curated
+    }
+
+    public enum FilterState
+    {
+        All,
+        Song,
+        Artist,
+        Mapper
     }
 
     public class MapData
@@ -22,7 +30,7 @@ namespace NotReaper.MapBrowser
         public bool Advanced { get; }
         public bool Expert { get; }
         public bool Selected { get; private set; }
-        public State State { get; }
+        public CurationState State { get; }
         public string RequestUrl { get; }
         public string Filename { get; }
         public bool Downloaded { get; private set; }
@@ -34,7 +42,7 @@ namespace NotReaper.MapBrowser
             this.SongName = songName;
             this.Artist = artist;
             this.Mapper = mapper;
-            this.State = curated ? State.Curated : State.None;
+            this.State = curated ? CurationState.Curated : CurationState.None;
             Beginner = Standard = Advanced = Expert = false;
             this.Selected = false;
             this.RequestUrl = requestUrl;

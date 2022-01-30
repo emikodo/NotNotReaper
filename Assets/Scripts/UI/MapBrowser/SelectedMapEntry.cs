@@ -17,13 +17,13 @@ namespace NotReaper.MapBrowser
         public MapData Data { get; private set; }
         public void SetData(MapData data)
         {
+            this.Data = data;
             button.interactable = true;
             songName.text = data.SongName;
             artistMapper.text = $"{data.Artist} ・ {data.Mapper}".ToLower();       
             progress.fillAmount = 0f;
-            successAnimation.SetActive(false);
+            successAnimation.SetActive(Data.Downloaded);
             failedAnimation.SetActive(false);
-            this.Data = data;
         }
 
         public void ClearData()

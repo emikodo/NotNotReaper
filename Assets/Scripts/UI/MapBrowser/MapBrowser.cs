@@ -13,7 +13,8 @@ namespace NotReaper.MapBrowser
     {
         public static MapBrowser Instance = null;
         public static bool CancelDownload = false;
-        public static State CurationState { get; set; }
+        public static CurationState CurationState { get; set; } = CurationState.None;
+        public static FilterState FilterState { get; set; } = FilterState.All;
 
         private APIHandler apiHandler = null;
         private MapBrowserCache cache = null;
@@ -26,8 +27,13 @@ namespace NotReaper.MapBrowser
         private APISongList songList = null;
         private List<MapData> failedMaps = new List<MapData>();
         private List<string> localMaps = new List<string>();
-        private string downloadsFolder;
-        private void Start()
+        private const int DeleteAfterDays = 7;
+        private bool initialSearchDone = false;
+        private int totalMapsDownloading = 0;
+        private bool searchInProgress = false;
+        private string searchText;
+        private bool[] difficulties;
+        private void Awake()
         {
             if (Instance != null)
             {
@@ -38,9 +44,19 @@ namespace NotReaper.MapBrowser
             apiHandler = new APIHandler();
             cache = new MapBrowserCache();
             HandleLocalMaps();
+
+           
             //foreach (var file in files) localMaps.Add(new FileInfo(file).Name);
         }
-        private const int DeleteAfterDays = 7;
+
+        private void Start()
+        {
+            if (!initialSearchDone)
+            {
+                initialSearchDone = true;
+                Search("", new bool[] { false, false, false, false });
+            }
+        }
         private void HandleLocalMaps()
         {
             List<string> files = new List<string>();
@@ -58,8 +74,28 @@ namespace NotReaper.MapBrowser
 
         public void Search(string searchText, bool[] difficulties)
         {
+            this.searchText = searchText;
+            this.difficulties = difficulties;
+            StartCoroutine(QueueSearch());
+            /*
+            if (searchInProgress)
+            {
+                StopAllCoroutines();
+            }
+            searchInProgress = true;
+            StartCoroutine(DoSearch(searchText, difficulties));
+            */
+        }
+
+        private IEnumerator QueueSearch()
+        {
+            while (searchInProgress)
+            {
+                yield return new WaitForSeconds(.1f);
+            }
             StartCoroutine(DoSearch(searchText, difficulties));
         }
+
         private IEnumerator DoSearch(string searchText, bool[] difficulties)
         {
             if (apiHandler is null) apiHandler = new APIHandler();
@@ -95,16 +131,40 @@ namespace NotReaper.MapBrowser
                     var song = songList.maps[i];
                     var data = new MapData(song.id, song.title, song.artist, song.author, song.curated, song.filename, requestUrl, IsDownloaded(song.filename), song.difficulties);
                     maps.Add(data);
-                    MapEntrySpawnManager.Instance.SpawnEntry(data);
+                    //MapEntrySpawnManager.Instance.SpawnEntry(data);
                 }
                 cache.CacheQuery(requestUrl, maps, hasMore, count);
             }
-            else
+            
+            foreach(var data in maps)
             {
-                foreach(var data in maps) MapEntrySpawnManager.Instance.SpawnEntry(data);
+                if(PassesFilter(data, searchText))
+                {
+                    MapEntrySpawnManager.Instance.SpawnEntry(data);
+                }
             }
+            
             lastSearchText = searchText;  
             MapBrowserWindow.Instance.UpdateNavigation(hasMore, page != 1, page, count);
+            searchInProgress = false;
+        }
+
+        private bool PassesFilter(MapData map, string searchText)
+        {
+            searchText = searchText.ToLower();
+            switch (FilterState)
+            {
+                case FilterState.All:
+                    return true;
+                case FilterState.Song:
+                    return map.SongName.ToLowerInvariant().Contains(searchText);
+                case FilterState.Artist:
+                    return map.Artist.ToLowerInvariant().Contains(searchText);
+                case FilterState.Mapper:
+                    return map.Mapper.ToLowerInvariant().Contains(searchText);
+                default:
+                    return true;
+            }
         }
 
         private bool IsDownloaded(string filename)
@@ -134,7 +194,6 @@ namespace NotReaper.MapBrowser
         public void StopDownloads()
         {
             CancelDownload = true;
-            //StopAllCoroutines();
         }
 
         private void OnDownloadStopped()
@@ -151,9 +210,11 @@ namespace NotReaper.MapBrowser
         private IEnumerator DoDownload(bool retryFailed = false)
         {
             List<MapData> maps = retryFailed ? failedMaps.ToList() : MapEntrySpawnManager.Instance.GetSelectedMapData();
+            totalMapsDownloading = maps.Count;
             failedMaps.Clear();
             downloadedCount = 0;
             numMapsDownloading = maps.Count;
+            MapBrowserWindow.Instance.UpdateDownloadProgress(1, maps.Count, null);
             //bool success;
             foreach(var map in maps)
             {
@@ -164,35 +225,34 @@ namespace NotReaper.MapBrowser
                 }               
                 else
                 {
-                    yield return StartCoroutine(apiHandler.DownloadSong(map, OnDownloadComplete));
+                    if (map.Downloaded)
+                    {
+                        OnDownloadComplete(map, true);
+                        yield return null;
+                    }
+                    else
+                    {
+                        yield return StartCoroutine(apiHandler.DownloadSong(map, OnDownloadComplete));
+                    }
                 }
-                /*try
-                {
-                    MapData data = await apiHandler.DownloadSelectedMap(map);
-                    success = data != null;
-                }
-                catch
-                {
-                    success = false;
-                }
-                if (!success) failedMaps.Add(map);
-                OnTaskComplete(map, success);*/
             }
             MapBrowserWindow.Instance.SetFailedMaps(failedMaps.Count);
         }
 
         public void OnDownloadComplete(MapData data, bool success)
         {
-            if (!success) failedMaps.Add(data);
-            data.SetDownloaded(success);
-            if (data.SelectedEntry)
+            if (!data.Downloaded)
             {
-                data.SelectedEntry.OnDownloaded(success);
-            }
+                if (!success) failedMaps.Add(data);
+                data.SetDownloaded(success);
+                if (data.SelectedEntry)
+                {
+                    data.SelectedEntry.OnDownloaded(success);
+                }
+                if (success) RecentsManager.AddRecent(data.Filename);
+            }        
             downloadedCount++;
-            float percentage = ((float)downloadedCount / (float)numMapsDownloading) * 100f;
-            if(success) RecentsManager.AddRecent(data.Filename);
-            MapBrowserWindow.Instance.UpdateDownloadProgress(percentage, data.SelectedEntry.GetComponent<RectTransform>());
+            MapBrowserWindow.Instance.UpdateDownloadProgress(downloadedCount + 1, totalMapsDownloading, data.SelectedEntry.GetComponent<RectTransform>());
         }
 
         private void OnSearchDone(APISongList songList)

@@ -85,13 +85,13 @@ namespace NotReaper.MapBrowser
             downloadedSprite.color = Data.Downloaded ? downloadedColor : notDownloadedColor;
         }
 
-        private Sprite GetCuratedSprite(State state)
+        private Sprite GetCuratedSprite(CurationState state)
         {
             switch (state)
             {
-                case State.Curated:
+                case CurationState.Curated:
                     return spriteCurated;
-                case State.Semi:
+                case CurationState.Semi:
                     return spriteSemi;
                 default:
                     return null;
