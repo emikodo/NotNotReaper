@@ -36,18 +36,36 @@ namespace NotReaper.UI {
 
         public Button generateDiff;
         public Button loadThisDiff;
+        public Button deleteDiff;
 
         private int selectedDiff;
         private int diffPotentiallyGoingDelete = -1;
 
         public GameObject warningDeleteWindow;
 
-        public TMP_Dropdown diffDropdown;
         public TMP_Dropdown pitchDropdown;
 
         public Image AlbumArtImg;
         public TextMeshProUGUI artText;
         public TMP_InputField DifficultyName;
+        [Space]
+        [Header("Icons")]
+        public Image beginnerDiffDisplay;
+        public Image standardDiffDisplay;
+        public Image advancedDiffDisplay;
+        public Image expertDiffDisplay;
+        public Sprite beginnerDiffSprite;
+        public Sprite standardDiffSprite;
+        public Sprite advancedDiffSprite;
+        public Sprite expertDiffSprite;
+        public Sprite noBeginnerDiffSprite;
+        public Sprite noStandardDiffSprite;
+        public Sprite noAdvancedDiffSprite;
+        public Sprite noExpertDiffSprite;
+        public GameObject beginnerDiffGlow;
+        public GameObject standardDiffGlow;
+        public GameObject advancedDiffGlow;
+        public GameObject expertDiffGlow;
 
 
         public void Start() {
@@ -72,9 +90,9 @@ namespace NotReaper.UI {
             if (Timeline.desc.moggSong != null) moggSongVolume.value = Timeline.audicaFile.mainMoggSong.volume.l;
 
 
-            diffDropdown.value = difficultyManager.loadedIndex;
             ChangeSelectedDifficulty(difficultyManager.loadedIndex);
             LoadCurrentDifficultyName(difficultyManager.loadedIndex);
+            SetDifficultyIcons(difficultyManager.loadedIndex);
             // Song end pitch event
             switch (Timeline.desc.songEndEvent)
             {
@@ -167,11 +185,11 @@ namespace NotReaper.UI {
                     break;
 
                 case 3:
-                    selectDiffWindow.GetComponent<UIDifficulty>().DifficultyComingFrom("easy");
+                    selectDiffWindow.GetComponent<UIDifficulty>().DifficultyComingFrom("beginner");
                     break;
             }
         }
-        //Called when the value is changed the dropdown box for the difficulties
+        //Called when a user selects a new difficulty on the song info panel
         public void ChangeSelectedDifficulty(int index) {
             if (index == -1) return;
 
@@ -185,9 +203,14 @@ namespace NotReaper.UI {
 
             if (difficultyManager.DifficultyExists(index)) {
                 generateDiff.interactable = false;
+                deleteDiff.interactable = true;
+                deleteDiff.GetComponent<Image>().color = new Color(0.8039216f, 0.8039216f, 0.8039216f);
             } else {
                 generateDiff.interactable = true;
                 loadThisDiff.interactable = false;
+                deleteDiff.interactable = false;
+                deleteDiff.GetComponent<Image>().color = new Color(0.8301887f, 0.8301887f, 0.8301887f, 0.2f);
+
             }
         }
 
@@ -255,6 +278,51 @@ namespace NotReaper.UI {
             }
         }
 
+        public void SetDifficultyIcons(int difficultyIndex)
+        {
+            expertDiffDisplay.sprite = difficultyManager.DifficultyExists(0) ? expertDiffSprite : noExpertDiffSprite;
+            advancedDiffDisplay.sprite = difficultyManager.DifficultyExists(1) ? advancedDiffSprite : noAdvancedDiffSprite;
+            standardDiffDisplay.sprite = difficultyManager.DifficultyExists(2) ? standardDiffSprite : noStandardDiffSprite;
+            beginnerDiffDisplay.sprite = difficultyManager.DifficultyExists(3) ? beginnerDiffSprite : noBeginnerDiffSprite;
+
+            switch (difficultyIndex)
+            {
+                //expert
+                case 0:
+                    expertDiffGlow.SetActive(true);
+                    advancedDiffGlow.SetActive(false);
+                    standardDiffGlow.SetActive(false);
+                    beginnerDiffGlow.SetActive(false);
+                    break;
+
+                //Advanced
+                case 1:
+                    expertDiffGlow.SetActive(false);
+                    advancedDiffGlow.SetActive(true);
+                    standardDiffGlow.SetActive(false);
+                    beginnerDiffGlow.SetActive(false);
+                    break;
+
+                //Standard
+                case 2:
+                    expertDiffGlow.SetActive(false);
+                    advancedDiffGlow.SetActive(false);
+                    standardDiffGlow.SetActive(true);
+                    beginnerDiffGlow.SetActive(false);
+                    break;
+
+                //Beginner
+                case 3:
+                    expertDiffGlow.SetActive(false);
+                    advancedDiffGlow.SetActive(false);
+                    standardDiffGlow.SetActive(false);
+                    beginnerDiffGlow.SetActive(true);
+                    break;
+
+            }
+
+        }
+
         public void ChangeEndPitch()
         {
             switch (pitchDropdown.value)
@@ -318,7 +386,7 @@ namespace NotReaper.UI {
             if (selectedDiff == 0) diffName = "expert";
             if (selectedDiff == 1) diffName = "advanced";
             if (selectedDiff == 2) diffName = "standard";
-            if (selectedDiff == 3) diffName = "easy";
+            if (selectedDiff == 3) diffName = "beginner";
             diffPotentiallyGoingDelete = selectedDiff;
             warningDeleteWindow.GetComponentInChildren<TextMeshProUGUI>().text = String.Format("WARNING: This will remove ALL cues in {0}. Are you SURE you want to do this?", diffName);
             warningDeleteWindow.SetActive(true);
