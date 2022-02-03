@@ -3,19 +3,18 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-
 namespace NotReaper.MapBrowser.UI
 {
     /// <summary>
     /// Responsible for the Search Panel.
     /// </summary>
-    public class SearchPanel : Panel
+    public class SearchPanel : FadingPanel
     {
         #region References
         [Header("Scrollbar")]
         [SerializeField] private Scrollbar scrollbar;
         [Space, Header("Overlay")]
-        [SerializeField] private GameObject noResults;
+        [SerializeField] private FadingPanel noResults;
         [Space, Header("Text")]
         [SerializeField] private TMP_InputField inputSearch;
         #endregion
@@ -41,7 +40,7 @@ namespace NotReaper.MapBrowser.UI
         /// <param name="show">True if NoResults hint should be shown.</param>
         public void ShowNoResults(bool show)
         {
-            noResults.SetActive(show);
+            noResults.Show(show);
         }
         /// <summary>
         /// Gets the input from the search field.

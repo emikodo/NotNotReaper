@@ -7,7 +7,7 @@ namespace NotReaper.MapBrowser.UI
     /// <summary>
     /// Responsible for the Download Panel.
     /// </summary>
-    public class DownloadPanel : Panel
+    public class DownloadPanel : FadingPanel
     {
         #region References
         [Header("Buttons")]

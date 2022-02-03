@@ -248,8 +248,9 @@ GameObject:
   - component: {fileID: 151610779108128644}
   - component: {fileID: 151610779108128643}
   - component: {fileID: 151610779108128642}
+  - component: {fileID: -4233359674401102435}
   m_Layer: 5
-  m_Name: MapEntry
+  m_Name: SearchEntry
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -415,6 +416,7 @@ MonoBehaviour:
   standardDisplay: {fileID: 6363094252113559492}
   advancedDisplay: {fileID: 5370710079338636587}
   expertDisplay: {fileID: 3423525635850192666}
+  downloadedSprite: {fileID: 2419405860899110518}
   songNameDisplay: {fileID: 151610778646948358}
   artistAuthorNameDisplay: {fileID: 151610779976477496}
   spriteCurated: {fileID: 3286163911610860551, guid: 54eb8b7f904afd344aa7d004c92d890a,
@@ -428,7 +430,18 @@ MonoBehaviour:
   noStandardSprite: {fileID: 21300000, guid: 0dd712f5903675b41a64814570caa105, type: 3}
   noAdvancedSprite: {fileID: 21300000, guid: 86056f6f89dd9ae45a297d6d3d3e1173, type: 3}
   noExpertSprite: {fileID: 21300000, guid: 3664452d393f3964aae2cb323748de51, type: 3}
-  downloadedSprite: {fileID: 2419405860899110518}
+--- !u!225 &-4233359674401102435
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 151610779108128640}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &151610779656624852
 GameObject:
   m_ObjectHideFlags: 0

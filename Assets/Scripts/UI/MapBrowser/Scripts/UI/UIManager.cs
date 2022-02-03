@@ -9,7 +9,7 @@ namespace NotReaper.MapBrowser.UI
     /// <summary>
     /// Takes care of all UI events and handles the flow of all panels.
     /// </summary>
-    public class UIManager : MonoBehaviour
+    public class UIManager : FadingPanel
     {
         public static UIManager Instance { get; private set; } = null;
 
@@ -20,12 +20,14 @@ namespace NotReaper.MapBrowser.UI
         [SerializeField] private NavigationPanel navigation;
         [SerializeField] private DownloadPanel download;
         [SerializeField] private DownloadOverlay overlay;
+        [SerializeField] private SettingsPanel settings;
         [Space, Header("Buttons")]
         [SerializeField] private GameObject buttonClose;
+        [SerializeField] private GameObject buttonSettings;
         #endregion
 
         #region Awake and Start
-        private void Awake()
+        protected override void Awake()
         {
             if(Instance != null)
             {
@@ -33,6 +35,7 @@ namespace NotReaper.MapBrowser.UI
                 return;
             }
             Instance = this;
+            base.Awake();
         }
 
         private void Start()
@@ -81,7 +84,7 @@ namespace NotReaper.MapBrowser.UI
         public void AddPage()
         {           
             var page = SpawnManager.Instance.GetSearchEntries();
-            SpawnManager.Instance.ClearSelectedEntries();
+            //SpawnManager.Instance.ClearSelectedEntries();
             foreach (var map in page)
             {
                 if (!map.Data.Downloaded) map.SetSelected(true);
@@ -123,7 +126,9 @@ namespace NotReaper.MapBrowser.UI
             download.Show(true);
             navigation.Show(true);
             overlay.HideOverlays();
+            SpawnManager.Instance.ClearSelectedEntries();
             ShowDownloadOverlay(false);
+
         }
         /// <summary>
         /// Shows the ModBrowser.
@@ -131,7 +136,19 @@ namespace NotReaper.MapBrowser.UI
         /// <param name="show">True if it should be shown.</param>
         public void ShowModBrowser(bool show)
         {
-            gameObject.SetActive(show);
+            Show(show);
+        }
+        /// <summary>
+        /// Shows the settings panel.
+        /// </summary>
+        /// <param name="show">True if settings panel should be shown.</param>
+        public void OnSettingsClicked()
+        {
+            search.Show(settings.isOpen);
+            download.Show(settings.isOpen);
+            navigation.Show(settings.isOpen);
+            filter.Show(settings.isOpen);
+            settings.ToggleShow();
         }
         #endregion
 
@@ -157,6 +174,7 @@ namespace NotReaper.MapBrowser.UI
         {
             download.SetScrollbarInteractable(!show);
             download.ShowClearButton(!show);
+            download.EnableDownloadButton(!show);
             overlay.ShowDownloadingOverlay(show);
             search.Show(!show);
             filter.Show(!show);
@@ -164,6 +182,7 @@ namespace NotReaper.MapBrowser.UI
             download.SetScrollbarInteractable(!show);
             EnableSelectedEntriesInteraction(!show);
             buttonClose.SetActive(!show);
+            buttonSettings.SetActive(!show);
             overlay.ShowCancelButton(show);
         }
         /// <summary>
@@ -183,7 +202,7 @@ namespace NotReaper.MapBrowser.UI
             if (numMap > total)
             {
                 overlay.ShowDownloadingOverlay(false);
-                overlay.ShowDownloadDoneOverlay(true);
+                overlay.PlayDownloadDoneAnimation();
             }
         }
         /// <summary>

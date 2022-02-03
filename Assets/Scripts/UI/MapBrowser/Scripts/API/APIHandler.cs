@@ -91,7 +91,8 @@ namespace NotReaper.MapBrowser.API
         internal static IEnumerator DownloadMap(MapData map, OnDownloadComplete callback)
         {
             bool success;
-            string outputFile = Path.Combine(DownloadFolder, map.Filename);
+            string customLocation = NRSettings.config.downloadCustomSaveLocation;
+            string outputFile = Path.Combine(NRSettings.config.downloadSaveLocation == 0 ? DownloadFolder : customLocation.Length >= 3 ? customLocation : DownloadFolder, map.Filename);
             //No need to download the map again if it already exists. Simply return success.
             if (File.Exists(outputFile))
             {

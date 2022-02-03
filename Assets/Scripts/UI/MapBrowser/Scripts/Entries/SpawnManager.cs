@@ -87,7 +87,6 @@ namespace NotReaper.MapBrowser.Entries
             searchPool.Add(entry);
             activeSearchEntries.Remove(entry);
             entry.ClearData();
-            entry.transform.SetParent(null);
             entry.gameObject.SetActive(false);
         }
         #endregion

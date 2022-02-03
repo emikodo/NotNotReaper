@@ -61,6 +61,13 @@ namespace NotReaper.MapBrowser.API.Cache
             }
         }
         /// <summary>
+        /// Empties the cache.
+        /// </summary>
+        public void ClearCache()
+        {
+            cache.Clear();
+        }
+        /// <summary>
         /// Holds necessary data that's needed for caching.
         /// </summary>
         public class CacheEntry

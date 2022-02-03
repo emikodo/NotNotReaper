@@ -266,6 +266,9 @@ namespace NotReaper {
             "1/48",
             "1/64"
         };
+        public int downloadDeleteAfterDays = 7;
+        public int downloadSaveLocation = 0;
+        public string downloadCustomSaveLocation = "";
     }
 
 }

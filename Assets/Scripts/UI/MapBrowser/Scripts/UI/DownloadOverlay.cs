@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-
 namespace NotReaper.MapBrowser.UI
 {
     /// <summary>
@@ -12,8 +11,8 @@ namespace NotReaper.MapBrowser.UI
     {
         #region References
         [Header("Overlays")]
-        [SerializeField] private GameObject downloadingOverlay;
-        [SerializeField] private GameObject downloadDoneOverlay;
+        [SerializeField] private FadingPanel downloadingOverlay;
+        [SerializeField] private FadingPanel downloadDoneOverlay;
         [Space, Header("Buttons")]
         [SerializeField] private GameObject retryButton;
         [SerializeField] private GameObject cancelButton;
@@ -21,7 +20,7 @@ namespace NotReaper.MapBrowser.UI
         [SerializeField] private TextMeshProUGUI downloadProgressText;
         [SerializeField] private TextMeshProUGUI failedMapsText;
         #endregion
-
+        
         #region Hide and Show
         /// <summary>
         /// Shows the Downloading overlay.
@@ -29,16 +28,17 @@ namespace NotReaper.MapBrowser.UI
         /// <param name="show">True if it should be shown.</param>
         public void ShowDownloadingOverlay(bool show)
         {
-            downloadingOverlay.SetActive(show);
+            downloadingOverlay.Show(show);
             cancelButton.SetActive(show);
         }
         /// <summary>
-        /// Shows the Download Done overlay.
+        /// Shows the Download Done overlay and starts it's animation.
         /// </summary>
-        /// <param name="show">True if it should be shown.</param>
-        public void ShowDownloadDoneOverlay(bool show)
+        public void PlayDownloadDoneAnimation()
         {
-            downloadDoneOverlay.SetActive(show);
+            downloadDoneOverlay.gameObject.SetActive(false);
+            downloadDoneOverlay.gameObject.SetActive(true);
+            downloadDoneOverlay.Show(true);
         }
         /// <summary>
         /// Shows the cancel button.
@@ -53,12 +53,12 @@ namespace NotReaper.MapBrowser.UI
         /// </summary>
         public void HideOverlays()
         {
-            downloadingOverlay.SetActive(false);
-            downloadDoneOverlay.SetActive(false);
+            downloadingOverlay.Show(false);
+            downloadDoneOverlay.Show(false);
             retryButton.SetActive(false);
             downloadProgressText.text = "";
         }
-        #endregion region
+        #endregion
 
         #region Text Handling
         /// <summary>

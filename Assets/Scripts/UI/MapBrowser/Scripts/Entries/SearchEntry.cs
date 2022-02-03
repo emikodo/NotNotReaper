@@ -6,7 +6,7 @@ using NotReaper.ReviewSystem;
 using System.Linq;
 using UnityEngine.UI;
 using NotReaper.MapBrowser.UI;
-
+using DG.Tweening;
 namespace NotReaper.MapBrowser.Entries
 {
     /// <summary>
@@ -51,12 +51,23 @@ namespace NotReaper.MapBrowser.Entries
         private Color downloadedColor = new Color(.1f, .7f, .1f, 1f);
         private Color noSpriteColor = new Color(1, 1, 1, 0);
         private Color selectedColor = new Color(.5f, 1, .5f, 1);
+
+        private CanvasGroup canvas;
         #endregion
 
-        private void Start()
+        #region Awake and OnEnable
+        private void Awake()
         {
+            canvas = GetComponent<CanvasGroup>();
             defaultOutlineColor = outline.color;
         }
+
+        private void OnEnable()
+        {
+            canvas.alpha = 0f;
+            canvas.DOFade(1f, .5f);
+        }
+        #endregion
 
         #region Data Handling
         /// <summary>
@@ -162,6 +173,7 @@ namespace NotReaper.MapBrowser.Entries
         /// </summary>
         public void OnSelected()
         {
+            if (Data.Downloaded) return;
             SetSelected(!Data.Selected);
         }
         #endregion

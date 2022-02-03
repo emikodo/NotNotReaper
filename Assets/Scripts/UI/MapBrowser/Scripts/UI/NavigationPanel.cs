@@ -9,7 +9,7 @@ namespace NotReaper.MapBrowser.UI
     /// <summary>
     /// Responsible for the Navigation Panel.
     /// </summary>
-    public class NavigationPanel : Panel
+    public class NavigationPanel : FadingPanel
     {
         #region References
         [Header("Buttons")]

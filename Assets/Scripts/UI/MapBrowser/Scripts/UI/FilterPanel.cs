@@ -10,7 +10,7 @@ namespace NotReaper.MapBrowser.UI
     /// <summary>
     /// Responsible for the Filter Panel.
     /// </summary>
-    public class FilterPanel : Panel
+    public class FilterPanel : FadingPanel
     {
         #region References
         [Header("Buttons")]

@@ -32,7 +32,7 @@ namespace NotReaper.MapBrowser.API
         private bool initialSearchDone = false;
 
         private List<string> localMaps = new List<string>();
-        private const int DeleteAfterDays = 7;
+        private List<string> localMapsCustomLocation = new List<string>();
         #endregion
 
         #region Initialization
@@ -46,7 +46,8 @@ namespace NotReaper.MapBrowser.API
             Instance = this;
 
             cache = new MapBrowserCache();
-            HandleLocalMaps();
+            //HandleLocalMaps should only be called once settings are loaded.
+            NRSettings.OnLoad(() => HandleLocalMaps());
         }
 
         private void Start()
@@ -59,18 +60,35 @@ namespace NotReaper.MapBrowser.API
             }
         }
         /// <summary>
-        /// Deletes downloads that are older than <see cref="DeleteAfterDays"/> days, then stores all of the downloaded files in a list.
+        /// Deletes downloads that are older than the days specified in settings, then stores all of the downloaded files in a list.
         /// </summary>
         /// <remarks>The localMaps list is used for later reference, so we can check if a map is downloaded.</remarks>
         private void HandleLocalMaps()
         {
+            //handles maps in downloads folder
             List<string> files = Directory.GetFiles(Path.Combine(Application.dataPath, @"../", "downloads")).ToList();
-            if (files.Count == 0) return;
-            foreach (string file in files)
+            if (files.Count > 0)
             {
-                FileInfo fi = new FileInfo(file);
-                if (fi.CreationTime < DateTime.Now.AddDays(DeleteAfterDays * -1)) fi.Delete();
-                else localMaps.Add(fi.Name);
+                foreach (string file in files)
+                {
+                    FileInfo fi = new FileInfo(file);
+                    int days = NRSettings.config.downloadDeleteAfterDays;
+                    if (days != 0 && fi.CreationTime < DateTime.Now.AddDays(days * -1)) fi.Delete();
+                    else localMaps.Add(fi.Name);
+                }
+            }
+            //handles maps in custom folder
+            if(NRSettings.config.downloadCustomSaveLocation.Length >= 3)
+            {
+                files.Clear();
+                files = Directory.GetFiles(NRSettings.config.downloadCustomSaveLocation).ToList();
+                if(files.Count > 0)
+                {
+                    foreach(string file in files)
+                    {
+                        localMapsCustomLocation.Add(new FileInfo(file).Name);
+                    }
+                }
             }
 
         }
@@ -138,6 +156,7 @@ namespace NotReaper.MapBrowser.API
             if (count == 0)
             {
                 UIManager.Instance.ShowNoResultsFound(true);
+                searchInProgress = false;
                 yield break;
             }
             //songList is only null if we retreived data from cache.
@@ -218,7 +237,21 @@ namespace NotReaper.MapBrowser.API
         /// <returns>True if map is available locally.</returns>
         private bool IsDownloaded(string filename)
         {
-            return localMaps.Any(m => m == filename);
+            return NRSettings.config.downloadSaveLocation == 0 ? localMaps.Any(m => m == filename) : localMapsCustomLocation.Any(m => m == filename);
+        }
+
+        /// <summary>
+        /// Checks each map again if it is downloaded. Use this after switching save location.
+        /// </summary>
+        public void RescanDownloadedMaps()
+        {
+            var entries = SpawnManager.Instance.GetSearchEntries();
+            foreach (var entry in entries)
+            {
+                entry.Data.SetDownloaded(IsDownloaded(entry.Data.Filename));
+                entry.UpdateDownloadedIcon();
+            }
+            cache.ClearCache();
         }
         #endregion
 
