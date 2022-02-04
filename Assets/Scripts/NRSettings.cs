@@ -224,6 +224,7 @@ namespace NotReaper {
         public bool useBouncyAnimations = false;
         public bool playNoteSoundsWhileScrolling = false;
         public bool autoSongVolume = true;
+        public bool playEndEvent = true;
 
         public bool useAutoZOffsetWith360 = true;
 

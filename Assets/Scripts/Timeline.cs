@@ -224,7 +224,7 @@ namespace NotReaper {
 		public string playbackSpeedPercentage = "Playback Speed: 100%";
 
 		public float musicVolume = 0.5f;
-		public float sustainVolume = 0.5f;
+		public float sustainVolume = 1.0f;
 		public float previewDuration = 0.1f;
 
 		//Target Lists
@@ -326,7 +326,7 @@ namespace NotReaper {
 			});
             
             NRSettings.OnLoad (() => {
-				sustainVolume = NRSettings.config.sustainVol;
+				//sustainVolume = NRSettings.config.sustainVol;
 				musicVolume = NRSettings.config.mainVol;
 				musicVolumeSlider.value = musicVolume;
 				hitSoundVolumeSlider.value = NRSettings.config.noteVol;

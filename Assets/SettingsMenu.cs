@@ -16,6 +16,7 @@ public class SettingsMenu : MonoBehaviour
     [SerializeField] Toggle useBouncyAnimations;
     [SerializeField] Toggle playNoteSoundsWhileScrolling;
     [SerializeField] Toggle autoSongVolume;
+    [SerializeField] Toggle playEndEvent;
     [SerializeField] Toggle optimizeInvisibleTargets;
     [SerializeField] Toggle autoSave;
 
@@ -48,6 +49,7 @@ public class SettingsMenu : MonoBehaviour
         optimizeInvisibleTargets.isOn = NRSettings.config.optimizeInvisibleTargets;
         autoSave.isOn = NRSettings.config.backups;
         autoSongVolume.isOn = NRSettings.config.autoSongVolume;
+        playEndEvent.isOn = NRSettings.config.playEndEvent;
         LeftHand.SetColor(NRSettings.config.leftColor);
         RightHand.SetColor(NRSettings.config.rightColor);
         savedMapperField.text = NRSettings.config.savedMapperName;
@@ -65,6 +67,7 @@ public class SettingsMenu : MonoBehaviour
         NRSettings.config.useBouncyAnimations = useBouncyAnimations.isOn;
         NRSettings.config.playNoteSoundsWhileScrolling = playNoteSoundsWhileScrolling.isOn;
         NRSettings.config.autoSongVolume = autoSongVolume.isOn;
+        NRSettings.config.playEndEvent = playEndEvent.isOn;
         NRSettings.config.leftColor = LeftHand.color;
         NRSettings.config.rightColor = RightHand.color;
         NRSettings.config.savedMapperName = savedMapperField.text;

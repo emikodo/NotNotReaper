@@ -96,55 +96,55 @@ namespace NotReaper.UI {
             // Song end pitch event
             switch (Timeline.desc.songEndEvent)
             {
-                case "event:/song_end/song_end_nopitch":
+                case "event:/song_end/song_end_C":
                     pitchDropdown.value = 0;
                     break;
 
-                case "event:/song_end/song_end_A":
+                case "event:/song_end/song_end_C#":
                     pitchDropdown.value = 1;
                     break;
 
-                case "event:/song_end/song_end_A#":
+                case "event:/song_end/song_end_D":
                     pitchDropdown.value = 2;
                     break;
 
-                case "event:/song_end/song_end_B":
+                case "event:/song_end/song_end_D#":
                     pitchDropdown.value = 3;
                     break;
 
-                case "event:/song_end/song_end_C":
+                case "event:/song_end/song_end_E":
                     pitchDropdown.value = 4;
                     break;
 
-                case "event:/song_end/song_end_C#":
+                case "event:/song_end/song_end_F":
                     pitchDropdown.value = 5;
                     break;
 
-                case "event:/song_end/song_end_D":
+                case "event:/song_end/song_end_F#":
                     pitchDropdown.value = 6;
                     break;
 
-                case "event:/song_end/song_end_D#":
+                case "event:/song_end/song_end_G":
                     pitchDropdown.value = 7;
                     break;
 
-                case "event:/song_end/song_end_E":
+                case "event:/song_end/song_end_G#":
                     pitchDropdown.value = 8;
                     break;
 
-                case "event:/song_end/song_end_F":
+                case "event:/song_end/song_end_A":
                     pitchDropdown.value = 9;
                     break;
 
-                case "event:/song_end/song_end_F#":
+                case "event:/song_end/song_end_A#":
                     pitchDropdown.value = 10;
                     break;
 
-                case "event:/song_end/song_end_G":
+                case "event:/song_end/song_end_B":
                     pitchDropdown.value = 11;
                     break;
 
-                case "event:/song_end/song_end_G#":
+                case "event:/song_end/song_end_nopitch":
                     pitchDropdown.value = 12;
                     break;
             }
@@ -328,55 +328,55 @@ namespace NotReaper.UI {
             switch (pitchDropdown.value)
             {
                 case 0:
-                    Timeline.desc.songEndEvent = "event:/song_end/song_end_nopitch";
+                    Timeline.desc.songEndEvent = "event:/song_end/song_C";
                     break;
 
                 case 1:
-                    Timeline.desc.songEndEvent = "event:/song_end/song_end_A";
-                    break;
-
-                case 2:
-                    Timeline.desc.songEndEvent = "event:/song_end/song_end_A#";
-                    break;
-
-                case 3:
-                    Timeline.desc.songEndEvent = "event:/song_end/song_end_B";
-                    break;
-
-                case 4:
-                    Timeline.desc.songEndEvent = "event:/song_end/song_end_C";
-                    break;
-
-                case 5:
                     Timeline.desc.songEndEvent = "event:/song_end/song_end_C#";
                     break;
 
-                case 6:
+                case 2:
                     Timeline.desc.songEndEvent = "event:/song_end/song_end_D";
                     break;
 
-                case 7:
+                case 3:
                     Timeline.desc.songEndEvent = "event:/song_end/song_end_D#";
                     break;
 
-                case 8:
+                case 4:
                     Timeline.desc.songEndEvent = "event:/song_end/song_end_E";
                     break;
 
-                case 9:
+                case 5:
                     Timeline.desc.songEndEvent = "event:/song_end/song_end_F";
                     break;
 
-                case 10:
+                case 6:
                     Timeline.desc.songEndEvent = "event:/song_end/song_end_F#";
                     break;
 
-                case 11:
+                case 7:
                     Timeline.desc.songEndEvent = "event:/song_end/song_end_G";
                     break;
 
-                case 12:
+                case 8:
                     Timeline.desc.songEndEvent = "event:/song_end/song_end_G#";
+                    break;
+
+                case 9:
+                    Timeline.desc.songEndEvent = "event:/song_end/song_end_A";
+                    break;
+
+                case 10:
+                    Timeline.desc.songEndEvent = "event:/song_end/song_end_A#";
+                    break;
+
+                case 11:
+                    Timeline.desc.songEndEvent = "event:/song_end/song_end_B";
+                    break;
+
+                case 12:
+                    Timeline.desc.songEndEvent = "event:/song_end/song_end_nopitch";
                     break;
             }
         }
