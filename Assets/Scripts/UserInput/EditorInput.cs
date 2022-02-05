@@ -197,7 +197,6 @@ namespace NotReaper.UserInput {
 
 		public void SelectHand (TargetHandType type) {
 			selectedHand = type;
-
 			uiToolSelect.UpdateUINoteSelected (selectedTool);
 			handTypeSelect.UpdateUI (type);
 			hover.UpdateUIHandColor (GetSelectedColor ());

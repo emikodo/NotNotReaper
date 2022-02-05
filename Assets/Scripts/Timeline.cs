@@ -354,6 +354,15 @@ namespace NotReaper {
 			neitherColor = UserPrefsManager.neitherColor;
 		}
 
+		public void UpdateTargetColors()
+        {
+			foreach(var target in orderedNotes)
+            {
+				target.gridTargetIcon.UpdateColors();
+				target.timelineTargetIcon.UpdateColors();
+            }
+        }
+
 		void OnApplicationQuit () {
 			//DirectoryInfo dir = new DirectoryInfo(Application.persistentDataPath + "\\temp\\");
 			//dir.Delete(true);
@@ -2414,7 +2423,6 @@ namespace NotReaper {
 
 		private void UpdateTraceLine (LineRenderer renderer, TargetHandType handType, Color color) {
 			float TraceAheadTime = 1f;
-
 			renderer.enabled = false;
 			if (paused) { return; }
 

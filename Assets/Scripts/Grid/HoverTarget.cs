@@ -11,7 +11,8 @@ using UnityEngine.UI;
 namespace NotReaper.Grid {
 
 
-    public class HoverTarget : MonoBehaviour {
+    public class HoverTarget : MonoBehaviour 
+    {
 
         public GameObject icon;
         public bool iconEnabled = true;

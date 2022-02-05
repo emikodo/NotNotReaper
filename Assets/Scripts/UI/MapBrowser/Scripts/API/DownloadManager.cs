@@ -48,6 +48,7 @@ namespace NotReaper.MapBrowser.API
         /// </summary>
         /// <param name="retry">Set to true if you want to download failed maps.</param>
         /// <returns></returns>
+        bool fail = true;
         private IEnumerator DoDownload(bool retry = false)
         {
             //populate list with correct maps
@@ -65,6 +66,12 @@ namespace NotReaper.MapBrowser.API
                 }
                 else
                 {
+                    if (fail)
+                    {
+                        fail = false;
+                        OnDownloadComplete(map, false);
+                        continue;
+                    }
                     //Check if map is already downloaded. No need to spend unnecessary bandwidth :)
                     if (map.Downloaded)
                     {

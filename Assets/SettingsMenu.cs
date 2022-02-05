@@ -1,4 +1,5 @@
 ﻿using NotReaper;
+using NotReaper.UI;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -75,5 +76,6 @@ public class SettingsMenu : MonoBehaviour
         NRSettings.config.backups = autoSave.isOn;
         WarningText.SetActive(true);
         NRSettings.SaveSettingsJson();
+        ThemeableManager.UpdateColors();
     }
 }

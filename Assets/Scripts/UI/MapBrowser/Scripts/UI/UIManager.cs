@@ -67,6 +67,7 @@ namespace NotReaper.MapBrowser.UI
         public void RetryFailedDownloads()
         {
             //CloseOverlay();
+            overlay.HideOverlays();
             ShowDownloadOverlay(true);
             DownloadManager.Instance.RetryFailedDownloads();
         }
@@ -211,7 +212,6 @@ namespace NotReaper.MapBrowser.UI
         /// <param name="count">The amount of failed maps.</param>
         public void UpdateFailedMapsCount(int count)
         {
-            if (count == 0) return;
             overlay.SetFailedMapsCount(count);
         }
         /// <summary>
