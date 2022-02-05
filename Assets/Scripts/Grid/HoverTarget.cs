@@ -7,6 +7,7 @@ using NotReaper.Targets;
 using NotReaper.UserInput;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 namespace NotReaper.Grid {
 
@@ -29,8 +30,7 @@ namespace NotReaper.Grid {
         [SerializeField] private Image chainnode;
         [SerializeField] private Image melee;
         [SerializeField] private Image mine;
-
-
+        [SerializeField] private TextMeshProUGUI distanceText;
 
         public void TryEnable() {
             iconEnabled = true;
@@ -58,10 +58,15 @@ namespace NotReaper.Grid {
             cam = Camera.main;
         }
 
+        public void UpdateDistance(string distance)
+        {
+            distanceText.text = distance;
+        }
+
         Vector3 lastPos = new Vector3();
         private void Update() {
             
-            if (!iconEnabled) return;
+            if (!iconEnabled || EditorInput.IsSpacingLocked) return;
 
             Vector3 mousePos = cam.ScreenToWorldPoint(Input.mousePosition);
 

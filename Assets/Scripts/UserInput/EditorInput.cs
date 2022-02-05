@@ -43,6 +43,7 @@ namespace NotReaper.UserInput {
 		public static bool inUI = false;
 		public static bool enableScrolling = false;
 		public static bool isFocusGrid = false;
+		public static bool IsSpacingLocked { get; set; }
 
 		//public PlaceNote toolPlaceNote;
 		[SerializeField] public EditorToolkit Tools;

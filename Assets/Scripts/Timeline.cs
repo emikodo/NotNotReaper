@@ -2198,12 +2198,12 @@ namespace NotReaper {
 				}
 			}
 
-			if (isAltDown && Input.mouseScrollDelta.y < -0.1f) {
+			if (isAltDown && isCtrlDown && Input.mouseScrollDelta.y < -0.1f) {
 				isScrollingBeatSnap = true;
 				beatSnapSelector.PreviousClick ();
 				beatSnapSelector.PreviousClick ();
 
-			} else if (isAltDown && Input.mouseScrollDelta.y > 0.11f) {
+			} else if (isAltDown && isCtrlDown && Input.mouseScrollDelta.y > 0.11f) {
 				isScrollingBeatSnap = true;
 				beatSnapSelector.ForwardClick ();
 				beatSnapSelector.ForwardClick ();
@@ -2216,7 +2216,7 @@ namespace NotReaper {
 			if (!isShiftDown && !isScrollingBeatSnap && Math.Abs (Input.mouseScrollDelta.y) > 0.1f && !ModifierHandler.Instance.IsDropdownExpanded ()) {
 				if (!audioLoaded) return;
 				if (EditorInput.inUI && EditorInput.enableScrolling == false) return;
-
+				if (EditorInput.IsSpacingLocked) return;
 				Relative_QNT jumpDuration = new Relative_QNT ((long) Constants.DurationFromBeatSnap ((uint) beatSnap).tick);
 
 				bool moveTick = false;
