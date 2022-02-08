@@ -34,7 +34,7 @@ namespace NotReaper.Notifications
         }
         public static int SendNotification(object text, NotificationType type, bool forceShowPopup = false)
         {
-            if (forceShowPopup || !NotificationPanel.IsOpen)
+            if (!NotificationPanel.IsOpen)
             {
                 if (spawner.RequestPopup(type, forceShowPopup, out NotificationPopup popup))
                 {
@@ -109,16 +109,6 @@ namespace NotReaper.Notifications
         public static Color GetNotificationColor(NotificationType type)
         {
             return notificationColors[type];
-        }
-
-        int type = 0;
-        private void Update()
-        {
-            if (Input.GetKeyDown(KeyCode.P))
-            {
-                //SendNotification((NotificationType)(type % 4), "Hello, I'm a new notification!", true);
-                type++;
-            }
         }
     } 
 
