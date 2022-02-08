@@ -68,7 +68,7 @@ namespace NotReaper.UI {
 
 		public void SetPreviewStartPoint(QNT_Timestamp timestamp) {
 			Timeline.desc.previewStartSeconds = timeline.TimestampToSeconds(timestamp);
-			songPreviewIcon.localPosition = new Vector3(TimestampToMinitimeline(timestamp), 0, 0);
+			songPreviewIcon.localPosition = new Vector3(TimestampToMinitimeline(timestamp), 10.71f, 0);
 		}
 
 		public float TimestampToMinitimeline(QNT_Timestamp timestamp)
