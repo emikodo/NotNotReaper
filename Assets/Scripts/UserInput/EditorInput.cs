@@ -6,6 +6,7 @@ using NotReaper.Grid;
 using NotReaper.Managers;
 using NotReaper.Models;
 using NotReaper.Modifier;
+using NotReaper.Notifications;
 using NotReaper.ReviewSystem;
 using NotReaper.Targets;
 using NotReaper.Timing;
@@ -112,7 +113,6 @@ namespace NotReaper.UserInput {
 			SelectVelocity (UITargetVelocity.Standard);
 			SelectSnappingMode(SnappingMode.Grid);
 
-			NotificationShower.Queue (new NRNotification ("Welcome to NotReaper!", 3f));
 			pauseMenu.OpenPauseMenu ();
 
 			shortcutMenu.LoadUIColors ();

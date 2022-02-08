@@ -27,7 +27,7 @@ using NotReaper.Timing;
 using SharpCompress.Archives;
 using SharpCompress.Archives.Zip;
 using NotReaper.ReviewSystem;
-
+using NotReaper.Notifications;
 namespace NotReaper {
 
 	public class NoteEnumerator : IEnumerable<Target> {
@@ -1494,8 +1494,8 @@ namespace NotReaper {
 
 			//Loaded successfully
 
-			NotificationShower.Queue (new NRNotification ("Map loaded successfully!"));
-			NotificationShower.Queue (new NRNotification ("Press F1 to view shortcuts"));
+			//NotificationCenter.SendNotification (new NRNotification ("Map loaded successfully!"));
+			NotificationCenter.SendNotification("Press F1 to view shortcuts", NotificationType.Info);
 			StopCoroutine (NRSettings.Autosave ());
 			StartCoroutine (NRSettings.Autosave ());
 			return true;
@@ -1731,9 +1731,7 @@ namespace NotReaper {
 
 			//If we try to shift the first tempo marker, don't do that
 			if (tempoIndex == 0) {
-				var notif = new NRNotification ("Cannot shift first bpm marker!");
-				notif.type = NRNotifType.Fail;
-				NotificationShower.Queue (notif);
+				NotificationCenter.SendNotification("Cannot shift first bpm marker!", NotificationType.Error);
 				return;
 			}
 
@@ -1799,16 +1797,12 @@ namespace NotReaper {
 
 			//Never attempt to remove the first bpm marker
 			if (foundIndex == 0 && microsecondsPerQuarterNote == 0) {
-				var notif = new NRNotification ("Cannot remove initial bpm!");
-				notif.type = NRNotifType.Fail;
-				NotificationShower.Queue (notif);
+				NotificationCenter.SendNotification("Cannot remove initial bpm!", NotificationType.Error);
 				return;
 			}
 
 			if (foundIndex == -1 && microsecondsPerQuarterNote == 0) {
-				var notif = new NRNotification ("Cannot add 0 bpm!");
-				notif.type = NRNotifType.Fail;
-				NotificationShower.Queue (notif);
+				NotificationCenter.SendNotification("Cannot add 0 bpm!", NotificationType.Error);
 				return;
 			}
 

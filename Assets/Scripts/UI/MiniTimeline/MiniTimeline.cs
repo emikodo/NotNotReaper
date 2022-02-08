@@ -310,7 +310,6 @@ namespace NotReaper.UI {
 
 			if (Input.GetKeyDown(KeyCode.P) && !ModifierHandler.inputFocused && !BookmarkMenu.inputFocused && !EditorInput.inUI) {
 				SetPreviewStartPoint(Timeline.time);
-				Debug.Log(MinitimelineToSeconds(songPreviewIcon.localPosition.x));
 			}
 
 			if (Input.GetKeyDown(KeyCode.U) && !ModifierHandler.activated && !BookmarkMenu.isActive && !EditorInput.InputDisabled && !PauseMenu.Instance.isOpened) {
