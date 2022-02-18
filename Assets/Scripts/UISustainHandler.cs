@@ -267,7 +267,6 @@ public class UISustainHandler : MonoBehaviour
         {
             case SustainTrack.Left:
             case SustainTrack.Both:
-                Debug.Log("Vol: " + sustainSongLeft.volume.l.ToString());
                 volumeSlider.value = sustainSongLeft.volume.l;
                 break;
             case SustainTrack.Right:

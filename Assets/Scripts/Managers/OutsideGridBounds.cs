@@ -6,7 +6,6 @@ using DG.Tweening;
 using NotReaper.Grid;
 using NotReaper.UserInput;
 using NotReaper.Modifier;
-
 namespace NotReaper.Managers
 {
 
@@ -35,33 +34,6 @@ namespace NotReaper.Managers
 			foreach (MeshRenderer r in gridOutline.GetComponentsInChildren<MeshRenderer>()) {
 				gridOutlineLines.Add(r);
 			}
-		}
-
-		private void Update()
-		{
-			if (EditorInput.inUI) return;
-            if (ModifierHandler.activated || BookmarkMenu.isActive) return;
-			if (Input.GetKeyDown(KeyCode.J))
-			{
-				SetGridPosition(-1);
-				
-			}
-			if (Input.GetKeyDown(KeyCode.L))
-			{
-				SetGridPosition(1);
-				
-			}
-			
-			if (Input.GetKeyDown(KeyCode.K))
-			{
-				SetGridPosition(0, -1);
-			}
-			if (Input.GetKeyDown(KeyCode.I))
-			{
-				SetGridPosition(0, 1);
-			}
-
-
 		}
 		
 		/// <summary>
@@ -95,6 +67,11 @@ namespace NotReaper.Managers
 
 
 		}
+
+		public void SetGridPosition(Vector2 direction)
+        {
+			SetGridPosition((int)direction.x, (int)direction.y);
+        }
 		
 		
 		

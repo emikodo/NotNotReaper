@@ -58,9 +58,6 @@ namespace Tests
             SceneManager.LoadScene("Main", LoadSceneMode.Single);
             yield return null;
 
-            //Disable editor input
-            EditorInput.isTesting = true;
-
             //Close the pause menu
              var pauseMenuObj = GameObject.Find("PauseMenu");
             Assert.That(pauseMenuObj != null, "We need a PauseMenu to test!");

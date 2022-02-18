@@ -6,11 +6,12 @@ using System.IO;
 using System.Windows.Forms;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 namespace NotReaper.Statistics
 {
-    public class StatisticsUI : MonoBehaviour
+    public class StatisticsUI : NRInputWithoutKeybinds
     {
 
         public static StatisticsUI Instance { get; private set; } = null;
@@ -58,6 +59,7 @@ namespace NotReaper.Statistics
         /// </summary>
         public void Open()
         {
+            OnActivated();
             ShowWindow(true);
             songArtistLabel.text = $"{Timeline.desc.title} - {Timeline.desc.artist}".ToLowerInvariant();
             mapperLabel.text = $"by {Timeline.desc.author}".ToLowerInvariant();
@@ -68,6 +70,7 @@ namespace NotReaper.Statistics
         /// </summary>
         public void Close()
         {
+            OnDeactivated();
             ClearEntries();
             ShowWindow(false);
         }
@@ -188,7 +191,10 @@ namespace NotReaper.Statistics
             return element;
         }
         #endregion
-
+        protected override void OnEscPressed(InputAction.CallbackContext context)
+        {
+            Close();
+        }
         /// <summary>
         /// Describes the location of StatisticsElement.
         /// </summary>

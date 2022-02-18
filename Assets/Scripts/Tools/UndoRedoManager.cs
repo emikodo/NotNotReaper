@@ -9,6 +9,7 @@ using UnityEngine.EventSystems;
 using NotReaper.Managers;
 using NotReaper.Timing;
 using System;
+using NotReaper.Tools.PathBuilder;
 
 namespace NotReaper.Tools {
 
@@ -33,7 +34,6 @@ namespace NotReaper.Tools {
 			if (actions.Count <= 0) return;
 
 			NRAction action = actions.Last();
-			Debug.Log("Undoing action:" + action.ToString());
 
 			action.UndoAction(timeline);
 
@@ -49,8 +49,6 @@ namespace NotReaper.Tools {
 
 			NRAction action = redoActions.Last();
 
-			Debug.Log("Redoing action:" + action.ToString());
-
 			action.DoAction(timeline);
 
 			actions.Add(action);
@@ -60,7 +58,6 @@ namespace NotReaper.Tools {
 
 		public void AddAction(NRAction action) {
 			action.DoAction(timeline);
-
 			if (actions.Count <= maxSavedActions) {
 				actions.Add(action);
 			} else {
@@ -128,6 +125,10 @@ namespace NotReaper.Tools {
 			if (repeaterData == null) {
 				repeaterData = timeline.FindRepeaterTargets(targetData);
 			}
+            if (targetData.isPathbuilderTarget)
+            {
+				timeline.pathbuilder.RemovePathbuilderTarget(targetData);
+            }
 			timeline.DeleteTargetFromAction(targetData);
 			repeaterData.ForEach(data => { timeline.DeleteTargetFromAction(data); });
 			TransformTool.instance.UpdateOverlay();
@@ -135,6 +136,7 @@ namespace NotReaper.Tools {
 		public override void UndoAction(Timeline timeline) {
 			timeline.AddTargetFromAction(targetData);
 			repeaterData.ForEach(data => { timeline.AddTargetFromAction(data); });
+
 			TransformTool.instance.UpdateOverlay();
 		}
 	}
@@ -160,14 +162,20 @@ namespace NotReaper.Tools {
 		public List<TargetGridMoveIntent> targetGridMoveIntents = new List<TargetGridMoveIntent>();
 
 		public override void DoAction(Timeline timeline) {
-			targetGridMoveIntents.ForEach(intent => {
+			targetGridMoveIntents.ForEach(intent => 
+			{
+                
 				intent.target.position = intent.intendedPosition;
+
 			});
 			TransformTool.instance.UpdateOverlay();
 		}
 		public override void UndoAction(Timeline timeline) {
-			targetGridMoveIntents.ForEach(intent => {
+			targetGridMoveIntents.ForEach(intent => 
+			{
+                
 				intent.target.position = intent.startingPosition;
+                
 			});
 			TransformTool.instance.UpdateOverlay();
 		}
@@ -231,14 +239,14 @@ namespace NotReaper.Tools {
 						break;
 				}
 
-				if (targetData.behavior == TargetBehavior.NR_Pathbuilder) {
-					switch (targetData.pathBuilderData.handType) {
+				if (targetData.behavior == TargetBehavior.Legacy_Pathbuilder) {
+					switch (targetData.legacyPathbuilderData.handType) {
 						case TargetHandType.Left:
-							targetData.pathBuilderData.handType = TargetHandType.Right;
+							targetData.legacyPathbuilderData.handType = TargetHandType.Right;
 							break;
 
 						case TargetHandType.Right:
-							targetData.pathBuilderData.handType = TargetHandType.Left;
+							targetData.legacyPathbuilderData.handType = TargetHandType.Left;
 							break;
 					}
 
@@ -263,11 +271,14 @@ namespace NotReaper.Tools {
 		public override void DoAction(Timeline timeline) {
 			affectedTargets.ForEach(targetData => {
 				targetData.x *= -1;
-
-				if (targetData.behavior == TargetBehavior.NR_Pathbuilder) {
-					targetData.pathBuilderData.initialAngle = FlipAngle(targetData.pathBuilderData.initialAngle);
-					targetData.pathBuilderData.angle *= -1;
-					targetData.pathBuilderData.angleIncrement *= -1;
+                if (targetData.isPathbuilderTarget)
+                {
+					targetData.pathbuilderData.Flip(new Vector2(-1, 1));
+                }
+				if (targetData.behavior == TargetBehavior.Legacy_Pathbuilder) {
+					targetData.legacyPathbuilderData.initialAngle = FlipAngle(targetData.legacyPathbuilderData.initialAngle);
+					targetData.legacyPathbuilderData.angle *= -1;
+					targetData.legacyPathbuilderData.angleIncrement *= -1;
 
 					ChainBuilder.ChainBuilder.GenerateChainNotes(targetData);
 				}
@@ -294,11 +305,14 @@ namespace NotReaper.Tools {
 		public override void DoAction(Timeline timeline) {
 			affectedTargets.ForEach(targetData => {
 				targetData.y *= -1;
-
-				if (targetData.behavior == TargetBehavior.NR_Pathbuilder) {
-					targetData.pathBuilderData.initialAngle = FlipAngle(targetData.pathBuilderData.initialAngle);
-					targetData.pathBuilderData.angle *= -1;
-					targetData.pathBuilderData.angleIncrement *= -1;
+                if (targetData.isPathbuilderTarget)
+                {
+					targetData.pathbuilderData.Flip(new Vector2(1, -1));
+                }
+				if (targetData.behavior == TargetBehavior.Legacy_Pathbuilder) {
+					targetData.legacyPathbuilderData.initialAngle = FlipAngle(targetData.legacyPathbuilderData.initialAngle);
+					targetData.legacyPathbuilderData.angle *= -1;
+					targetData.legacyPathbuilderData.angleIncrement *= -1;
 
 					ChainBuilder.ChainBuilder.GenerateChainNotes(targetData);
 				}
@@ -318,11 +332,14 @@ namespace NotReaper.Tools {
 		public override void DoAction(Timeline timeline) {
 			affectedTargets.ForEach(targetData => {
 				if (targetData.behavior != TargetBehavior.Melee) {
-					targetData.y *= scale.y;
-					targetData.x *= scale.x;
+                    if (!targetData.isPathbuilderTarget)
+                    {
+						targetData.y += scale.y * Math.Sign(targetData.y);
+						targetData.x += scale.x * Math.Sign(targetData.x);
+					}
 
-					if (targetData.behavior == TargetBehavior.NR_Pathbuilder) {
-						targetData.pathBuilderData.stepDistance *= scale.x;
+					if (targetData.behavior == TargetBehavior.Legacy_Pathbuilder) {
+						targetData.legacyPathbuilderData.stepDistance *= scale.x;
 
 						ChainBuilder.ChainBuilder.GenerateChainNotes(targetData);
 					}
@@ -333,10 +350,14 @@ namespace NotReaper.Tools {
 		public override void UndoAction(Timeline timeline) {
 			affectedTargets.ForEach(targetData => {
 				if (targetData.behavior != TargetBehavior.Melee) {
-					targetData.y /= scale.y;
-					targetData.x /= scale.x;
-					if (targetData.behavior == TargetBehavior.NR_Pathbuilder) {
-						targetData.pathBuilderData.stepDistance /= scale.x;
+                    if (!targetData.isPathbuilderTarget)
+                    {
+						targetData.y /= scale.y;
+						targetData.x /= scale.x;
+					}
+					
+					if (targetData.behavior == TargetBehavior.Legacy_Pathbuilder) {
+						targetData.legacyPathbuilderData.stepDistance /= scale.x;
 
 						ChainBuilder.ChainBuilder.GenerateChainNotes(targetData);
 					}
@@ -372,8 +393,8 @@ namespace NotReaper.Tools {
 			affectedTargets.ForEach(targetData => {
 				if (targetData.behavior != TargetBehavior.Melee) {
 					NRRotate(targetData, rotateCenter, rotateAngle);
-					if (targetData.behavior == TargetBehavior.NR_Pathbuilder) {
-						targetData.pathBuilderData.initialAngle -= rotateAngle;
+					if (targetData.behavior == TargetBehavior.Legacy_Pathbuilder) {
+						targetData.legacyPathbuilderData.initialAngle -= rotateAngle;
 
 						ChainBuilder.ChainBuilder.GenerateChainNotes(targetData);
 					}
@@ -385,8 +406,8 @@ namespace NotReaper.Tools {
 			affectedTargets.ForEach(targetData => {
 				if (targetData.behavior != TargetBehavior.Melee) {
 					NRRotate(targetData, rotateCenter, -rotateAngle);
-					if (targetData.behavior == TargetBehavior.NR_Pathbuilder) {
-						targetData.pathBuilderData.initialAngle += rotateAngle;
+					if (targetData.behavior == TargetBehavior.Legacy_Pathbuilder) {
+						targetData.legacyPathbuilderData.initialAngle += rotateAngle;
 
 						ChainBuilder.ChainBuilder.GenerateChainNotes(targetData);
 					}
@@ -452,11 +473,19 @@ namespace NotReaper.Tools {
 		public override void DoAction(Timeline timeline) {
 			targetSetHitsoundIntents.ForEach(intent => {
 				intent.target.velocity = intent.newVelocity;
+				if (intent.target.isPathbuilderTarget)
+				{
+					intent.target.data.pathbuilderData.SetHitsound(intent.newVelocity);
+				}
 			});
 		}
 		public override void UndoAction(Timeline timeline) {
 			targetSetHitsoundIntents.ForEach(intent => {
 				intent.target.velocity = intent.startingVelocity;
+				if (intent.target.isPathbuilderTarget)
+				{
+					intent.target.data.pathbuilderData.SetHitsound(intent.startingVelocity);
+				}
 			});
 		}
 	}
@@ -467,53 +496,53 @@ namespace NotReaper.Tools {
 
 		List<TargetBehavior> oldBehavior = new List<TargetBehavior>();
 		List<TargetHandType> oldHandTypes = new List<TargetHandType>();
-		List<TargetVelocity> oldVelocities = new List<TargetVelocity>();
+		List<InternalTargetVelocity> oldVelocities = new List<InternalTargetVelocity>();
 		List<QNT_Duration> oldBeatLength = new List<QNT_Duration>();
 
 		public override void DoAction(Timeline timeline) {
 			oldBehavior = new List<TargetBehavior>();
 
 			affectedTargets.ForEach(targetData => {
-				TargetVelocity velocity = TargetVelocity.None;
+				InternalTargetVelocity velocity = InternalTargetVelocity.Silent;
 
 				if (newBehavior == TargetBehavior.ChainStart) {
-					velocity = TargetVelocity.ChainStart;
+					velocity = InternalTargetVelocity.ChainStart;
 				}
-				else if (newBehavior == TargetBehavior.Chain) {
-					velocity = TargetVelocity.Chain;
+				else if (newBehavior == TargetBehavior.ChainNode) {
+					velocity = InternalTargetVelocity.Chain;
 				}
 				else if (newBehavior == TargetBehavior.Melee) {
-					velocity = TargetVelocity.Melee;
+					velocity = InternalTargetVelocity.Melee;
 				}
 				else if (newBehavior == TargetBehavior.Mine) {
-					velocity = TargetVelocity.Mine;
+					velocity = InternalTargetVelocity.Mine;
 				}
 				else if (newBehavior == TargetBehavior.Standard ||
-						newBehavior == TargetBehavior.Hold ||
+						newBehavior == TargetBehavior.Sustain ||
 						newBehavior == TargetBehavior.Horizontal ||
 						newBehavior == TargetBehavior.Vertical) {
-					velocity = TargetVelocity.Standard;
+					velocity = InternalTargetVelocity.Kick;
 				}
 
 				//Path notes and regular notes both use the same beat length
 				oldBeatLength.Add(targetData.beatLength);
 
-				if (targetData.behavior == TargetBehavior.NR_Pathbuilder) {
-					oldBehavior.Add(targetData.pathBuilderData.behavior);
-					oldHandTypes.Add(targetData.pathBuilderData.handType);
-					oldVelocities.Add(targetData.pathBuilderData.velocity);
+				if (targetData.behavior == TargetBehavior.Legacy_Pathbuilder) {
+					oldBehavior.Add(targetData.legacyPathbuilderData.behavior);
+					oldHandTypes.Add(targetData.legacyPathbuilderData.handType);
+					oldVelocities.Add(targetData.legacyPathbuilderData.velocity);
 
-					targetData.pathBuilderData.behavior = newBehavior;
-					if (velocity != TargetVelocity.None) targetData.pathBuilderData.velocity = velocity;
+					targetData.legacyPathbuilderData.behavior = newBehavior;
+					if (velocity != InternalTargetVelocity.Silent) targetData.legacyPathbuilderData.velocity = velocity;
 
 					//Fix hand type when going to melee
 					if (newBehavior == TargetBehavior.Melee) {
-						targetData.pathBuilderData.handType = TargetHandType.Either;
+						targetData.legacyPathbuilderData.handType = TargetHandType.Either;
 					}
 
 					//Fixup hand type when coming from melee
 					if (oldBehavior.Last() == TargetBehavior.Melee) {
-						targetData.pathBuilderData.handType = targetData.handType;
+						targetData.legacyPathbuilderData.handType = targetData.handType;
 					}
 
 					ChainBuilder.ChainBuilder.GenerateChainNotes(targetData);
@@ -524,7 +553,14 @@ namespace NotReaper.Tools {
 					oldVelocities.Add(targetData.velocity);
 
 					targetData.behavior = newBehavior;
-					if (velocity != TargetVelocity.None) targetData.velocity = velocity;
+
+					if (velocity != InternalTargetVelocity.Silent) targetData.velocity = velocity;
+
+					if (targetData.isPathbuilderTarget)
+					{
+						targetData.pathbuilderData.SetBehavior(newBehavior);
+						if (velocity != InternalTargetVelocity.Silent) targetData.pathbuilderData.SetHitsound(velocity);
+					}
 
 					//Fix hand type when going to melee
 					if (newBehavior == TargetBehavior.Melee) {
@@ -536,7 +572,7 @@ namespace NotReaper.Tools {
 						targetData.handType = TargetHandType.Left;
 					}
 
-					if (TargetData.BehaviorSupportsBeatLength(newBehavior) && targetData.beatLength < Constants.QuarterNoteDuration) {
+					if (TargetData.BehaviorSupportsBeatLength(newBehavior, targetData.isPathbuilderTarget) && targetData.beatLength < Constants.QuarterNoteDuration) {
 						targetData.beatLength = Constants.QuarterNoteDuration;
 					}
 				}
@@ -544,15 +580,20 @@ namespace NotReaper.Tools {
 		}
 		public override void UndoAction(Timeline timeline) {
 			for (int i = 0; i < affectedTargets.Count; ++i) {
-				if (affectedTargets[i].behavior == TargetBehavior.NR_Pathbuilder) {
-					affectedTargets[i].pathBuilderData.behavior = oldBehavior[i];
-					affectedTargets[i].pathBuilderData.velocity = oldVelocities[i];
-					affectedTargets[i].pathBuilderData.handType = oldHandTypes[i];
+				if (affectedTargets[i].behavior == TargetBehavior.Legacy_Pathbuilder) {
+					affectedTargets[i].legacyPathbuilderData.behavior = oldBehavior[i];
+					affectedTargets[i].legacyPathbuilderData.velocity = oldVelocities[i];
+					affectedTargets[i].legacyPathbuilderData.handType = oldHandTypes[i];
 				}
 				else {
 					affectedTargets[i].behavior = oldBehavior[i];
 					affectedTargets[i].handType = oldHandTypes[i];
 					affectedTargets[i].velocity = oldVelocities[i];
+					if (affectedTargets[i].isPathbuilderTarget)
+					{
+						affectedTargets[i].pathbuilderData.SetBehavior(oldBehavior[i]);
+						affectedTargets[i].pathbuilderData.SetHitsound(oldVelocities[i]);
+					}
 				}
 
 				affectedTargets[i].beatLength = oldBeatLength[i];
@@ -614,16 +655,73 @@ namespace NotReaper.Tools {
         }
     }
 
-    public class NRActionConvertNoteToPathbuilder : NRAction {
+	public class NRActionUpdatePathbuilderTarget : NRAction
+    {
+		private TargetData targetData;
+		private Pathbuilder pathbuilder;
+
+		private PathbuilderData oldState;
+		private PathbuilderData newState;
+
+		public NRActionUpdatePathbuilderTarget(TargetData targetData, Pathbuilder pathbuilder, PathbuilderData data)
+		{
+			this.targetData = targetData;
+			this.newState = data;
+			this.oldState = targetData.pathbuilderData;
+			this.pathbuilder = pathbuilder;
+		}
+		public override void DoAction(Timeline timeline)
+		{
+			pathbuilder.UpdatePathbuilderTargetFromAction(targetData, newState);
+		}
+
+		public override void UndoAction(Timeline timeline)
+		{
+			pathbuilder.UpdatePathbuilderTargetFromAction(targetData, oldState);
+		}
+	}
+
+    public class NRActionBakePathbuilderTarget : NRAction
+    {
+		private TargetData targetData;
+		private Pathbuilder pathbuilder;
+		private PathbuilderData oldState;
+
+		public NRActionBakePathbuilderTarget(TargetData targetData, Pathbuilder pathbuilder)
+        {
+			this.targetData = targetData;
+			this.pathbuilder = pathbuilder;
+			this.oldState = targetData.pathbuilderData;
+        }
+
+		public override void DoAction(Timeline timeline)
+        {
+			pathbuilder.BakeTarget(targetData);
+        }
+
+        public override void UndoAction(Timeline timeline)
+        {
+			foreach(var segment in oldState.Segments)
+            {
+				foreach(var node in segment.generatedNodes)
+                {
+					timeline.DeleteTargetFromAction(node);
+                }
+            }
+			pathbuilder.UpdatePathbuilderTargetFromAction(targetData, oldState);
+        }
+    }
+
+    public class NRActionConvertNoteToLegacyPathbuilder : NRAction {
 		public TargetData data;
 		public QNT_Duration oldBeatLength;
-		public PathBuilderData pathBuilderData = new PathBuilderData();
+		public LegacyPathbuilderData pathBuilderData = new LegacyPathbuilderData();
 
 		public override void DoAction(Timeline timeline) {
 			pathBuilderData.behavior = data.behavior;
 			pathBuilderData.velocity = data.velocity;
 			pathBuilderData.handType = data.handType;
-			data.pathBuilderData = pathBuilderData;
+			data.legacyPathbuilderData = pathBuilderData;
 
 			//Ensure the path builder always starts with a quarter note of build time
 			oldBeatLength = data.beatLength;
@@ -631,17 +729,17 @@ namespace NotReaper.Tools {
 				data.beatLength = Constants.QuarterNoteDuration;
 			}
 
-			data.behavior = TargetBehavior.NR_Pathbuilder;
+			data.behavior = TargetBehavior.Legacy_Pathbuilder;
 			ChainBuilder.ChainBuilder.GenerateChainNotes(data);
 		}
 		public override void UndoAction(Timeline timeline) {
-			data.pathBuilderData.DeleteCreatedNotes(timeline);
+			data.legacyPathbuilderData.DeleteCreatedNotes(timeline);
 
-			data.behavior = data.pathBuilderData.behavior;
-			data.velocity = data.pathBuilderData.velocity;
-			data.handType = data.pathBuilderData.handType;
+			data.behavior = data.legacyPathbuilderData.behavior;
+			data.velocity = data.legacyPathbuilderData.velocity;
+			data.handType = data.legacyPathbuilderData.handType;
 			data.beatLength = oldBeatLength;
-			data.pathBuilderData = null;
+			data.legacyPathbuilderData = null;
 		}
 	}
 
@@ -651,7 +749,7 @@ namespace NotReaper.Tools {
 		public override void DoAction(Timeline timeline) {
 			//Generate and create real notes
 			ChainBuilder.ChainBuilder.GenerateChainNotes(removeNoteAction.targetData);
-			foreach (TargetData genData in removeNoteAction.targetData.pathBuilderData.generatedNotes) {
+			foreach (TargetData genData in removeNoteAction.targetData.legacyPathbuilderData.generatedNotes) {
 				timeline.AddTargetFromAction(new TargetData(genData));
 			}
 
@@ -663,7 +761,7 @@ namespace NotReaper.Tools {
 
 			//Recalculate the notes, and remove the "real" notes
 			ChainBuilder.ChainBuilder.CalculateChainNotes(removeNoteAction.targetData);
-			foreach (TargetData genData in removeNoteAction.targetData.pathBuilderData.generatedNotes) {
+			foreach (TargetData genData in removeNoteAction.targetData.legacyPathbuilderData.generatedNotes) {
 				var foundData = timeline.FindTargetData(genData.time, genData.behavior, genData.handType);
 				if (foundData != null) {
 					timeline.DeleteTargetFromAction(foundData);

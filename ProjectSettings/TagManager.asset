@@ -8,6 +8,10 @@ TagManager:
   - Glow
   - Modifier
   - Grid
+  - TimelineCatcherLeft
+  - TimelineCatcherRight
+  - TimelineCatcher
+  - TimelineTarget
   layers:
   - Default
   - TransparentFX

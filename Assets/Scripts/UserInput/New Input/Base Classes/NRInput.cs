@@ -1,0 +1,68 @@
+﻿using NotReaper.Models;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Reflection.Emit;
+using UnityEngine;
+using UnityEngine.InputSystem;
+
+namespace NotReaper.UserInput
+{
+    /// <summary>
+    /// Registers the input asset to the InputManager to automatically handle key rebinding.
+    /// </summary>
+    /// <typeparam name="T">The Scriptable Object created when you create your InputActionAsset.</typeparam>
+    public abstract class NRInput<T> : MonoBehaviour where T : new()
+    {
+        protected T actions;
+
+        private InputActionAsset asset;
+
+        /// <summary>
+        /// Maps and keybinds to exclude from being disabled from editor keybinds.
+        /// </summary>
+        [Header("Keybinds"), SerializeField]
+        private List<KeybindManager.Map> mapsToEnable = new List<KeybindManager.Map>();
+        [SerializeField]
+        private List<string> keybindsToEnable = new List<string>();
+
+        /// <summary>
+        /// Register callbacks to all of your defined keybindings in actions here.
+        /// </summary>
+        protected abstract void RegisterCallbacks();
+
+        /// <summary>
+        /// Callback function that gets called when Esc/Start gets pressed. Use this when closing your window/disabling your function.
+        /// </summary>
+        /// <param name="context">The value of the esc key.</param>
+        protected abstract void OnEscPressed(InputAction.CallbackContext context);
+
+        protected virtual void Awake()
+        {
+            actions = new T();
+            RegisterCallbacks();
+            asset = ((dynamic)actions).asset;
+            KeybindManager.RegisterAsset(asset);
+        }
+
+        /// <summary>
+        /// Enable this object's keybinds when it gets activated/enabled/shown.
+        /// </summary>
+        protected virtual void OnActivated()
+        {
+            KeybindManager.Global.RegisterEscCallback(OnEscPressed);
+            //KeybindManager.EnableSpecificEditorKeybinds(mapsToEnable, keybindsToEnable);
+            KeybindManager.EnableAsset(asset, new KeybindManager.KeybindOverrides(mapsToEnable, keybindsToEnable));
+        }
+        /// <summary>
+        /// Disables this object's keybinds and enables standard keybinds again when this object gets deactivated/disabled/hidden.
+        /// </summary>
+        protected virtual void OnDeactivated()
+        {
+            KeybindManager.DisableAsset(asset);
+            KeybindManager.Global.UnregisterEscCallback(OnEscPressed);
+        }
+    }
+}
+

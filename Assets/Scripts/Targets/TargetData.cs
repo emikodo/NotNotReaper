@@ -12,13 +12,224 @@ using NotReaper.Timing;
 namespace NotReaper.Targets {
 
     [Serializable]
-    public class PathBuilderData {
+    public class PathbuilderData
+    {
+        public QNT_Duration BeatLength => IsSegmentScope ? TotalSegmentLength : BeatLengthOverride;
+        
+        [SerializeField] private QNT_Duration _beatLengthOverride = new QNT_Duration(480);
+        [SerializeField] private List<Segment> _segments = new List<Segment>();
+        [SerializeField] private Interval _intervalOverride = new Interval();
+        [SerializeField] private bool _alternateHands = false;
+        [SerializeField] private bool _isSegmentScope = true;
+        [NonSerialized] private int _activeSegment = -1;
+        public List<Segment> Segments
+        {
+            get { return _segments; }
+            set { _segments = value; }
+        }
+
+        public Interval IntervalOverride
+        {
+            get { return _intervalOverride; }
+            set { _intervalOverride = value; }
+        }
+        
+        public int ActiveSegment
+        {
+            get { return _activeSegment == -1 ? _segments.Count - 1 : _activeSegment; }
+            set { _activeSegment = value; }
+        }
+
+        public Interval ActiveInterval
+        {
+            get 
+            {
+                if (IsSegmentScope)
+                {
+                    return Segments[ActiveSegment].interval;
+                }
+                else
+                {
+                    return IntervalOverride;
+                }
+            }
+        }
+
+        public QNT_Duration BeatLengthOverride
+        {
+            get { return _beatLengthOverride; }
+            set { _beatLengthOverride = value; }
+        }
+
+        public QNT_Duration TotalSegmentLength
+        {
+            get 
+            {
+                QNT_Duration length = new QNT_Duration(0);
+                foreach(var segment in Segments)
+                {
+                    length += segment.beatLength;
+                }
+                return length;
+            }
+        }
+
+        public bool AlternateHands
+        {
+            get { return _alternateHands; }
+            set { _alternateHands = value; }
+        }
+
+        public bool IsSegmentScope
+        {
+            get { return _isSegmentScope; }
+            set { _isSegmentScope = value; }
+        }
+
+        public PathbuilderData Copy(PathbuilderData data)
+        {
+            if (data == null) return new PathbuilderData();
+            AlternateHands = data.AlternateHands;
+            BeatLengthOverride = data.BeatLengthOverride;
+            IntervalOverride = new Interval(data.IntervalOverride.nominator, data.IntervalOverride.denominator);
+            foreach(var segment in data.Segments)
+            {
+                var targets = new List<TargetData>();
+                foreach(var target in targets)
+                {
+                    TargetData t = new TargetData();
+                    t.Copy(target);
+                    targets.Add(t);
+                }
+                Segments.Add(new Segment(segment.startPoint, segment.startPointHandle, segment.endPoint, segment.endPointHandle, new Interval(segment.interval.nominator, segment.interval.denominator), segment.beatLength, targets));
+            }
+            return data;
+        }
+
+        public void MoveBy(Vector2 amount)
+        {
+            foreach(var segment in Segments)
+            {
+                segment.startPoint += amount;
+                segment.startPointHandle += amount;
+                segment.endPoint += amount;
+                segment.endPointHandle += amount;
+
+                foreach(var node in segment.generatedNodes)
+                {
+                    node.position += amount;
+                }
+            }      
+        }
+
+        public void Flip(Vector2 axis)
+        {
+            foreach (var segment in Segments)
+            {
+                segment.startPoint *= axis;
+                segment.startPointHandle *= axis;
+                segment.endPoint *= axis;
+                segment.endPointHandle *= axis;
+
+                foreach(var node in segment.generatedNodes)
+                {
+                    node.position *= axis;
+                }
+            }
+        }
+
+        public void UpdateNodeHandType(TargetHandType newType)
+        {
+            var hand = newType;
+            foreach (var segment in Segments)
+            {
+                foreach (var node in segment.generatedNodes)
+                {
+                    if (AlternateHands)
+                    {
+                        hand = hand == TargetHandType.Left ? TargetHandType.Right : TargetHandType.Left;
+                    }
+                    node.handType = hand;
+                }
+            }
+        }
+        internal void SetHitsound(InternalTargetVelocity velocity)
+        {
+            foreach(var segment in Segments)
+            {
+                foreach(var node in segment.generatedNodes)
+                {
+                    node.velocity = velocity;
+                }
+            }
+        }
+        internal void SetBehavior(TargetBehavior behavior)
+        {
+            foreach (var segment in Segments)
+            {
+                foreach (var node in segment.generatedNodes)
+                {
+                    node.behavior = behavior;
+                }
+            }
+        }
+
+        [Serializable]
+        public class Interval
+        {
+            public int nominator;
+            public int denominator;
+
+            public Interval(int nominator, int denominator)
+            {
+                this.nominator = nominator;
+                this.denominator = denominator;
+            }
+
+            public Interval()
+            {
+                nominator = 1;
+                denominator = 16;
+            }
+        }
+
+        [Serializable]
+        public class Segment
+        {
+            public Vector2 startPoint;
+            public Vector2 startPointHandle;
+            public Vector2 endPoint;
+            public Vector2 endPointHandle;
+            public Interval interval;
+            public QNT_Duration beatLength;
+            public bool alternateHands;
+            public List<TargetData> generatedNodes;
+            public Segment(Vector2 startPoint, Vector2 startPointHandle, Vector2 endPoint, Vector2 endPointHandle, Interval interval, QNT_Duration beatLength, List<TargetData> generatedNodes)
+            {
+                this.startPoint = startPoint;
+                this.startPointHandle = startPointHandle;
+                this.endPoint = endPoint;
+                this.endPointHandle = endPointHandle;
+                this.interval = interval;
+                this.beatLength = beatLength;
+                this.generatedNodes = generatedNodes;
+            }
+
+            public Segment() 
+            {
+                this.generatedNodes = new List<TargetData>();
+            }
+        }
+    }
+
+    [Serializable]
+    public class LegacyPathbuilderData {
 
         [SerializeField]
         private TargetBehavior _behavior;
 
         [SerializeField]
-        private TargetVelocity _velocity;
+        private InternalTargetVelocity _velocity;
 
         [SerializeField]
         private TargetHandType _handType;
@@ -45,7 +256,7 @@ namespace NotReaper.Targets {
             get { return _behavior; }
             set { _behavior = value; RecalculateChain(); }
         }
-        public TargetVelocity velocity {
+        public InternalTargetVelocity velocity {
             get { return _velocity; }
             set { _velocity = value; RecalculateChain(); }
         }
@@ -93,7 +304,7 @@ namespace NotReaper.Targets {
         [NonSerialized] public HashSet<TargetData> parentNotes = new HashSet<TargetData>();
         [NonSerialized] public bool createdNotes = false;
 
-        public void Copy(PathBuilderData data) {
+        public void Copy(LegacyPathbuilderData data) {
             behavior = data.behavior;
             velocity = data.velocity;
             handType = data.handType;
@@ -130,10 +341,12 @@ namespace NotReaper.Targets {
         private float _x;
         private float _y;
         private QNT_Duration _beatLength;
-        private TargetVelocity _velocity;
+        private InternalTargetVelocity _velocity;
         private TargetHandType _handType;
         private TargetBehavior _behavior;
-        public PathBuilderData pathBuilderData;
+        public LegacyPathbuilderData legacyPathbuilderData;
+        public PathbuilderData pathbuilderData;
+        public bool isPathbuilderTarget;
 
         public float x {
             get { return _x; }
@@ -155,7 +368,7 @@ namespace NotReaper.Targets {
             set { _beatLength = value; if (BeatLengthChangeEvent != null) BeatLengthChangeEvent(beatLength); }
         }
 
-        public TargetVelocity velocity {
+        public InternalTargetVelocity velocity {
             get { return _velocity; }
             set { _velocity = value; if (VelocityChangeEvent != null) VelocityChangeEvent(velocity); }
         }
@@ -171,7 +384,7 @@ namespace NotReaper.Targets {
 
         public Action<float, float> PositionChangeEvent;
         public Action<QNT_Duration> BeatLengthChangeEvent;
-        public Action<TargetVelocity> VelocityChangeEvent;
+        public Action<InternalTargetVelocity> VelocityChangeEvent;
         public Action<TargetHandType> HandTypeChangeEvent;
         public Action<TargetBehavior, TargetBehavior> BehaviourChangeEvent;
     }
@@ -186,7 +399,7 @@ namespace NotReaper.Targets {
             data = new TargetDataInternal();
 
             beatLength = Constants.SixteenthNoteDuration;
-            velocity = TargetVelocity.Standard;
+            velocity = InternalTargetVelocity.Kick;
             handType = TargetHandType.Either;
             behavior = TargetBehavior.Standard;
         }
@@ -225,13 +438,27 @@ namespace NotReaper.Targets {
             velocity = data.velocity;
             handType = data.handType;
             behavior = data.behavior;
-            pathBuilderData = data.pathBuilderData;
+            legacyPathbuilderData = data.legacyPathbuilderData;
+            pathbuilderData = data.pathbuilderData;
+            isPathbuilderTarget = data.isPathbuilderTarget;
         }
 
-        public PathBuilderData pathBuilderData
+        public bool isPathbuilderTarget
         {
-            get { return data.pathBuilderData; }
-            set { data.pathBuilderData = value; }
+            get { return data.isPathbuilderTarget; }
+            set { data.isPathbuilderTarget = value; }
+        }
+
+        public PathbuilderData pathbuilderData
+        {
+            get { return data.pathbuilderData; }
+            set { data.pathbuilderData = value; }
+        }
+
+        public LegacyPathbuilderData legacyPathbuilderData
+        {
+            get { return data.legacyPathbuilderData; }
+            set { data.legacyPathbuilderData = value; }
         }
 
         private QNT_Timestamp _time;
@@ -271,7 +498,7 @@ namespace NotReaper.Targets {
 			set { data.beatLength = value; }
 		}
 
-		public TargetVelocity velocity
+		public InternalTargetVelocity velocity
 		{
 			get { return data.velocity; }
 			set { data.velocity = value; }
@@ -289,11 +516,11 @@ namespace NotReaper.Targets {
 
 		public bool supportsBeatLength
 		{
-			get {  return BehaviorSupportsBeatLength(behavior); }
+			get {  return BehaviorSupportsBeatLength(behavior, isPathbuilderTarget); }
 		}
 
-		public static bool BehaviorSupportsBeatLength(TargetBehavior behavior) {
-			return behavior == TargetBehavior.Hold || behavior == TargetBehavior.NR_Pathbuilder;
+		public static bool BehaviorSupportsBeatLength(TargetBehavior behavior, bool isPathbuilderTarget) {
+			return behavior == TargetBehavior.Sustain || behavior == TargetBehavior.Legacy_Pathbuilder || isPathbuilderTarget;
 		}
 
 		public event Action<float, float> PositionChangeEvent {
@@ -307,7 +534,7 @@ namespace NotReaper.Targets {
 			add { data.BeatLengthChangeEvent += value; }
 			remove {data.BeatLengthChangeEvent -= value; }
 		}
-		public event Action<TargetVelocity> VelocityChangeEvent {
+		public event Action<InternalTargetVelocity> VelocityChangeEvent {
 			add { data.VelocityChangeEvent += value; }
 			remove {data.VelocityChangeEvent -= value; }
 		}

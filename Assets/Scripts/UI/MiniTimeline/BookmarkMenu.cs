@@ -4,8 +4,9 @@ using UnityEngine;
 using TMPro;
 using NotReaper.UI;
 using NotReaper.Notifications;
+using UnityEngine.InputSystem;
 
-public class BookmarkMenu : MonoBehaviour
+public class BookmarkMenu : NRInputWithoutKeybinds
 {
     public static BookmarkMenu Instance = null;
     public static bool isActive = false;
@@ -34,6 +35,8 @@ public class BookmarkMenu : MonoBehaviour
     {
         isActive = active;
         menu.transform.localPosition = active ? activatePosition : new Vector3(-3000f, 13f, 0f);
+        if (active) OnActivated();
+        else OnDeactivated();
         //activatePosition = menu.transform.localPosition;
         //menu.SetActive(active);
     }
@@ -58,7 +61,7 @@ public class BookmarkMenu : MonoBehaviour
         MiniTimeline.Instance.selectedBookmark.SetColor(BookmarkColorPicker.selectedColor, BookmarkColorPicker.selectedUIColor);
         MiniTimeline.Instance.SaveSelectedBookmark();
         MiniTimeline.Instance.selectedBookmark.Deselect();
-        MiniTimeline.Instance.OpenBookmarksMenu("");
+        MiniTimeline.Instance.OpenBookmarksMenu();
     }
 
     public void Delete()
@@ -94,5 +97,10 @@ public class BookmarkMenu : MonoBehaviour
                 BookmarkColorPicker.Instance.SetColorYellow();
                 break;
         }
-    }  
+    }
+
+    protected override void OnEscPressed(InputAction.CallbackContext context)
+    {
+        Activate(false);
+    }
 }

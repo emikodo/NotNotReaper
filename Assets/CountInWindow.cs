@@ -8,8 +8,9 @@ using UnityEngine;
 using NotReaper.UserInput;
 using UnityEngine.EventSystems;
 using NotReaper.Timing;
+using UnityEngine.InputSystem;
 
-public class CountInWindow : MonoBehaviour {
+public class CountInWindow : NRInputWithoutKeybinds {
     public TMP_InputField lengthInput;
     
     [SerializeField] private Timeline timeline;
@@ -26,13 +27,13 @@ public class CountInWindow : MonoBehaviour {
     }
 
     public void Activate() {
+        OnActivated();
         gameObject.GetComponent<CanvasGroup>().DOFade(1.0f, 0.3f);
         gameObject.SetActive(true);
-
-
     }
 
-    public void Deactivate() { 
+    public void Deactivate() {
+        OnDeactivated();
         gameObject.GetComponent<CanvasGroup>().DOFade(0.0f, 0.3f);
         gameObject.SetActive(false);
     }
@@ -49,5 +50,10 @@ public class CountInWindow : MonoBehaviour {
         if(uint.TryParse(lengthInput.text, out beats)) {
             timeline.GenerateCountIn(beats);
         }
+    }
+
+    protected override void OnEscPressed(InputAction.CallbackContext context)
+    {
+        Deactivate();
     }
 }

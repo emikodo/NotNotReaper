@@ -1,0 +1,71 @@
+{
+    "name": "DragSelectTool",
+    "maps": [
+        {
+            "name": "DragSelect",
+            "id": "64dafe96-c872-45e2-90fb-0385bfd9c080",
+            "actions": [
+                {
+                    "name": "Drag",
+                    "type": "Button",
+                    "id": "f22d9320-5c98-42b9-b334-b580282ecdf5",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Group Select",
+                    "type": "Button",
+                    "id": "4c13b94b-5b82-4cf6-a5eb-199f801d8473",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Mouse Position",
+                    "type": "Value",
+                    "id": "efa11db2-eaa7-4a38-adc8-6ea45fde6e6d",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": ""
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "d6cc2977-1d33-4149-9933-063d6f00ccfe",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Drag",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "41451452-9131-4df3-ac7b-b54c01b658da",
+                    "path": "<Keyboard>/shift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Group Select",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "53dd964a-c66f-475e-b150-73de9ddcdeaa",
+                    "path": "<Mouse>/position",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Mouse Position",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}

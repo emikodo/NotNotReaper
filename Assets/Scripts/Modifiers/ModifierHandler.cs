@@ -12,10 +12,12 @@ using System;
 using NotReaper.Modifier;
 using NotReaper.UserInput;
 using System.Linq;
+using NotReaper.Models;
+using UnityEngine.InputSystem;
 
 namespace NotReaper.Modifier
 {
-    public class ModifierHandler : MonoBehaviour
+    public class ModifierHandler : NRInput<ModifierKeybinds>
     {
         public static ModifierHandler Instance = null;
         public static bool inputFocused = false;
@@ -25,6 +27,7 @@ namespace NotReaper.Modifier
         [HideInInspector] public bool isHovering;
 
         [Header("References")]
+        [SerializeField] private ModifierSelectionHandler selectionHandler;
         [SerializeField] private GameObject modifierWindow;
         [SerializeField] private TMP_Dropdown dropdown;
         [SerializeField] private GameObject amountSlider;
@@ -58,10 +61,13 @@ namespace NotReaper.Modifier
         private bool parentSet = false;
 
         private static bool IsPrivateBuild = false;
+        [NRInject] private UIToolSelect toolSelect;
         public bool isEditingManipulation => dropdown.value == 19 || dropdown.value == 20 || dropdown.value == 21;
 
-        public void Awake()
+        protected override void Awake()
         {
+            base.Awake();
+
             if (Instance is null)
             {
                 Instance = this;
@@ -161,17 +167,33 @@ namespace NotReaper.Modifier
 
         public void OnButtonClicked()
         {
-            if(EditorInput.selectedTool == EditorTool.ModifierCreator)
+            if(EditorState.Tool.Current == EditorTool.ModifierCreator)
             {
                 pendingClose = true;
-                EditorInput.I.RevertTool();
+                EditorState.SelectTool(EditorState.Tool.Previous);
                 pendingClose = false;
             }
             else
             {
-                EditorInput.I.SelectTool(EditorTool.ModifierCreator);
+                EditorState.SelectTool(EditorTool.ModifierCreator);
             }
         }
+
+        public void ToggleModifiers()
+        {
+            toolSelect.SetInteractable(activated);
+            if (activated)
+            {
+                EditorState.SelectTool(EditorState.Tool.Previous);
+                Activate(false);
+            }
+            else
+            {
+                EditorState.SelectTool(EditorTool.ModifierCreator);
+                Activate(true);
+            }
+        }
+
 
         public void HideWindow(bool hide)
         {
@@ -185,6 +207,7 @@ namespace NotReaper.Modifier
             activated = activate;
             if (activate)
             {
+                OnActivated();
                 if (MiniTimeline.Instance != null)
                 {
                     ShowModifiers(true);
@@ -206,6 +229,7 @@ namespace NotReaper.Modifier
             }
             else
             {
+                OnDeactivated();
                 if (MiniTimeline.Instance != null)
                 {
                     ShowModifiers(false);
@@ -223,6 +247,7 @@ namespace NotReaper.Modifier
                 }
                 colorPicker.SetActive(false);
                 modifierWindow.SetActive(false);
+
             }
         }
 
@@ -1195,6 +1220,17 @@ namespace NotReaper.Modifier
             colorPicker.GetComponent<LabelSetter>().SetColorSliderLeft(new float[] { 0f, 0f, 0f });
             colorPicker.GetComponent<LabelSetter>().SetColorSliderRight(new float[] { 0f, 0f, 0f });
             colorPicker.GetComponent<LabelSetter>().InitializeColorFields();
+        }
+
+        protected override void RegisterCallbacks()
+        {
+            //ModifierSelectionHandler.Instance.RegisterCallbacks(actions);
+            selectionHandler.RegisterCallbacks(actions);
+        }
+
+        protected override void OnEscPressed(InputAction.CallbackContext context)
+        {
+            ToggleModifiers();
         }
 
         //public enum ModifierType { AimAssist = 0, ColorChange = 1, ColorUpdate = 2, ColorSwap = 3, HiddenTelegraphs = 4, InvisibleGuns = 5, Particles = 6, Psychedelia = 7, PsychedeliaUpdate = 8, Speed = 9, zOffset = 10, ArenaRotation = 11, ArenaBrightness = 12, ArenaChange = 13, Fader = 14, OverlaySetter = 15, TextPopup = 16, AutoLighting = 17, ArenaPosition = 18, ArenaSpin = 19, ArenaScale = 20, SkyboxColor = 21 }

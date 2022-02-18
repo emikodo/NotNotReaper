@@ -1,0 +1,52 @@
+{
+    "name": "ReviewKeybinds",
+    "maps": [
+        {
+            "name": "Review",
+            "id": "65e39195-28c1-4937-bf11-a76c372a98b4",
+            "actions": [
+                {
+                    "name": "TogglePlayback",
+                    "type": "Button",
+                    "id": "dd69bf90-9cd6-41b6-80a3-39e06e558864",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Scrub",
+                    "type": "Value",
+                    "id": "1d72cf29-44b0-4602-a0ec-40f450c94d97",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "4b9b435b-0db2-4f00-96e9-cfd8871a495b",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "TogglePlayback",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d7dc6c3b-e9e9-4687-b9d4-e022df81572d",
+                    "path": "<Mouse>/scroll/y",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Scrub",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}

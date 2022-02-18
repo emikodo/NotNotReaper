@@ -42,7 +42,7 @@ namespace NotReaper.Statistics
             StatisticsUI.Instance.CreateDataEntryWithoutPercentage("NPS", Stats.NPS, StatisticsUI.StatLocation.SecondHighlight);
             foreach(var entry in Stats.DataList)
             {
-                if (entry.Key == TargetBehavior.Hold) StatisticsUI.Instance.CreateDataEntry("Sustain", entry.Value);
+                if (entry.Key == TargetBehavior.Sustain) StatisticsUI.Instance.CreateDataEntry("Sustain", entry.Value);
                 else if (entry.Key == TargetBehavior.Mine) StatisticsUI.Instance.CreateDataEntry(entry.Key, entry.Value).EnableLeftRight(false);
                 else StatisticsUI.Instance.CreateDataEntry(entry.Key, entry.Value);
             }            
@@ -82,9 +82,9 @@ namespace NotReaper.Statistics
                 DataList.Add(TargetBehavior.Standard, new Data(targets, TargetBehavior.Standard));
                 DataList.Add(TargetBehavior.Horizontal, new Data(targets, TargetBehavior.Horizontal));
                 DataList.Add(TargetBehavior.Vertical, new Data(targets, TargetBehavior.Vertical));
-                DataList.Add(TargetBehavior.Hold, new Data(targets, TargetBehavior.Hold));
+                DataList.Add(TargetBehavior.Sustain, new Data(targets, TargetBehavior.Sustain));
                 DataList.Add(TargetBehavior.ChainStart, new Data(targets, TargetBehavior.ChainStart));
-                DataList.Add(TargetBehavior.Chain, new Data(targets, TargetBehavior.Chain));
+                DataList.Add(TargetBehavior.ChainNode, new Data(targets, TargetBehavior.ChainNode));
                 DataList.Add(TargetBehavior.Melee, new Data(targets, TargetBehavior.Melee));
                 DataList.Add(TargetBehavior.Mine, new Data(targets, TargetBehavior.Mine));
                 //Get Total data

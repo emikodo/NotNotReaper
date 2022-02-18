@@ -7,21 +7,24 @@ using NotReaper.Tools.ChainBuilder;
 using TMPro;
 using UnityEngine;
 using NotReaper.Grid;
+using NotReaper.Tools.PathBuilder;
+
 namespace NotReaper.Managers {
 
 
     public class DifficultyManager : MonoBehaviour {
 
         public static DifficultyManager I;
-        
+
         [HideInInspector] public int loadedIndex = -1;
 
         [SerializeField] private NRDiscordPresence nrDiscordPresence;
 
         [SerializeField] private TextMeshProUGUI curSongName;
-		[SerializeField] private TextMeshProUGUI curSongDiff;
+        [SerializeField] private TextMeshProUGUI curSongDiff;
         //[SerializeField] private TextMeshProUGUI curTargetAmount;
 
+        [NRInject] private Pathbuilder pathbuilder;
 
         private void Awake() {
             I = this;
@@ -212,7 +215,6 @@ namespace NotReaper.Managers {
             DiffsList diffs = Timeline.audicaFile.diffs;
             curSongName.text = Timeline.desc.title;
             ReviewSystem.ReviewWindow.Instance.ClearContainer();
-            Debug.Log("Loading diff: " + index);
             switch (index) {
                 case 0:
                     if (diffs.expert.cues != null) {
@@ -282,12 +284,12 @@ namespace NotReaper.Managers {
                 if (cueFile.NRCueData.pathBuilderNoteData.Count == cueFile.NRCueData.pathBuilderNoteCues.Count) {
                     for (int i = 0; i < cueFile.NRCueData.pathBuilderNoteCues.Count; ++i) {
                         var data = timeline.GetTargetDataForCue(cueFile.NRCueData.pathBuilderNoteCues[i]);
-                        data.pathBuilderData = cueFile.NRCueData.pathBuilderNoteData[i];
-                        data.pathBuilderData.parentNotes.Add(data);
+                        data.legacyPathbuilderData = cueFile.NRCueData.pathBuilderNoteData[i];
+                        data.legacyPathbuilderData.parentNotes.Add(data);
 
                         //Recalculate the notes, and remove any identical enties that would have been loaded through the cues
                         ChainBuilder.CalculateChainNotes(data);
-                        foreach (TargetData genData in data.pathBuilderData.generatedNotes) {
+                        foreach (TargetData genData in data.legacyPathbuilderData.generatedNotes) {
                             var foundData = timeline.FindTargetData(genData.time, genData.behavior, genData.handType);
                             if (foundData != null) {
                                 timeline.DeleteTargetFromAction(foundData);
@@ -298,6 +300,34 @@ namespace NotReaper.Managers {
 
                         //Generate the notes, so the song is complete
                         ChainBuilder.GenerateChainNotes(data);
+                    }
+                }
+                if(cueFile.NRCueData.newPathbuilderData.Count > 0)
+                {
+                    for(int i = 0; i < cueFile.NRCueData.newPathbuilderCues.Count; i++)
+                    {
+                        var data = timeline.GetTargetDataForCue(cueFile.NRCueData.newPathbuilderCues[i]);
+                        var foundData = timeline.FindTargetData(data.time, data.behavior, data.handType);
+                        if(foundData != null)
+                        {
+                            foundData.isPathbuilderTarget = true;
+                            foundData.pathbuilderData = cueFile.NRCueData.newPathbuilderData[i];
+                            pathbuilder.CalculateNodesOnLoad(foundData);
+                            foreach (var segment in foundData.pathbuilderData.Segments)
+                            {
+                                foreach(var genNode in segment.generatedNodes)
+                                {
+                                    var foundNode = timeline.FindTargetData(genNode.time, genNode.behavior, genNode.handType);
+                                    if(foundNode != null)
+                                    {
+                                        timeline.DeleteTargetFromAction(foundNode);
+                                    }
+                                }
+                            }
+                            pathbuilder.GenerateNodesOnLoad(foundData);
+                        }
+                        
+                        
                     }
                 }
 

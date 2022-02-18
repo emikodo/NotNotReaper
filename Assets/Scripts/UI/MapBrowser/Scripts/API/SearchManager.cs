@@ -47,6 +47,10 @@ namespace NotReaper.MapBrowser.API
 
             cache = new MapBrowserCache();
             //HandleLocalMaps should only be called once settings are loaded.
+            if (!Directory.Exists(Path.Combine(Application.dataPath, @"../", "downloads")))
+            {
+                Directory.CreateDirectory(Path.Combine(Application.dataPath, @"../", "downloads"));
+            }
             NRSettings.OnLoad(() => HandleLocalMaps());
         }
 

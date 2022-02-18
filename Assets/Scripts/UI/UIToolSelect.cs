@@ -6,16 +6,13 @@ using NotReaper.UserInput;
 using DG.Tweening;
 using UnityEngine.UI;
 using NotReaper.Tools;
+using NotReaper.Tools.ChainBuilder;
 
 namespace NotReaper.UI {
 
 
-    public class UIToolSelect : MonoBehaviour {
-
-        
-        public EditorInput editorInput;
-
-
+    public class UIToolSelect : MonoBehaviour 
+    {
 
         [Header("Tool Sprites")]
         [SerializeField] private SpriteRenderer srstandard;
@@ -29,77 +26,173 @@ namespace NotReaper.UI {
         [SerializeField] private Image imgDragSelect;
         [SerializeField] private Image imgChainBuilder;
 
+        [Space, Header("Buttons")]
+        [SerializeField] private List<Button> buttons;
 
-
-        [Header("Extras")]
+        [Space, Header("Extras")]
         [SerializeField] private GameObject selectedSlider;
         [SerializeField] private RectTransform sliderRTrans;
 
-        [Header("Configuration")]
+        [Space, Header("Configuration")]
         public float fadeAmount = 0.4f;
-        
+
+        private float fadeDuration;
 
 
         private float yOffset = -1.5f;
         private float indexOffset = 40f;
 
+        private void Start()
+        {
+           fadeDuration = (float)NRSettings.config.UIFadeDuration;
+        }
+
+        public void SetInteractable(bool interactable)
+        {
+            foreach(var button in buttons)
+            {
+                button.interactable = interactable;
+            }
+        }
+
         
         //Easings
 
 
-        public void SelectFromUI(string name) {
-            TargetBehavior behavior = TargetBehavior.None;
-            switch (name) {
+        public void SelectFromUI(string name) 
+        {
+            switch (name) 
+            {
                 case "standard":
-                    behavior = TargetBehavior.Standard;
-                    editorInput.SelectTool(EditorTool.Standard);      
+                    EditorState.SelectBehavior(TargetBehavior.Standard);      
                     break;
                 case "hold":
-                    behavior = TargetBehavior.Hold;
-                    editorInput.SelectTool(EditorTool.Hold);
+                    EditorState.SelectBehavior(TargetBehavior.Sustain);
                     break;
                 case "vertical":
-                    behavior = TargetBehavior.Vertical;
-                    editorInput.SelectTool(EditorTool.Vertical);
+                    EditorState.SelectBehavior(TargetBehavior.Vertical);
                     break;
                 case "horizontal":
-                    behavior = TargetBehavior.Horizontal;
-                    editorInput.SelectTool(EditorTool.Horizontal);
+                    EditorState.SelectBehavior(TargetBehavior.Horizontal);
                     break;
                 case "chainstart":
-                    behavior = TargetBehavior.ChainStart;
-                    editorInput.SelectTool(EditorTool.ChainStart);
+                    EditorState.SelectBehavior(TargetBehavior.ChainStart);
                     break;
                 case "chainnode":
-                    behavior = TargetBehavior.Chain;
-                    editorInput.SelectTool(EditorTool.ChainNode);
+                    EditorState.SelectBehavior(TargetBehavior.ChainNode);
                     break;
                 case "melee":
-                    behavior = TargetBehavior.Melee;
-                    editorInput.SelectTool(EditorTool.Melee);
+                    EditorState.SelectBehavior(TargetBehavior.Melee);
                     break;
                 case "dragselect":
-                    editorInput.SelectTool(EditorTool.DragSelect);
+                    EditorState.SelectTool(EditorTool.DragSelect);
                     break;
                 case "chainbuilder":
-                    editorInput.SelectTool(EditorTool.ChainBuilder);
+                    if (ChainBuilder.Instance.activated)
+                    {
+                        ChainBuilder.Instance.Activate(false);
+                    }
+                    EditorState.SelectTool(EditorTool.Pathbuilder);
                     break;
                 default:
                     break;
             }
+        }
+        [NRListener]
+        private void OnHandUpdated(TargetHandType _)
+        {
+            UpdateUIBehaviorSelected(EditorState.Behavior.Current);
+            //UpdateUINoteSelected(EditorState.Tool.Current);
+        }
 
-            if(Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl))
+        private void FadeoutBehaviors()
+        {
+            srstandard.DOColor(Color.white, fadeDuration);
+            srhold.DOColor(Color.white, fadeDuration);
+            srhorizontal.DOColor(Color.white, fadeDuration);
+            srvertical.DOColor(Color.white, fadeDuration);
+            srchainstart.DOColor(Color.white, fadeDuration);
+            srchainnode.DOColor(Color.white, fadeDuration);
+            srmelee.DOColor(Color.white, fadeDuration);
+
+            srstandard.DOFade(fadeAmount, fadeDuration);
+            srhold.DOFade(fadeAmount, fadeDuration);
+            srhorizontal.DOFade(fadeAmount, fadeDuration);
+            srvertical.DOFade(fadeAmount, fadeDuration);
+            srchainstart.DOFade(fadeAmount, fadeDuration);
+            srchainnode.DOFade(fadeAmount, fadeDuration);
+            srmelee.DOFade(fadeAmount, fadeDuration);
+
+            imgChainBuilder.DOFade(fadeAmount, fadeDuration);
+        }
+
+        [NRListener]
+        private void UpdateUIBehaviorSelected(TargetBehavior behavior)
+        {
+            Color color = NRSettings.GetSelectedColor();
+            FadeoutBehaviors();
+            SpriteRenderer selected = null;
+            switch (behavior)
             {
-                if(behavior != TargetBehavior.None)
-                {
-                    DragSelect.Instance.SetBehaviorAction(behavior);
-                }
+                case TargetBehavior.Standard:
+                    DOSliderToNote(0);
+                    selected = srstandard;
+                    break;
+                case TargetBehavior.Sustain:
+                    DOSliderToNote(1);
+                    selected = srhold;
+                    break;
+                case TargetBehavior.Horizontal:
+                    DOSliderToNote(2);
+                    selected = srhorizontal;
+                    break;
+                case TargetBehavior.Vertical:
+                    DOSliderToNote(3);
+                    selected = srvertical;
+                    break;
+                case TargetBehavior.ChainStart:
+                    DOSliderToNote(4);
+                    selected = srchainstart;
+                    break;
+                case TargetBehavior.ChainNode:
+                    DOSliderToNote(5);
+                    selected = srchainnode;
+                    break;
+                case TargetBehavior.Melee:
+                    DOSliderToNote(6);
+                    selected = srmelee;
+                    break;
+                default:
+                    break;
+            }
+            if(selected != null)
+            {
+                selected.DOKill();
+                selected.DOFade(1, fadeDuration);
+                selected.DOColor(color, fadeDuration);
             }
         }
 
-        public void UpdateUINoteSelected(EditorTool type) {
+        [NRListener]
+        private void UpdateUIToolSelected(EditorTool tool)
+        {
+            FadeoutBehaviors();
+            selectedSlider.GetComponent<Image>().DOFade(0f, fadeDuration);
+            switch (tool)
+            {
+                case EditorTool.ChainBuilder:
+                    imgChainBuilder.DOKill();
+                    imgChainBuilder.DOFade(1f, fadeDuration);
+                    break;
+                default:
+                    break;
+            }
+        }
 
-            Color color = EditorInput.GetSelectedColor();
+        /*
+        [NRListener]
+        private void UpdateUINoteSelected(EditorTool type) {
+            Color color = NRSettings.GetSelectedColor();
             float fadeDuration = (float)NRSettings.config.UIFadeDuration;         
 
             switch (type) {
@@ -129,7 +222,7 @@ namespace NotReaper.UI {
                 
                     break;
 
-                case EditorTool.Hold:
+                case EditorTool.Sustain:
                     DOSliderToNote(1);
                     //selectedSlider.GetComponent<Image>().DOFade(1f, fadeDuration);
 
@@ -358,7 +451,7 @@ namespace NotReaper.UI {
             }
 
         }
-
+        */
 
 
 
@@ -368,7 +461,7 @@ namespace NotReaper.UI {
            //selectedSlider.transform.(new Vector3(0f, finalY, 0f), 1f).SetEase(Ease.InOutCubic);
            DOTween.To(SetSelectedSliderPosY, sliderRTrans.anchoredPosition.y, finalY, 0.3f).SetEase(Ease.InOutCubic);
 
-           selectedSlider.GetComponent<Image>().DOColor(EditorInput.GetSelectedColor(), 1f);
+           selectedSlider.GetComponent<Image>().DOColor(NRSettings.GetSelectedColor(), 1f);
             
         }
 

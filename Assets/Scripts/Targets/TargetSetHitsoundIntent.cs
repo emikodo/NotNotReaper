@@ -12,7 +12,7 @@ namespace NotReaper.Targets {
 		}
 
 		public TargetData target;
-		public TargetVelocity startingVelocity;
-		public TargetVelocity newVelocity;
+		public InternalTargetVelocity startingVelocity;
+		public InternalTargetVelocity newVelocity;
 	}
 }

@@ -1,18 +1,19 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
+using NotReaper.Models;
 using NotReaper.UserInput;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
-
 namespace NotReaper.UI {
 
 
-    public class PauseMenu : MonoBehaviour {
+    public class PauseMenu : NRInputWithoutKeybinds {
 
         public static PauseMenu Instance = null;
 
-        public EditorInput editorInput;
+        private UIInput uiInput;
         public Timeline timeline;
         public Button saveButton;
         public Button newAudicaButton;
@@ -48,7 +49,7 @@ namespace NotReaper.UI {
                 System.Diagnostics.Process.Start(Application.dataPath + "/../NotReaper.exe");
                 Application.Quit();
             }
-            editorInput.SelectMode(EditorMode.Timing);
+            EditorState.SelectMode(EditorMode.Timing);
             Timeline.inTimingMode = true;
             //newAudicaButton.interactable = false;
             
@@ -57,17 +58,19 @@ namespace NotReaper.UI {
         public void Open() {
             bool loaded = timeline.LoadAudicaFile(false);
             if (loaded) ClosePauseMenu();
-            editorInput.FigureOutIsInUI();
+            //editorInput.FigureOutIsInUI();
             
         }
 
         public void OpenRecent() {
             bool loaded = timeline.LoadAudicaFile(true);
             if (loaded) ClosePauseMenu();
-            editorInput.FigureOutIsInUI();
+            //editorInput.FigureOutIsInUI();
         }
 
         public void OpenPauseMenu() {
+            gameObject.SetActive(true);
+            OnActivated();
             isOpened = true;
             EnableColliders(true);
             if (Timeline.audicaLoaded) {
@@ -77,7 +80,7 @@ namespace NotReaper.UI {
             }
 
             //newAudicaButton.interactable = !Timeline.audicaLoaded;
-            
+            KeybindManager.DisableEditorKeybinds();
             BG.gameObject.SetActive(true);
             window.gameObject.SetActive(true);
             recentPanel.Show();
@@ -86,10 +89,11 @@ namespace NotReaper.UI {
 
         public void ClosePauseMenu() {
             isOpened = false;
+            OnDeactivated();
             EnableColliders(false);
             BG.gameObject.SetActive(false);
             window.gameObject.SetActive(false);
-
+            gameObject.SetActive(false);
 
         }
 
@@ -98,9 +102,11 @@ namespace NotReaper.UI {
             foreach (var collider in colliders) collider.enabled = enable;
         }
 
-
-
-
+        protected override void OnEscPressed(InputAction.CallbackContext context)
+        {
+            Debug.Log("ESC PRESSED IN PAUSE MENU");
+            if (Timeline.audicaLoaded) ClosePauseMenu();
+        }
     }
 
 }

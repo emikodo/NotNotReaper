@@ -8,6 +8,7 @@ using DG.Tweening;
 using System.Collections.Generic;
 using NotReaper.UI;
 using NotReaper.Grid;
+using NotReaper.Tools.PathBuilder;
 
 namespace NotReaper.Targets {
 
@@ -20,6 +21,8 @@ namespace NotReaper.Targets {
 		private bool noteIsAnimating = false;
 		public TargetData data;
 		public bool transient;
+
+		private Pathbuilder pathbuilder;
 
         [HideInInspector]
         public bool isPlayingSustains = false;
@@ -61,7 +64,7 @@ namespace NotReaper.Targets {
 		}
 
 
-		public Target(TargetData targetData, TargetIcon timelineIcon, TargetIcon gridIcon, bool transient) {
+		public Target(TargetData targetData, TargetIcon timelineIcon, TargetIcon gridIcon, bool transient, Pathbuilder pathbuilder, Transform timelineTargetCollector) {
 			timelineTargetIcon = timelineIcon;
 			gridTargetIcon = gridIcon;
 			//timelineTargetIcon.target = this;
@@ -73,7 +76,7 @@ namespace NotReaper.Targets {
 			data.TickChangeEvent += OnTickChanged;
 			data.BeatLengthChangeEvent += OnBeatLengthChanged;
 
-			timelineTargetIcon.Init(this, data);
+			timelineTargetIcon.Init(this, data, timelineTargetCollector);
 			gridTargetIcon.Init(this, data);
 
 			//Must be after the two init's, unfortunate timing restiction, but the new objects must be active to find the hold target managers
@@ -118,14 +121,16 @@ namespace NotReaper.Targets {
 				}
 			}
 
-			if(data.behavior == TargetBehavior.NR_Pathbuilder) {
-				data.pathBuilderData.InitialAngleChangedEvent += UpdatePathInitialAngle;
-				data.pathBuilderData.RecalculateEvent += RecalculatePathbuilderData;
-				data.pathBuilderData.RecalculateFinishedEvent += UpdatePath;
-                data.pathBuilderData.parentNotes.Add(data);
+			if(data.behavior == TargetBehavior.Legacy_Pathbuilder) {
+				data.legacyPathbuilderData.InitialAngleChangedEvent += UpdatePathInitialAngle;
+				data.legacyPathbuilderData.RecalculateEvent += RecalculatePathbuilderData;
+				data.legacyPathbuilderData.RecalculateFinishedEvent += UpdatePath;
+                data.legacyPathbuilderData.parentNotes.Add(data);
 
                 UpdatePathInitialAngle();
 			}
+
+			this.pathbuilder = pathbuilder;
 		}
 
 		public void Destroy(Timeline timeline) {
@@ -142,13 +147,13 @@ namespace NotReaper.Targets {
 			data.BeatLengthChangeEvent -= OnBeatLengthChanged;
 			data.BehaviourChangeEvent -= OnBehaviorChanged;
 
-			if(data.behavior == TargetBehavior.NR_Pathbuilder) {
-				data.pathBuilderData.InitialAngleChangedEvent -= UpdatePathInitialAngle;
-				data.pathBuilderData.RecalculateEvent -= RecalculatePathbuilderData;
-				data.pathBuilderData.RecalculateFinishedEvent -= UpdatePath;
-                data.pathBuilderData.parentNotes.Remove(data);
+			if(data.behavior == TargetBehavior.Legacy_Pathbuilder) {
+				data.legacyPathbuilderData.InitialAngleChangedEvent -= UpdatePathInitialAngle;
+				data.legacyPathbuilderData.RecalculateEvent -= RecalculatePathbuilderData;
+				data.legacyPathbuilderData.RecalculateFinishedEvent -= UpdatePath;
+                data.legacyPathbuilderData.parentNotes.Remove(data);
 
-                data.pathBuilderData.DeleteCreatedNotes(timeline);
+                data.legacyPathbuilderData.DeleteCreatedNotes(timeline);
 			}
 		}
 
@@ -209,22 +214,23 @@ namespace NotReaper.Targets {
 
 		private void OnGridPositionChanged(float x, float y) {
 			var pos = gridTargetIcon.transform.localPosition;
+
 			pos.x = x;
 			pos.y = y;
 
 			gridTargetIcon.transform.localPosition = pos;
             
 
-			if (data.behavior == TargetBehavior.Hold) {
+			if (data.behavior == TargetBehavior.Sustain) {
 				//var holdEnd = gridTargetIcon.GetComponentInChildren<HoldTargetManager>().endMarker;
 				//if (holdEnd) holdEnd.transform.localPosition = new Vector3 (x, y, holdEnd.transform.localPosition.z);
 			}
 
-			if(data.behavior == TargetBehavior.NR_Pathbuilder && data.pathBuilderData.generatedNotes.Count > 0) {
-				var firstNote = data.pathBuilderData.generatedNotes[0];
+			if(data.behavior == TargetBehavior.Legacy_Pathbuilder && data.legacyPathbuilderData.generatedNotes.Count > 0) {
+				var firstNote = data.legacyPathbuilderData.generatedNotes[0];
 				var delta = firstNote.position - new Vector2(x, y);
 
-				foreach(TargetData note in data.pathBuilderData.generatedNotes) {
+				foreach(TargetData note in data.legacyPathbuilderData.generatedNotes) {
 					note.position -= delta;
 				}
 
@@ -261,11 +267,15 @@ namespace NotReaper.Targets {
 
 			timelineTargetIcon.transform.localPosition = new Vector3(xOffset, yOffset, zOffset);
 
-			if(data.behavior == TargetBehavior.NR_Pathbuilder) {
-				foreach(TargetData note in data.pathBuilderData.generatedNotes) {
+			if(data.behavior == TargetBehavior.Legacy_Pathbuilder) {
+				foreach(TargetData note in data.legacyPathbuilderData.generatedNotes) {
 					note.handType = newType;
 				}
 			}
+			else if (data.isPathbuilderTarget)
+            {
+				data.pathbuilderData.UpdateNodeHandType(newType);
+            }
 		}
 
 		private void OnTickChanged(QNT_Timestamp newTime) {
@@ -277,21 +287,25 @@ namespace NotReaper.Targets {
 			timelinePos.x = newTime.ToBeatTime();
 			timelineTargetIcon.transform.localPosition = timelinePos;
 
-			if(data.behavior == TargetBehavior.NR_Pathbuilder && data.pathBuilderData.generatedNotes.Count > 0) {
-				var firstNote = data.pathBuilderData.generatedNotes[0];
+			if(data.behavior == TargetBehavior.Legacy_Pathbuilder && data.legacyPathbuilderData.generatedNotes.Count > 0) {
+				var firstNote = data.legacyPathbuilderData.generatedNotes[0];
 				var delta = firstNote.time - newTime;
 
-				foreach(TargetData note in data.pathBuilderData.generatedNotes) {
+				foreach(TargetData note in data.legacyPathbuilderData.generatedNotes) {
 					//Force set the time, since these transient notes will get generated for all pathbuilders in repeaters
 					note.SetTimeFromAction(note.time - delta);
 				}
+			}
+			else if (data.isPathbuilderTarget)
+            {
+				pathbuilder.UpdatePathbuilderTarget(data);
 			}
 		}
 
 		private void OnBeatLengthChanged(QNT_Duration newBeatLength) {
 			if (!data.supportsBeatLength) return;
 			
-			if(data.behavior == TargetBehavior.NR_Pathbuilder) {
+			if(data.behavior == TargetBehavior.Legacy_Pathbuilder) {
 				ChainBuilder.GenerateChainNotes(data);
 			}
 		}
@@ -299,12 +313,12 @@ namespace NotReaper.Targets {
 		private void OnBehaviorChanged(TargetBehavior oldBehavior, TargetBehavior newBehavior) {
 			if (data.supportsBeatLength) {
 
-				if(!TargetData.BehaviorSupportsBeatLength(oldBehavior)) {
+				if(!TargetData.BehaviorSupportsBeatLength(oldBehavior, data.isPathbuilderTarget)) {
 					var gridHoldTargetManager = gridTargetIcon.GetComponentInChildren<HoldTargetManager>();
 
 					if (gridHoldTargetManager != null)
 					{
-						gridHoldTargetManager.sustainLength = data.beatLength;
+						gridHoldTargetManager.sustainLength = data.isPathbuilderTarget ? data.pathbuilderData.BeatLength : data.beatLength;
 						gridHoldTargetManager.LoadSustainController();
 
 						gridHoldTargetManager.OnTryChangeSustainEvent += MakeTimelineUpdateSustainLength; 
@@ -316,7 +330,7 @@ namespace NotReaper.Targets {
 			else {
 				DisableSustainButtons();
 
-				if(TargetData.BehaviorSupportsBeatLength(oldBehavior)) {
+				if(TargetData.BehaviorSupportsBeatLength(oldBehavior, data.isPathbuilderTarget)) {
 					var gridHoldTargetManager = gridTargetIcon.GetComponentInChildren<HoldTargetManager>(true);
 					if(gridHoldTargetManager != null) {
 						gridHoldTargetManager.UnloadSustainController();
@@ -325,23 +339,23 @@ namespace NotReaper.Targets {
 				}
 			}
 
-			if(data.behavior == TargetBehavior.NR_Pathbuilder) {
-				data.pathBuilderData.InitialAngleChangedEvent += UpdatePathInitialAngle;
-				data.pathBuilderData.RecalculateEvent += RecalculatePathbuilderData;
-				data.pathBuilderData.RecalculateFinishedEvent += UpdatePath;
+			if(data.behavior == TargetBehavior.Legacy_Pathbuilder) {
+				data.legacyPathbuilderData.InitialAngleChangedEvent += UpdatePathInitialAngle;
+				data.legacyPathbuilderData.RecalculateEvent += RecalculatePathbuilderData;
+				data.legacyPathbuilderData.RecalculateFinishedEvent += UpdatePath;
             }
 
-			if(oldBehavior == TargetBehavior.NR_Pathbuilder) {
-				data.pathBuilderData.InitialAngleChangedEvent -= UpdatePathInitialAngle;
-				data.pathBuilderData.RecalculateEvent -= RecalculatePathbuilderData;
-                data.pathBuilderData.RecalculateFinishedEvent -= UpdatePath;
+			if(oldBehavior == TargetBehavior.Legacy_Pathbuilder) {
+				data.legacyPathbuilderData.InitialAngleChangedEvent -= UpdatePathInitialAngle;
+				data.legacyPathbuilderData.RecalculateEvent -= RecalculatePathbuilderData;
+                data.legacyPathbuilderData.RecalculateFinishedEvent -= UpdatePath;
             }
 
-            if (data.behavior != TargetBehavior.NR_Pathbuilder && oldBehavior == TargetBehavior.NR_Pathbuilder) {
-                data.pathBuilderData.parentNotes.Remove(data);
+            if (data.behavior != TargetBehavior.Legacy_Pathbuilder && oldBehavior == TargetBehavior.Legacy_Pathbuilder) {
+                data.legacyPathbuilderData.parentNotes.Remove(data);
             }
-            else if(data.behavior == TargetBehavior.NR_Pathbuilder) {
-                data.pathBuilderData.parentNotes.Add(data);
+            else if(data.behavior == TargetBehavior.Legacy_Pathbuilder) {
+                data.legacyPathbuilderData.parentNotes.Add(data);
             }
         }
 
@@ -365,14 +379,14 @@ namespace NotReaper.Targets {
 		}
 
 		public void RecalculatePathbuilderData() {
-			if(data.behavior != TargetBehavior.NR_Pathbuilder) return;
+			if(data.behavior != TargetBehavior.Legacy_Pathbuilder) return;
 			ChainBuilder.CalculateChainNotes(data);
 		}
 
 		public void UpdatePathInitialAngle() {
-			if(data.behavior != TargetBehavior.NR_Pathbuilder) return;
+			if(data.behavior != TargetBehavior.Legacy_Pathbuilder) return;
 
-			gridTargetIcon.UpdatePathInitialAngle(data.pathBuilderData.initialAngle);
+			gridTargetIcon.UpdatePathInitialAngle(data.legacyPathbuilderData.initialAngle);
 		}
 
 		public void OnNoteHit() {
@@ -389,7 +403,7 @@ namespace NotReaper.Targets {
 			}
 
 
-			if (data.behavior == TargetBehavior.Hold) {
+			if (data.behavior == TargetBehavior.Sustain) {
 				Timeline.instance.StartCoroutine(AnimateHoldSpin());
                 //isPlayingSustains = true;
 			}

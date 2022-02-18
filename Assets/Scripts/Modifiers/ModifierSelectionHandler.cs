@@ -30,6 +30,9 @@ namespace NotReaper.Modifier
         private Vector3 dragStartPos;
         private Renderer rend;
 
+        private bool isCtrlDown;
+        private bool dragSelect;
+        private bool isMouseDown;
         private void Start()
         {
             if (Instance is null) Instance = this;
@@ -231,6 +234,11 @@ namespace NotReaper.Modifier
         private void Update()
         {
             if (!ModifierHandler.activated) return;
+            if (dragSelect && isMouseDown)
+            {
+                UpdateDragSelect();
+            }
+            /*
             if (Input.GetMouseButtonDown(0))
             {
                 int layerMask = LayerMask.GetMask("Modifier");
@@ -239,7 +247,7 @@ namespace NotReaper.Modifier
                 {
                     Modifier m = hit.transform.GetComponent<ClickNotifier>().GetModifier();
 
-                    if (Input.GetKey(KeyCode.LeftControl))
+                    if (dragSelect)
                     {
                         if (m.isCreated) SelectModifier(m, false);
                     }
@@ -249,7 +257,7 @@ namespace NotReaper.Modifier
                     }
                                                                                             
                 }
-                else if (Input.GetKey(KeyCode.LeftControl))
+                else if (dragSelect)
                 {
                     DeselectAllModifiers();
                 }
@@ -280,34 +288,7 @@ namespace NotReaper.Modifier
             }
             if (Input.GetKey(KeyCode.LeftControl))
             {
-                if (Input.GetKeyDown(KeyCode.C))
-                {
-                    CopySelectedModifiers();
-                }
-                if (Input.GetKeyDown(KeyCode.V))
-                {
-                    PasteCopiedModifiers();
-                }
-                if (Input.GetKeyDown(KeyCode.X))
-                {
-                    CutSelectedModifiers();
-                }
-                if (Input.GetKeyDown(KeyCode.D))
-                {
-                    DeselectAllModifiers();
-                }
-                if (Input.GetKeyDown(KeyCode.A))
-                {
-                    SelectAll();
-                }
-                if (Input.GetKeyDown(InputManager.undo) && !Input.GetKey(KeyCode.LeftShift))
-                {
-                    ModifierUndoRedo.Instance.Undo();
-                }
-                if (Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(InputManager.redo))
-                {
-                    ModifierUndoRedo.Instance.Redo();
-                }
+                
                 if (Input.GetMouseButtonDown(0))
                 {
                     dragStartPos = Timeline.timelineNotesStatic.InverseTransformPoint(main.ScreenToWorldPoint(Input.mousePosition));
@@ -318,36 +299,7 @@ namespace NotReaper.Modifier
                 }
                 if (Input.GetMouseButton(0))
                 {
-                    float sizeX = dragStartPos.x - Timeline.timelineNotesStatic.InverseTransformPoint(main.ScreenToWorldPoint(Input.mousePosition)).x;
-                    
-                    if (Mathf.Abs(sizeX) > .2f)
-                    {
-                        if(!selectionBox.activeInHierarchy) selectionBox.SetActive(true);
-                        Vector3 newPos = selectionBox.transform.localPosition;
-                        
-                        sizeX *= -1f;
-                        selectionBox.transform.localScale = new Vector2(sizeX, selectionBox.transform.localScale.y);
-                        newPos.x = dragStartPos.x + (sizeX / 2);
-                        selectionBox.transform.localPosition = new Vector2(newPos.x, selectionBox.transform.localPosition.y);
-                        
-                        for (int i = 0; i < ModifierHandler.Instance.modifiers.Count; i++)
-                        {
-                            if(ModifierHandler.Instance.modifiers[i].startMark.transform.position.x > rend.bounds.min.x && ModifierHandler.Instance.modifiers[i].startMark.transform.position.x < rend.bounds.max.x)
-                            {
-                                if (!selectedEntries.Contains(ModifierHandler.Instance.modifiers[i]))
-                                {
-                                    SelectModifier(ModifierHandler.Instance.modifiers[i], false);
-                                }
-                            }
-                            else
-                            {
-                                if (selectedEntries.Contains(ModifierHandler.Instance.modifiers[i]))
-                                {
-                                    SelectModifier(ModifierHandler.Instance.modifiers[i], false);
-                                }
-                            }
-                        }
-                    }
+                    UpdateDragSelect();
                 }
                 if (Input.GetMouseButtonUp(0))
                 {
@@ -363,7 +315,41 @@ namespace NotReaper.Modifier
             {
                 ModifierHandler.Instance.DeleteModifier();
             }
-            
+            */
+        }
+
+        private void UpdateDragSelect()
+        {
+            float sizeX = dragStartPos.x - Timeline.timelineNotesStatic.InverseTransformPoint(main.ScreenToWorldPoint(Input.mousePosition)).x;
+
+            if (Mathf.Abs(sizeX) > .2f)
+            {
+                if (!selectionBox.activeInHierarchy) selectionBox.SetActive(true);
+                Vector3 newPos = selectionBox.transform.localPosition;
+
+                sizeX *= -1f;
+                selectionBox.transform.localScale = new Vector2(sizeX, selectionBox.transform.localScale.y);
+                newPos.x = dragStartPos.x + (sizeX / 2);
+                selectionBox.transform.localPosition = new Vector2(newPos.x, selectionBox.transform.localPosition.y);
+
+                for (int i = 0; i < ModifierHandler.Instance.modifiers.Count; i++)
+                {
+                    if (ModifierHandler.Instance.modifiers[i].startMark.transform.position.x > rend.bounds.min.x && ModifierHandler.Instance.modifiers[i].startMark.transform.position.x < rend.bounds.max.x)
+                    {
+                        if (!selectedEntries.Contains(ModifierHandler.Instance.modifiers[i]))
+                        {
+                            SelectModifier(ModifierHandler.Instance.modifiers[i], false);
+                        }
+                    }
+                    else
+                    {
+                        if (selectedEntries.Contains(ModifierHandler.Instance.modifiers[i]))
+                        {
+                            SelectModifier(ModifierHandler.Instance.modifiers[i], false);
+                        }
+                    }
+                }
+            }
         }
 
         private enum CopyMode
@@ -371,6 +357,113 @@ namespace NotReaper.Modifier
             Copy,
             Cut,
             Restore
+        }
+
+        private void MouseDown()
+        {
+            isMouseDown = true;
+            int layerMask = LayerMask.GetMask("Modifier");
+            RaycastHit2D hit = Physics2D.Raycast(main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero, 1000000f, layerMask);
+            if (hit.collider != null)
+            {
+                Modifier m = hit.transform.GetComponent<ClickNotifier>().GetModifier();
+
+                if (isCtrlDown)
+                {
+                    if (m.isCreated) SelectModifier(m, false);
+                }
+                else
+                {
+                    if (m.isCreated) SelectModifier(m, true);
+                }
+
+            }
+            else if (isCtrlDown)
+            {
+                DeselectAllModifiers();
+            }
+            else
+            {
+                layerMask = LayerMask.GetMask("Timeline");
+                hit = Physics2D.Raycast(main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero, 1000000f, layerMask);
+                if (hit.collider != null)
+                {
+                    if (hit.transform.gameObject.layer == 14)
+                    {
+                        DeselectAllModifiers();
+                    }
+                }
+            }
+
+
+
+            if (isCtrlDown)
+            {
+                dragStartPos = Timeline.timelineNotesStatic.InverseTransformPoint(main.ScreenToWorldPoint(Input.mousePosition));
+                selectionBox.transform.SetParent(Timeline.timelineNotesStatic);
+                Vector3 newPos = selectionBox.transform.localPosition;
+                newPos.x = dragStartPos.x;
+                selectionBox.transform.localPosition = newPos;
+                dragSelect = true;
+            }
+            
+        }
+
+        private void MouseUp()
+        {
+            if (dragSelect)
+            {
+                dragStartPos = Vector3.zero;
+                selectionBox.SetActive(false);
+                dragSelect = false;
+            }
+            isMouseDown = false;
+        }
+
+        private void OnCtrlDown()
+        {
+            //dragSelect = true;
+            isCtrlDown = true;
+        }
+
+        private void OnCtrlUp()
+        {
+            if (selectionBox.activeInHierarchy)
+            {
+                selectionBox.SetActive(false);
+            }
+            dragSelect = false;
+            isCtrlDown = false;
+        }
+
+        private void RemoveModifier()
+        {
+            int layerMask = LayerMask.GetMask("Modifier");
+            RaycastHit2D hit = Physics2D.Raycast(main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero, 1000000f, layerMask);
+            if (hit.collider != null)
+            {
+                Modifier m = hit.transform.GetComponent<ClickNotifier>().GetModifier();
+                DeselectAllModifiers();
+                selectedEntries.Add(m);
+                DeleteSelectedModifiers();
+            }
+        }
+
+        internal void RegisterCallbacks(ModifierKeybinds actions)
+        {
+            actions.Modifiers.DragSelect.performed += _ => OnCtrlDown();
+            actions.Modifiers.DragSelect.canceled += _ => OnCtrlUp();
+            actions.Modifiers.Copy.performed += _ => CopySelectedModifiers();
+            actions.Modifiers.Paste.performed += _ => PasteCopiedModifiers();
+            actions.Modifiers.Cut.performed += _ => CutSelectedModifiers();
+            actions.Modifiers.DeselectAll.performed += _ => DeselectAllModifiers();
+            actions.Modifiers.SelectAll.performed += _ => SelectAll();
+            actions.Modifiers.Undo.performed += _ => ModifierUndoRedo.Instance.Undo();
+            actions.Modifiers.Redo.performed += _ => ModifierUndoRedo.Instance.Redo();
+            actions.Modifiers.LeftMouseClick.performed += _ => MouseDown();
+            actions.Modifiers.LeftMouseClick.canceled += _ => MouseUp();
+            actions.Modifiers.Delete.performed += _ => ModifierHandler.Instance.DeleteModifier();
+            actions.Modifiers.RemoveModifier.performed += _ => RemoveModifier();
         }
     }
 }

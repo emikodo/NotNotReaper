@@ -17,12 +17,8 @@ namespace NotReaper.UI {
 
         public TextMeshPro lrText;
 
-        [SerializeField] private EditorInput editorInput;
-
-
-
-
-        public void UpdateUI(TargetHandType type) {
+        [NRListener]
+        private void UpdateUI(TargetHandType type) {
             switch (type) {
                 case TargetHandType.Left:
                     lrText.SetText("Left");

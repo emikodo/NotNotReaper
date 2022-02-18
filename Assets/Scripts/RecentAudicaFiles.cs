@@ -21,7 +21,6 @@ public static class RecentAudicaFiles
         if (audicaPaths.Count > 6) audicaPaths = audicaPaths.GetRange(0, 6);
 
         SaveRecents();
-        Debug.Log("Saved " + dir);
     }
     
     public static void SaveRecents()

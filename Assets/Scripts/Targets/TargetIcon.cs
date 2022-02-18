@@ -62,7 +62,7 @@ namespace NotReaper.Targets {
         public Sprite mineSelect;
         public Sprite noneSelect;
 
-        public GameObject line;
+        public GameObject beatLengthLine;
         public GameObject pathBuilder;
 
         [Header("Other")]
@@ -70,6 +70,10 @@ namespace NotReaper.Targets {
         [SerializeField] SpriteRenderer prefade;
         [SerializeField] SpriteRenderer ring;
         [SerializeField] SpriteRenderer note;
+
+
+        [Header("New Pathbuilder")]
+        [SerializeField] private LineRenderer activeSegmentIndicator;
 
         public SpriteRenderer selection;
 
@@ -84,8 +88,8 @@ namespace NotReaper.Targets {
 
         public float sustainDirection = 0.6f;
 
-        [SerializeField] private float collisionRadius = 0.95f;
-
+        [SerializeField] private float collisionRadiusClick = 0.95f;
+        [SerializeField] private float collisionRadiusDrag = 0.95f;
         public bool isSelected = false;
         public TargetIconLocation location;
 
@@ -95,12 +99,41 @@ namespace NotReaper.Targets {
 
         public Transform holdEndTrans;
 
-        public bool SustainButtonsActive => sustainButtons.activeInHierarchy;
+        [Space, SerializeField] private Transform childComponents;
+        private Transform timelineTargetCollector;
+
+        public bool SustainButtonsActive => sustainButtons.activeSelf;
 
         /// <summary>
         /// For when the note is right clicked on.
         /// </summary>
         public event Action OnTryRemoveEvent;
+
+        private void OnTriggerEnter2D(Collider2D other)
+        {
+            if (other.tag == "TimelineCatcher")
+            {
+                ShowTimelineTarget();
+            }
+        }
+
+        private void OnTriggerExit2D(Collider2D other)
+        {
+            if(other.tag == "TimelineCatcher")
+            {
+                HideTimelineTarget();
+            }
+        }
+
+        public void HideTimelineTarget()
+        {
+            childComponents.parent = timelineTargetCollector;
+        }
+        public void ShowTimelineTarget()
+        {
+            childComponents.parent = transform;
+            childComponents.transform.localPosition = Vector3.zero;
+        }
 
         public void OnTryRemove() {
             if(!target.transient) {
@@ -134,13 +167,13 @@ namespace NotReaper.Targets {
             TryDeselectEvent();
         }
 
-        public void Init(Target target, TargetData targetData) {
+        public void Init(Target target, TargetData targetData, Transform timelineTargetCollector = null) {
             data = targetData;
             data.HandTypeChangeEvent += OnHandTypeChanged;
             data.BehaviourChangeEvent += OnBehaviorChanged;
             data.BeatLengthChangeEvent += OnSustainLengthChanged;
             data.TickChangeEvent += OnTickChanged;
-
+            this.timelineTargetCollector = timelineTargetCollector;
             this.target = target;
 
             foreach (Renderer r in gameObject.GetComponentsInChildren<Renderer>(true)) {
@@ -157,6 +190,10 @@ namespace NotReaper.Targets {
             data.BehaviourChangeEvent -= OnBehaviorChanged;
             data.BeatLengthChangeEvent -= OnSustainLengthChanged;
             data.TickChangeEvent -= OnTickChanged;
+            if(location == TargetIconLocation.Timeline)
+            {
+                Destroy(childComponents.gameObject);
+            }
         }
 
         public void ReplaceData(TargetData newData) {
@@ -228,8 +265,8 @@ namespace NotReaper.Targets {
             }
 
             foreach (LineRenderer l in gameObject.GetComponentsInChildren<LineRenderer>(true)) {
-                if(data.behavior == TargetBehavior.NR_Pathbuilder) {
-                    handType = data.pathBuilderData.handType;
+                if(data.behavior == TargetBehavior.Legacy_Pathbuilder) {
+                    handType = data.legacyPathbuilderData.handType;
                 }
 
                 switch (handType) {
@@ -279,10 +316,10 @@ namespace NotReaper.Targets {
 
         public void IncreaseBeatLength() {
 
-            if (target.data.pathBuilderData != null && (Input.GetKey(KeyCode.LeftAlt) || Input.GetKey(KeyCode.RightAlt)))              
+            if (target.data.legacyPathbuilderData != null && ChainBuilder.Instance.snapAngle)              
             {
                 if (ChainBuilder.Instance.activated) ChainBuilder.Instance.ChangeInterval(true);
-                else target.data.pathBuilderData.interval = GetInterval(target.data.pathBuilderData.interval, true);
+                else target.data.legacyPathbuilderData.interval = GetInterval(target.data.legacyPathbuilderData.interval, true);
                 
                 ChainBuilder.GenerateChainNotes(target.data);
 
@@ -296,10 +333,10 @@ namespace NotReaper.Targets {
 
         public void DescreseBeatLength() {
 
-            if (target.data.pathBuilderData != null && (Input.GetKey(KeyCode.LeftAlt) || Input.GetKey(KeyCode.RightAlt)))
+            if (target.data.legacyPathbuilderData != null && ChainBuilder.Instance.snapAngle)
             {
                 if(ChainBuilder.Instance.activated) ChainBuilder.Instance.ChangeInterval(false);
-                else target.data.pathBuilderData.interval = GetInterval(target.data.pathBuilderData.interval, false);
+                else target.data.legacyPathbuilderData.interval = GetInterval(target.data.legacyPathbuilderData.interval, false);
                
                 ChainBuilder.GenerateChainNotes(target.data);
                 
@@ -331,9 +368,9 @@ namespace NotReaper.Targets {
             if (!data.supportsBeatLength) {
                 return;
             }
-
+            
             float scale = 20.0f / Timeline.scale;
-            QNT_Duration beatLength = data.beatLength;
+            QNT_Duration beatLength = data.isPathbuilderTarget ? data.pathbuilderData.BeatLength : data.beatLength;
 
             var lineRenderers = gameObject.GetComponentsInChildren<LineRenderer>(true);
             foreach (LineRenderer l in lineRenderers) {
@@ -347,19 +384,53 @@ namespace NotReaper.Targets {
             }
         }
 
+        public void MakeSustainIndicatorTransparent(bool transparent)
+        {
+            var lineRenderers = gameObject.GetComponentsInChildren<LineRenderer>(true);
+            foreach (LineRenderer l in lineRenderers)
+            {
+                if (l.positionCount < 3)
+                {
+                    continue;
+                }
+                var color = l.startColor;
+                color.a = transparent ? .3f : 1f;
+                l.startColor = color;
+                l.endColor = color;
+                l.sortingOrder = transparent ? -1 : 1;
+            }
+            if (transparent)
+            {
+                UpdateTimelineSustainLength();
+            }
+        }
+
+        public void SetBeatlengthLineActive(bool active)
+        {
+            beatLengthLine.SetActive(active);
+            if(active)
+            {
+                UpdateTimelineSustainLength();
+            }
+            else
+            {
+                target.DisableSustainButtons();
+            }
+        }
+
         private void OnBehaviorChanged(TargetBehavior oldbehavior, TargetBehavior behavior)
         {
             ResetSpriteTransforms();
 
             UpdateSpriteForBehavior(behavior);
 
-            if(pathBuilder != null) pathBuilder.SetActive(behavior == TargetBehavior.NR_Pathbuilder);
+            if(pathBuilder != null) pathBuilder.SetActive(behavior == TargetBehavior.Legacy_Pathbuilder);
 
             if (location == TargetIconLocation.Timeline)
             {
-                line.SetActive(data.supportsBeatLength);
+                beatLengthLine.SetActive(data.supportsBeatLength);
                 transform.localScale = Vector3.one * timelineTargetSize * 0.4f;
-                collisionRadius = 0.50f;
+                collisionRadiusClick = collisionRadiusDrag = 0.50f;
             }
             else
             {
@@ -367,15 +438,18 @@ namespace NotReaper.Targets {
             }
 
 
-            if (behavior == TargetBehavior.Chain && location == TargetIconLocation.Timeline)
+            if (behavior == TargetBehavior.ChainNode && location == TargetIconLocation.Timeline)
             {
-                collisionRadius = 0.4f;
+                collisionRadiusClick = 0.2f;
             }
-            else if (behavior == TargetBehavior.Melee && location == TargetIconLocation.Grid) collisionRadius = 1.7f;
-
-            if (behavior == TargetBehavior.NR_Pathbuilder)
+            else if (behavior == TargetBehavior.Melee && location == TargetIconLocation.Grid)
             {
-                data.velocity = TargetVelocity.None;
+                collisionRadiusClick = collisionRadiusDrag = 1.7f;
+            }
+
+            if (behavior == TargetBehavior.Legacy_Pathbuilder)
+            {
+                data.velocity = InternalTargetVelocity.Silent;
             }
 
             //Timeline.instance.ReapplyScale();
@@ -393,7 +467,7 @@ namespace NotReaper.Targets {
                     if (ring != null) ring.sprite = standardRing;
                     selection.sprite = standardSelect;
                     break;
-                case TargetBehavior.Hold:
+                case TargetBehavior.Sustain:
                     note.sprite = hold;
                     if(prefade != null)prefade.sprite = holdTelegraph;
                     if (ring != null)ring.sprite = holdRing;
@@ -447,7 +521,7 @@ namespace NotReaper.Targets {
                     if (location == TargetIconLocation.Grid) note.transform.localScale = Vector3.one * 1.7f;
                     else note.transform.localScale = Vector3.one * 0.7f;
                     break;
-                case TargetBehavior.Chain:
+                case TargetBehavior.ChainNode:
                     note.sprite = chain;
                     if(prefade != null)prefade.sprite = chainTelegraph;
                     if (ring != null)ring.sprite = chainRing;
@@ -472,7 +546,7 @@ namespace NotReaper.Targets {
                     if (ring != null)ring.sprite = mineRing;
                     selection.sprite = mineSelect;
                     break;
-                case TargetBehavior.NR_Pathbuilder:
+                case TargetBehavior.Legacy_Pathbuilder:
                     note.sprite = pathbuilder;
                     if(prefade != null)prefade.sprite = chainTelegraph;
                     if (ring != null)ring.sprite = chainRing;
@@ -511,7 +585,7 @@ namespace NotReaper.Targets {
         private void SetupFade() {
             if(location != TargetIconLocation.Grid) return;
 
-            if(data.behavior == TargetBehavior.Chain) {
+            if(data.behavior == TargetBehavior.ChainNode) {
                 NoteEnumerator iter = new NoteEnumerator(new QNT_Timestamp(0), data.time);
                 iter.reverse = true;
                 
@@ -530,17 +604,17 @@ namespace NotReaper.Targets {
         }
 
         public void UpdatePath() {
-            if(data.behavior != TargetBehavior.NR_Pathbuilder || location != TargetIconLocation.Grid) {
+            if(data.behavior != TargetBehavior.Legacy_Pathbuilder || location != TargetIconLocation.Grid) {
                 return;
             }
 
-            if (data.pathBuilderData.parentNotes.Count == 0) {
+            if (data.legacyPathbuilderData.parentNotes.Count == 0) {
                 return;
             }
 
             var lineRenderers = gameObject.GetComponentsInChildren<LineRenderer>();
             foreach (LineRenderer l in lineRenderers) {
-                switch (data.pathBuilderData.handType) {
+                switch (data.legacyPathbuilderData.handType) {
                     case TargetHandType.Left:
                         l.startColor = NRSettings.config.leftColor;
                         l.endColor = NRSettings.config.leftColor;
@@ -559,12 +633,12 @@ namespace NotReaper.Targets {
                         break;
                 }
 
-                int count = data.pathBuilderData.generatedNotes.Count / data.pathBuilderData.parentNotes.Count;
+                int count = data.legacyPathbuilderData.generatedNotes.Count / data.legacyPathbuilderData.parentNotes.Count;
 
                 Vector3[] positions = new Vector3[count];
 
                 for(int i = 0; i < count; ++i) {
-                    var note = data.pathBuilderData.generatedNotes[i];
+                    var note = data.legacyPathbuilderData.generatedNotes[i];
                     positions[i] = new Vector3(note.x, note.y, 0.0f);
                 }
 
@@ -574,7 +648,7 @@ namespace NotReaper.Targets {
         }
 
         public void UpdatePathInitialAngle(float angle) {
-            if(data.behavior != TargetBehavior.NR_Pathbuilder) {
+            if(data.behavior != TargetBehavior.Legacy_Pathbuilder) {
                 return;
             }
 
@@ -584,7 +658,7 @@ namespace NotReaper.Targets {
 
         public bool IsCloseToPoint(Vector2 point) {
             Vector2 center = transform.TransformPoint(0,0,0);
-            float collisionRad = transform.TransformVector(collisionRadius, 0, 0).x;
+            float collisionRad = transform.TransformVector(collisionRadiusClick, 0, 0).x;
             return (point - center).sqrMagnitude < collisionRad * collisionRad;
         }
 
@@ -595,7 +669,7 @@ namespace NotReaper.Targets {
             closestPoint.x = Mathf.Clamp(closestPoint.x, rect.min.x, rect.max.x);
             closestPoint.y = Mathf.Clamp(closestPoint.y, rect.min.y, rect.max.y);
 
-            float collisionRad = transform.TransformVector(collisionRadius, 0, 0).x;
+            float collisionRad = transform.TransformVector(collisionRadiusDrag, 0, 0).x;
             return (closestPoint - center).sqrMagnitude < collisionRad * collisionRad;
         }
 

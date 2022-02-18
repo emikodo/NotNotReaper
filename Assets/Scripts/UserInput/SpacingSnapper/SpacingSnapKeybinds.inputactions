@@ -1,0 +1,71 @@
+{
+    "name": "SpacingSnapKeybinds",
+    "maps": [
+        {
+            "name": "SpacingSnap",
+            "id": "a35eea9c-ccc6-4c55-aaaf-50fc4e181a1b",
+            "actions": [
+                {
+                    "name": "ChangeDistance",
+                    "type": "Button",
+                    "id": "8d243a74-6996-426e-a405-cd27f4ad5da5",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "LockDirectional",
+                    "type": "Button",
+                    "id": "57bcaabe-8d38-49e8-83ee-a1dafe17b83f",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "MousePosition",
+                    "type": "Value",
+                    "id": "b281825d-919d-4a7a-aafe-8d106bf512e5",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": ""
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "0ad1750a-9f96-4fe2-8700-44fccace1e2c",
+                    "path": "<Mouse>/scroll/y",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ChangeDistance",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "24ab4df6-629d-4062-8a08-944e4bb97af8",
+                    "path": "<Keyboard>/shift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "LockDirectional",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "dbe6f6a6-3d15-44be-bbc6-17c746d6ab6f",
+                    "path": "<Mouse>/position",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MousePosition",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}

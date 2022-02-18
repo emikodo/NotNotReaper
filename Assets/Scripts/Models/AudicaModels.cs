@@ -143,7 +143,9 @@ namespace NotReaper.Models {
 		public uint Version = 1;
 		
 		public List<Cue> pathBuilderNoteCues = new List<Cue>();
-		public List<PathBuilderData> pathBuilderNoteData = new List<PathBuilderData>();
+		public List<LegacyPathbuilderData> pathBuilderNoteData = new List<LegacyPathbuilderData>();
+		public List<PathbuilderData> newPathbuilderData = new List<PathbuilderData>();
+		public List<Cue> newPathbuilderCues = new List<Cue>();
         public List<RepeaterSection> repeaterSections = new List<RepeaterSection>();
         public List<ModifierHandler> modifiers = new List<ModifierHandler>(); //TODO: is this needed?
 	}
@@ -202,15 +204,27 @@ namespace NotReaper.Models {
 
 	public enum Difficulty { Expert = 0, Advanced = 1, Standard = 2, Easy = 3 }
 	public enum TargetHandType { Either = 0, Right = 1, Left = 2, None = 3 }
-	public enum TargetBehavior { Standard = 0, Vertical = 1, Horizontal = 2, Hold = 3, ChainStart = 4, Chain = 5, Melee = 6, Mine = 7, None = 8, Metronome = 9, NR_Pathbuilder = 101 }
-	public enum TargetVelocity { Standard = 20, Vertical = 20, Horizontal = 20, Hold = 20, Snare = 127, Percussion = 60, ChainStart = 1, Chain = 2, Melee = 3, Mine = 4, Metronome = 100, None = 999 }
+	public enum TargetBehavior { Standard = 0, Vertical = 1, Horizontal = 2, Sustain = 3, ChainStart = 4, ChainNode = 5, Melee = 6, Mine = 7, None = 8, Legacy_Pathbuilder = 101}
+	public enum InternalTargetVelocity { Kick = 20, Snare = 127, Percussion = 60, ChainStart = 1, Chain = 2, Melee = 3, Mine = 4, Silent = 999 }
+	public enum EditorTool { DragSelect, ChainBuilder, ModifierCreator, SpacingSnapper, Pathbuilder, None } //Standard, Vertical, Horizontal, Sustain, ChainStart, ChainNode, Melee, Mine, 
+	public enum EditorMode { Compose, Metadata, Settings, Timing };
+	public enum TargetHitsound { Standard = 0, Snare = 1, Percussion = 2, ChainStart = 3, ChainNode = 4, Melee = 5, Silent = 6, Mine = 7, Metronome = 8 }
+	public enum SnappingMode { None, Grid, Melee, DetailGrid }
+
+	static class TargetBehaviorExtensions
+    {
+		public static bool IsMeleeOrMine(this TargetBehavior behavior)
+        {
+			return behavior == TargetBehavior.Mine || behavior == TargetBehavior.Melee;
+        }
+    }
 
 	[Serializable]
 	public class Cue {
 		public int tick;
 		public int tickLength;
 		public int pitch;
-		public TargetVelocity velocity = TargetVelocity.Standard;
+		public InternalTargetVelocity velocity = InternalTargetVelocity.Kick;
 		public GridOffset gridOffset = new GridOffset { x = 0, y = 0 };
 		public float zOffset = 0;
 		public TargetHandType handType = TargetHandType.Right;

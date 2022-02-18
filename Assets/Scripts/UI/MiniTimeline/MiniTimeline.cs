@@ -290,7 +290,7 @@ namespace NotReaper.UI {
             return x;
         }
 
-        public void OpenBookmarksMenu(string text)
+        public void OpenBookmarksMenu()
         {
             if (BookmarkMenu.isActive)
             {
@@ -303,18 +303,23 @@ namespace NotReaper.UI {
             }
         }
 
+		public void SetBookmark()
+        {
+			SetBookmark(GetXForTheBookmarkThingy(), 0f, EditorState.Hand.Current, "", BookmarkColorPicker.selectedColor, BookmarkColorPicker.selectedUIColor, false, false).Select();
+		}
+
         private void Update() {
 			bool isCtrlDown = false;
 			bool isShiftDown = false;
 
-
-			if (Input.GetKeyDown(KeyCode.P) && !ModifierHandler.inputFocused && !BookmarkMenu.inputFocused && !EditorInput.inUI) {
+			/*
+			if (Input.GetKeyDown(KeyCode.P) && !ModifierHandler.inputFocused && !BookmarkMenu.inputFocused) {
 				SetPreviewStartPoint(Timeline.time);
-			}
+			}*/
 
-			if (Input.GetKeyDown(KeyCode.U) && !ModifierHandler.activated && !BookmarkMenu.isActive && !EditorInput.InputDisabled && !PauseMenu.Instance.isOpened) {
-                SetBookmark(GetXForTheBookmarkThingy(), 0f, EditorInput.selectedHand, "", BookmarkColorPicker.selectedColor, BookmarkColorPicker.selectedUIColor, false, false).Select();
-			}
+			/*if (Input.GetKeyDown(KeyCode.U) && !ModifierHandler.activated && !BookmarkMenu.isActive && !PauseMenu.Instance.isOpened) {
+                SetBookmark(GetXForTheBookmarkThingy(), 0f, EditorState.Hand.Current, "", BookmarkColorPicker.selectedColor, BookmarkColorPicker.selectedUIColor, false, false).Select();
+			}*/
 
 			if (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl)) {
 				isCtrlDown = true;

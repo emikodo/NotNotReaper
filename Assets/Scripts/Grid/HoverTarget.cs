@@ -21,6 +21,9 @@ namespace NotReaper.Grid {
         public Image cursorTint;
 
         private Camera cam;
+        private Canvas canvas;
+        private bool spacingLocked = false;
+        private bool isBehavior = true;
 
         [SerializeField] private Image standard;
         [SerializeField] private Image hold;
@@ -32,15 +35,39 @@ namespace NotReaper.Grid {
         [SerializeField] private Image mine;
         [SerializeField] private TextMeshProUGUI distanceText;
 
-        public void TryEnable() {
+        private List<Image> behaviors = new List<Image>();
+
+        private void Awake()
+        {
+            cam = Camera.main;
+            canvas = GetComponent<Canvas>();
+            behaviors.Add(standard);
+            behaviors.Add(hold);
+            behaviors.Add(horizontal);
+            behaviors.Add(vertical);
+            behaviors.Add(chainstart);
+            behaviors.Add(chainnode);
+            behaviors.Add(melee);
+            behaviors.Add(mine);
+        }
+
+        private void Start()
+        {
+            canvas.overrideSorting = false;
+            //UpdateUIHandColor(EditorState.GetSelectedColor());
+            //UpdateUITool(EditorState.Tool.Current);
+        }
+
+        public void Enable() {
             iconEnabled = true;
             icon.SetActive(true);
         }
         public void TryDisable() {
 
-            switch (EditorInput.selectedTool) {
+            switch (EditorState.Tool.Current) {
                 case EditorTool.ChainBuilder:
                 case EditorTool.DragSelect:
+                case EditorTool.Pathbuilder:
                     break;
 
                 default:
@@ -48,14 +75,6 @@ namespace NotReaper.Grid {
                     icon.SetActive(false);
                     break;
             }
-
-
-
-        }
-
-        public void Awake()
-        {
-            cam = Camera.main;
         }
 
         public void UpdateDistance(string distance)
@@ -63,23 +82,30 @@ namespace NotReaper.Grid {
             distanceText.text = distance;
         }
 
-        Vector3 lastPos = new Vector3();
+        public void LockSpacing(bool doLock)
+        {
+            spacingLocked = doLock;
+        }
+
         private void Update() {
             
-            if (!iconEnabled || EditorInput.IsSpacingLocked) return;
+            if (!iconEnabled || spacingLocked) return;
 
             Vector3 mousePos = cam.ScreenToWorldPoint(Input.mousePosition);
+            transform.position = isBehavior ? NoteGridSnap.SnapToGrid(new Vector3(mousePos.x, mousePos.y, -1f), EditorState.Snapping.Current) : new Vector3(mousePos.x, mousePos.y, -1f);
 
-            switch (EditorInput.selectedTool) {
+            /*
+            switch (EditorState.Tool.Current) {
                 case EditorTool.ChainBuilder:
                 case EditorTool.DragSelect:
+                case EditorTool.Pathbuilder:
 
                     transform.position = new Vector3(mousePos.x, mousePos.y, -1f);
 
                     break;
 
                 default:
-                    Vector3 newPos = NoteGridSnap.SnapToGrid(new Vector3(mousePos.x, mousePos.y, -1f), EditorInput.selectedSnappingMode);
+                    Vector3 newPos = NoteGridSnap.SnapToGrid(new Vector3(mousePos.x, mousePos.y, -1f), EditorState.Snapping.Current);
                     //if (newPos == lastPos) {
                     //return;
                     //}
@@ -89,25 +115,19 @@ namespace NotReaper.Grid {
                     //transform.position = Vector3.SmoothDamp(transform.position, newPos, ref velocity, 0.3f);
                     break;
             }
-
-
-
-
-
+            */
         }
 
 
         public float animColorSpeed = 0.3f;
-        public void UpdateUIHandColor(Color color) {
+        [NRListener]
+        private void UpdateUIHandColor(TargetHandType _) {
+            var color = NRSettings.GetSelectedColor();
 
-            standard.DOColor(color, animColorSpeed);
-            hold.DOColor(color, animColorSpeed);
-            horizontal.DOColor(color, animColorSpeed);
-            vertical.DOColor(color, animColorSpeed);
-            chainstart.DOColor(color, animColorSpeed);
-            chainnode.DOColor(color, animColorSpeed);
-            melee.DOColor(color, animColorSpeed);
-            mine.DOColor(color, animColorSpeed);
+            foreach(var behavior in behaviors)
+            {
+                behavior.DOColor(color, animColorSpeed);
+            }
             cursorTint.DOColor(color, animColorSpeed);
         }
 
@@ -118,29 +138,70 @@ namespace NotReaper.Grid {
             callbacks.Add(callback);
         }
 
-        public void UpdateUITool(EditorTool tool) {
-            if (tool == EditorTool.DragSelect || tool == EditorTool.ChainBuilder) {
+        [NRListener]
+        private void UpdateUITool(EditorTool tool)
+        {
+            if(tool == EditorTool.None)
+            {
+                UpdateUIBehavior(EditorState.Behavior.Current);
+            }
+            else
+            {
+                cursor.SetActive(true);
+                EnableIcon(TargetBehavior.None);
+                isBehavior = false;
+                canvas.overrideSorting = true;
+            }
+           
+        }
+
+        [NRListener]
+        private void UpdateUIBehavior(TargetBehavior behavior)
+        {
+            cursor.SetActive(false);
+            iconEnabled = false;
+            icon.SetActive(false);
+            EnableIcon(behavior);
+            isBehavior = true;
+            canvas.overrideSorting = false;
+        }
+
+        private void EnableIcon(TargetBehavior behavior)
+        {
+            standard.gameObject.SetActive(behavior == TargetBehavior.Standard);
+            hold.gameObject.SetActive(behavior == TargetBehavior.Sustain);
+            horizontal.gameObject.SetActive(behavior == TargetBehavior.Horizontal);
+            vertical.gameObject.SetActive(behavior == TargetBehavior.Vertical);
+            chainstart.gameObject.SetActive(behavior == TargetBehavior.ChainStart);
+            chainnode.gameObject.SetActive(behavior == TargetBehavior.ChainNode);
+            melee.gameObject.SetActive(behavior == TargetBehavior.Melee);
+            mine.gameObject.SetActive(behavior == TargetBehavior.Mine);
+        }
+        /*
+        [NRListener]
+        private void UpdateUITool(EditorTool tool) {
+            if (tool == EditorTool.DragSelect || tool == EditorTool.ChainBuilder || tool == EditorTool.Pathbuilder) {
                 cursor.SetActive(true);
             } else {
                 cursor.SetActive(false);
                 iconEnabled = false;
                 icon.SetActive(false);
             }
-
             standard.gameObject.SetActive(tool == EditorTool.Standard);
-            hold.gameObject.SetActive(tool == EditorTool.Hold);
+            hold.gameObject.SetActive(tool == EditorTool.Sustain);
             horizontal.gameObject.SetActive(tool == EditorTool.Horizontal);
             vertical.gameObject.SetActive(tool == EditorTool.Vertical);
             chainstart.gameObject.SetActive(tool == EditorTool.ChainStart);
             chainnode.gameObject.SetActive(tool == EditorTool.ChainNode);
             melee.gameObject.SetActive(tool == EditorTool.Melee);
             mine.gameObject.SetActive(tool == EditorTool.Mine);
+            //UpdateUIHandColor(EditorState.GetSelectedColor());
             foreach(var callback in callbacks)
             {
                 callback.Invoke(tool);
             }
         }
-
+        */
 
     }
 

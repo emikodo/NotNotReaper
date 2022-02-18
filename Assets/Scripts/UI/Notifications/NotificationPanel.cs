@@ -6,11 +6,12 @@ using UnityEngine.UI;
 using UnityEngine.Events;
 using NotReaper.UserInput;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 
 namespace NotReaper.Notifications
 {
     [RequireComponent(typeof(CanvasGroup))]
-    public class NotificationPanel : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IDeselectHandler
+    public class NotificationPanel : NRInputWithoutKeybinds, IPointerEnterHandler, IPointerExitHandler, IDeselectHandler
     {
         public static bool IsOpen = false;
 
@@ -19,7 +20,8 @@ namespace NotReaper.Notifications
         [Header("References")]
         [SerializeField] private RectTransform parent;
         [SerializeField] private Puller puller;
-        [SerializeField] private GameObject inputCatcher;
+        [SerializeField] private Button clearButton;
+        //[SerializeField] private GameObject inputCatcher;
         [Space, Header("Slide Settings")]
         [SerializeField] private float slideDistance = 5f;
         [SerializeField] private float slideDuration = .5f;
@@ -32,11 +34,11 @@ namespace NotReaper.Notifications
         private Vector3 startPos = new Vector3(512f, -38f, 0f);
         private bool isMouseOverPanel = false;
 
-        private void Awake()
+        protected override void Awake()
         {
+            base.Awake();
             canvas = GetComponent<CanvasGroup>();
             parent.anchoredPosition = startPos;
-            inputCatcher.gameObject.SetActive(false);
         }
 
         public void ToggleShow()
@@ -44,16 +46,14 @@ namespace NotReaper.Notifications
             IsOpen = !IsOpen;
             if (IsOpen)
             {
-                EditorInput.disableInputWhenActive.Add(gameObject);
-                inputCatcher.gameObject.SetActive(true);
+                clearButton.interactable = true;
+                OnActivated();
                 EventSystem.current.SetSelectedGameObject(gameObject);
             }
             else
             {
-                EditorInput.disableInputWhenActive.Remove(gameObject);
-                inputCatcher.gameObject.SetActive(false);
+                OnDeactivated();
             }
-
             float distance = IsOpen ? -slideDistance : slideDistance;
             Ease easing = IsOpen ? openEasing : closeEasing;
             Transform pullerTransform = puller.GetPullerIconTransform();
@@ -101,7 +101,15 @@ namespace NotReaper.Notifications
 
         public void Clear()
         {
+            clearButton.interactable = false;
+            StartCoroutine(DoClear());
+        }
+
+        private IEnumerator DoClear()
+        {
             NotificationCenter.ClearNotifications();
+            yield return new WaitForSeconds(.2f);
+            ToggleShow();
         }
 
         private void OnAnimationComplete()
@@ -126,6 +134,11 @@ namespace NotReaper.Notifications
         public void OnDeselect(BaseEventData eventData)
         {            
             if(!isMouseOverPanel) ToggleShow();
+        }
+
+        protected override void OnEscPressed(InputAction.CallbackContext context)
+        {
+            ToggleShow();
         }
     }
 }

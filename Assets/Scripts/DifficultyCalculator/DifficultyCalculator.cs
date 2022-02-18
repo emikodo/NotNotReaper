@@ -39,9 +39,9 @@ public class CalculatedDifficulty
         { TargetBehavior.Standard, 1f },
         { TargetBehavior.Vertical, 1.2f },
         { TargetBehavior.Horizontal, 1.3f },
-        { TargetBehavior.Hold, 1f },
+        { TargetBehavior.Sustain, 1f },
         { TargetBehavior.ChainStart, 1.2f },
-        { TargetBehavior.Chain, 0.2f },
+        { TargetBehavior.ChainNode, 0.2f },
         { TargetBehavior.Melee, 0.6f }
     };
 

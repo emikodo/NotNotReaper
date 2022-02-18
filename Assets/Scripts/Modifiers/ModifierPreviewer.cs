@@ -39,8 +39,9 @@ namespace NotReaper.Modifier
             SetBrightness(1f);
         }
 
-        public void UpdateModifierList(List<Modifier> list, float currentTime)
+        public void UpdateModifierList(float currentTime)
         {
+            var list = ModifierHandler.Instance.modifiers;
             if (list is null || list.Count == 0) return;
             modifiers = list.ToList();
             modifiers.Sort((s1, s2) => s1.startTime.tick.CompareTo(s2.startTime.tick));

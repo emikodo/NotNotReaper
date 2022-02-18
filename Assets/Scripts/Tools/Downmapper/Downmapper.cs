@@ -56,7 +56,7 @@ public class Downmapper : MonoBehaviour
             NotificationCenter.SendNotification("Can't Generate difficulty: No targets available.", NotificationType.Error);
             return;
         }
-        List<Target> pathbuilderTargets = Timeline.orderedNotes.Where(target => target.data.pathBuilderData != null).ToList();
+        List<Target> pathbuilderTargets = Timeline.orderedNotes.Where(target => target.data.legacyPathbuilderData != null).ToList();
         foreach (Target target in pathbuilderTargets)
         {
             Timeline.instance.SelectTarget(target);
@@ -150,9 +150,9 @@ public class Downmapper : MonoBehaviour
                     }
                 }
                 //chains
-                if ((prevTarget.data.behavior == TargetBehavior.Chain && curTarget.data.behavior == TargetBehavior.Chain) ||
+                if ((prevTarget.data.behavior == TargetBehavior.ChainNode && curTarget.data.behavior == TargetBehavior.ChainNode) ||
                     (prevTarget.data.behavior == TargetBehavior.ChainStart && curTarget.data.behavior == TargetBehavior.ChainStart) ||
-                    (prevTarget.data.behavior == TargetBehavior.NR_Pathbuilder && curTarget.data.behavior == TargetBehavior.NR_Pathbuilder))
+                    (prevTarget.data.behavior == TargetBehavior.Legacy_Pathbuilder && curTarget.data.behavior == TargetBehavior.Legacy_Pathbuilder))
                 {
                     if (prevTarget.data.velocity == curTarget.data.velocity)
                     {
@@ -161,13 +161,13 @@ public class Downmapper : MonoBehaviour
                     }
                     else if(prevTarget.data.behavior == TargetBehavior.ChainStart)
                     {
-                        if (prevTarget.data.velocity == TargetVelocity.Snare || prevTarget.data.velocity == TargetVelocity.Percussion) Timeline.instance.DeleteTarget(curTarget);
+                        if (prevTarget.data.velocity == InternalTargetVelocity.Snare || prevTarget.data.velocity == InternalTargetVelocity.Percussion) Timeline.instance.DeleteTarget(curTarget);
                         else Timeline.instance.DeleteTarget(prevTarget);
                         hasDeletedNote = true;
                     }
-                    else if(prevTarget.data.behavior == TargetBehavior.Chain)
+                    else if(prevTarget.data.behavior == TargetBehavior.ChainNode)
                     {
-                        if (prevTarget.data.velocity == TargetVelocity.Snare || prevTarget.data.velocity == TargetVelocity.Percussion || prevTarget.data.velocity == TargetVelocity.ChainStart) Timeline.instance.DeleteTarget(curTarget);
+                        if (prevTarget.data.velocity == InternalTargetVelocity.Snare || prevTarget.data.velocity == InternalTargetVelocity.Percussion || prevTarget.data.velocity == InternalTargetVelocity.ChainStart) Timeline.instance.DeleteTarget(curTarget);
                         else Timeline.instance.DeleteTarget(prevTarget);
                         hasDeletedNote = true;
                     }
@@ -258,7 +258,7 @@ public class Downmapper : MonoBehaviour
         for(int i = 0; i < targets.Count - 1; i++)
         {
             var target = targets[i];
-            if (target.data.behavior != TargetBehavior.Hold) continue;
+            if (target.data.behavior != TargetBehavior.Sustain) continue;
 
             if(target.data.beatLength.tick <= 480)
             {
@@ -307,11 +307,11 @@ public class Downmapper : MonoBehaviour
         for(int i = targets.Count - 1; i >= 0; i--)
         {
             var target = targets[i];
-            if (target.data.behavior == TargetBehavior.Chain)
+            if (target.data.behavior == TargetBehavior.ChainNode)
             {
                 DeleteTarget(target);
             }
-            else if(target.data.behavior == TargetBehavior.ChainStart || target.data.behavior == TargetBehavior.NR_Pathbuilder)
+            else if(target.data.behavior == TargetBehavior.ChainStart || target.data.behavior == TargetBehavior.Legacy_Pathbuilder)
             {
                 var velocity = target.data.velocity;
                 target.data.behavior = TargetBehavior.Standard;
@@ -355,7 +355,7 @@ public class Downmapper : MonoBehaviour
                 var pause = GetCheckValue(pauseLength, target);
                 if (timeBetween < pause)
                 {
-                    if (nextTarget.data.behavior == TargetBehavior.Chain)
+                    if (nextTarget.data.behavior == TargetBehavior.ChainNode)
                     {
                         DeleteTarget(target);
                     }
@@ -416,7 +416,7 @@ public class Downmapper : MonoBehaviour
         {
             if (i + 1 >= targets.Count) break;
             var target = targets[i];
-            if (target.data.behavior != TargetBehavior.Hold) continue;
+            if (target.data.behavior != TargetBehavior.Sustain) continue;
             var nextTarget = targets[i + 1];
             if (target.data.handType != nextTarget.data.handType) continue;
             var timeBetween = GetTicksBetweenTargets(target, nextTarget);
@@ -443,7 +443,7 @@ public class Downmapper : MonoBehaviour
         {
             if (i == 0) break;
             var target = targets[i];
-            if (target.data.behavior != TargetBehavior.ChainStart && target.data.behavior != TargetBehavior.NR_Pathbuilder) continue;
+            if (target.data.behavior != TargetBehavior.ChainStart && target.data.behavior != TargetBehavior.Legacy_Pathbuilder) continue;
             GetChainDuration(targets, i, out int chainEndIndex);
             IsolateChain(targets, i, chainEndIndex);
         }
@@ -456,7 +456,7 @@ public class Downmapper : MonoBehaviour
         {
             var target = targets[i];
             if (target.data.handType == handType) continue;
-            if (target.data.behavior == TargetBehavior.ChainStart || target.data.behavior == TargetBehavior.NR_Pathbuilder || target.data.behavior == TargetBehavior.Chain || target.data.behavior == TargetBehavior.Mine) continue;
+            if (target.data.behavior == TargetBehavior.ChainStart || target.data.behavior == TargetBehavior.Legacy_Pathbuilder || target.data.behavior == TargetBehavior.ChainNode || target.data.behavior == TargetBehavior.Mine) continue;
             DeleteTarget(target);
         }
     }
@@ -500,7 +500,7 @@ public class Downmapper : MonoBehaviour
                         var duration = GetTicksBetweenTargets(nextTarget, nextNextTarget);
                         if (duration < pause)
                         {
-                            if (nextNextTarget.data.behavior == TargetBehavior.Chain)
+                            if (nextNextTarget.data.behavior == TargetBehavior.ChainNode)
                             {
                                 DeleteTarget(nextTarget);
                                 DeleteTarget(target);
@@ -546,7 +546,7 @@ public class Downmapper : MonoBehaviour
         {
             var target = targets[i];
             if (target.data.handType != hand) continue;
-            if (target.data.behavior != TargetBehavior.Chain && target.data.behavior != TargetBehavior.ChainStart) break;
+            if (target.data.behavior != TargetBehavior.ChainNode && target.data.behavior != TargetBehavior.ChainStart) break;
             DeleteTarget(target);
         }
     }
@@ -558,12 +558,12 @@ public class Downmapper : MonoBehaviour
         {
             if (i == 0) break;
             var target = targets[i];
-            if (target.data.behavior != TargetBehavior.ChainStart && target.data.behavior != TargetBehavior.NR_Pathbuilder) continue;
+            if (target.data.behavior != TargetBehavior.ChainStart && target.data.behavior != TargetBehavior.Legacy_Pathbuilder) continue;
            
             for (int j = i - 1; j >= 0; j--)
             {
                 var nextTarget = targets[j];
-                if (nextTarget.data.behavior == TargetBehavior.Chain || nextTarget.data.behavior == TargetBehavior.Mine || nextTarget.data.behavior == TargetBehavior.ChainStart) continue;
+                if (nextTarget.data.behavior == TargetBehavior.ChainNode || nextTarget.data.behavior == TargetBehavior.Mine || nextTarget.data.behavior == TargetBehavior.ChainStart) continue;
                 var pause = GetCheckValue(pauseLength, target);
                 var duration = GetTicksBetweenTargets(target, nextTarget);
                 if (duration < pause)
@@ -592,7 +592,7 @@ public class Downmapper : MonoBehaviour
         for (int i = targets.Count - 1; i >= 0; i--)
         {
             var target = targets[i];
-            if (target.data.behavior == TargetBehavior.ChainStart || target.data.behavior == TargetBehavior.NR_Pathbuilder)
+            if (target.data.behavior == TargetBehavior.ChainStart || target.data.behavior == TargetBehavior.Legacy_Pathbuilder)
             {
                 var chainDuration = GetChainDuration(targets, i, out int chainLength);
                 if (chainDuration.tick <= 960)
@@ -615,13 +615,13 @@ public class Downmapper : MonoBehaviour
         {
             var target = targets[i];
             if (target.data.handType != handType) continue;
-            if (target.data.handType == handType && target.data.behavior != TargetBehavior.Chain && target.data.behavior != TargetBehavior.ChainStart) break;
-            if(target.data.behavior == TargetBehavior.ChainStart || target.data.behavior == TargetBehavior.NR_Pathbuilder)
+            if (target.data.handType == handType && target.data.behavior != TargetBehavior.ChainNode && target.data.behavior != TargetBehavior.ChainStart) break;
+            if(target.data.behavior == TargetBehavior.ChainStart || target.data.behavior == TargetBehavior.Legacy_Pathbuilder)
             {
                 var velocity = target.data.velocity;
                 if (convertToSustain)
                 {
-                    target.data.behavior = TargetBehavior.Hold;
+                    target.data.behavior = TargetBehavior.Sustain;
                     target.data.beatLength = new QNT_Duration(duration);
                 }
                 else
@@ -646,7 +646,7 @@ public class Downmapper : MonoBehaviour
         {
             var target = targets[i];
             if (target.data.handType != handType) continue;
-            if (target.data.behavior != TargetBehavior.Chain) break;
+            if (target.data.behavior != TargetBehavior.ChainNode) break;
             endIndex = i;
             //endTick = i;
         }
@@ -660,18 +660,18 @@ public class Downmapper : MonoBehaviour
         for(int i = targets.Count - 1; i >= 0; i--)
         {
             var target = targets[i];
-            if (target.data.behavior != TargetBehavior.Chain) continue;
+            if (target.data.behavior != TargetBehavior.ChainNode) continue;
             if (i + 1 >= targets.Count) continue;
-            if (targets[i + 1].data.behavior == TargetBehavior.Chain) continue;
+            if (targets[i + 1].data.behavior == TargetBehavior.ChainNode) continue;
             if(i + 2 < targets.Count)
             {
-                if (targets[i + 2].data.behavior == TargetBehavior.Chain) continue;
+                if (targets[i + 2].data.behavior == TargetBehavior.ChainNode) continue;
             }
             for(int j = i + 1; j < targets.Count - 1; j++)
             {
                 var nextTarget = targets[j];
                 if (nextTarget.data.behavior == TargetBehavior.Mine) continue;
-                if (nextTarget.data.behavior == TargetBehavior.ChainStart || nextTarget.data.behavior == TargetBehavior.Chain) break;
+                if (nextTarget.data.behavior == TargetBehavior.ChainStart || nextTarget.data.behavior == TargetBehavior.ChainNode) break;
                 ulong length = pauseLength;
                 if (!onlySameHand && target.data.handType != nextTarget.data.handType && pauseLengthOther > 0) length = pauseLengthOther;
                 var pause = GetCheckValue(length, target);
@@ -683,21 +683,21 @@ public class Downmapper : MonoBehaviour
                     if (i - 1 >= 0)
                     {
                         var previousTarget = targets[i - 1];
-                        if (previousTarget.data.behavior != TargetBehavior.Chain && previousTarget.data.behavior != TargetBehavior.ChainStart)
+                        if (previousTarget.data.behavior != TargetBehavior.ChainNode && previousTarget.data.behavior != TargetBehavior.ChainStart)
                         {
                             if (i - 2 > 0)
                             {
                                 previousTarget = targets[i - 2];
                             }
                         }
-                        if (previousTarget.data.behavior == TargetBehavior.Chain || previousTarget.data.behavior == TargetBehavior.ChainStart)
+                        if (previousTarget.data.behavior == TargetBehavior.ChainNode || previousTarget.data.behavior == TargetBehavior.ChainStart)
                         {
                             var distBetweenChains = GetTicksBetweenTargets(target, previousTarget);
                             if (distBetweenChains == duration)
                             {
                                 var velocity = nextTarget.data.velocity;
-                                if (velocity == TargetVelocity.Melee) velocity = TargetVelocity.Snare;
-                                nextTarget.data.behavior = TargetBehavior.Chain;
+                                if (velocity == InternalTargetVelocity.Melee) velocity = InternalTargetVelocity.Snare;
+                                nextTarget.data.behavior = TargetBehavior.ChainNode;
                                 nextTarget.data.handType = target.data.handType;
                                 nextTarget.data.velocity = velocity;
                                 Vector2 posDiff = target.data.position - previousTarget.data.position;
@@ -842,7 +842,7 @@ public class Downmapper : MonoBehaviour
                             var t = targets[targetsToConvert[j]];
                             velocity = t.data.velocity;
                             t.data.handType = hand;
-                            t.data.behavior = TargetBehavior.Chain;
+                            t.data.behavior = TargetBehavior.ChainNode;
                             t.data.velocity = velocity;
                             t.data.position = Vector2.Lerp(end.data.position, start.data.position, j / numChains);
                             convertedCount++;
@@ -882,24 +882,24 @@ public class Downmapper : MonoBehaviour
         if (DownmapConfig.Instance.Preferences.Doubles.hitsoundsOverBeat)
         {
             if (target1.data.velocity == target2.data.velocity) useBeat = true;
-            else if (target1.data.velocity == TargetVelocity.Snare && target2.data.velocity == TargetVelocity.Percussion) useBeat = true;
-            else if (target1.data.velocity == TargetVelocity.Percussion && target2.data.velocity == TargetVelocity.Snare) useBeat = true;
-            else if (target1.data.velocity == TargetVelocity.None && target2.data.velocity == TargetVelocity.Melee) useBeat = true;
-            else if (target1.data.velocity == TargetVelocity.Melee && target2.data.velocity == TargetVelocity.None) useBeat = true;
-            else if (target1.data.velocity == TargetVelocity.None) return target2;
-            else if (target2.data.velocity == TargetVelocity.None) return target1;
-            else if (target1.data.velocity == TargetVelocity.Melee) return target2;
-            else if (target2.data.velocity == TargetVelocity.Melee) return target1;
-            else if (target1.data.velocity == TargetVelocity.Chain) return target2;
-            else if (target2.data.velocity == TargetVelocity.Chain) return target1;
-            else if (target1.data.velocity == TargetVelocity.ChainStart) return target2;
-            else if (target2.data.velocity == TargetVelocity.ChainStart) return target1;
-            else if (target1.data.velocity == TargetVelocity.Standard) return target2;
-            else if (target2.data.velocity == TargetVelocity.Standard) return target1;
-            else if (target1.data.velocity == TargetVelocity.Snare) return target2;
-            else if (target2.data.velocity == TargetVelocity.Snare) return target1;
-            else if (target1.data.velocity == TargetVelocity.Percussion) return target2;
-            else if (target2.data.velocity == TargetVelocity.Percussion) return target1;
+            else if (target1.data.velocity == InternalTargetVelocity.Snare && target2.data.velocity == InternalTargetVelocity.Percussion) useBeat = true;
+            else if (target1.data.velocity == InternalTargetVelocity.Percussion && target2.data.velocity == InternalTargetVelocity.Snare) useBeat = true;
+            else if (target1.data.velocity == InternalTargetVelocity.Silent && target2.data.velocity == InternalTargetVelocity.Melee) useBeat = true;
+            else if (target1.data.velocity == InternalTargetVelocity.Melee && target2.data.velocity == InternalTargetVelocity.Silent) useBeat = true;
+            else if (target1.data.velocity == InternalTargetVelocity.Silent) return target2;
+            else if (target2.data.velocity == InternalTargetVelocity.Silent) return target1;
+            else if (target1.data.velocity == InternalTargetVelocity.Melee) return target2;
+            else if (target2.data.velocity == InternalTargetVelocity.Melee) return target1;
+            else if (target1.data.velocity == InternalTargetVelocity.Chain) return target2;
+            else if (target2.data.velocity == InternalTargetVelocity.Chain) return target1;
+            else if (target1.data.velocity == InternalTargetVelocity.ChainStart) return target2;
+            else if (target2.data.velocity == InternalTargetVelocity.ChainStart) return target1;
+            else if (target1.data.velocity == InternalTargetVelocity.Kick) return target2;
+            else if (target2.data.velocity == InternalTargetVelocity.Kick) return target1;
+            else if (target1.data.velocity == InternalTargetVelocity.Snare) return target2;
+            else if (target2.data.velocity == InternalTargetVelocity.Snare) return target1;
+            else if (target1.data.velocity == InternalTargetVelocity.Percussion) return target2;
+            else if (target2.data.velocity == InternalTargetVelocity.Percussion) return target1;
         }
         
         if(useBeat || !DownmapConfig.Instance.Preferences.Doubles.hitsoundsOverBeat)
@@ -938,7 +938,7 @@ public class Downmapper : MonoBehaviour
                     var ticks = GetCheckValue((isHorizontal ? leadinHorizontal : leadinVertical), target);
                     if (duration < ticks)
                     {
-                        if (nextTarget.data.behavior == TargetBehavior.Chain)
+                        if (nextTarget.data.behavior == TargetBehavior.ChainNode)
                         {
                             var velocity = target.data.velocity;
                             target.data.behavior = TargetBehavior.Standard;
@@ -1021,7 +1021,7 @@ public class Downmapper : MonoBehaviour
     private bool IsRegularNote(Target target, bool includeChainStart = false)
     {
         return target.data.behavior != TargetBehavior.Melee && 
-            target.data.behavior != TargetBehavior.Chain && 
+            target.data.behavior != TargetBehavior.ChainNode && 
             target.data.behavior != TargetBehavior.Mine && 
             (includeChainStart ? target.data.behavior != TargetBehavior.ChainStart : true);
     }

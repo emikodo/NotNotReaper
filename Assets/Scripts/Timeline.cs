@@ -28,6 +28,10 @@ using SharpCompress.Archives;
 using SharpCompress.Archives.Zip;
 using NotReaper.ReviewSystem;
 using NotReaper.Notifications;
+using UnityEngine.Events;
+using NotReaper.Tools.PathBuilder;
+using UnityEngine.Profiling;
+
 namespace NotReaper {
 
 	public class NoteEnumerator : IEnumerable<Target> {
@@ -232,10 +236,11 @@ namespace NotReaper {
 		public List<Target> notes;
 		public static List<Target> orderedNotes;
 		public List<Target> selectedNotes;
+		public UnityEvent<int> OnSelectedNoteCountChanged;
 
 		public List<RepeaterSection> repeaterSections = new List<RepeaterSection> ();
 
-		public static List<Target> loadedNotes;
+		public static List<Target> loadedNotes = new List<Target>();
 
 		public static bool inTimingMode = false;
 		public static bool audioLoaded = false;
@@ -270,6 +275,8 @@ namespace NotReaper {
 
 		[HideInInspector] public bool hover = false;
 		public bool paused = true;
+		private bool scrub = false;
+		private ScrubParams scrubParams;
 		private bool animationsNeedStopping;
 		public Button generateAudicaButton;
 		public Button loadAudioFileTiming;
@@ -287,8 +294,10 @@ namespace NotReaper {
 		[SerializeField] public LineRenderer leftHandTraceLine;
 		[SerializeField] public LineRenderer rightHandTraceLine;
 		[SerializeField] public GameObject dualNoteTraceLinePrefab;
-
+		[Space, SerializeField] private Transform timelineTargetCollector;
 		List<LineRenderer> dualNoteTraceLines = new List<LineRenderer> ();
+
+		[NRInject] internal Pathbuilder pathbuilder;
 
 		//Tools
 		private void Start () {
@@ -339,7 +348,6 @@ namespace NotReaper {
 				}
 			});
 
-			NRSettings.PostLoad.Invoke ();
 			beatSnapWarningText.DOFade (0f, 0f);
 		}
 
@@ -473,8 +481,8 @@ namespace NotReaper {
 			TargetData data = new TargetData ();
 			data.x = x;
 			data.y = y;
-			data.handType = EditorInput.selectedHand;
-			data.behavior = EditorInput.selectedBehavior;
+			data.handType = EditorState.Hand.Current;
+			data.behavior = EditorState.Behavior.Current;
 
 			QNT_Timestamp tempTime = GetClosestBeatSnapped (time, (uint) beatSnap);
 			int leftHandMeleeCount = 0;
@@ -493,11 +501,11 @@ namespace NotReaper {
 					{
 						if (targetCount == 2) return;
 					}
-					if (target.data.handType == EditorInput.selectedHand && EditorInput.selectedTool != EditorTool.Melee)
+					if (target.data.handType == EditorState.Hand.Current && EditorState.Behavior.Current != TargetBehavior.Melee)
                     {
-						if (EditorInput.selectedTool != EditorTool.Mine && target.data.handType != TargetHandType.Either) return;
+						if (EditorState.Behavior.Current != TargetBehavior.Mine && target.data.handType != TargetHandType.Either) return;
 					}
-					else if(EditorInput.selectedTool == EditorTool.Melee)
+					else if(EditorState.Behavior.Current == TargetBehavior.Melee)
                     {
 						if (target.data.x == data.x && target.data.y == data.y) return;
 
@@ -506,9 +514,7 @@ namespace NotReaper {
 							if (target.data.handType == TargetHandType.Left) leftHandMeleeCount++;
 							else if (target.data.handType == TargetHandType.Right) rightHandMeleeCount++;
 							else meleeCount++;
-						}
-						
-
+						}					
 						if (leftHandMeleeCount == 1 && data.handType == TargetHandType.Left && data.behavior == TargetBehavior.Melee)
                         {
 							return;
@@ -525,7 +531,6 @@ namespace NotReaper {
 				}
 				
 			}
-
 			if (data.handType == TargetHandType.Either && data.behavior != TargetBehavior.Melee && data.behavior != TargetBehavior.Mine)
 			{
 				if (targetCount == 2) return;
@@ -546,47 +551,47 @@ namespace NotReaper {
 				data.beatLength = Constants.SixteenthNoteDuration;
 			}
 
-			switch (EditorInput.selectedVelocity) {
-				case UITargetVelocity.Standard:
-					data.velocity = TargetVelocity.Standard;
+			switch (EditorState.Hitsound.Current) {
+				case TargetHitsound.Standard:
+					data.velocity = InternalTargetVelocity.Kick;
 					break;
 
-				case UITargetVelocity.Snare:
-					data.velocity = TargetVelocity.Snare;
+				case TargetHitsound.Snare:
+					data.velocity = InternalTargetVelocity.Snare;
 					break;
 
-				case UITargetVelocity.Percussion:
-					data.velocity = TargetVelocity.Percussion;
+				case TargetHitsound.Percussion:
+					data.velocity = InternalTargetVelocity.Percussion;
 					break;
 
-				case UITargetVelocity.ChainStart:
-					data.velocity = TargetVelocity.ChainStart;
+				case TargetHitsound.ChainStart:
+					data.velocity = InternalTargetVelocity.ChainStart;
 					break;
 
-				case UITargetVelocity.Chain:
-					data.velocity = TargetVelocity.Chain;
+				case TargetHitsound.ChainNode:
+					data.velocity = InternalTargetVelocity.Chain;
 					break;
 
-				case UITargetVelocity.Melee:
-					data.velocity = TargetVelocity.Melee;
+				case TargetHitsound.Melee:
+					data.velocity = InternalTargetVelocity.Melee;
 					break;
 
-				case UITargetVelocity.Mine:
-					data.velocity = TargetVelocity.Mine;
+				case TargetHitsound.Mine:
+					data.velocity = InternalTargetVelocity.Mine;
 					break;
-				case UITargetVelocity.Silent:
-					data.velocity = TargetVelocity.None;
+				case TargetHitsound.Silent:
+					data.velocity = InternalTargetVelocity.Silent;
 					break;
 				default:
-					data.velocity = TargetVelocity.Standard;
+					data.velocity = InternalTargetVelocity.Kick;
 					break;
 			}
-
 			var action = new NRActionAddNote { targetData = data };
 			Tools.undoRedoManager.AddAction (action);
 
 			songPlayback.PlayHitsound (time);
 			SetScale (scale);
+			UpdateLoadedNotes();
 		}
 
 		//Adds a target directly to the timeline. targetData is kept as a reference NOT copied
@@ -607,7 +612,7 @@ namespace NotReaper {
 			gridTargetIcon.transform.localScale = new Vector3 (NRSettings.config.noteScale, NRSettings.config.noteScale, 1f);
 			gridTargetIcon.location = TargetIconLocation.Grid;
 
-			Target target = new Target (targetData, timelineTargetIcon, gridTargetIcon, transient);
+			Target target = new Target (targetData, timelineTargetIcon, gridTargetIcon, transient, pathbuilder, timelineTargetCollector);
 
 			notes.Add (target);
 			orderedNotes = notes.OrderBy (v => v.data.time.tick).ToList ();
@@ -628,10 +633,9 @@ namespace NotReaper {
 
 			//Also generate chains if needed
 			//this might be the culprit of chain nodes staying on grid + hitsounds not working.
-			if (targetData.behavior == TargetBehavior.NR_Pathbuilder) {
+			if (targetData.behavior == TargetBehavior.Legacy_Pathbuilder) {
 				ChainBuilder.GenerateChainNotes (targetData);
 			}
-
 			return target;
 		}
 
@@ -809,7 +813,7 @@ namespace NotReaper {
 		private void UpdateSustains () {
 			//return; return again if performance is too shit
 			foreach (var note in loadedNotes) {
-				if (note.data.behavior == TargetBehavior.Hold) {
+				if (note.data.behavior == TargetBehavior.Sustain) {
 					if ((note.GetRelativeBeatTime () < 0) && (note.GetRelativeBeatTime () + note.data.beatLength.ToBeatTime () > 0) && !paused) {
 
                         /*var particles = note.GetHoldParticles ();
@@ -899,6 +903,16 @@ namespace NotReaper {
 			if (!selectedNotes.Contains (target)) {
 				selectedNotes.Add (target);
 				target.Select ();
+				OnSelectedNoteCountChanged.Invoke(selectedNotes.Count);
+			}
+		}
+
+		public void SelectAllTargets()
+        {			
+			//Camera.main.farClipPlane = 1000;
+			foreach (Target target in orderedNotes)
+			{
+				target.MakeTimelineSelectTarget();
 			}
 		}
 
@@ -910,6 +924,7 @@ namespace NotReaper {
 				if (!resettingAll) {
 					selectedNotes.Remove (target);
 				}
+				OnSelectedNoteCountChanged.Invoke(selectedNotes.Count);
 			}
 
 		}
@@ -934,15 +949,20 @@ namespace NotReaper {
 		public void UpdateSustainLength (Target target, bool increase) {
 			if (!target.data.supportsBeatLength) return;
 			QNT_Duration increment = Constants.DurationFromBeatSnap ((uint) beatSnap);
-			QNT_Duration minimum = Constants.SixteenthNoteDuration;
-
-			if (increase) {
-				if (target.data.beatLength < increment) target.data.beatLength = new QNT_Duration (0);
-				target.data.beatLength += increment;
-			} else {
-				target.data.beatLength -= increment;
+			QNT_Duration targetLength = target.data.beatLength;
+			if (increase) 
+			{             
+				if (targetLength < increment)
+				{
+					targetLength = new QNT_Duration(0);
+				}
+				targetLength += increment;			
+			} 
+			else 
+			{
+				targetLength -= increment;
 			}
-
+			target.data.beatLength = targetLength;
 			target.UpdatePath ();
 		}
 
@@ -1068,15 +1088,20 @@ namespace NotReaper {
 		}
 
 		public void PasteCues (List<TargetData> cues, QNT_Timestamp pasteBeatTime) {
-
 			// paste new targets in the original locations
 			var targetDataList = cues.Select (copyData => {
 				var data = new TargetData ();
 				data.Copy (copyData);
-				if (data.behavior == TargetBehavior.NR_Pathbuilder) {
-					data.pathBuilderData = new PathBuilderData ();
-					data.pathBuilderData.Copy (copyData.pathBuilderData);
+				if (data.behavior == TargetBehavior.Legacy_Pathbuilder)
+				{
+					data.legacyPathbuilderData = new LegacyPathbuilderData();
+					data.legacyPathbuilderData.Copy(copyData.legacyPathbuilderData);
 				}
+				else if (data.isPathbuilderTarget)
+                {
+					data.pathbuilderData = new PathbuilderData();
+					data.pathbuilderData.Copy(copyData.pathbuilderData);
+                }
 
 				return data;
 			}).ToList ();
@@ -1112,15 +1137,15 @@ namespace NotReaper {
 		}
 
 		// Flip the selected targets on the grid about the X
-		public void FlipTargetsHorizontal (List<Target> targets) {
+		public void FlipSelectedTargetsHorizontal () {
 			var action = new NRActionHFlipNotes ();
-			action.affectedTargets = targets.Select (target => target.data).ToList ();
+			action.affectedTargets = selectedNotes.Select (target => target.data).ToList ();
 			Tools.undoRedoManager.AddAction (action);
 		}
 
-		public void Scale (List<Target> targets, Vector2 scale) {
+		public void ScaleSelectedTargets (Vector2 scale) {
 			var action = new NRActionScale ();
-			action.affectedTargets = targets.Select (target => target.data).ToList ();
+			action.affectedTargets = selectedNotes.Select (target => target.data).ToList ();
 			action.scale = scale;
 			Tools.undoRedoManager.AddAction (action);
 		}
@@ -1141,9 +1166,9 @@ namespace NotReaper {
 		}
 
 		// Flip the selected targets on the grid about the Y
-		public void FlipTargetsVertical (List<Target> targets) {
+		public void FlipSelectedTargetsVertical () {
 			var action = new NRActionVFlipNotes ();
-			action.affectedTargets = targets.Select (target => target.data).ToList ();
+			action.affectedTargets = selectedNotes.Select (target => target.data).ToList ();
 			Tools.undoRedoManager.AddAction (action);
 		}
 
@@ -1187,13 +1212,15 @@ namespace NotReaper {
 
 			target.Destroy (this);
 			target = null;
+			UpdateLoadedNotes();
 		}
 
 		public void DeleteTargets (List<Target> targets) {
 			var action = new NRActionMultiRemoveNote ();
 			action.affectedTargets = targets.Select (target => target.data).ToList ();
 			Tools.undoRedoManager.AddAction (action);
-		}
+			UpdateLoadedNotes();
+	}
 
 		public void DeleteAllTargets () {
 			var notesTemp = notes.ToList ();
@@ -1223,7 +1250,7 @@ namespace NotReaper {
 			List<TargetData> nonGeneratedNotes = new List<TargetData> ();
 
 			foreach (Target note in notes) {
-				if (note.data.behavior == TargetBehavior.NR_Pathbuilder && note.data.pathBuilderData.createdNotes == false) {
+				if (note.data.behavior == TargetBehavior.Legacy_Pathbuilder && note.data.legacyPathbuilderData.createdNotes == false) {
 					nonGeneratedNotes.Add (note.data);
 				}
 			}
@@ -1243,14 +1270,17 @@ namespace NotReaper {
 
 				if (target.data.beatLength == 0) target.data.beatLength = Constants.SixteenthNoteDuration;
 
-				if (target.data.behavior == TargetBehavior.Metronome) continue;
-
 				var cue = NotePosCalc.ToCue (target, offset);
-				if (target.data.behavior == TargetBehavior.NR_Pathbuilder) {
+				if (target.data.behavior == TargetBehavior.Legacy_Pathbuilder) {
 					export.NRCueData.pathBuilderNoteCues.Add (cue);
-					export.NRCueData.pathBuilderNoteData.Add (target.data.pathBuilderData);
+					export.NRCueData.pathBuilderNoteData.Add (target.data.legacyPathbuilderData);
 					continue;
 				}
+				else if (target.data.isPathbuilderTarget)
+                {
+					export.NRCueData.newPathbuilderData.Add(target.data.pathbuilderData);
+					export.NRCueData.newPathbuilderCues.Add(cue);
+                }
 
 				export.cues.Add (cue);
 			}
@@ -1504,7 +1534,30 @@ namespace NotReaper {
 			NotificationCenter.SendNotification("Press F1 to view shortcuts", NotificationType.Info);
 			StopCoroutine (NRSettings.Autosave ());
 			StartCoroutine (NRSettings.Autosave ());
+			OptimizeOnLoad();
+
 			return true;
+		}
+
+		private void OptimizeOnLoad()
+        {
+			QNT_Timestamp start;
+			QNT_Timestamp end;
+			
+			start = time - Relative_QNT.FromBeatTime(10f);
+			end = time + Relative_QNT.FromBeatTime(10f);
+
+
+
+			var targetsToShow = new NoteEnumerator(start, end);
+			for (int i = 0; i < orderedNotes.Count; i++)
+			{
+				orderedNotes[i].timelineTargetIcon.HideTimelineTarget();
+			}
+			foreach (Target target in targetsToShow)
+			{
+				target.timelineTargetIcon.ShowTimelineTarget();
+			}
 		}
 
 		public List<RepeaterSection> loadRepeaterSectionAfterAudio;
@@ -2187,7 +2240,7 @@ namespace NotReaper {
 
 			gridTransformParent.transform.localPosition = Vector3.back * x;
 
-			OptimizeInvisibleTargets ();
+			//OptimizeInvisibleTargets ();
 		}
 
 		public void ReapplyScale () {
@@ -2250,13 +2303,19 @@ namespace NotReaper {
 			liner.SetPositions (positions);
 		}
 
+		[NRListener]
+		public void OnToolChanged(EditorTool _)
+        {
+			EnableNearSustainButtons();
+        }
+
 		public void EnableNearSustainButtons () {
 			foreach (Target target in loadedNotes) {
-				if (!target.data.supportsBeatLength) continue;
+				if (!target.data.supportsBeatLength || target.data.isPathbuilderTarget) continue;
 				bool shouldDisplayTimeline;
 				bool shouldDisplayGrid = paused; //Need to be paused
 				//Be in drag select, or be a path builder note in path builder mode
-				shouldDisplayGrid &= EditorInput.selectedTool == EditorTool.DragSelect || (target.data.behavior == TargetBehavior.NR_Pathbuilder && EditorInput.selectedTool == EditorTool.ChainBuilder);
+				shouldDisplayGrid &= EditorState.Tool.Current == EditorTool.DragSelect || (target.data.behavior == TargetBehavior.Legacy_Pathbuilder && EditorState.Tool.Current == EditorTool.ChainBuilder);
 				shouldDisplayTimeline = shouldDisplayGrid;
 				shouldDisplayGrid &= target.GetRelativeBeatTime () < 2 && target.GetRelativeBeatTime () > -2; //Target needs to be "near"
                 
@@ -2270,190 +2329,179 @@ namespace NotReaper {
 			}
 		}
 
-		bool checkForNearSustainsOnThisFrame = false;
-		public void Update () {
-			QNT_Timestamp startTime = time;
+		public void ChangeBeatSnap(bool next)
+        {
+			if(next) beatSnapSelector.ForwardClick();
+			else beatSnapSelector.PreviousClick();
+		}
 
-			UpdateSustains ();
+		public void ZoomTimeline(bool zoomIn)
+        {
+			if (hover)
+			{
+				SetScale(scale + (zoomIn ? 1 : -1));
+				SetBeatTime(time);
+			}
+		}
 
-			if (!paused) {
-				time = ShiftTick (new QNT_Timestamp (0), (float) songPlayback.GetTime ());
+		private struct ScrubParams
+        {
+			public bool forward;
+			public bool byTick;
+
+            public ScrubParams(bool forward, bool byTick)
+            {
+                this.forward = forward;
+                this.byTick = byTick;
+            }
+        }
+
+		public void ScrubTimeline(bool forward, bool byTick)
+        {
+			songPlayback.volume = NRSettings.config.mainVol;
+			songPlayback.hitSoundVolume = NRSettings.config.noteVol;
+			scrubParams = new ScrubParams(forward, byTick);
+			scrub = true;
+        }
+
+		private void MoveTimeline()
+        {
+			Profiler.BeginSample("Move timeline");
+			var startTime = time;
+			UpdateSustains();
+			if (!paused)
+			{
+				time = ShiftTick(new QNT_Timestamp(0), (float)songPlayback.GetTime());
 			}
 
-			bool isScrollingBeatSnap = false;
+			if (scrub)
+            {
+				Relative_QNT jumpDuration = new Relative_QNT(scrubParams.byTick ? 1 : (long)Constants.DurationFromBeatSnap((uint)beatSnap).tick);
+				jumpDuration.tick *= scrubParams.forward ? 1 : - 1;
 
-			bool isShiftDown = Input.GetKey (KeyCode.LeftShift) || Input.GetKey (KeyCode.RightShift);
-			bool isAltDown = Input.GetKey (KeyCode.LeftAlt) || Input.GetKey (KeyCode.RightAlt);
-			bool isCtrlDown = Input.GetKey (KeyCode.LeftControl) || Input.GetKey (KeyCode.RightControl);
-
-			if (hover) {
-				if (Input.GetKey (KeyCode.LeftShift) || Input.GetKey (KeyCode.RightShift)) {
-					if (Input.mouseScrollDelta.y > 0.1f) {
-						SetScale (scale - 1);
-					} else if (Input.mouseScrollDelta.y < -0.1f) {
-						SetScale (scale + 1);
-					}
-					SetBeatTime (time);
-				}
-			}
-
-			if (isAltDown && isCtrlDown && Input.mouseScrollDelta.y < -0.1f) {
-				isScrollingBeatSnap = true;
-				beatSnapSelector.PreviousClick ();
-				beatSnapSelector.PreviousClick ();
-
-			} else if (isAltDown && isCtrlDown && Input.mouseScrollDelta.y > 0.11f) {
-				isScrollingBeatSnap = true;
-				beatSnapSelector.ForwardClick ();
-				beatSnapSelector.ForwardClick ();
-			}
-
-			//if (!(Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift) && hover))
-
-			bool dragging = Input.GetMouseButton (0) && hover;
-
-			if (!isShiftDown && !isScrollingBeatSnap && Math.Abs (Input.mouseScrollDelta.y) > 0.1f && !ModifierHandler.Instance.IsDropdownExpanded ()) {
-				if (!audioLoaded) return;
-				if (EditorInput.inUI && EditorInput.enableScrolling == false) return;
-				if (EditorInput.IsSpacingLocked) return;
-				Relative_QNT jumpDuration = new Relative_QNT ((long) Constants.DurationFromBeatSnap ((uint) beatSnap).tick);
-
-				bool moveTick = false;
-				if (isCtrlDown && !dragging) {
-					moveTick = true;
-					jumpDuration = new Relative_QNT (1);
-				}
-
-				if (Input.mouseScrollDelta.y >= -0.1f) {
-					jumpDuration.tick *= -1;
-				}
-
-				if (!moveTick) {
-					time = GetClosestBeatSnapped (time + jumpDuration, (uint) beatSnap);
-				} else {
-					time = time + jumpDuration;
-				}
-
-				SafeSetTime ();
-				if (paused) {
-					songPlayback.PlayPreview (time, jumpDuration);
+				time = scrubParams.byTick ? time + jumpDuration : GetClosestBeatSnapped(time + jumpDuration, (uint)beatSnap);
+				UpdateSustains();
+				SafeSetTime();
+				if (paused)
+				{
+					songPlayback.PlayPreview(time, jumpDuration);
 					checkForNearSustainsOnThisFrame = true;
-				} else {
-					songPlayback.Play (time);
+				}
+				else
+				{
+					songPlayback.Play(time);
 				}
 
-				SetBeatTime (time);
+				SetBeatTime(time);
 
-				StopCoroutine (AnimateSetTime (new QNT_Timestamp (0)));
-			    if(!paused && ModifierPreviewer.Instance.isPlaying) ModifierPreviewer.Instance.UpdateModifierList(ModifierHandler.Instance.modifiers, time.tick);
+				StopCoroutine(AnimateSetTime(new QNT_Timestamp(0)));
+				if (!paused && ModifierPreviewer.Instance.isPlaying) ModifierPreviewer.Instance.UpdateModifierList(time.tick);
 				if (ModifierHandler.activated && ModifierHandler.Instance.isEditingManipulation) ModifierHandler.Instance.UpdateManipulationValues();
 			}
 
-			if (Input.GetKeyDown (KeyCode.LeftControl) && Input.GetKeyDown (KeyCode.C)) {
-				CopyTimestampToClipboard ();
+			if (!paused && !animatingTimeline)
+			{
+				SetBeatTime(time);
 			}
 
-			if (!paused && !animatingTimeline) {
-				SetBeatTime (time);
-			}
+			SetCurrentTime();
+			SetCurrentTick();
 
-			if (Input.GetKeyDown (KeyCode.A) && isCtrlDown && !ModifierHandler.activated && !ReviewWindow.IsOpen) {
-				Camera.main.farClipPlane = 1000;
+			miniTimeline.SetPercentagePlayed(GetPercentagePlayed());
 
-				foreach (Target target in orderedNotes) {
-					target.MakeTimelineSelectTarget ();
-				}
-			}
+			EnableNearSustainButtons();
 
-			songPlayback.volume = NRSettings.config.mainVol;
-			songPlayback.hitSoundVolume = NRSettings.config.noteVol;
-            //songPlayback.rightSustainVolume = NRSettings.config.editorSustainVol.value;
-            //songPlayback.leftSustainVolume = NRSettings.config.editorSustainVol.value;
-            SetCurrentTime();
-			SetCurrentTick ();
+			UpdateLoadedNotes();
 
-			miniTimeline.SetPercentagePlayed (GetPercentagePlayed ());
-
-			EnableNearSustainButtons ();
-
-			List<Target> newLoadedNotes = new List<Target> ();
-			QNT_Timestamp loadStart = Timeline.time - Relative_QNT.FromBeatTime (10.0f);
-			QNT_Timestamp loadEnd = Timeline.time + Relative_QNT.FromBeatTime (10.0f);
-
-			foreach (Target t in new NoteEnumerator (loadStart, loadEnd)) {
-				newLoadedNotes.Add (t);
-			}
-			loadedNotes = newLoadedNotes;
-
-			if (startTime != time) {
+			if (startTime != time)
+			{
 				QNT_Timestamp start = startTime;
 				QNT_Timestamp end = time;
 
-				if (start > end) {
+				if (start > end)
+				{
 					QNT_Timestamp temp = start;
 					start = end;
 					end = temp;
 				}
 
-				foreach (Target t in new NoteEnumerator (start, end)) {
-					t.OnNoteHit ();
+				foreach (Target t in new NoteEnumerator(start, end))
+				{
+					t.OnNoteHit();
 				}
 			}
 
 			//Update trace lines
-			if (NRSettings.config.enableTraceLines) {
-				UpdateTraceLine (leftHandTraceLine, TargetHandType.Left, NRSettings.config.leftColor);
-				UpdateTraceLine (rightHandTraceLine, TargetHandType.Right, NRSettings.config.rightColor);
+			if (NRSettings.config.enableTraceLines)
+			{
+				UpdateTraceLine(leftHandTraceLine, TargetHandType.Left, NRSettings.config.leftColor);
+				UpdateTraceLine(rightHandTraceLine, TargetHandType.Right, NRSettings.config.rightColor);
 			}
 
-			if (NRSettings.config.enableDualines) {
-				foreach (var line in dualNoteTraceLines) {
+			UpdateDualines();
+			Profiler.EndSample();
+		}
+
+		private void UpdateDualines()
+        {
+			if (NRSettings.config.enableDualines)
+			{
+				foreach (var line in dualNoteTraceLines)
+				{
 					line.enabled = false;
 				}
 
 				int index = 0;
-				var backIt = new NoteEnumerator (Timeline.time - Relative_QNT.FromBeatTime (0.3f), Timeline.time + Relative_QNT.FromBeatTime (1.7f));
+				var backIt = new NoteEnumerator(Timeline.time - Relative_QNT.FromBeatTime(0.3f), Timeline.time + Relative_QNT.FromBeatTime(1.7f));
 				Target lastTarget = null;
-				foreach (Target t in backIt) {
+				foreach (Target t in backIt)
+				{
 					if (lastTarget != null &&
-						t.data.behavior != TargetBehavior.Chain && lastTarget.data.behavior != TargetBehavior.Chain &&
+						t.data.behavior != TargetBehavior.ChainNode && lastTarget.data.behavior != TargetBehavior.ChainNode &&
 						t.data.handType != TargetHandType.Either && t.data.handType != TargetHandType.None &&
 						lastTarget.data.handType != TargetHandType.Either && lastTarget.data.handType != TargetHandType.None
-					) {
+					)
+					{
 						TargetHandType expected = TargetHandType.Left;
-						if (lastTarget.data.handType == expected) {
+						if (lastTarget.data.handType == expected)
+						{
 							expected = TargetHandType.Right;
 						}
 
-						if (t.data.time == lastTarget.data.time && t.data.handType == expected) {
-							var dualNoteTraceLine = GetOrCreateDualLine (index++);
+						if (t.data.time == lastTarget.data.time && t.data.handType == expected)
+						{
+							var dualNoteTraceLine = GetOrCreateDualLine(index++);
 							dualNoteTraceLine.enabled = true;
 
 							float alphaVal = 0.0f;
-							if (Timeline.time > t.data.time) {
-								alphaVal = 1.0f - ((Timeline.time - t.data.time).ToBeatTime () / 0.3f);
-							} else {
-								alphaVal = 1.0f - ((t.data.time - Timeline.time).ToBeatTime () / 1.7f);
+							if (Timeline.time > t.data.time)
+							{
+								alphaVal = 1.0f - ((Timeline.time - t.data.time).ToBeatTime() / 0.3f);
+							}
+							else
+							{
+								alphaVal = 1.0f - ((t.data.time - Timeline.time).ToBeatTime() / 1.7f);
 							}
 
 							Vector2 leftPos = t.data.position;
 							Vector2 rightPos = lastTarget.data.position;
-							if (t.data.handType == TargetHandType.Right) {
+							if (t.data.handType == TargetHandType.Right)
+							{
 								Vector2 temp = rightPos;
 								rightPos = leftPos;
 								leftPos = temp;
 							}
 
 							Vector3[] positions = new Vector3[2];
-							positions[0] = new Vector3 (leftPos.x, leftPos.y, 0.05f);
-							positions[1] = new Vector3 (rightPos.x, rightPos.y, 0.05f);
+							positions[0] = new Vector3(leftPos.x, leftPos.y, 0.05f);
+							positions[1] = new Vector3(rightPos.x, rightPos.y, 0.05f);
 							dualNoteTraceLine.positionCount = positions.Length;
-							dualNoteTraceLine.SetPositions (positions);
+							dualNoteTraceLine.SetPositions(positions);
 
-							Gradient gradient = new Gradient ();
-							gradient.SetKeys (
-								new GradientColorKey[] { new GradientColorKey (NRSettings.config.leftColor, 0.0f), new GradientColorKey (NRSettings.config.rightColor, 1.0f) },
-								new GradientAlphaKey[] { new GradientAlphaKey (alphaVal, 0.0f), new GradientAlphaKey (alphaVal, 1.0f) }
+							Gradient gradient = new Gradient();
+							gradient.SetKeys(
+								new GradientColorKey[] { new GradientColorKey(NRSettings.config.leftColor, 0.0f), new GradientColorKey(NRSettings.config.rightColor, 1.0f) },
+								new GradientAlphaKey[] { new GradientAlphaKey(alphaVal, 0.0f), new GradientAlphaKey(alphaVal, 1.0f) }
 							);
 							dualNoteTraceLine.colorGradient = gradient;
 						}
@@ -2463,9 +2511,34 @@ namespace NotReaper {
 				}
 			}
 		}
+
+		public void UpdateLoadedNotes()
+        {
+			List<Target> newLoadedNotes = new List<Target>();
+			QNT_Timestamp loadStart = Timeline.time - Relative_QNT.FromBeatTime(10.0f);
+			QNT_Timestamp loadEnd = Timeline.time + Relative_QNT.FromBeatTime(10.0f);
+
+			foreach (Target t in new NoteEnumerator(loadStart, loadEnd))
+			{
+				newLoadedNotes.Add(t);
+			}
+			loadedNotes = newLoadedNotes;
+			UpdateDualines();
+		}
+
+
+		bool checkForNearSustainsOnThisFrame = false;
+		public void Update() 
+		{
+			if (paused && !scrub) return;
+			MoveTimeline();
+			if (scrub) scrub = false;			
+		}
+
         private static bool toggle = false;
 		public static void OptimizeInvisibleTargets()
 		{
+
 			if (NRSettings.config.optimizeInvisibleTargets || ModifierHandler.activated || toggle)
 			{
 				if(Timeline.orderedNotes != null && Timeline.orderedNotes.Count > 0)
@@ -2485,22 +2558,21 @@ namespace NotReaper {
 
 
 					var targetsToShow = new NoteEnumerator(start, end);
-
 					for (int i = 0; i < orderedNotes.Count; i++)
 					{
 						orderedNotes[i].gridTargetIcon.gameObject.SetActive(false);
 						orderedNotes[i].timelineTargetIcon.gameObject.SetActive(false);
 					}
-					if (!ModifierHandler.activated)
-					{
-						toggle = false;
+					//if (!ModifierHandler.activated)
+					//{
+						if(!ModifierHandler.activated) toggle = false;
 						foreach (Target target in targetsToShow)
 						{
 							target.gridTargetIcon.gameObject.SetActive(true);
-							target.timelineTargetIcon.gameObject.SetActive(true);
+							if(EditorState.Tool.Current != EditorTool.ModifierCreator) target.timelineTargetIcon.gameObject.SetActive(true);
 						}
-					}
-					else
+					//}
+					if(EditorState.Tool.Current == EditorTool.ModifierCreator)
 					{
 						ModifierHandler.Instance.OptimizeModifiers();
 						toggle = true;
@@ -2529,7 +2601,7 @@ namespace NotReaper {
 
 			Target nextTarget = null;
 			foreach (Target t in new NoteEnumerator (startTime, startTime + Relative_QNT.FromBeatTime (1))) {
-				if (t.data.behavior == TargetBehavior.Melee || t.data.behavior == TargetBehavior.Chain) continue;
+				if (t.data.behavior == TargetBehavior.Melee || t.data.behavior == TargetBehavior.ChainNode) continue;
 
 				if (t.data.handType == handType) {
 					nextTarget = t;
@@ -2547,7 +2619,7 @@ namespace NotReaper {
 			Target closest = null;
 			Target startTarget = null;
 			foreach (Target t in backIt) {
-				if (t == nextTarget || t.data.behavior == TargetBehavior.Melee || t.data.behavior == TargetBehavior.Chain) continue;
+				if (t == nextTarget || t.data.behavior == TargetBehavior.Melee || t.data.behavior == TargetBehavior.ChainNode) continue;
 
 				if (t.data.handType == handType) {
 					startTarget = t;
@@ -2601,7 +2673,7 @@ namespace NotReaper {
 		}
 
 		public void JumpToPercent (float percent) { 
-			if (!audioLoaded || EditorInput.selectedMode != EditorMode.Compose || EditorInput.InputDisabled) return;
+			if (!audioLoaded || EditorState.Mode.Current != EditorMode.Compose || EditorState.IsInUI) return;
 			time = ShiftTick (new QNT_Timestamp (0), songPlayback.song.Length * percent);
 
 			SafeSetTime ();
@@ -2613,32 +2685,39 @@ namespace NotReaper {
 		}
 
 		public void JumpToX (float x) {
-			if (ModifierHandler.activated || EditorInput.selectedMode != EditorMode.Compose || EditorInput.InputDisabled) return;
+			if (ModifierHandler.activated || EditorState.Mode.Current != EditorMode.Compose || EditorState.IsInUI) return;
 			StopCoroutine (AnimateSetTime (new QNT_Timestamp (0)));
-
+			bool isPlaying = !paused;
+			if (isPlaying) TogglePlayback();
 			float posX = Math.Abs (timelineTransformParent.position.x) + x;
 			QNT_Timestamp newTime = new QNT_Timestamp (0) + QNT_Duration.FromBeatTime (posX * (scale / 20f));
 			newTime = GetClosestBeatSnapped (newTime, (uint) beatSnap);
 			SafeSetTime ();
-
-			StartCoroutine (AnimateSetTime (newTime));
+			OnAnimateSetTimeDone callback = isPlaying ? new OnAnimateSetTimeDone(TogglePlayback) : null;
+			StartCoroutine (AnimateSetTime (newTime, callback));
 		}
 
 		public void ToggleWaveform () {
 			waveformVisualizer.visible = !waveformVisualizer.visible;
 		}
 
-		public void TogglePlayback () {
-			if (!audioLoaded) return;
+		public void TogglePlayback()
+        {
+			TogglePlayback(false);
+        }
 
-			bool isCtrlDown = Input.GetKey (KeyCode.LeftControl) || Input.GetKey (KeyCode.RightControl);
+		public void TogglePlayback (bool metronome = false) {
+			if (!audioLoaded) return;
+			songPlayback.volume = NRSettings.config.mainVol;
+			songPlayback.hitSoundVolume = NRSettings.config.noteVol;
+			//bool isCtrlDown = Input.GetKey (KeyCode.LeftControl) || Input.GetKey (KeyCode.RightControl);
 
 			if (paused) {
 				//gameObject.GetComponent<AudioSource>().Play();
 				//aud.Play();
 				//previewAud.Pause();
-				if(Input.GetKey(KeyCode.X)) ModifierPreviewer.Instance.UpdateModifierList(ModifierHandler.Instance.modifiers, time.tick);
-				if (isCtrlDown) {
+				//if(Input.GetKey(KeyCode.X)) ModifierPreviewer.Instance.UpdateModifierList(ModifierHandler.Instance.modifiers, time.tick);
+				if (metronome) {
 					songPlayback.StartMetronome ();
 				}
 
@@ -2677,8 +2756,8 @@ namespace NotReaper {
 				currentTimeSeconds = songPlayback.song.Length;
 			}
 		}
-
-		public IEnumerator AnimateSetTime (QNT_Timestamp newTime) {
+		public delegate void OnAnimateSetTimeDone();
+		public IEnumerator AnimateSetTime (QNT_Timestamp newTime, OnAnimateSetTimeDone callback = null) {
 
 			animatingTimeline = true;
 
@@ -2702,7 +2781,7 @@ namespace NotReaper {
 			SetCurrentTime ();
 			SetCurrentTick ();
 			songPlayback.PlayPreview (time, new Relative_QNT ((long) Constants.DurationFromBeatSnap ((uint) beatSnap).tick));
-
+			callback?.Invoke();
 			yield break;
 
 		}
@@ -2730,7 +2809,7 @@ namespace NotReaper {
 
 		private void OnMouseDown () {
 			//We don't want to interfere with drag select
-			if (EditorInput.selectedTool == EditorTool.DragSelect) return;
+			if (EditorState.Tool.Current == EditorTool.DragSelect) return;
 			JumpToX (Camera.main.ScreenToWorldPoint (Input.mousePosition).x);
 		}
 

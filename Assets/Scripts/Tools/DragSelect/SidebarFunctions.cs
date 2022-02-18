@@ -39,8 +39,8 @@ namespace NotReaper.Tools {
 
         
 
-        public void FlipTargetsVertical() => timeline.FlipTargetsVertical(timeline.selectedNotes);
-        public void FlipTargetsHorizontal() => timeline.FlipTargetsHorizontal(timeline.selectedNotes);
+        public void FlipTargetsVertical() => timeline.FlipSelectedTargetsVertical();
+        public void FlipTargetsHorizontal() => timeline.FlipSelectedTargetsHorizontal();
         public void SwapTargets() => timeline.SwapTargets(timeline.selectedNotes);
         public void ReverseTargets() => timeline.Reverse(timeline.selectedNotes);
         public void RotateLeft() => timeline.Rotate(timeline.selectedNotes, 15);
@@ -51,10 +51,10 @@ namespace NotReaper.Tools {
         public void redo() => undoRedoManager.Redo();
         public void DeselectBehavior(int behavior) => timeline.DeselectBehavior((TargetBehavior)behavior);
         public void DeselectHand(int handType) => timeline.DeselectHand((TargetHandType)handType);
-        public void ScaleUpHorizontal() => timeline.Scale(timeline.selectedNotes, new Vector2(1.1f, 1f));
-        public void ScaleUpVertical() => timeline.Scale(timeline.selectedNotes, new Vector2(1f, 1.1f));
-        public void ScaleDownHorizontal() => timeline.Scale(timeline.selectedNotes, new Vector2(.9f, 1f));
-        public void ScaleDownVertical() => timeline.Scale(timeline.selectedNotes, new Vector2(1f, .9f));
+        public void ScaleUpHorizontal() => timeline.ScaleSelectedTargets(new Vector2(1.1f, 1f));
+        public void ScaleUpVertical() => timeline.ScaleSelectedTargets(new Vector2(1f, 1.1f));
+        public void ScaleDownHorizontal() => timeline.ScaleSelectedTargets(new Vector2(.9f, 1f));
+        public void ScaleDownVertical() => timeline.ScaleSelectedTargets(new Vector2(1f, .9f));
 
     }
 }

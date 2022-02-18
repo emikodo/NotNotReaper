@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using NotReaper.Models;
 using NotReaper.UserInput;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -48,7 +49,7 @@ namespace NotReaper.Grid {
             defaultCollider = GetComponent<BoxCollider2D>();
             defaultSize = defaultCollider.size;
             defaultOffset = defaultCollider.offset;
-            hover.RegisterOnUIToolUpdatedCallback(OnUIToolUpdated);
+            //hover.RegisterOnUIToolUpdatedCallback(OnUIToolUpdated);
         }
 
         public void ChangeColliderSize(bool grow)
@@ -69,15 +70,16 @@ namespace NotReaper.Grid {
             //pathBuilderCollider.enabled = !enableDefault;
         }
 
+        [NRListener]
         private void OnUIToolUpdated(EditorTool tool)
         {
-            ChangeColliderSize(tool == EditorTool.ChainBuilder);
+            ChangeColliderSize(tool == EditorTool.ChainBuilder || tool == EditorTool.Pathbuilder);
         }
 
 
         public void OnMouseOver()
         {
-            if(EditorInput.inUI)
+            if(EditorState.IsInUI)
             {
                 if (hover.iconEnabled)
                 {
@@ -85,22 +87,22 @@ namespace NotReaper.Grid {
                 }
                 return;
             }
-            if (!hover.iconEnabled || ((EditorInput.selectedTool == EditorTool.ChainBuilder || EditorInput.selectedTool == EditorTool.DragSelect) && !EditorInput.isOverGrid))
+            if (!hover.iconEnabled || ((EditorState.Tool.Current == EditorTool.ChainBuilder || EditorState.Tool.Current == EditorTool.DragSelect) && !EditorState.IsOverGrid))
             {
-                EditorInput.isOverGrid = true;
-                hover.TryEnable();
+                EditorState.SetIsOverGrid(true);
+                hover.Enable();
             }
         }
-        /*
+        
         public void OnMouseEnter()
         {
-            EditorInput.isOverGrid = true;
-            hover.TryEnable();
+            EditorState.SetIsOverGrid(true);
+            hover.Enable();
         }
-        */
+        
         public void OnMouseExit()
         {
-            EditorInput.isOverGrid = false;
+            EditorState.SetIsOverGrid(false);
             hover.TryDisable();
         }
        

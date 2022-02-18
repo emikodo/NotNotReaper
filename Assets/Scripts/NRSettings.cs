@@ -1,3 +1,4 @@
+using NotReaper.Models;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -13,16 +14,21 @@ using UnityEngine.UI;
 
 namespace NotReaper {
 
-    public class NRSettings : MonoBehaviour {
+    public class NRSettings : MonoBehaviour 
+    {
 
         public static NRJsonSettings config = new NRJsonSettings();
         private static bool isLoaded = false;
-        private static readonly string configFilePath = Path.Combine(Application.persistentDataPath, "NRConfig.txt");
+        private static string configFilePath = Path.Combine(Application.persistentDataPath, "NRConfig.txt");
         private static bool failsafeThingy = false;
         private static List<Action> pendingActions = new List<Action>();
-        public static UnityEvent PostLoad = new UnityEvent();
         public static string autosavePath;
         private static bool removeOldestAutosave => autosavePath.Length > 0;
+
+        private void Awake()
+        {
+             
+        }
 
         public static void LoadSettingsJson(bool regenConfig = false) {
             if (!regenConfig) RemoveOldAutosaves();
@@ -194,6 +200,22 @@ namespace NotReaper {
             var _files = directoryInfo.GetFiles("*.meta", SearchOption.TopDirectoryOnly);
             foreach (var f in _files) File.Delete(f.FullName);
 
+        }
+
+        public static Color GetSelectedColor()
+        {
+            if (EditorState.Hand.Current == TargetHandType.Either)
+            {
+                return Color.gray;
+            }
+            else if (EditorState.Hand.Current == TargetHandType.Right)
+            {
+                return config.rightColor;
+            }
+            else
+            {
+                return config.leftColor;
+            }
         }
     }
 

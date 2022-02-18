@@ -6,8 +6,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 using NotReaper.UserInput;
+using UnityEngine.InputSystem;
 
-public class ModifierInfo : MonoBehaviour
+public class ModifierInfo : NRInputWithoutKeybinds
 {
     public static bool isOpened = false;
     public static ModifierInfo Instance = null;
@@ -43,16 +44,22 @@ public class ModifierInfo : MonoBehaviour
 
         window.transform.DOMove(new Vector3(transform.position.x, camTrans.position.y + 5.5f, transform.position.z), 1.0f).SetEase(Ease.OutQuint);
         isOpened = true;
+        OnActivated();
     }
 
 
 
     public void Hide()
     {
-
+        OnDeactivated();
         gameObject.SetActive(false);
 
 
         isOpened = false;
+    }
+
+    protected override void OnEscPressed(InputAction.CallbackContext context)
+    {
+        Hide();
     }
 }

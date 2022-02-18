@@ -189,7 +189,6 @@ namespace NotReaper.IO {
 				else if (entry.FileName == "song.png" || entry.FileName == audicaFile.desc.albumArt)
 				{
 					string albumArtName = $"{appPath}/.cache/song.png";
-					Debug.Log("Loading album art");
 					entry.Extract($"{appPath}/.cache", ExtractExistingFileAction.OverwriteSilently);
 
 					if (entry.FileName != "song.png")
@@ -223,9 +222,6 @@ namespace NotReaper.IO {
 				Debug.Log("Audio files were already cached and will be loaded.");
 				goto Finish;
 			}
-
-			Debug.Log("Files not cached... Loading...");
-
 			//If the files weren't cached, we now need to cache them manually then load them.
 			MemoryStream tempMogg = new MemoryStream();
 

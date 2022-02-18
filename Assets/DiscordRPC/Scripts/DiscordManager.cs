@@ -192,7 +192,6 @@ public class DiscordManager : MonoBehaviour {
         if (Application.isEditor)       logger = new DiscordRPC.Unity.UnityLogger() { Level = logLevel };
 
         //We are starting the client. Below is a break down of the parameters.
-        Debug.Log("[DRP] Starting Discord Rich Presence");
         _client = new DiscordRPC.DiscordRpcClient(
             applicationID,                                  //The Discord Application ID            
             pipe: (int)targetPipe,                          //The target pipe to connect too
@@ -246,8 +245,6 @@ public class DiscordManager : MonoBehaviour {
 
         //Start the client
         _client.Initialize();
-        Debug.Log("[DRP] Discord Rich Presence intialized and connecting...");
-
 #endif
     }
     

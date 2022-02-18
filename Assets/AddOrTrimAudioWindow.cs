@@ -8,8 +8,9 @@ using UnityEngine;
 using NotReaper.UserInput;
 using UnityEngine.EventSystems;
 using NotReaper.Timing;
+using UnityEngine.InputSystem;
 
-public class AddOrTrimAudioWindow : MonoBehaviour {
+public class AddOrTrimAudioWindow : NRInputWithoutKeybinds {
     public TMP_InputField timeLengthInput;
     public TMP_InputField beatLengthInput;
     
@@ -26,13 +27,15 @@ public class AddOrTrimAudioWindow : MonoBehaviour {
     }
 
     public void Activate() {
+        OnActivated();
         gameObject.GetComponent<CanvasGroup>().DOFade(1.0f, 0.3f);
         gameObject.SetActive(true);
 
 
     }
 
-    public void Deactivate() { 
+    public void Deactivate() {
+        OnDeactivated();
         gameObject.GetComponent<CanvasGroup>().DOFade(0.0f, 0.3f);
         gameObject.SetActive(false);
     }
@@ -76,6 +79,11 @@ public class AddOrTrimAudioWindow : MonoBehaviour {
         }
 
         timeline.RemoveOrAddTimeToAudio(new Relative_QNT(-duration.Value.tick));
+        Deactivate();
+    }
+
+    protected override void OnEscPressed(InputAction.CallbackContext context)
+    {
         Deactivate();
     }
 }

@@ -52,7 +52,7 @@ namespace NotReaper.UI {
             {
                 BookmarkMenu.Instance.SetColor(myUIColor);
             }
-            MiniTimeline.Instance.OpenBookmarksMenu(text.text);
+            MiniTimeline.Instance.OpenBookmarksMenu();
         }
 
         public void Deselect()
@@ -80,7 +80,7 @@ namespace NotReaper.UI {
             //MiniTimeline.Instance.bookmarks.Remove(mini);
             MiniTimeline.Instance.bookmarks.Remove(this);
             MiniTimeline.Instance.selectedBookmark = null;
-            MiniTimeline.Instance.OpenBookmarksMenu("");
+            MiniTimeline.Instance.OpenBookmarksMenu();
             GameObject.Destroy(mini.gameObject);
             GameObject.Destroy(this.gameObject);
         }

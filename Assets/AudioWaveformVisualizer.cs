@@ -24,7 +24,13 @@ public class AudioWaveformVisualizer : MonoBehaviour {
     };
 
     void Update() {
-        foreach (Renderer r in gameObject.GetComponentsInChildren<Renderer>(true)) {
+        
+    }
+
+    public void SetWaveformVisible(bool visible)
+    {
+        foreach (Renderer r in gameObject.GetComponentsInChildren<Renderer>(true))
+        {
             r.enabled = visible;
         }
     }
@@ -97,6 +103,7 @@ public class AudioWaveformVisualizer : MonoBehaviour {
                     obj.GetComponent<MeshRenderer>().enabled = false;
                     obj.GetComponent<Transform>().localPosition = new Vector3(0, -0.5f ,0);
                     obj.GetComponent<Transform>().localScale = new Vector3(1.0f, 1, 1);
+                    SetWaveformVisible(visible);
                 }
             ));
         }

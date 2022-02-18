@@ -4,11 +4,8 @@ using NotReaper.Targets;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using NotReaper.UserInput;
-
+using NotReaper.Models;
 namespace NotReaper.Grid {
-
-
-    public enum SnappingMode { None, Grid, Melee, DetailGrid }
 
     public class NoteGridSnap {
 

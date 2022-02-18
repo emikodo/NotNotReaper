@@ -40,7 +40,7 @@ namespace NotReaper.Timing {
         public Image BG;
         public Image AlbumArtImg;
         public CanvasGroup window;
-        public EditorInput editorInput;
+        public UIInput uiInput;
         public int Setdifficulty = 0;
 
         private AudioClip audioFile;
@@ -270,7 +270,8 @@ namespace NotReaper.Timing {
 
         public void Cancel() {
             Timeline.inTimingMode = false;
-            editorInput.SelectMode(EditorMode.Compose);
+            //uiInput.SelectMode(EditorMode.Compose);
+            EditorState.SelectMode(EditorMode.Compose);
         }
 
         public void ChangeSelectedDifficulty(int diff) // Diff buttons on "New Audica" panel. (there's probably a better solution to reset colors)
@@ -369,7 +370,8 @@ namespace NotReaper.Timing {
 	        }
 	        
             timeline.LoadAudicaFile(false, path);
-            editorInput.SelectMode(EditorMode.Compose);
+            //uiInput.SelectMode(EditorMode.Compose);
+            EditorState.SelectMode(EditorMode.Compose);
 
             genAudicaButton.interactable = true;
             selectSongButton.interactable = false;

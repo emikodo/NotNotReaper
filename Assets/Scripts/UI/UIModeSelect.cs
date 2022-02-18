@@ -5,14 +5,13 @@ using NotReaper.Timing;
 using NotReaper.UserInput;
 using UnityEngine;
 using UnityEngine.UI;
+using NotReaper.Models;
 
 namespace NotReaper.UI {
 
-
-    public enum EditorMode { Compose, Metadata, Settings, Timing };
     public class UIModeSelect : MonoBehaviour {
 
-        public EditorInput editorInput;
+        public UIInput uiInput;
         public GameObject slider;
         public RectTransform sliderRTrans;
 
@@ -26,16 +25,16 @@ namespace NotReaper.UI {
         public void SelectFromUI(string mode) {
             switch (mode) {
                 case "compose":
-                    editorInput.SelectMode(EditorMode.Compose);
+                    EditorState.SelectMode(EditorMode.Compose);
                     break;
                 case "metadata":
-                    editorInput.SelectMode(EditorMode.Metadata);
+                    EditorState.SelectMode(EditorMode.Metadata);
                     break;
                 case "settings":
-                    editorInput.SelectMode(EditorMode.Settings);
+                    EditorState.SelectMode(EditorMode.Settings);
                     break;
                 case "timing":
-                    editorInput.SelectMode(EditorMode.Timing);
+                    EditorState.SelectMode(EditorMode.Timing);
                     break;
                 
             }

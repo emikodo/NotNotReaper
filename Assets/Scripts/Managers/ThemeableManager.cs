@@ -22,7 +22,8 @@ namespace NotReaper.UI
         {
             foreach (var themeable in themeables) themeable.UpdateColors();
             Timeline.instance.UpdateTargetColors();
-            EditorInput.I.SelectHand(EditorInput.selectedHand);
+            
+            //EditorInput.I.SelectHand(EditorState.Hand.Current);
         }
     }
 }

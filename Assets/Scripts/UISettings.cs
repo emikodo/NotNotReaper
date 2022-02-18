@@ -142,7 +142,7 @@ public class UISettings : MonoBehaviour
       //Ensure all chains are generated
       List<TargetData> nonGeneratedNotes = new List<TargetData>();
       foreach(Target note in Timeline.instance.notes) {
-         if(note.data.behavior == TargetBehavior.NR_Pathbuilder && note.data.pathBuilderData.createdNotes == false) {
+         if(note.data.behavior == TargetBehavior.Legacy_Pathbuilder && note.data.legacyPathbuilderData.createdNotes == false) {
             nonGeneratedNotes.Add(note.data);
          }
       }

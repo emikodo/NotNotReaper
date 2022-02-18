@@ -4,8 +4,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 
-public class TimingPointsPanel : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class TimingPointsPanel : NRInputWithoutKeybinds, IPointerEnterHandler, IPointerExitHandler
 {
     private bool isActive;
     [SerializeField] private Timeline timeline;
@@ -14,13 +15,15 @@ public class TimingPointsPanel : MonoBehaviour, IPointerEnterHandler, IPointerEx
     public List<TimingPointItem> items = new List<TimingPointItem>();
     public bool isHovering;
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         gameObject.SetActive(false);
     }
 
     public void Show()
     {
+        OnActivated();
         transform.position = new Vector3(0f, 0f, 0f);
         gameObject.SetActive(true);
         isActive = true;
@@ -30,6 +33,7 @@ public class TimingPointsPanel : MonoBehaviour, IPointerEnterHandler, IPointerEx
 
     public void Hide()
     {
+        OnDeactivated();
         gameObject.SetActive(false);
         isActive = false;
         isHovering = false;
@@ -72,5 +76,10 @@ public class TimingPointsPanel : MonoBehaviour, IPointerEnterHandler, IPointerEx
     public void OnPointerExit(PointerEventData eventData)
     {
         isHovering = false;
+    }
+
+    protected override void OnEscPressed(InputAction.CallbackContext context)
+    {
+        Hide();
     }
 }

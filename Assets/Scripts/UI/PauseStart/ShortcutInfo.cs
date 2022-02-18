@@ -6,8 +6,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 using NotReaper.UserInput;
+using UnityEngine.InputSystem;
 
-public class ShortcutInfo : MonoBehaviour {
+public class ShortcutInfo : NRInputWithoutKeybinds {
 
     public Image BG;
     public CanvasGroup window;
@@ -38,30 +39,25 @@ public class ShortcutInfo : MonoBehaviour {
     public void Show() {
         gameObject.SetActive(true);
         gameObject.GetComponent<CanvasGroup>().DOFade(1.0f, 0.3f);
-        
+        readmeUnderline.color = NRSettings.config.leftColor;
         Transform camTrans = Camera.main.transform;
 
         window.transform.position = new Vector3(camTrans.position.x, camTrans.position.y, transform.position.z);
         
         window.transform.DOMove(new Vector3(transform.position.x,camTrans.position.y + 5.5f, transform.position.z), 1.0f).SetEase(Ease.OutQuint);
         isOpened = true;
+        OnActivated();
     }
 
-
-
     public void Hide() {
-
+        OnDeactivated();
         gameObject.SetActive(false);
-
 
         isOpened = false;
     }
 
-
-
-    
-    public void LoadUIColors() {
-        
-        readmeUnderline.color = NRSettings.config.leftColor;
+    protected override void OnEscPressed(InputAction.CallbackContext context)
+    {
+        Hide();
     }
 }

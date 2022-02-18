@@ -20,7 +20,7 @@ namespace NotReaper.Tools {
 		
 
 		public void TryPlaceNote() {
-			if (!EditorInput.isOverGrid || EditorInput.inUI)
+			if (!EditorState.IsOverGrid)
             {
 				return;
             }

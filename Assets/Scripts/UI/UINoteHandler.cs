@@ -5,16 +5,10 @@ using UnityEngine.UI;
 using NotReaper.Targets;
 using NotReaper.UserInput;
 
-namespace NotReaper.UI {
-
-   // public enum TargetVelocity {
-   //     Standard = 0, Snare = 1, Percussion = 2, ChainStart = 3, Chain = 4, Melee = 5, Metronome = 6
-    //}
-
-
-    public class UINoteHandler : MonoBehaviour {
-
-
+namespace NotReaper.UI 
+{
+    public class UINoteHandler : MonoBehaviour 
+    {
         public Timeline timeline;
 
         [SerializeField] private Dropdown soundDropdown;
@@ -23,77 +17,63 @@ namespace NotReaper.UI {
 
         public NoteGridSnap noteGrid;
 
-        public EditorInput editorInput;
+        public UIInput uiInput;
 
-
-        public void SoundWasChanged(Dropdown dpd) {
-            //timeline.CurrentSound = (DropdownToVelocity) dpd.value;
-
-            //editorInput.SelectVelocity((DropdownToVelocity) dpd.value);
+        public void SelectLeftHand() 
+        {
+            EditorState.SelectHand(TargetHandType.Left);
         }
 
-
-        public void SelectLeftHand() {
-            editorInput.SelectHand(TargetHandType.Left);
+        public void SelectRightHand() 
+        {
+            EditorState.SelectHand(TargetHandType.Right);
         }
 
-        public void SelectRightHand() {
-            editorInput.SelectHand(TargetHandType.Right);
+        public void SelectEitherHand() 
+        {
+            EditorState.SelectHand(TargetHandType.Either);
         }
 
-        public void SelectEitherHand() {
-            editorInput.SelectHand(TargetHandType.Either);
+        public void SelectNoHand() 
+        {
+            EditorState.SelectHand(TargetHandType.None);
         }
 
-        public void SelectNoHand() {
-            //timeline.SetHandType(TargetHandType.None);
-            //hover.SetHandType(TargetHandType.None);
-            editorInput.SelectHand(TargetHandType.None);
-        }
-
-
-        public void SelectStandard() {
-            //EditorInput.selectedTool = EditorTool.Standard;
-            //timeline.SetBehavior(TargetBehavior.Standard);
-            //timeline.SetVelocity(TargetVelocity.Standard);
-            //soundDropdown.value = (int) DropdownToVelocity.Standard;
-            //hover.SetBehavior(TargetBehavior.Standard);
-            //noteGrid.SetSnappingMode(SnappingMode.Grid);
-            //EditorInput.selectedTool()
-            editorInput.SelectTool(EditorTool.Standard);
-
+        public void SelectStandard() 
+        {
+            EditorState.SelectBehavior(TargetBehavior.Standard);
         }
 
         public void SelectHold() {
-            editorInput.SelectTool(EditorTool.Hold);
+            EditorState.SelectBehavior(TargetBehavior.Sustain);
         }
 
         public void SelectChainNode() {
-            editorInput.SelectTool(EditorTool.ChainNode);
+            EditorState.SelectBehavior(TargetBehavior.ChainNode);
         }
 
         public void SelectChainStart() {
-            editorInput.SelectTool(EditorTool.ChainStart);
+            EditorState.SelectBehavior(TargetBehavior.ChainStart);
         }
 
         public void SelectHorizontal() {
-            editorInput.SelectTool(EditorTool.Horizontal);
+            EditorState.SelectBehavior(TargetBehavior.Horizontal);
         }
 
         public void SelectVertical() {
-            editorInput.SelectTool(EditorTool.Vertical);
+            EditorState.SelectBehavior(TargetBehavior.Vertical);
         }
 
         public void SelectMelee() {
-            editorInput.SelectTool(EditorTool.Melee);
+            EditorState.SelectBehavior(TargetBehavior.Melee);
         }
 
         public void SelectDragSelect() {
-            editorInput.SelectTool(EditorTool.DragSelect);
+            EditorState.SelectTool(EditorTool.DragSelect);
         }
 
         public void SelectChainBuilder() {
-            editorInput.SelectTool(EditorTool.ChainBuilder);
+            EditorState.SelectTool(EditorTool.Pathbuilder);
         }
     }
 }

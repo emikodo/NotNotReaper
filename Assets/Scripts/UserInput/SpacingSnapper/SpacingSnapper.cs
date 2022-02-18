@@ -10,162 +10,166 @@ using NotReaper.Grid;
 using NotReaper.UI;
 using System;
 using System.Linq;
-
-public class SpacingSnapper : MonoBehaviour
+using UnityEngine.InputSystem;
+namespace NotReaper.Tools.SpacingSnap
 {
-
-    [SerializeField] private HoverTarget hover;
-    [SerializeField] private GameObject orbit;
-
-    private Target nearestTarget;
-    private Camera cam;
-    private TrailRenderer trail;
-
-    private float radius = 1f;
-    private float radiusIncrement = .1f;
-
-    private float msBetweenTargets;
-
-    private bool prepared = false;
-
-    private List<Vector2> directionals = new List<Vector2> { Vector2.up, Vector2.right, Vector2.down, Vector2.left };
-
-    private void Awake()
-    {
-        cam = Camera.main;
-        orbit.SetActive(false);
-        trail = orbit.GetComponent<TrailRenderer>();
-        directionals.Add(new Vector2(.7f, .7f));
-        directionals.Add(new Vector2(.7f, -.7f));
-        directionals.Add(new Vector2(-.7f, .7f));
-        directionals.Add(new Vector2(-.7f, -.7f));
-    }
-    void Update()
+    public class SpacingSnapper : NRInput<SpacingSnapKeybinds>
     {
 
-        if (EditorInput.InputDisabled || EditorInput.selectedMode != EditorMode.Compose || EditorInput.selectedTool == EditorTool.ChainBuilder) return;
-        if (Input.GetKeyDown(KeyCode.LeftAlt))
+        [SerializeField] private HoverTarget hover;
+        [SerializeField] private GameObject orbit;
+
+
+        private Target nearestTarget;
+        private Camera cam;
+        private TrailRenderer trail;
+
+
+        private float radius = 1f;
+        private float radiusIncrement = .1f;
+
+        private float msBetweenTargets;
+
+        private bool prepared = false;
+
+        private bool lockDirectional;
+
+        private List<Vector2> directionals = new List<Vector2> { Vector2.up, Vector2.right, Vector2.down, Vector2.left };
+
+        protected override void Awake()
         {
+            base.Awake();
+            cam = Camera.main;
+            orbit.SetActive(false);
+            trail = orbit.GetComponent<TrailRenderer>();
+            directionals.Add(new Vector2(.7f, .7f));
+            directionals.Add(new Vector2(.7f, -.7f));
+            directionals.Add(new Vector2(-.7f, .7f));
+            directionals.Add(new Vector2(-.7f, -.7f));
+        }
+
+        void Update()
+        {
+            if (prepared)
+            {
+                if(nearestTarget != null)
+                {
+                    LockSpacing();
+                }
+            }
+        }
+
+        public void EnableSpacingSnap()
+        {
+            EditorState.SelectSnappingMode(SnappingMode.None);
+            //uiInput.SelectSnappingMode(SnappingMode.None);
+            OnActivated();
             Prepare();
         }
-        else if (Input.GetKey(KeyCode.LeftAlt))
+
+        public void DisableSpacingSnap()
         {
-            if(nearestTarget is null)
-            {
-                Reset();
-                return;
-            }
-            LockSpacing();
-            HandleScrolling();
-            HandleHandChange();
+            EditorState.SelectSnappingMode(EditorState.Snapping.Previous);
+            //uiInput.SelectSnappingMode(EditorState.Snapping.Previous);
+            Reset();
+            OnDeactivated();
         }
-        else if (Input.GetKeyUp(KeyCode.LeftAlt))
+
+        private void LockSpacing()
         {
+            Vector2 mousePos = cam.ScreenToWorldPoint(actions.SpacingSnap.MousePosition.ReadValue<Vector2>());
+            Vector2 targetPos = nearestTarget.gridTargetIcon.transform.position;
+            var direction = (mousePos - targetPos).normalized;
+            if (lockDirectional) direction = GetClosestDirectional(direction);
+            var cursorPos = direction * radius;
+            var newCursorPos = targetPos + cursorPos;
+            hover.transform.position = newCursorPos;
+            orbit.transform.position = hover.transform.position;
+        }
+
+        private Vector2 GetClosestDirectional(Vector2 direction)
+        {
+            return directionals.Aggregate((x, y) => Vector2.Distance(x, direction) < Vector2.Distance(y, direction) ? x : y);
+        }
+
+        private void HandleScrolling(bool increase)
+        {
+            if (KeybindManager.Global.IsCtrlDown) return;
+            ChangeRadius(increase ? -radiusIncrement : radiusIncrement);
+        }
+
+        private void Prepare()
+        {
+            if (Timeline.time.tick == 0) return;
+            var targets = new NoteEnumerator(new QNT_Timestamp(0), new QNT_Timestamp(Timeline.time.tick - 1));
+            targets.reverse = true;
+            nearestTarget = FindNearestTargetPosition(targets);
+            trail.startColor = EditorState.Hand.Current == TargetHandType.Left ? NRSettings.config.leftColor : NRSettings.config.rightColor;
+            trail.endColor = EditorState.Hand.Current == TargetHandType.Right ? NRSettings.config.leftColor : NRSettings.config.rightColor;
             if (nearestTarget != null)
             {
-                nearestTarget.Deselect();
+                nearestTarget.Select();
+                IsHoveringGrid.Instance.ChangeColliderSize(true);
+                radius = 0f;
+                orbit.SetActive(true);
+                ChangeRadius(FindSuggestedDistance());
             }
-            Reset();
+            if(nearestTarget is null)
+            {
+                return;
+            }
+            hover.LockSpacing(true);
+            prepared = true;
         }
-        else if (prepared)
+
+        private void Reset()
         {
-            Reset();
+            IsHoveringGrid.Instance.ChangeColliderSize(false);
+            if (nearestTarget != null) nearestTarget.Deselect();
+            nearestTarget = null;
+            hover.LockSpacing(false);
+            hover.UpdateDistance("");
+            orbit.SetActive(false);
+            prepared = false;
         }
-    }
 
-    private void LockSpacing()
-    {
-        Vector2 mousePos = cam.ScreenToWorldPoint(Input.mousePosition);
-        Vector2 targetPos = nearestTarget.gridTargetIcon.transform.position;
-        var direction = (mousePos - targetPos).normalized;
-        if (Input.GetKey(KeyCode.LeftShift)) direction = GetClosestDirectional(direction);
-        var cursorPos = direction * radius;
-        var newCursorPos = targetPos + cursorPos;
-        hover.transform.position = newCursorPos;
-        orbit.transform.position = hover.transform.position;
-    }
-
-    private Vector2 GetClosestDirectional(Vector2 direction)
-    {
-        return directionals.Aggregate((x, y) => Vector2.Distance(x, direction) < Vector2.Distance(y, direction) ? x : y);
-    }
-
-    private void HandleScrolling()
-    {
-        if (Input.mouseScrollDelta.y > 0.1f)
+        private void ChangeRadius(float amount)
         {
-            ChangeRadius(radiusIncrement);
+            radius += amount;
+            radius = Mathf.Clamp(radius, .1f, 5f);
+            radius = (float)Math.Round(radius, 1);
+            hover.UpdateDistance(radius.ToString());
         }
-        else if (Input.mouseScrollDelta.y < -0.1f)
+
+        private float FindSuggestedDistance()
         {
-            ChangeRadius(-radiusIncrement);
+            var bpm = Timeline.instance.GetTempoForTime(Timeline.time);
+            float beatsBetweenTargets = new QNT_Timestamp(Timeline.time.tick - nearestTarget.data.time.tick).ToBeatTime();
+            msBetweenTargets = (bpm.microsecondsPerQuarterNote / 1000) * beatsBetweenTargets;
+            msBetweenTargets = Mathf.Floor(msBetweenTargets);
+            return .5f + (float)Math.Round(msBetweenTargets / 750f * Mathf.Clamp(msBetweenTargets / 100f, 1f, 3f), 1);
         }
-    }
 
-    private void HandleHandChange()
-    {
-        if (Input.GetKeyDown(KeyCode.A))
+        private Target FindNearestTargetPosition(NoteEnumerator targets)
         {
-            EditorInput.I.ToggleHandColor();
-        }
-    }
+            foreach (var target in targets)
+            {
+                TargetBehavior behavior = target.data.behavior;
+                if (behavior == TargetBehavior.Mine || behavior == TargetBehavior.Melee) continue;
 
-    private void Prepare()
-    {
-        if (Timeline.time.tick == 0) return;
-        var targets = new NoteEnumerator(new QNT_Timestamp(0), new QNT_Timestamp(Timeline.time.tick - 1));
-        targets.reverse = true;
-        nearestTarget = FindNearestTargetPosition(targets);
-        trail.startColor = EditorInput.selectedHand == TargetHandType.Left ? NRSettings.config.leftColor : NRSettings.config.rightColor;
-        trail.endColor = EditorInput.selectedHand == TargetHandType.Right ? NRSettings.config.leftColor : NRSettings.config.rightColor;
-        if (nearestTarget != null)
+                return target;
+            }
+            return null;
+        }
+
+        protected override void RegisterCallbacks()
         {
-            nearestTarget.Select();
-            EditorInput.IsSpacingLocked = true;
-            IsHoveringGrid.Instance.ChangeColliderSize(true);
-            radius = 0f;
-            orbit.SetActive(true);
-            ChangeRadius(FindSuggestedDistance());
+            actions.SpacingSnap.ChangeDistance.performed += ctx => HandleScrolling(ctx.ReadValue<float>() < 0);
+            actions.SpacingSnap.LockDirectional.performed += _ => lockDirectional = true;
+            actions.SpacingSnap.LockDirectional.canceled += _ => lockDirectional = false;
         }
-        prepared = true;
+
+        protected override void OnEscPressed(InputAction.CallbackContext context) { }
     }
 
-    private void Reset()
-    {
-        EditorInput.IsSpacingLocked = false;
-        IsHoveringGrid.Instance.ChangeColliderSize(false);
-        nearestTarget = null;
-        hover.UpdateDistance("");
-        orbit.SetActive(false);
-        prepared = false;
-    }
-
-    private void ChangeRadius(float amount)
-    {
-        radius += amount;
-        radius = Mathf.Clamp(radius, .1f, 5f);
-        radius = (float)Math.Round(radius, 1);
-        hover.UpdateDistance(radius.ToString());
-    }
-
-    private float FindSuggestedDistance()
-    {
-        var bpm = Timeline.instance.GetTempoForTime(Timeline.time);
-        float beatsBetweenTargets = new QNT_Timestamp(Timeline.time.tick - nearestTarget.data.time.tick).ToBeatTime();
-        msBetweenTargets = (bpm.microsecondsPerQuarterNote / 1000) * beatsBetweenTargets;
-        msBetweenTargets = Mathf.Floor(msBetweenTargets);
-        return .5f + (float)Math.Round(msBetweenTargets / 750f * Mathf.Clamp(msBetweenTargets / 100f, 1f, 3f), 1);
-    }
-
-    private Target FindNearestTargetPosition(NoteEnumerator targets)
-    {
-        foreach(var target in targets)
-        {
-            TargetBehavior behavior = target.data.behavior;
-            if (behavior == TargetBehavior.Mine || behavior == TargetBehavior.Melee) continue;
-
-            return target;
-        }
-        return null;
-    }
 }

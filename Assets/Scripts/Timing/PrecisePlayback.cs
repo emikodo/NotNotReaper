@@ -526,7 +526,7 @@ namespace NotReaper.Timing {
 				{
 					continue;
 				}
-				if (data.velocity == TargetVelocity.None)
+				if (data.velocity == InternalTargetVelocity.Silent)
 				{
 					continue;
 				}
@@ -559,35 +559,35 @@ namespace NotReaper.Timing {
 
 					switch (data.velocity)
 					{
-						case TargetVelocity.Standard:
+						case InternalTargetVelocity.Kick:
 							ev.sound = kick;
 							break;
 
-						case TargetVelocity.Percussion:
+						case InternalTargetVelocity.Percussion:
 							ev.sound = percussion;
 							break;
 
-						case TargetVelocity.Snare:
+						case InternalTargetVelocity.Snare:
 							ev.sound = snare;
 							break;
 
-						case TargetVelocity.Chain:
+						case InternalTargetVelocity.Chain:
 							ev.sound = chainNote;
 							break;
 
-						case TargetVelocity.ChainStart:
+						case InternalTargetVelocity.ChainStart:
 							ev.sound = chainStart;
 							break;
 
-						case TargetVelocity.Melee:
+						case InternalTargetVelocity.Melee:
 							ev.sound = t.data.behavior == TargetBehavior.Melee ? melee : meleeShatter;
 							break;
 
-						case TargetVelocity.Mine:
+						case InternalTargetVelocity.Mine:
 							ev.sound = mine;
 							break;
 
-						case TargetVelocity.None:
+						case InternalTargetVelocity.Silent:
 							ev.sound = null;
 							break;
 

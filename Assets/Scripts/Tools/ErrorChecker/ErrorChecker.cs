@@ -225,7 +225,7 @@ namespace NotReaper.Tools.ErrorChecker
 
                 // consecutive rhythm check
                 // if lower difficulties and not chain node
-                if (difficulty != 0 && (!prevTarget.behavior.Equals(TargetBehavior.Chain) && !curTarget.data.behavior.Equals(TargetBehavior.Chain)))
+                if (difficulty != 0 && (!prevTarget.behavior.Equals(TargetBehavior.ChainNode) && !curTarget.data.behavior.Equals(TargetBehavior.ChainNode)))
                 {
                     QNT_Duration rhythmLimit = SetRhythmLimit(difficulty);
                     int countLimit = SetCountLimit(difficulty);
@@ -274,13 +274,13 @@ namespace NotReaper.Tools.ErrorChecker
                     prevTarget.time == curTarget.data.time && prevTarget.time == curTarget.data.time &&
                     (prevTarget.behavior.Equals(TargetBehavior.Mine) && curTarget.data.behavior.Equals(TargetBehavior.Mine)) &&
                     (!prevTarget.behavior.Equals(TargetBehavior.Standard) && !curTarget.data.behavior.Equals(TargetBehavior.Standard)) &&
-                    (!prevTarget.behavior.Equals(TargetBehavior.Hold) && !curTarget.data.behavior.Equals(TargetBehavior.Hold)) &&
+                    (!prevTarget.behavior.Equals(TargetBehavior.Sustain) && !curTarget.data.behavior.Equals(TargetBehavior.Sustain)) &&
                     (!prevTarget.behavior.Equals(TargetBehavior.Horizontal) && !curTarget.data.behavior.Equals(TargetBehavior.Horizontal)) &&
                     (!prevTarget.behavior.Equals(TargetBehavior.Vertical) && !curTarget.data.behavior.Equals(TargetBehavior.Vertical)) &&
                     (!prevTarget.behavior.Equals(TargetBehavior.ChainStart) && !curTarget.data.behavior.Equals(TargetBehavior.ChainStart)) &&
-                    (!prevTarget.behavior.Equals(TargetBehavior.Chain) && !curTarget.data.behavior.Equals(TargetBehavior.Chain)) &&
+                    (!prevTarget.behavior.Equals(TargetBehavior.ChainNode) && !curTarget.data.behavior.Equals(TargetBehavior.ChainNode)) &&
                     (!prevTarget.behavior.Equals(TargetBehavior.Melee) && !curTarget.data.behavior.Equals(TargetBehavior.Melee)) &&
-                    (!prevTarget.behavior.Equals(TargetBehavior.NR_Pathbuilder) && !curTarget.data.behavior.Equals(TargetBehavior.NR_Pathbuilder))
+                    (!prevTarget.behavior.Equals(TargetBehavior.Legacy_Pathbuilder) && !curTarget.data.behavior.Equals(TargetBehavior.Legacy_Pathbuilder))
                   )
                 {
                     // Stacked Mines
@@ -308,9 +308,9 @@ namespace NotReaper.Tools.ErrorChecker
                         }
                     }
                     //chains
-                    if((prevTarget.behavior == TargetBehavior.Chain && curTarget.data.behavior == TargetBehavior.Chain) || 
+                    if((prevTarget.behavior == TargetBehavior.ChainNode && curTarget.data.behavior == TargetBehavior.ChainNode) || 
                         (prevTarget.behavior == TargetBehavior.ChainStart && curTarget.data.behavior == TargetBehavior.ChainStart) || 
-                        (prevTarget.behavior == TargetBehavior.NR_Pathbuilder && curTarget.data.behavior == TargetBehavior.NR_Pathbuilder))
+                        (prevTarget.behavior == TargetBehavior.Legacy_Pathbuilder && curTarget.data.behavior == TargetBehavior.Legacy_Pathbuilder))
                     {
                         var error = new ErrorLogEntry(prevTarget.time, "Error, stacked chains!");
                         error.affectedTargets.Add(timeline.FindNote(prevTarget));
@@ -323,9 +323,9 @@ namespace NotReaper.Tools.ErrorChecker
                 if (
                     prevTarget.time == curTarget.data.time &&
                     (!prevTarget.behavior.Equals(TargetBehavior.Mine) && !curTarget.data.behavior.Equals(TargetBehavior.Mine)) &&
-                    (!prevTarget.behavior.Equals(TargetBehavior.Chain) && !curTarget.data.behavior.Equals(TargetBehavior.Chain)) && 
+                    (!prevTarget.behavior.Equals(TargetBehavior.ChainNode) && !curTarget.data.behavior.Equals(TargetBehavior.ChainNode)) && 
                     (!prevTarget.behavior.Equals(TargetBehavior.Melee) && !curTarget.data.behavior.Equals(TargetBehavior.Melee)) &&
-                    (!prevTarget.behavior.Equals(TargetBehavior.NR_Pathbuilder) && !curTarget.data.behavior.Equals(TargetBehavior.NR_Pathbuilder))
+                    (!prevTarget.behavior.Equals(TargetBehavior.Legacy_Pathbuilder) && !curTarget.data.behavior.Equals(TargetBehavior.Legacy_Pathbuilder))
                     )
 
                 {
@@ -452,7 +452,7 @@ namespace NotReaper.Tools.ErrorChecker
                 {
 
                     //short break after sustain 
-                    if (prevTarget.behavior.Equals(TargetBehavior.Hold))
+                    if (prevTarget.behavior.Equals(TargetBehavior.Sustain))
                     {
                         if (InsufficientBreakAfterSustain(prevTarget,curTarget,sustainLeadTime))
                         {
@@ -463,7 +463,7 @@ namespace NotReaper.Tools.ErrorChecker
                     }
                    
                     //short break after chain node
-                    if (prevTarget.behavior.Equals(TargetBehavior.Chain) && !curTarget.data.behavior.Equals(TargetBehavior.Chain))
+                    if (prevTarget.behavior.Equals(TargetBehavior.ChainNode) && !curTarget.data.behavior.Equals(TargetBehavior.ChainNode))
                     {
                         if (InsufficientBreakAfterPreviousTarget(prevTarget,curTarget,chainLeadTime)) {
 	                        var error = new ErrorLogEntry(prevTarget.time,
@@ -511,12 +511,12 @@ namespace NotReaper.Tools.ErrorChecker
 
         private bool HasHitSound(Target targetCue)
         {
-            return Enum.IsDefined(typeof(TargetVelocity), targetCue.data.velocity);
+            return Enum.IsDefined(typeof(InternalTargetVelocity), targetCue.data.velocity);
         }
 
         private bool IsMeleeHitSound(Target targetCue)
         {
-            return targetCue.data.velocity.Equals(TargetVelocity.Melee) || targetCue.data.velocity.Equals(TargetVelocity.Snare);
+            return targetCue.data.velocity.Equals(InternalTargetVelocity.Melee) || targetCue.data.velocity.Equals(InternalTargetVelocity.Snare);
         }
 
         private bool IsLowMelee(TargetData targetCue)

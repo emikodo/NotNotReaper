@@ -19,7 +19,7 @@ namespace NotReaper.Notifications
         private static NotificationPanel panel;
         private static NotificationSpawner spawner;
 
-        private static bool isForceShowingPopup = false;
+        public bool hasNotifications => notifications.Count > 0;
 
         private void Awake()
         {

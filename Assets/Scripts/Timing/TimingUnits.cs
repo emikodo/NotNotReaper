@@ -237,6 +237,7 @@ namespace NotReaper.Timing {
     /// QNT (or quarter note ticks), represents a value in pulses per quarter note
     /// This value represents a positive duration of time
     /// </summary>
+    [Serializable]
     public struct QNT_Duration {
         public QNT_Duration(UInt64 tick) {
             this.tick = tick;

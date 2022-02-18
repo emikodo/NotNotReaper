@@ -13,13 +13,13 @@ using TMPro;
 using System.Collections;
 using NotReaper.Managers;
 using NotReaper.Notifications;
-
+using UnityEngine.InputSystem;
+using NotReaper.UserInput;
 namespace NotReaper.ReviewSystem
 {
-    //[RequireComponent(typeof(EditorInputDisabler))]
-    public class ReviewWindow : MonoBehaviour
+    public class ReviewWindow : NRInput<ReviewKeybinds>
     {
-        public static ReviewWindow Instance = null;
+        public static ReviewWindow Instance { get; private set; } = null;
         public static bool IsOpen = false;
         #region References
         [SerializeField] private GameObject window;
@@ -55,7 +55,10 @@ namespace NotReaper.ReviewSystem
         private List<CommentEntry> commentEntries = new List<CommentEntry>();
         private Vector2 lastOpenPosition = Vector2.zero;
         private float lastScrollPosition = 1f;
-        private void Awake()
+
+        [NRInject] private Timeline timeline;
+
+        protected override void Awake()
         {
             if (Instance is null) Instance = this;
             else
@@ -63,6 +66,7 @@ namespace NotReaper.ReviewSystem
                 Debug.LogWarning("ReviewWindow already exists.");
                 return;
             }
+            base.Awake();
         }
 
         bool init = false;
@@ -75,6 +79,19 @@ namespace NotReaper.ReviewSystem
             string exportFolder = Path.Combine(Directory.GetParent(Application.dataPath).ToString(), "reviews");
             if (!Directory.Exists(exportFolder)) Directory.CreateDirectory(exportFolder);
         }
+
+        protected override void OnActivated()
+        {
+            base.OnActivated();
+            EditorState.SetIsInUI(true);
+        }
+
+        protected override void OnDeactivated()
+        {
+            base.OnDeactivated();
+            EditorState.SetIsInUI(false);
+        }
+
         public void ShowWindow(bool show)
         {
             IsOpen = show;
@@ -85,7 +102,9 @@ namespace NotReaper.ReviewSystem
             if (!show)
             {
                 foreach (GameObject go in bottomBarButtons) go.SetActive(true);
-                lastScrollPosition = scroller.verticalNormalizedPosition;
+                lastScrollPosition = scroller.verticalNormalizedPosition;               
+                OnDeactivated();
+                
             }
             else
             {
@@ -93,6 +112,8 @@ namespace NotReaper.ReviewSystem
                 {
                     ShowSuggestion();
                 }
+                
+                OnActivated();
                 editSuggestionPanel.SetActive(false);
                 selectCuesPanel.SetActive(false);
                 StartCoroutine(UpdateScroller(lastScrollPosition));
@@ -119,16 +140,16 @@ namespace NotReaper.ReviewSystem
         public void SelectComment(int index)
         {
             if (index < 0 || index >= loadedContainer.comments.Count) return;
-            Timeline.instance.DeselectAllTargets();
+            timeline.DeselectAllTargets();
             currentComment = loadedContainer.comments[index];
 
             Cue firstCue = currentComment.selectedCues.FirstOrDefault();
             Cue lastCue = currentComment.selectedCues.LastOrDefault();
 
             foreach (Target target in SelectTargets(firstCue.tick, lastCue.tick))
-                Timeline.instance.SelectTarget(target);
+                timeline.SelectTarget(target);
 
-            StartCoroutine(Timeline.instance.AnimateSetTime(new QNT_Timestamp((ulong)firstCue.tick)));
+            StartCoroutine(timeline.AnimateSetTime(new QNT_Timestamp((ulong)firstCue.tick)));
 
             FillData();
             foreach (CommentEntry ce in commentEntries) ce.IsSelected = false;
@@ -145,7 +166,7 @@ namespace NotReaper.ReviewSystem
             currentComment = new ReviewComment();
             makeSuggestionButton.SetActive(false);
             showSuggestionButton.SetActive(false);
-            Timeline.instance.DeselectAllTargets();
+            timeline.DeselectAllTargets();
         }
 
         public void FillData()
@@ -172,7 +193,7 @@ namespace NotReaper.ReviewSystem
         {
             if (loadedContainer.comments.Contains(currentComment))
             {
-                Timeline.instance.DeselectAllTargets();
+                timeline.DeselectAllTargets();
                 loadedContainer.comments.Remove(currentComment);
                 RemoveCommentEntry(currentComment);
                 //NotificationCenter.SendNotification($"Removed comment", NRNotifType.Success);
@@ -185,13 +206,13 @@ namespace NotReaper.ReviewSystem
         /// </summary>
         public void SaveComment()
         {
-            if(Timeline.instance.selectedNotes.Count == 0)
+            if(timeline.selectedNotes.Count == 0)
             {
                 NotificationCenter.SendNotification("Couldn't save comment. No targets selected.", NotificationType.Warning);
                 return;
             }
             var selectedCues = new List<Cue>();
-            foreach (Target target in Timeline.instance.selectedNotes)
+            foreach (Target target in timeline.selectedNotes)
             {
                 selectedCues.Add(target.ToCue());
             }
@@ -330,7 +351,7 @@ namespace NotReaper.ReviewSystem
 
         public void ClearContainer()
         {
-            Timeline.instance.DeselectAllTargets();
+            timeline.DeselectAllTargets();
             foreach(var entry in commentEntries)
             {
                 Destroy(entry.gameObject);
@@ -389,10 +410,10 @@ namespace NotReaper.ReviewSystem
             }
             else
             {
-                if(Timeline.instance.selectedNotes.Count > 0)
+                if(timeline.selectedNotes.Count > 0)
                 {
                     var selectedCues = new List<Cue>();
-                    foreach (Target target in Timeline.instance.selectedNotes)
+                    foreach (Target target in timeline.selectedNotes)
                     {
                         selectedCues.Add(target.ToCue());
                     }
@@ -429,17 +450,17 @@ namespace NotReaper.ReviewSystem
         {
             List<Cue> targetsToSpawn = (original ? currentComment.selectedCues : currentComment.suggestionCues).ToList();
             List<Cue> targetsToSelect = (original ? currentComment.suggestionCues : currentComment.selectedCues).ToList();
-            Timeline.instance.DeselectAllTargets();
+            timeline.DeselectAllTargets();
             foreach(Target target in SelectTargets(targetsToSelect.First().tick, targetsToSelect.Last().tick))
             {
-                Timeline.instance.SelectTarget(target);
+                timeline.SelectTarget(target);
             }
-            Timeline.instance.DeleteTargets(Timeline.instance.selectedNotes);
+            timeline.DeleteTargets(timeline.selectedNotes);
             foreach(Cue cue in targetsToSpawn)
             {
-                TargetData data = Timeline.instance.GetTargetDataForCue(cue);
-                Target target = Timeline.instance.AddTargetFromAction(data);
-                Timeline.instance.SelectTarget(target);
+                TargetData data = timeline.GetTargetDataForCue(cue);
+                Target target = timeline.AddTargetFromAction(data);
+                timeline.SelectTarget(target);
             }
         }
 
@@ -458,16 +479,29 @@ namespace NotReaper.ReviewSystem
         }
 
         private bool fade = false;
-        private void Update()
+
+        private void TogglePlayback()
         {
             if (SelectedMode != ReviewMode.Read) return;
-            if (Input.GetKeyDown(KeyCode.Space))
+            
+            fade = !fade;
+            timeline.TogglePlayback();
+            windowCanvas.alpha = fade ? .4f : 1f;
+            windowCanvas.interactable = !fade;
+            if (fade)
             {
-                fade = !fade;
-                Timeline.instance.TogglePlayback();
-                windowCanvas.alpha = fade ? .4f : 1f;
-                windowCanvas.interactable = !fade;
+                KeybindManager.EnableMap(KeybindManager.Map.Timeline);
             }
+            else
+            {
+                KeybindManager.DisableMap(KeybindManager.Map.Timeline);
+            }
+                EditorState.SetIsInUI(!fade);
+        }
+
+        private void Scrub(InputAction.CallbackContext obj)
+        {
+            timeline.ScrubTimeline(obj.ReadValue<float>() < 0, false);
         }
 
         bool VerifyReview(ReviewContainer container, out string message)
@@ -489,6 +523,17 @@ namespace NotReaper.ReviewSystem
             where target.data.time.tick >= (ulong)startTick &&
                   target.data.time.tick <= (ulong)endTick
             select target;
+
+        protected override void RegisterCallbacks()
+        {
+            actions.Review.TogglePlayback.performed += _ => TogglePlayback();
+            actions.Review.Scrub.performed += Scrub;
+        }
+
+        protected override void OnEscPressed(InputAction.CallbackContext context)
+        {
+            ShowWindow(false);
+        }
     }
 
 }
