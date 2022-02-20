@@ -30,6 +30,11 @@ namespace NotReaper.UI {
             ThemeableManager.AddThemeable(this);
         }
 
+        public void SetType(NRThemeableType type)
+        {
+            this.type = type;
+            UpdateColors();
+        }
 
         private Color GenerateColorForType(NRThemeableType typeToGen) 
         {

@@ -690,7 +690,7 @@ namespace NotReaper.Tools.PathBuilder
 		{
 			activePoint = point;
 			point.ShouldSnap(snapToGrid);
-			if (!KeybindManager.Global.IsCtrlDown)
+			if (KeybindManager.Global.Modifier == KeybindManager.Global.Modifiers.None)
 			{
 				SetActiveSegment(segment);
 			}
@@ -748,7 +748,16 @@ namespace NotReaper.Tools.PathBuilder
 		{
 			Activate(false);
 		}
-		#endregion
-	}
+
+        protected override void SetRebindConfiguration(ref RebindConfiguration options, PathbuilderKeybinds myKeybinds)
+        {
+			options.SetAssetTitle("Pathbuilder").SetPriority(20);
+			options.AddCustomKeybindName(myKeybinds.Pathbuilder.ChangeToNextSegment, "Next Segment").AddCustomKeybindName(myKeybinds.Pathbuilder.ChangeToPreviousSegment, "Previous Segment");
+			options.AddHiddenKeybinds(myKeybinds.Pathbuilder.MousePosition);
+			options.AddNonRebindableKeybinds(myKeybinds.Pathbuilder.SelectTarget);
+			options.AddNonRebindableKeybinds(myKeybinds.Pathbuilder.SnapToGrid);
+        }
+        #endregion
+    }
 }
 

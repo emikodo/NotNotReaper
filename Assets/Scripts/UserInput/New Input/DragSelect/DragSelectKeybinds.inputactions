@@ -1,5 +1,5 @@
 {
-    "name": "DragSelectTool",
+    "name": "DragSelectKeybinds",
     "maps": [
         {
             "name": "DragSelect",
@@ -11,23 +11,26 @@
                     "id": "f22d9320-5c98-42b9-b334-b580282ecdf5",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
-                    "name": "Group Select",
+                    "name": "GroupSelect",
                     "type": "Button",
                     "id": "4c13b94b-5b82-4cf6-a5eb-199f801d8473",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
-                    "name": "Mouse Position",
+                    "name": "MousePosition",
                     "type": "Value",
                     "id": "efa11db2-eaa7-4a38-adc8-6ea45fde6e6d",
                     "expectedControlType": "Vector2",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -49,7 +52,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Group Select",
+                    "action": "GroupSelect",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -60,7 +63,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Mouse Position",
+                    "action": "MousePosition",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

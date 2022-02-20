@@ -114,6 +114,7 @@ namespace NotReaper.Tools
             {
                 if (!isActive)
                 {
+					Debug.Log("Enable drag select");
 					isActive = true;
 					EnableDragSelect();
                 }
@@ -122,6 +123,7 @@ namespace NotReaper.Tools
             {
                 if (isActive)
                 {
+					Debug.Log("Disable drag select");
 					isActive = false;
 					DisableDragSelect();
                 }
@@ -522,10 +524,16 @@ namespace NotReaper.Tools
 			}
 			EndDrag();
 		}
-		#endregion
 
-		#region Enum
-		private enum DragState
+        protected override void SetRebindConfiguration(ref RebindConfiguration options, DragSelectKeybinds myKeybinds)
+        {
+			options.SetRebindable(false);
+			options.AddHiddenKeybinds(myKeybinds.DragSelect.MousePosition);
+        }
+        #endregion
+
+        #region Enum
+        private enum DragState
 		{
 			None,
 			DetectIntent,

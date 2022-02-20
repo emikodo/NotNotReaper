@@ -11,7 +11,8 @@
                     "id": "1135e5c4-23db-4dd3-b2df-dcd6a3ceef5d",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "RemoveNote",
@@ -19,7 +20,8 @@
                     "id": "3bedfb04-97ca-444d-a116-397966932d3f",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "SwitchHand",
@@ -27,7 +29,8 @@
                     "id": "03c343a5-9aaf-4baf-9278-d280ee733ffd",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "FlipTargetColors",
@@ -35,7 +38,8 @@
                     "id": "7088afb3-341b-40b3-b50a-91a92793b91c",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "DeleteSelectedTargets",
@@ -43,7 +47,8 @@
                     "id": "7da3228b-8ca1-43b8-b2e1-e5b990096ab0",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -81,59 +86,15 @@
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "Button With Three Excludes",
-                    "id": "6e6d75e6-8114-40df-a9b7-04b19d54fd13",
-                    "path": "ButtonWithThreeExcludes",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "FlipTargetColors",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "button",
-                    "id": "e16377ab-9822-4ed8-ad6d-f76c358ed060",
+                    "name": "",
+                    "id": "ecc9076c-4f02-49d6-a315-fd16fb4663ce",
                     "path": "<Keyboard>/f",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "FlipTargetColors",
                     "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "exclude1",
-                    "id": "49c59510-c478-46f6-b8e1-7e1cc5f9e1fb",
-                    "path": "<Keyboard>/ctrl",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "FlipTargetColors",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "exclude2",
-                    "id": "53c21263-bd28-4339-9688-96b85bdb19fa",
-                    "path": "<Keyboard>/shift",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "FlipTargetColors",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "exclude3",
-                    "id": "497f7446-b6b5-47e5-970b-e2822dae94dd",
-                    "path": "<Keyboard>/alt",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "FlipTargetColors",
-                    "isComposite": false,
-                    "isPartOfComposite": true
+                    "isPartOfComposite": false
                 },
                 {
                     "name": "",
@@ -149,6 +110,1774 @@
             ]
         },
         {
+            "name": "Timeline",
+            "id": "80010bab-3ac8-46cf-87f3-dc0361406d03",
+            "actions": [
+                {
+                    "name": "TogglePlay",
+                    "type": "Button",
+                    "id": "8b338932-899e-48f5-9521-bb3063f6163c",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Scrub",
+                    "type": "Value",
+                    "id": "6a636507-01dd-435e-a269-c87811d48911",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "ScrubByTick",
+                    "type": "Value",
+                    "id": "9f4bdf6e-1626-4b53-b740-bb5f544cae1e",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "ChangeBeatSnap",
+                    "type": "Value",
+                    "id": "78e9dc01-44c4-4952-8001-0978923b0879",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "ZoomTimeline",
+                    "type": "Value",
+                    "id": "1f3b5269-ee9e-4f8c-943c-1448bbd22ce9",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "StartMetronome",
+                    "type": "Button",
+                    "id": "119a6e75-c67f-45d1-bf63-97f55bc67765",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ToggleWaveform",
+                    "type": "Button",
+                    "id": "fed964c5-0056-42d9-ac60-ac618a9baff5",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "9ad7378f-3131-4909-a61c-3b32b4b5eeea",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "TogglePlay",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "Button With One Modifier",
+                    "id": "72fdf5b2-4769-4bd1-bd24-6be6a88cb134",
+                    "path": "ButtonWithOneModifier",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "StartMetronome",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "modifier",
+                    "id": "fb45c049-6146-4dfb-a332-a80db3570321",
+                    "path": "<Keyboard>/ctrl",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "StartMetronome",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "button",
+                    "id": "e333e77b-efe2-48c4-91ab-4287b2258299",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "StartMetronome",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "8e48d40c-cb09-445e-9d18-da600507f912",
+                    "path": "<Mouse>/scroll/y",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Scrub",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "One Modifier",
+                    "id": "4e6c6ab2-5ef0-4ec1-9ed7-793b296bcbf8",
+                    "path": "OneModifier",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ScrubByTick",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "modifier",
+                    "id": "a1a4d669-fdba-4088-b5b3-8dd6a4356643",
+                    "path": "<Keyboard>/ctrl",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ScrubByTick",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "binding",
+                    "id": "f03d9823-76e4-414e-a056-8888e0fa2917",
+                    "path": "<Mouse>/scroll/y",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ScrubByTick",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "Two Modifiers",
+                    "id": "c9b4967c-16ea-4e54-b7c3-a77e09d7e256",
+                    "path": "TwoModifiers",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ChangeBeatSnap",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "modifier1",
+                    "id": "56ad618a-3ee1-46dd-b34b-35ac53dd15bf",
+                    "path": "<Keyboard>/ctrl",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ChangeBeatSnap",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "modifier2",
+                    "id": "fc02887c-d6e5-4370-8ced-ae606275d5b7",
+                    "path": "<Keyboard>/alt",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ChangeBeatSnap",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "binding",
+                    "id": "6236f1b3-ab96-4b45-a92c-6bfda9e315fc",
+                    "path": "<Mouse>/scroll/y",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ChangeBeatSnap",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "One Modifier",
+                    "id": "bd0e0374-0cb1-4a7b-98ea-531b463e9cbd",
+                    "path": "OneModifier",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ZoomTimeline",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "modifier",
+                    "id": "ad805801-028d-4b53-81aa-2754e4a826a5",
+                    "path": "<Keyboard>/shift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ZoomTimeline",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "binding",
+                    "id": "437d3668-1768-4ac4-b88e-f816a8299839",
+                    "path": "<Mouse>/scroll/y",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ZoomTimeline",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "502e5563-2475-4381-916e-b7ef36cdd085",
+                    "path": "<Keyboard>/f2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "ToggleWaveform",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "BehaviorSelect",
+            "id": "b0aa890b-fae2-4cf6-9d93-c85e546b0429",
+            "actions": [
+                {
+                    "name": "SelectBehaviorStandard",
+                    "type": "Button",
+                    "id": "26fc1164-00b6-4fcc-a1e9-d48a52d9471d",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "SelectBehaviorSustain",
+                    "type": "Button",
+                    "id": "d28ff1b8-dc5b-4998-967c-9b3d2c1a5cbc",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "SelectBehaviorHorizontal",
+                    "type": "Button",
+                    "id": "a68e2b3b-2e58-4b3c-b98c-e45778f2ca89",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "SelectBehaviorVertical",
+                    "type": "Button",
+                    "id": "47fb17aa-2d38-4a37-91c1-1274b2e2877f",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "SelectBehaviorChainstart",
+                    "type": "Button",
+                    "id": "163391ea-08e5-45cf-8174-fd2dd3d8e8a1",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "SelectBehaviorChain",
+                    "type": "Button",
+                    "id": "47da4255-8ec7-443b-83ec-609ab775dbb9",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "SelectBehaviorMelee",
+                    "type": "Button",
+                    "id": "2d78bce9-8ff7-40e6-b00e-ac3f2ce4cebf",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "SelectBehaviorMine",
+                    "type": "Button",
+                    "id": "8cf79b51-2c64-4d2b-b6d4-7c798e50cefe",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "f9c04ddd-61fa-4fae-b385-a1d51e8167d7",
+                    "path": "<Keyboard>/1",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "SelectBehaviorStandard",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c4be0cc8-c990-45f6-b1dd-e3780126f848",
+                    "path": "<Keyboard>/2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "SelectBehaviorSustain",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e714c295-68fc-4036-9f1f-a509bf3b9708",
+                    "path": "<Keyboard>/7",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "SelectBehaviorMelee",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "19a8589b-2069-4931-9512-26c5443278f3",
+                    "path": "<Keyboard>/8",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "SelectBehaviorMine",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "64220fab-0c57-4273-810a-d969aa0349ed",
+                    "path": "<Keyboard>/4",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "SelectBehaviorVertical",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c757974c-82e8-4d41-81f8-39bbf1f61efd",
+                    "path": "<Keyboard>/5",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "SelectBehaviorChainstart",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b3cf005b-7c11-4100-a2f8-2bf2b2b4fcef",
+                    "path": "<Keyboard>/6",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "SelectBehaviorChain",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "01d2270d-85a2-49c4-9eec-8d3084ab25eb",
+                    "path": "<Keyboard>/3",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "SelectBehaviorHorizontal",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "BehaviorConvert",
+            "id": "c4e86379-cc52-48ae-989d-f10b87f9be88",
+            "actions": [
+                {
+                    "name": "ConvertBehaviorStandard",
+                    "type": "Button",
+                    "id": "ec1d49eb-c37e-4de2-94c4-d0ea25e4da79",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ConvertBehaviorSustain",
+                    "type": "Button",
+                    "id": "d7f9e073-9c8d-481b-8287-bbeb17ea7354",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ConvertBehaviorVertical",
+                    "type": "Button",
+                    "id": "c11883ea-ba60-4412-98da-c875e679122c",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ConvertBehaviorHorizontal",
+                    "type": "Button",
+                    "id": "8dfeac65-b806-40d3-abd0-7db365d36f13",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ConvertBehaviorChainstart",
+                    "type": "Button",
+                    "id": "8e08c3f7-34e6-4ae2-9d31-196a660e8d96",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ConvertBehaviorChain",
+                    "type": "Button",
+                    "id": "930079e1-5619-4c60-8373-77c84b320ea2",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ConvertBehaviorMelee",
+                    "type": "Button",
+                    "id": "0e6b737a-28b4-4fde-a061-4b17f53cce2a",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ConvertBehaviorMine",
+                    "type": "Button",
+                    "id": "557b403d-5d3b-4f34-8881-5b664d478d3b",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "One Modifier",
+                    "id": "d9f47949-006a-4544-829d-5b0864b9e27d",
+                    "path": "OneModifier",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ConvertBehaviorStandard",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "Modifier",
+                    "id": "30b929b1-7314-455d-92a9-eab1ef3c7a38",
+                    "path": "<Keyboard>/ctrl",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "ConvertBehaviorStandard",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "Binding",
+                    "id": "4abe9e8e-078c-4e22-81ca-ac242c81c9e1",
+                    "path": "<Keyboard>/1",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "ConvertBehaviorStandard",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "One Modifier",
+                    "id": "b4f82e2c-7bb9-47cd-a926-fb4eb165a7ea",
+                    "path": "OneModifier",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "ConvertBehaviorSustain",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "Modifier",
+                    "id": "1216654f-6289-4b7f-b9f1-4844393e4c5d",
+                    "path": "<Keyboard>/ctrl",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "ConvertBehaviorSustain",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "Binding",
+                    "id": "33088c14-808f-49a6-ac0e-872a58e7b811",
+                    "path": "<Keyboard>/2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "ConvertBehaviorSustain",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "One Modifier",
+                    "id": "c359f53c-53bc-4ae1-ac73-310f1f9c42c5",
+                    "path": "OneModifier",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "ConvertBehaviorVertical",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "Modifier",
+                    "id": "871053ab-8455-420f-aa78-43c1687b8d2a",
+                    "path": "<Keyboard>/ctrl",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "ConvertBehaviorVertical",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "Binding",
+                    "id": "50fb8cb6-5238-4a4a-a091-05d5a6806309",
+                    "path": "<Keyboard>/3",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "ConvertBehaviorVertical",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "One Modifier",
+                    "id": "a255f470-bbfa-463d-8ef8-01fe8eb32ffa",
+                    "path": "OneModifier",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "ConvertBehaviorHorizontal",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "Modifier",
+                    "id": "71a006bc-5004-4290-98f7-6e358aea9238",
+                    "path": "<Keyboard>/ctrl",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "ConvertBehaviorHorizontal",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "Binding",
+                    "id": "65c26e1c-13ae-4da6-b1cd-d2f25fe97dca",
+                    "path": "<Keyboard>/4",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "ConvertBehaviorHorizontal",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "One Modifier",
+                    "id": "7483d052-9471-436d-a9ad-844d981d404f",
+                    "path": "OneModifier",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "ConvertBehaviorChainstart",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "Modifier",
+                    "id": "8f15a5df-d15e-45fd-a79d-7540f0c26dc8",
+                    "path": "<Keyboard>/ctrl",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "ConvertBehaviorChainstart",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "Binding",
+                    "id": "05ba09a0-0431-431d-9070-00e9a8f934d4",
+                    "path": "<Keyboard>/5",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "ConvertBehaviorChainstart",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "One Modifier",
+                    "id": "88b22353-0b07-4b7c-a844-918b7abd2aba",
+                    "path": "OneModifier",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "ConvertBehaviorChain",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "Modifier",
+                    "id": "b4973b6e-9b30-4edf-b5d3-06a7fc4e3e76",
+                    "path": "<Keyboard>/ctrl",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "ConvertBehaviorChain",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "Binding",
+                    "id": "4f6896fe-0f7e-47ef-88f9-87359c9d4cf1",
+                    "path": "<Keyboard>/6",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "ConvertBehaviorChain",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "One Modifier",
+                    "id": "438d10db-ef05-4743-8dec-f1a1e70900cb",
+                    "path": "OneModifier",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "ConvertBehaviorMelee",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "Modifier",
+                    "id": "0b0f2050-4272-48da-8757-47ea089693c4",
+                    "path": "<Keyboard>/ctrl",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "ConvertBehaviorMelee",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "Binding",
+                    "id": "804a0a36-13d4-4063-8e20-9d5cc159a6ed",
+                    "path": "<Keyboard>/7",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "ConvertBehaviorMelee",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "One Modifier",
+                    "id": "6fb894db-182e-47bb-901e-ff1e7b3c16ff",
+                    "path": "OneModifier",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "ConvertBehaviorMine",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "Modifier",
+                    "id": "111c1d6e-da4c-4031-9b68-4b0312e6ac14",
+                    "path": "<Keyboard>/ctrl",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "ConvertBehaviorMine",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "Binding",
+                    "id": "14c42aa8-0b43-48bd-a47c-38bca2970938",
+                    "path": "<Keyboard>/8",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "ConvertBehaviorMine",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                }
+            ]
+        },
+        {
+            "name": "HitsoundSelect",
+            "id": "b4dc7f2f-68e2-4bbd-afb0-186e85f5a40b",
+            "actions": [
+                {
+                    "name": "SelectHitsoundKick",
+                    "type": "Button",
+                    "id": "4fd0747f-c811-46d5-a935-96447368dc8c",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "SelectHitsoundSnare",
+                    "type": "Button",
+                    "id": "ef5fb7bb-16f1-463f-a4c3-ddb9c7ac05a0",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "SelectHitsoundPercussion",
+                    "type": "Button",
+                    "id": "c06c90a0-6b8c-4ff9-91b2-e3a2fbe0e66d",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "SelectHitsoundChainstart",
+                    "type": "Button",
+                    "id": "dc76decc-a697-4b1b-9f41-a5386065012d",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "SelectHitsoundChain",
+                    "type": "Button",
+                    "id": "6e323c62-a846-4ebd-948f-f742e655c867",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "SelectHitsoundMelee",
+                    "type": "Button",
+                    "id": "95abaac8-3eed-49da-8070-de4cf20803ac",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "SelectHitsoundSilent",
+                    "type": "Button",
+                    "id": "299ffac3-550c-43cf-86fb-895788829a5a",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "6485c361-aac3-4ba7-bbb0-c45addb5a5b2",
+                    "path": "<Keyboard>/q",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "SelectHitsoundKick",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ccd74f55-0737-4e3b-aabf-2e477e76aa3a",
+                    "path": "<Keyboard>/w",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "SelectHitsoundSnare",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "fd7f1583-0164-4b30-9c8e-3b90bc4589e8",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "SelectHitsoundPercussion",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "962d0c6f-9872-4b7d-876b-e7ba4928327b",
+                    "path": "<Keyboard>/r",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "SelectHitsoundChainstart",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e2c8a79f-ea28-444d-927b-f80976498a73",
+                    "path": "<Keyboard>/t",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "SelectHitsoundChain",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "45f2bb26-1042-4f9e-af89-a79f01c008ca",
+                    "path": "<Keyboard>/z",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "SelectHitsoundMelee",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9edfc761-50e5-4dee-9faa-8d94a631a095",
+                    "path": "<Keyboard>/u",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "SelectHitsoundSilent",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "HitsoundConvert",
+            "id": "3220ed51-98f4-41a4-a148-634660e8d38b",
+            "actions": [
+                {
+                    "name": "ConvertHitsoundKick",
+                    "type": "Button",
+                    "id": "875e2bee-7e9b-48e2-bc4b-a771dca64103",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ConvertHitsoundSnare",
+                    "type": "Button",
+                    "id": "23170cd3-9ad3-46aa-ac7b-420a8cba8a8f",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ConvertHitsoundPercussion",
+                    "type": "Button",
+                    "id": "47a759cc-48c8-4e03-9c4c-41dcc6f777fa",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ConvertHitsoundChainstart",
+                    "type": "Button",
+                    "id": "4fcc0e55-4f0e-450c-be72-4956140711f7",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ConvertHitsoundChain",
+                    "type": "Button",
+                    "id": "c9b1bc60-db00-4e98-8e7e-f9e3b7c5f245",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ConvertHitsoundMelee",
+                    "type": "Button",
+                    "id": "b2d71fad-c681-4455-be2c-9c5315493654",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ConvertHitsoundSilent",
+                    "type": "Button",
+                    "id": "5becb66b-122d-4c92-ba67-3493449cb17d",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "Button With One Modifier",
+                    "id": "4a78b5fa-2c30-4c98-a59c-f44068e6a505",
+                    "path": "ButtonWithOneModifier",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ConvertHitsoundKick",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "modifier",
+                    "id": "328a2f3c-8552-4df4-9fab-a7e013237301",
+                    "path": "<Keyboard>/ctrl",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ConvertHitsoundKick",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "button",
+                    "id": "9325a1f4-f5a2-48c3-ba56-072bc06aafff",
+                    "path": "<Keyboard>/q",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ConvertHitsoundKick",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "Button With One Modifier",
+                    "id": "f977ce98-e61b-4241-893e-157db86c2a95",
+                    "path": "ButtonWithOneModifier",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ConvertHitsoundSnare",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "modifier",
+                    "id": "4f801ca7-ed25-4d77-a033-5c1f390f6a53",
+                    "path": "<Keyboard>/ctrl",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ConvertHitsoundSnare",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "button",
+                    "id": "df1cb619-1ffa-4b68-9a70-ce73d68e7ea3",
+                    "path": "<Keyboard>/w",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ConvertHitsoundSnare",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "Button With One Modifier",
+                    "id": "e343cc5f-2921-422d-b066-e9833ceaccd3",
+                    "path": "ButtonWithOneModifier",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ConvertHitsoundPercussion",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "modifier",
+                    "id": "ef9b8f81-58c5-4f02-bda4-9e74bae2ca9a",
+                    "path": "<Keyboard>/ctrl",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ConvertHitsoundPercussion",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "button",
+                    "id": "c6a5db98-9057-4c54-a390-04fbdc62d9d8",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ConvertHitsoundPercussion",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "Button With One Modifier",
+                    "id": "6165a924-ae4b-4af0-ae68-53a70cefc12f",
+                    "path": "ButtonWithOneModifier",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ConvertHitsoundChainstart",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "modifier",
+                    "id": "7736ff76-a4b6-4a49-9b0b-d0d9fd7e9332",
+                    "path": "<Keyboard>/ctrl",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ConvertHitsoundChainstart",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "button",
+                    "id": "21a45ebd-15d7-456d-98e4-b898ffe315f6",
+                    "path": "<Keyboard>/r",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ConvertHitsoundChainstart",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "Button With One Modifier",
+                    "id": "b48577e2-cb3a-479b-b1f7-b9a6c4b7386f",
+                    "path": "ButtonWithOneModifier",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ConvertHitsoundChain",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "modifier",
+                    "id": "4fda5dc8-9a59-48d7-8c5d-7505c266e532",
+                    "path": "<Keyboard>/ctrl",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ConvertHitsoundChain",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "button",
+                    "id": "11598d8a-0f3a-434e-8ba9-6e88ef0d6c5e",
+                    "path": "<Keyboard>/t",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ConvertHitsoundChain",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "Button With Two Modifiers",
+                    "id": "b33737e4-cd02-4cef-a92a-b31713da34be",
+                    "path": "ButtonWithTwoModifiers",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ConvertHitsoundMelee",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "modifier1",
+                    "id": "4a137895-7191-4fdc-87ea-dfd00dc0d4d6",
+                    "path": "<Keyboard>/ctrl",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ConvertHitsoundMelee",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "modifier2",
+                    "id": "d054dc87-f354-488c-b52c-5c7153f60d08",
+                    "path": "<Keyboard>/shift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ConvertHitsoundMelee",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "button",
+                    "id": "95ce1028-9acc-4390-b487-2c9e73e82a6f",
+                    "path": "<Keyboard>/y",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ConvertHitsoundMelee",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "Button With One Modifier",
+                    "id": "25efb5d6-b10e-43c1-8a86-494161a78376",
+                    "path": "ButtonWithOneModifier",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ConvertHitsoundSilent",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "modifier",
+                    "id": "a6b74f37-7c08-40f8-a05b-d0476e90a434",
+                    "path": "<Keyboard>/ctrl",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ConvertHitsoundSilent",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "button",
+                    "id": "a9fadb55-7e0d-4882-b5ad-99255b40302a",
+                    "path": "<Keyboard>/u",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ConvertHitsoundSilent",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                }
+            ]
+        },
+        {
+            "name": "DragSelect",
+            "id": "a0a3b428-72a0-43ff-9694-90680ad32bde",
+            "actions": [
+                {
+                    "name": "SelectDragTool",
+                    "type": "Button",
+                    "id": "f12b8cd5-0081-4f28-ad34-6185ad51ab06",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "MoveTargetsUp",
+                    "type": "Button",
+                    "id": "650c127b-3ccb-46b0-bbd8-30b553ae49da",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "MoveTargetsLeft",
+                    "type": "Button",
+                    "id": "17240cd9-7989-47a6-91ae-cc1a8afc8e86",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "MoveTargetsDown",
+                    "type": "Button",
+                    "id": "59dfdef3-0124-4249-a2ab-a5914e2ba050",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "MoveTargetsRight",
+                    "type": "Button",
+                    "id": "7297981a-5157-4734-a2b8-5f3295164b62",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "MoveTargetsQuarterModifier",
+                    "type": "Button",
+                    "id": "08aff691-55d9-4d00-a782-017b9a836cef",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "MoveTargetsHalfModifier",
+                    "type": "Button",
+                    "id": "b8cde323-49e3-435f-9496-1289241180b8",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "FlipTargetsVertically",
+                    "type": "Button",
+                    "id": "57478268-8f74-4196-9d1a-41a92a989b13",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "FlipTargetsHorizontally",
+                    "type": "Button",
+                    "id": "a99841c0-d231-478c-9476-1ed6d28a2880",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "IncreaseScaleVertically",
+                    "type": "Button",
+                    "id": "4a42fb70-766c-41da-802a-10a78f9bce61",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "DecreaseScaleVertically",
+                    "type": "Button",
+                    "id": "0089a7ac-a7e4-422b-90ef-55be04d32fbe",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "IncreaseScaleHorizontally",
+                    "type": "Button",
+                    "id": "29eb46f8-6153-4ce2-8168-e5e7edf63aaa",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "DecreaseScaleHorizontally",
+                    "type": "Button",
+                    "id": "db929702-2851-44a7-9d76-c308fe5269b7",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ReverseSelectedTargets",
+                    "type": "Button",
+                    "id": "665426aa-257a-4b3c-b998-ac8bb56cf969",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "RotateSelectedTargetsRight",
+                    "type": "Button",
+                    "id": "3b518ffe-52a2-4cce-aaa9-3dd478938ab6",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "RotateSelectedTargetsLeft",
+                    "type": "Button",
+                    "id": "75a230d7-631f-4c50-8d9e-2cfdc3bc3202",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "263e4bf8-907e-407d-8127-b67d680186e7",
+                    "path": "<Keyboard>/ctrl",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "SelectDragTool",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a34d4303-bc34-4935-85df-7aa246def295",
+                    "path": "<Keyboard>/shift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MoveTargetsQuarterModifier",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7e4e5a97-d706-4a67-9603-011a0a3bc791",
+                    "path": "<Keyboard>/ctrl",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MoveTargetsHalfModifier",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "Button With One Modifier",
+                    "id": "289a59be-0cb6-4ae5-9bb9-b1dffceca193",
+                    "path": "ButtonWithOneModifier",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "FlipTargetsVertically",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "modifier",
+                    "id": "6c6c0f07-6a21-475c-aa95-4d497625e4cb",
+                    "path": "<Keyboard>/shift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "FlipTargetsVertically",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "button",
+                    "id": "693afa67-762a-446e-abec-81efb2d40222",
+                    "path": "<Keyboard>/f",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "FlipTargetsVertically",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "Button With One Modifier",
+                    "id": "2f7218c9-d008-4166-9142-f5c5f5f1b873",
+                    "path": "ButtonWithOneModifier",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "FlipTargetsHorizontally",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "modifier",
+                    "id": "186ac87b-906f-4385-9da1-13f456cba556",
+                    "path": "<Keyboard>/ctrl",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "FlipTargetsHorizontally",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "button",
+                    "id": "1ddb7614-6cc9-484a-9add-8ff881578e68",
+                    "path": "<Keyboard>/f",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "FlipTargetsHorizontally",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "One Modifier",
+                    "id": "e0353741-5508-4162-bafb-0bd465ecb161",
+                    "path": "OneModifier",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "IncreaseScaleVertically",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "modifier",
+                    "id": "85119107-8a89-4e29-a2ec-3ec620e31460",
+                    "path": "<Keyboard>/shift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "IncreaseScaleVertically",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "binding",
+                    "id": "5ed8833a-86a4-404e-8c2b-f28424ed26c6",
+                    "path": "<Keyboard>/equals",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "IncreaseScaleVertically",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "Button With One Modifier",
+                    "id": "f80e63c8-0ebc-480e-9a99-5c64dc60ba54",
+                    "path": "ButtonWithOneModifier",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ReverseSelectedTargets",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "modifier",
+                    "id": "e6a84f06-d7c9-4006-8c43-b4a716eb43ff",
+                    "path": "<Keyboard>/ctrl",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ReverseSelectedTargets",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "button",
+                    "id": "29fa160f-1295-430e-9f8d-a3e3e8806400",
+                    "path": "<Keyboard>/g",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ReverseSelectedTargets",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "Two Modifiers",
+                    "id": "1da677a3-5c03-40ab-a700-b1cd78fbd177",
+                    "path": "TwoModifiers",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RotateSelectedTargetsRight",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "modifier1",
+                    "id": "79da7377-6ff1-4f4b-b95f-75f0eb463d0e",
+                    "path": "<Keyboard>/ctrl",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RotateSelectedTargetsRight",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "modifier2",
+                    "id": "2df1bbf9-7471-41c0-b52c-0052be1ede89",
+                    "path": "<Keyboard>/shift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RotateSelectedTargetsRight",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "binding",
+                    "id": "07babd80-4991-4922-b8e6-3ba3218f50ef",
+                    "path": "<Keyboard>/equals",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RotateSelectedTargetsRight",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "12413c0d-34d8-4aa4-98c5-1f5f85d737cd",
+                    "path": "<Keyboard>/rightArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MoveTargetsRight",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "746dc060-a302-4482-a2d7-01645505ff35",
+                    "path": "<Keyboard>/downArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MoveTargetsDown",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f5052bb2-eeaa-4f77-b940-88c68d26a3c0",
+                    "path": "<Keyboard>/upArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MoveTargetsUp",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "bd6a0a7a-9561-4531-9120-d4f0fdc4d979",
+                    "path": "<Keyboard>/leftArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MoveTargetsLeft",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "Two Modifiers",
+                    "id": "c2c8d747-693b-446e-86c2-75aba9212fef",
+                    "path": "TwoModifiers",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RotateSelectedTargetsLeft",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "modifier1",
+                    "id": "e046656d-a7bb-422e-8928-ed44995e954b",
+                    "path": "<Keyboard>/ctrl",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RotateSelectedTargetsLeft",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "modifier2",
+                    "id": "c03597a8-fabd-4578-96b9-a828e48f0748",
+                    "path": "<Keyboard>/shift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RotateSelectedTargetsLeft",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "binding",
+                    "id": "7c6b7e05-f469-4373-aed9-46a0048c8511",
+                    "path": "<Keyboard>/minus",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RotateSelectedTargetsLeft",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "One Modifier",
+                    "id": "dd0624e3-650c-4a3f-bd97-db556f9e782c",
+                    "path": "OneModifier",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "DecreaseScaleVertically",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "modifier",
+                    "id": "285c0ef4-2cce-40dd-b528-c5273e2b3e24",
+                    "path": "<Keyboard>/shift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "DecreaseScaleVertically",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "binding",
+                    "id": "27db4edd-45bf-4f93-8bbf-a21c068098fa",
+                    "path": "<Keyboard>/minus",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "DecreaseScaleVertically",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "One Modifier",
+                    "id": "8c2d9aff-c239-429d-b1da-a19a1a49148e",
+                    "path": "OneModifier",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "IncreaseScaleHorizontally",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "modifier",
+                    "id": "2caeae28-cd07-484b-8584-9c5306832156",
+                    "path": "<Keyboard>/ctrl",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "IncreaseScaleHorizontally",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "binding",
+                    "id": "21cc2799-59d0-442e-bfcb-311e1a7b9724",
+                    "path": "<Keyboard>/equals",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "IncreaseScaleHorizontally",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "One Modifier",
+                    "id": "19b2996a-6b6b-4053-b3f6-add4bfe6f2ec",
+                    "path": "OneModifier",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "DecreaseScaleHorizontally",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "modifier",
+                    "id": "e4141364-0e30-42ec-965d-6b0144e3a95a",
+                    "path": "<Keyboard>/ctrl",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "DecreaseScaleHorizontally",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "binding",
+                    "id": "b97bb187-fedd-40bf-955c-8a5024e631c2",
+                    "path": "<Keyboard>/minus",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "DecreaseScaleHorizontally",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                }
+            ]
+        },
+        {
             "name": "Utility",
             "id": "a3fb0b41-0523-44f4-9485-93782b8c9b15",
             "actions": [
@@ -158,7 +1887,8 @@
                     "id": "926da7e2-6782-4652-9f64-c199feed2d92",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "DeselectAll",
@@ -166,7 +1896,8 @@
                     "id": "a73bf061-84c0-4727-bf84-cd956975612c",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Copy",
@@ -174,7 +1905,8 @@
                     "id": "d2e1c2dc-5896-4fae-9bc1-4713d59e7642",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Cut",
@@ -182,7 +1914,8 @@
                     "id": "9f33cf8c-b1e3-4dc1-a089-ddd36fdd4e76",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Paste",
@@ -190,7 +1923,8 @@
                     "id": "c4bf0a68-8650-498d-8f86-baa2b385c280",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Save",
@@ -198,7 +1932,8 @@
                     "id": "a3112068-bc68-4d91-9ecd-ea8fae9c4e79",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Undo",
@@ -206,7 +1941,8 @@
                     "id": "d49c3f0e-dbc3-4b79-ad52-f2ff38980b84",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Redo",
@@ -214,7 +1950,8 @@
                     "id": "d6c9684d-ecbd-4da7-a099-305ded2b1e88",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -494,7 +2231,8 @@
                     "id": "39f40699-8482-4e19-9ace-ad424f10361b",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "ModifyAudio",
@@ -502,7 +2240,8 @@
                     "id": "b34ef5c3-a351-4efc-b4e3-8002463beb8f",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "TimingPoints",
@@ -510,7 +2249,8 @@
                     "id": "6626579a-95d0-46a4-8673-1c2e0656b16b",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "ModifierHelp",
@@ -518,7 +2258,8 @@
                     "id": "ad899e46-7ff7-4524-aeb4-d509ec314737",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "ReviewMenu",
@@ -526,7 +2267,8 @@
                     "id": "bbff1ef1-671b-4864-8c22-249fea1a9470",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Bookmark",
@@ -534,7 +2276,8 @@
                     "id": "e606b95d-bb86-44f6-89f1-21ed74850692",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Pause",
@@ -542,7 +2285,8 @@
                     "id": "594aaaa7-d608-4c8a-9a96-0d09a371d6a5",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Help",
@@ -550,7 +2294,8 @@
                     "id": "62b967ae-bca2-484d-a1cf-35d5e60fcfc8",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -645,886 +2390,6 @@
             ]
         },
         {
-            "name": "Timeline",
-            "id": "80010bab-3ac8-46cf-87f3-dc0361406d03",
-            "actions": [
-                {
-                    "name": "TogglePlay",
-                    "type": "Button",
-                    "id": "8b338932-899e-48f5-9521-bb3063f6163c",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "Scrub",
-                    "type": "Value",
-                    "id": "6a636507-01dd-435e-a269-c87811d48911",
-                    "expectedControlType": "Axis",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "ScrubByTick",
-                    "type": "Value",
-                    "id": "9f4bdf6e-1626-4b53-b740-bb5f544cae1e",
-                    "expectedControlType": "Axis",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "ChangeBeatSnap",
-                    "type": "Value",
-                    "id": "78e9dc01-44c4-4952-8001-0978923b0879",
-                    "expectedControlType": "Axis",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "ZoomTimeline",
-                    "type": "Value",
-                    "id": "1f3b5269-ee9e-4f8c-943c-1448bbd22ce9",
-                    "expectedControlType": "Axis",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "StartMetronome",
-                    "type": "Button",
-                    "id": "119a6e75-c67f-45d1-bf63-97f55bc67765",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "ToggleWaveform",
-                    "type": "Button",
-                    "id": "fed964c5-0056-42d9-ac60-ac618a9baff5",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
-                }
-            ],
-            "bindings": [
-                {
-                    "name": "",
-                    "id": "9ad7378f-3131-4909-a61c-3b32b4b5eeea",
-                    "path": "<Keyboard>/space",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard",
-                    "action": "TogglePlay",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "Button With One Modifier",
-                    "id": "72fdf5b2-4769-4bd1-bd24-6be6a88cb134",
-                    "path": "ButtonWithOneModifier",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "StartMetronome",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "modifier",
-                    "id": "fb45c049-6146-4dfb-a332-a80db3570321",
-                    "path": "<Keyboard>/ctrl",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "StartMetronome",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "button",
-                    "id": "e333e77b-efe2-48c4-91ab-4287b2258299",
-                    "path": "<Keyboard>/space",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "StartMetronome",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "Button With Three Excludes",
-                    "id": "385de0ec-683f-456e-b7b0-6ea0e4276c78",
-                    "path": "ButtonWithThreeExcludes",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Scrub",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "button",
-                    "id": "cc5af5be-a8ca-419b-9ca7-769c6cea0048",
-                    "path": "<Mouse>/scroll/y",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Scrub",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "exclude1",
-                    "id": "3b6eb778-1231-4c4d-801d-1a0b982bf096",
-                    "path": "<Keyboard>/shift",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Scrub",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "exclude2",
-                    "id": "4de6dd8c-36c0-46fd-bbd8-c137685a3e91",
-                    "path": "<Keyboard>/ctrl",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Scrub",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "exclude3",
-                    "id": "37ba834b-e549-4dc3-96fd-463913246683",
-                    "path": "<Keyboard>/alt",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Scrub",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "Button With One Modifier Two Excludes",
-                    "id": "ca57d522-fc5e-4221-964b-837b92f73c9a",
-                    "path": "ButtonWithOneModifierTwoExcludes",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "ScrubByTick",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "button",
-                    "id": "64cbdbb1-fb45-4712-89c5-32944bc5e2ab",
-                    "path": "<Mouse>/scroll/y",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "ScrubByTick",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "modifier",
-                    "id": "2360c285-cac0-4fdb-9857-e4ab08a77172",
-                    "path": "<Keyboard>/ctrl",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "ScrubByTick",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "exclude1",
-                    "id": "16dd3693-1d0e-495a-9612-4f926a2cee4b",
-                    "path": "<Keyboard>/shift",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "ScrubByTick",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "exclude2",
-                    "id": "6a6b58a1-ff2b-479c-9649-46ab3c67f6a0",
-                    "path": "<Keyboard>/alt",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "ScrubByTick",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "Button With Two Modifiers One Exclude",
-                    "id": "6db79154-9284-49dc-9cf1-ba45fbb288da",
-                    "path": "ButtonWithTwoModifiersOneExclude",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "ChangeBeatSnap",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "button",
-                    "id": "b8437e48-b694-4328-b404-ec68566945ba",
-                    "path": "<Mouse>/scroll/y",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "ChangeBeatSnap",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "modifier",
-                    "id": "894a59f9-1c4a-4db9-bfc4-4c323ce152b3",
-                    "path": "<Keyboard>/ctrl",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "ChangeBeatSnap",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "modifier2",
-                    "id": "c4880b61-fa76-4980-bc75-0bdb458b92cb",
-                    "path": "<Keyboard>/alt",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "ChangeBeatSnap",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "excludeButton",
-                    "id": "81ca2870-f984-4654-bc98-f27fab7c3b3a",
-                    "path": "<Keyboard>/shift",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "ChangeBeatSnap",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "Button With One Modifier Two Excludes",
-                    "id": "2cf6c81e-2c19-4603-bf6e-75ae74dcfb53",
-                    "path": "ButtonWithOneModifierTwoExcludes",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "ZoomTimeline",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "button",
-                    "id": "b226774e-8552-4943-9b44-d95a7362a9f9",
-                    "path": "<Mouse>/scroll/y",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "ZoomTimeline",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "modifier",
-                    "id": "9a70db5b-a4b0-47c7-9a78-64e927800796",
-                    "path": "<Keyboard>/shift",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "ZoomTimeline",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "exclude1",
-                    "id": "90100978-74b9-4f89-9ec5-48a7884fd886",
-                    "path": "<Keyboard>/ctrl",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "ZoomTimeline",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "exclude2",
-                    "id": "9c9e2749-22c7-4764-bd8c-20f3e0a419b8",
-                    "path": "<Keyboard>/alt",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "ZoomTimeline",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "",
-                    "id": "502e5563-2475-4381-916e-b7ef36cdd085",
-                    "path": "<Keyboard>/f2",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard",
-                    "action": "ToggleWaveform",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                }
-            ]
-        },
-        {
-            "name": "DragSelect",
-            "id": "a0a3b428-72a0-43ff-9694-90680ad32bde",
-            "actions": [
-                {
-                    "name": "SelectDragTool",
-                    "type": "Button",
-                    "id": "f12b8cd5-0081-4f28-ad34-6185ad51ab06",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "Press"
-                },
-                {
-                    "name": "MoveTargets",
-                    "type": "Button",
-                    "id": "b66a996d-cf66-4f39-8c1b-421097b234df",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "MoveTargetsQuarterModifier",
-                    "type": "Button",
-                    "id": "08aff691-55d9-4d00-a782-017b9a836cef",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "MoveTargetsHalfModifier",
-                    "type": "Button",
-                    "id": "b8cde323-49e3-435f-9496-1289241180b8",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "FlipTargetsVertically",
-                    "type": "Button",
-                    "id": "57478268-8f74-4196-9d1a-41a92a989b13",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "FlipTargetsHorizontally",
-                    "type": "Button",
-                    "id": "a99841c0-d231-478c-9476-1ed6d28a2880",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "IncreaseScaleVertically",
-                    "type": "Button",
-                    "id": "4a42fb70-766c-41da-802a-10a78f9bce61",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "DecreaseScaleVertically",
-                    "type": "Button",
-                    "id": "0089a7ac-a7e4-422b-90ef-55be04d32fbe",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "IncreaseScaleHorizontally",
-                    "type": "Button",
-                    "id": "29eb46f8-6153-4ce2-8168-e5e7edf63aaa",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "DecreaseScaleHorizontally",
-                    "type": "Button",
-                    "id": "db929702-2851-44a7-9d76-c308fe5269b7",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "ReverseSelectedTargets",
-                    "type": "Button",
-                    "id": "665426aa-257a-4b3c-b998-ac8bb56cf969",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "RotateSelectedTargetsRight",
-                    "type": "Button",
-                    "id": "3b518ffe-52a2-4cce-aaa9-3dd478938ab6",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "RotateSelectedTargetsLeft",
-                    "type": "Button",
-                    "id": "75a230d7-631f-4c50-8d9e-2cfdc3bc3202",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
-                }
-            ],
-            "bindings": [
-                {
-                    "name": "",
-                    "id": "263e4bf8-907e-407d-8127-b67d680186e7",
-                    "path": "<Keyboard>/ctrl",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard",
-                    "action": "SelectDragTool",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "2D Vector",
-                    "id": "b34b9325-2283-4c31-afc3-56b39e7f7bbc",
-                    "path": "2DVector",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "MoveTargets",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "up",
-                    "id": "cd66e65a-95fe-4c2a-bb75-488774df435d",
-                    "path": "<Keyboard>/upArrow",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "MoveTargets",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "down",
-                    "id": "223d887f-1217-4a4d-bf27-6c2f26653aff",
-                    "path": "<Keyboard>/downArrow",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "MoveTargets",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "left",
-                    "id": "aec1f3c5-5af5-4b5f-99ad-994656cba896",
-                    "path": "<Keyboard>/leftArrow",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "MoveTargets",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "right",
-                    "id": "6041543f-9ff7-4814-b50c-9ad2406c2f9d",
-                    "path": "<Keyboard>/rightArrow",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "MoveTargets",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "",
-                    "id": "a34d4303-bc34-4935-85df-7aa246def295",
-                    "path": "<Keyboard>/shift",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "MoveTargetsQuarterModifier",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "7e4e5a97-d706-4a67-9603-011a0a3bc791",
-                    "path": "<Keyboard>/ctrl",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "MoveTargetsHalfModifier",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "Button With One Modifier",
-                    "id": "289a59be-0cb6-4ae5-9bb9-b1dffceca193",
-                    "path": "ButtonWithOneModifier",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "FlipTargetsVertically",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "modifier",
-                    "id": "6c6c0f07-6a21-475c-aa95-4d497625e4cb",
-                    "path": "<Keyboard>/shift",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "FlipTargetsVertically",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "button",
-                    "id": "693afa67-762a-446e-abec-81efb2d40222",
-                    "path": "<Keyboard>/f",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "FlipTargetsVertically",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "Button With One Modifier",
-                    "id": "2f7218c9-d008-4166-9142-f5c5f5f1b873",
-                    "path": "ButtonWithOneModifier",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "FlipTargetsHorizontally",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "modifier",
-                    "id": "186ac87b-906f-4385-9da1-13f456cba556",
-                    "path": "<Keyboard>/ctrl",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "FlipTargetsHorizontally",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "button",
-                    "id": "1ddb7614-6cc9-484a-9add-8ff881578e68",
-                    "path": "<Keyboard>/f",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "FlipTargetsHorizontally",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "Button With One Modifier One Exclude",
-                    "id": "495d4d46-4dbe-48d8-811c-864813fa85dc",
-                    "path": "ButtonWithOneModifierOneExclude",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "IncreaseScaleVertically",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "button",
-                    "id": "5b0f15b6-fd1a-4c23-ae5b-8b6e4eb56407",
-                    "path": "<Keyboard>/equals",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "IncreaseScaleVertically",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "modifier",
-                    "id": "32855d33-0ff9-4739-a2f5-9e0d45e818bf",
-                    "path": "<Keyboard>/shift",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "IncreaseScaleVertically",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "excludeButton",
-                    "id": "5dbbfd91-78b0-4d1b-b6b4-bc5086923b09",
-                    "path": "<Keyboard>/ctrl",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "IncreaseScaleVertically",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "Button With One Modifier One Exclude",
-                    "id": "e3dd47f0-19fd-440e-b12c-cd7ad8ad285e",
-                    "path": "ButtonWithOneModifierOneExclude",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "DecreaseScaleVertically",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "button",
-                    "id": "778188f6-3d71-4e17-b525-ed581bd94e33",
-                    "path": "<Keyboard>/minus",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "DecreaseScaleVertically",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "modifier",
-                    "id": "a437cb54-6455-46c4-aaba-bca6bbe8eb23",
-                    "path": "<Keyboard>/shift",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "DecreaseScaleVertically",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "excludeButton",
-                    "id": "89d189d8-fe28-49f6-ade6-1ddd95ff0ade",
-                    "path": "<Keyboard>/ctrl",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "DecreaseScaleVertically",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "Button With One Modifier One Exclude",
-                    "id": "dac68261-4b81-4690-89ea-cf73249061bc",
-                    "path": "ButtonWithOneModifierOneExclude",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "IncreaseScaleHorizontally",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "button",
-                    "id": "eb9d0649-d446-4afe-b3bb-6986f6b522cb",
-                    "path": "<Keyboard>/equals",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "IncreaseScaleHorizontally",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "modifier",
-                    "id": "d9670bff-b3ff-4996-bf22-be439860dc6b",
-                    "path": "<Keyboard>/ctrl",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "IncreaseScaleHorizontally",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "excludeButton",
-                    "id": "a95b828d-ee61-4b70-bb06-9fabb15b136c",
-                    "path": "<Keyboard>/shift",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "IncreaseScaleHorizontally",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "Button With One Modifier One Exclude",
-                    "id": "4094895f-451f-4c62-8cae-beedfc8cf5c6",
-                    "path": "ButtonWithOneModifierOneExclude",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "DecreaseScaleHorizontally",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "button",
-                    "id": "75f1f0b3-c50f-4880-830a-80d42e2817be",
-                    "path": "<Keyboard>/minus",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "DecreaseScaleHorizontally",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "modifier",
-                    "id": "39bafb47-0f2e-42dc-a5f4-fd02bbad71b5",
-                    "path": "<Keyboard>/ctrl",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "DecreaseScaleHorizontally",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "excludeButton",
-                    "id": "982f5c9c-4ebd-4af2-ba6b-9f5b66ae921a",
-                    "path": "<Keyboard>/shift",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "DecreaseScaleHorizontally",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "Button With One Modifier",
-                    "id": "f80e63c8-0ebc-480e-9a99-5c64dc60ba54",
-                    "path": "ButtonWithOneModifier",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "ReverseSelectedTargets",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "modifier",
-                    "id": "e6a84f06-d7c9-4006-8c43-b4a716eb43ff",
-                    "path": "<Keyboard>/ctrl",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "ReverseSelectedTargets",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "button",
-                    "id": "29fa160f-1295-430e-9f8d-a3e3e8806400",
-                    "path": "<Keyboard>/g",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "ReverseSelectedTargets",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "Button With One Modifier",
-                    "id": "efa14e0b-673b-4acb-a343-6f86aaa7a0a7",
-                    "path": "ButtonWithOneModifier",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "RotateSelectedTargetsRight",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "modifier",
-                    "id": "dd346aff-70ef-41e3-bbc9-af311ae18156",
-                    "path": "<Keyboard>/alt",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "RotateSelectedTargetsRight",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "button",
-                    "id": "8c3ed938-e958-4821-8af0-4d54f38788de",
-                    "path": "<Keyboard>/equals",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "RotateSelectedTargetsRight",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "Button With One Modifier",
-                    "id": "0a0d6cb7-316d-4f76-80a0-f246f0151582",
-                    "path": "ButtonWithOneModifier",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "RotateSelectedTargetsLeft",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "modifier",
-                    "id": "8020b78c-8189-49fc-a397-2cffcec1badb",
-                    "path": "<Keyboard>/alt",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "RotateSelectedTargetsLeft",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "button",
-                    "id": "d193f6ad-f9b8-409d-8721-022f260dbfc7",
-                    "path": "<Keyboard>/minus",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "RotateSelectedTargetsLeft",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                }
-            ]
-        },
-        {
             "name": "Grid",
             "id": "b1d25f65-4fe5-4d6e-b790-3536ddfdc36a",
             "actions": [
@@ -1534,7 +2399,8 @@
                     "id": "024f5296-4d4c-4f8f-bb7a-91dc1e0bfc40",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "NoGridView",
@@ -1542,7 +2408,8 @@
                     "id": "49d6463d-2220-4b3c-a1ee-af10699a0332",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "MeleeView",
@@ -1550,7 +2417,8 @@
                     "id": "fe3492bf-f264-4924-9b5b-505e2fac749b",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "QuickSwitchGrid",
@@ -1558,15 +2426,44 @@
                     "id": "76cefbfd-4d72-49a2-90ad-68fe5c3760f8",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
-                    "name": "MoveGrid",
-                    "type": "Value",
-                    "id": "04567811-2606-4d43-bdeb-104043d279a7",
+                    "name": "MoveGridUp",
+                    "type": "Button",
+                    "id": "f68c707b-da7f-40cc-bd33-ecdc71ddd53d",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "MoveGridLeft",
+                    "type": "Button",
+                    "id": "90edaf13-11ba-4558-bf1c-4faec32d32d1",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "MoveGridDown",
+                    "type": "Button",
+                    "id": "ae3b03f7-3618-43e5-ad09-ab7b770af19d",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "MoveGridRight",
+                    "type": "Button",
+                    "id": "6f3b0291-481c-4ea9-bfcd-b4f949a4a5a0",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -1615,59 +2512,48 @@
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "2D Vector",
-                    "id": "eed0f6b9-6dda-418a-a02d-7780c5bef4c5",
-                    "path": "2DVector",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "MoveGrid",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "up",
-                    "id": "37b30f8e-ef05-4bc9-a9f0-62a878c86fec",
+                    "name": "",
+                    "id": "cd0e5f58-a844-47f5-9c3c-fc855bd25ef5",
                     "path": "<Keyboard>/i",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "MoveGrid",
+                    "action": "MoveGridUp",
                     "isComposite": false,
-                    "isPartOfComposite": true
+                    "isPartOfComposite": false
                 },
                 {
-                    "name": "down",
-                    "id": "1b2beeab-aaa0-428b-ac55-75483b633603",
+                    "name": "",
+                    "id": "d3831b0e-2b17-46bb-89bd-317f88d8141c",
                     "path": "<Keyboard>/k",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Keyboard",
-                    "action": "MoveGrid",
+                    "groups": "",
+                    "action": "MoveGridDown",
                     "isComposite": false,
-                    "isPartOfComposite": true
+                    "isPartOfComposite": false
                 },
                 {
-                    "name": "left",
-                    "id": "b08d3442-9ed2-4311-a47a-150842ae7632",
+                    "name": "",
+                    "id": "80c2ef2c-028e-4a13-9964-016eab7f9ff9",
+                    "path": "<Keyboard>/l",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MoveGridRight",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "75c407e2-4f86-46f6-bb29-25a94326f321",
                     "path": "<Keyboard>/j",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "MoveGrid",
+                    "action": "MoveGridLeft",
                     "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "right",
-                    "id": "eca3786c-7b31-4da6-afdc-9aeb98bf5463",
-                    "path": "<Keyboard>/l",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard",
-                    "action": "MoveGrid",
-                    "isComposite": false,
-                    "isPartOfComposite": true
+                    "isPartOfComposite": false
                 }
             ]
         },
@@ -1681,7 +2567,8 @@
                     "id": "b0653f7e-fba3-4117-b31f-ab63517e482d",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "ShiftBPMMarker",
@@ -1689,7 +2576,8 @@
                     "id": "48e8170e-d866-4832-a0ff-5bf3874d75bc",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "BPMMarker",
@@ -1697,7 +2585,8 @@
                     "id": "1ed2c344-7702-438d-9a48-a411528f73e5",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "PreviewPoint",
@@ -1705,174 +2594,21 @@
                     "id": "61811c5e-4e76-43d0-8260-f13219801341",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
                 {
-                    "name": "Button With One Modifier Two Excludes",
-                    "id": "01cd2a8a-8dc6-46e8-b0fd-3b7eed9a34d0",
-                    "path": "ButtonWithOneModifierTwoExcludes",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "DetectBPM",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "button",
-                    "id": "dfb47cac-03ab-493e-9485-4b1595ba8046",
-                    "path": "<Keyboard>/b",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "DetectBPM",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "modifier",
-                    "id": "e5e75f02-1e32-4507-b73a-87e856f9a30f",
-                    "path": "<Keyboard>/shift",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "DetectBPM",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "exclude1",
-                    "id": "29779d0e-52d9-4161-a0d7-83bb09fcb64e",
-                    "path": "<Keyboard>/ctrl",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "DetectBPM",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "exclude2",
-                    "id": "96c368f0-669b-4a00-8896-e5d177ac4b8d",
-                    "path": "<Keyboard>/alt",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "DetectBPM",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "Button With One Modifier Two Excludes",
-                    "id": "ca8e982f-9dd0-4cfc-b6a6-95dc42dfbf46",
-                    "path": "ButtonWithOneModifierTwoExcludes",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "ShiftBPMMarker",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "button",
-                    "id": "d848a9ff-a2be-4999-aac3-99ff2d929b09",
-                    "path": "<Keyboard>/b",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "ShiftBPMMarker",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "modifier",
-                    "id": "0926f541-93a3-4b93-8309-898704fc518f",
-                    "path": "<Keyboard>/alt",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "ShiftBPMMarker",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "exclude1",
-                    "id": "45dd7708-ee34-4da4-ad5a-09ec029c5085",
-                    "path": "<Keyboard>/shift",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "ShiftBPMMarker",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "exclude2",
-                    "id": "5d1645b7-5a92-4d76-911c-17d82cbdb26b",
-                    "path": "<Keyboard>/ctrl",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "ShiftBPMMarker",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "Button With Three Excludes",
-                    "id": "f9f74cc8-8579-4d28-9fde-36913944e180",
-                    "path": "ButtonWithThreeExcludes",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "BPMMarker",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "button",
-                    "id": "ded42fd1-009c-4150-919e-6ea29c82f73c",
+                    "name": "",
+                    "id": "c5af39ae-fbd9-4b3a-8ea0-423c536e7b89",
                     "path": "<Keyboard>/b",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "BPMMarker",
                     "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "exclude1",
-                    "id": "9f5c7236-7007-4d49-9236-2137092af988",
-                    "path": "<Keyboard>/ctrl",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "BPMMarker",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "exclude2",
-                    "id": "2b9eef8e-469c-4583-9b83-cb88c3222159",
-                    "path": "<Keyboard>/shift",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "BPMMarker",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "exclude3",
-                    "id": "e12a26c8-c3bd-449a-aa0a-6bc928f4b5ff",
-                    "path": "<Keyboard>/alt",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "BPMMarker",
-                    "isComposite": false,
-                    "isPartOfComposite": true
+                    "isPartOfComposite": false
                 },
                 {
                     "name": "",
@@ -1884,6 +2620,72 @@
                     "action": "PreviewPoint",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "One Modifier",
+                    "id": "6bd6459f-18d4-4181-aaa9-641c94da5e72",
+                    "path": "OneModifier",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "DetectBPM",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "modifier",
+                    "id": "6b508d0c-774b-4c30-be13-041e7afde717",
+                    "path": "<Keyboard>/shift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "DetectBPM",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "binding",
+                    "id": "abd3404c-b2d0-46f7-940c-f828650e8808",
+                    "path": "<Keyboard>/b",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "DetectBPM",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "One Modifier",
+                    "id": "91b5e6fe-96bd-45e9-ac59-1406a0936494",
+                    "path": "OneModifier",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ShiftBPMMarker",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "modifier",
+                    "id": "2db11e27-d8ba-4b21-a237-87fe483b52e1",
+                    "path": "<Keyboard>/alt",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ShiftBPMMarker",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "binding",
+                    "id": "fa54b541-80e5-4fde-b8ba-9c193fcc962a",
+                    "path": "<Keyboard>/b",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ShiftBPMMarker",
+                    "isComposite": false,
+                    "isPartOfComposite": true
                 }
             ]
         },
@@ -1897,7 +2699,8 @@
                     "id": "376921ba-3d09-41e1-8a1c-aa85ac6b43c7",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -1924,7 +2727,8 @@
                     "id": "aa3c3eab-0b91-45fd-85d2-803fa6c74080",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -1951,7 +2755,8 @@
                     "id": "f92e3ee6-7bfa-41ef-9bdc-3752e6138c60",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "ModifierPreview",
@@ -1959,7 +2764,8 @@
                     "id": "abd017a8-6a3d-4721-b25b-a2ee6e3c3b04",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -1988,7 +2794,7 @@
                 {
                     "name": "modifier",
                     "id": "e0e72910-e7ad-438a-bcee-76638f932e61",
-                    "path": "<Keyboard>/x",
+                    "path": "<Keyboard>/alt",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -2004,949 +2810,6 @@
                     "processors": "",
                     "groups": "",
                     "action": "ModifierPreview",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                }
-            ]
-        },
-        {
-            "name": "BehaviorSelect",
-            "id": "b0aa890b-fae2-4cf6-9d93-c85e546b0429",
-            "actions": [
-                {
-                    "name": "SelectBehaviorStandard",
-                    "type": "Button",
-                    "id": "26fc1164-00b6-4fcc-a1e9-d48a52d9471d",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "SelectBehaviorSustain",
-                    "type": "Button",
-                    "id": "d28ff1b8-dc5b-4998-967c-9b3d2c1a5cbc",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "SelectBehaviorMine",
-                    "type": "Button",
-                    "id": "8cf79b51-2c64-4d2b-b6d4-7c798e50cefe",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "SelectBehaviorMelee",
-                    "type": "Button",
-                    "id": "2d78bce9-8ff7-40e6-b00e-ac3f2ce4cebf",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "SelectBehaviorChain",
-                    "type": "Button",
-                    "id": "47da4255-8ec7-443b-83ec-609ab775dbb9",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "SelectBehaviorChainstart",
-                    "type": "Button",
-                    "id": "163391ea-08e5-45cf-8174-fd2dd3d8e8a1",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "SelectBehaviorVertical",
-                    "type": "Button",
-                    "id": "47fb17aa-2d38-4a37-91c1-1274b2e2877f",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "SelectBehaviorHorizontal",
-                    "type": "Button",
-                    "id": "a68e2b3b-2e58-4b3c-b98c-e45778f2ca89",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
-                }
-            ],
-            "bindings": [
-                {
-                    "name": "",
-                    "id": "f9c04ddd-61fa-4fae-b385-a1d51e8167d7",
-                    "path": "<Keyboard>/1",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard",
-                    "action": "SelectBehaviorStandard",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "c4be0cc8-c990-45f6-b1dd-e3780126f848",
-                    "path": "<Keyboard>/2",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard",
-                    "action": "SelectBehaviorSustain",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "19a8589b-2069-4931-9512-26c5443278f3",
-                    "path": "<Keyboard>/8",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard",
-                    "action": "SelectBehaviorMine",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "e714c295-68fc-4036-9f1f-a509bf3b9708",
-                    "path": "<Keyboard>/7",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard",
-                    "action": "SelectBehaviorMelee",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "b3cf005b-7c11-4100-a2f8-2bf2b2b4fcef",
-                    "path": "<Keyboard>/6",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard",
-                    "action": "SelectBehaviorChain",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "c757974c-82e8-4d41-81f8-39bbf1f61efd",
-                    "path": "<Keyboard>/5",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard",
-                    "action": "SelectBehaviorChainstart",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "64220fab-0c57-4273-810a-d969aa0349ed",
-                    "path": "<Keyboard>/4",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard",
-                    "action": "SelectBehaviorVertical",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "01d2270d-85a2-49c4-9eec-8d3084ab25eb",
-                    "path": "<Keyboard>/3",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard",
-                    "action": "SelectBehaviorHorizontal",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                }
-            ]
-        },
-        {
-            "name": "BehaviorConvert",
-            "id": "c4e86379-cc52-48ae-989d-f10b87f9be88",
-            "actions": [
-                {
-                    "name": "ConvertBehaviorStandard",
-                    "type": "Button",
-                    "id": "ec1d49eb-c37e-4de2-94c4-d0ea25e4da79",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "ConvertBehaviorSustain",
-                    "type": "Button",
-                    "id": "d7f9e073-9c8d-481b-8287-bbeb17ea7354",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "ConvertBehaviorVertical",
-                    "type": "Button",
-                    "id": "c11883ea-ba60-4412-98da-c875e679122c",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "ConvertBehaviorHorizontal",
-                    "type": "Button",
-                    "id": "8dfeac65-b806-40d3-abd0-7db365d36f13",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "ConvertBehaviorChainstart",
-                    "type": "Button",
-                    "id": "8e08c3f7-34e6-4ae2-9d31-196a660e8d96",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "ConvertBehaviorChain",
-                    "type": "Button",
-                    "id": "930079e1-5619-4c60-8373-77c84b320ea2",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "ConvertBehaviorMelee",
-                    "type": "Button",
-                    "id": "0e6b737a-28b4-4fde-a061-4b17f53cce2a",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "ConvertBehaviorMine",
-                    "type": "Button",
-                    "id": "557b403d-5d3b-4f34-8881-5b664d478d3b",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
-                }
-            ],
-            "bindings": [
-                {
-                    "name": "Button With One Modifier",
-                    "id": "d9f47949-006a-4544-829d-5b0864b9e27d",
-                    "path": "ButtonWithOneModifier",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "ConvertBehaviorStandard",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "modifier",
-                    "id": "30b929b1-7314-455d-92a9-eab1ef3c7a38",
-                    "path": "<Keyboard>/ctrl",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard",
-                    "action": "ConvertBehaviorStandard",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "button",
-                    "id": "4abe9e8e-078c-4e22-81ca-ac242c81c9e1",
-                    "path": "<Keyboard>/1",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard",
-                    "action": "ConvertBehaviorStandard",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "Button With One Modifier",
-                    "id": "b4f82e2c-7bb9-47cd-a926-fb4eb165a7ea",
-                    "path": "ButtonWithOneModifier",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard",
-                    "action": "ConvertBehaviorSustain",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "modifier",
-                    "id": "1216654f-6289-4b7f-b9f1-4844393e4c5d",
-                    "path": "<Keyboard>/ctrl",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard",
-                    "action": "ConvertBehaviorSustain",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "button",
-                    "id": "33088c14-808f-49a6-ac0e-872a58e7b811",
-                    "path": "<Keyboard>/2",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard",
-                    "action": "ConvertBehaviorSustain",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "Button With One Modifier",
-                    "id": "c359f53c-53bc-4ae1-ac73-310f1f9c42c5",
-                    "path": "ButtonWithOneModifier",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard",
-                    "action": "ConvertBehaviorVertical",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "modifier",
-                    "id": "871053ab-8455-420f-aa78-43c1687b8d2a",
-                    "path": "<Keyboard>/ctrl",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard",
-                    "action": "ConvertBehaviorVertical",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "button",
-                    "id": "50fb8cb6-5238-4a4a-a091-05d5a6806309",
-                    "path": "<Keyboard>/3",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard",
-                    "action": "ConvertBehaviorVertical",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "Button With One Modifier",
-                    "id": "a255f470-bbfa-463d-8ef8-01fe8eb32ffa",
-                    "path": "ButtonWithOneModifier",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard",
-                    "action": "ConvertBehaviorHorizontal",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "modifier",
-                    "id": "71a006bc-5004-4290-98f7-6e358aea9238",
-                    "path": "<Keyboard>/ctrl",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard",
-                    "action": "ConvertBehaviorHorizontal",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "button",
-                    "id": "65c26e1c-13ae-4da6-b1cd-d2f25fe97dca",
-                    "path": "<Keyboard>/4",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard",
-                    "action": "ConvertBehaviorHorizontal",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "Button With One Modifier",
-                    "id": "7483d052-9471-436d-a9ad-844d981d404f",
-                    "path": "ButtonWithOneModifier",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard",
-                    "action": "ConvertBehaviorChainstart",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "modifier",
-                    "id": "8f15a5df-d15e-45fd-a79d-7540f0c26dc8",
-                    "path": "<Keyboard>/ctrl",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard",
-                    "action": "ConvertBehaviorChainstart",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "button",
-                    "id": "05ba09a0-0431-431d-9070-00e9a8f934d4",
-                    "path": "<Keyboard>/5",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard",
-                    "action": "ConvertBehaviorChainstart",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "Button With One Modifier",
-                    "id": "88b22353-0b07-4b7c-a844-918b7abd2aba",
-                    "path": "ButtonWithOneModifier",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard",
-                    "action": "ConvertBehaviorChain",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "modifier",
-                    "id": "b4973b6e-9b30-4edf-b5d3-06a7fc4e3e76",
-                    "path": "<Keyboard>/ctrl",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard",
-                    "action": "ConvertBehaviorChain",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "button",
-                    "id": "4f6896fe-0f7e-47ef-88f9-87359c9d4cf1",
-                    "path": "<Keyboard>/6",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard",
-                    "action": "ConvertBehaviorChain",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "Button With One Modifier",
-                    "id": "438d10db-ef05-4743-8dec-f1a1e70900cb",
-                    "path": "ButtonWithOneModifier",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard",
-                    "action": "ConvertBehaviorMelee",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "modifier",
-                    "id": "0b0f2050-4272-48da-8757-47ea089693c4",
-                    "path": "<Keyboard>/ctrl",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard",
-                    "action": "ConvertBehaviorMelee",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "button",
-                    "id": "804a0a36-13d4-4063-8e20-9d5cc159a6ed",
-                    "path": "<Keyboard>/7",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard",
-                    "action": "ConvertBehaviorMelee",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "Button With One Modifier",
-                    "id": "6fb894db-182e-47bb-901e-ff1e7b3c16ff",
-                    "path": "ButtonWithOneModifier",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard",
-                    "action": "ConvertBehaviorMine",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "modifier",
-                    "id": "111c1d6e-da4c-4031-9b68-4b0312e6ac14",
-                    "path": "<Keyboard>/ctrl",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard",
-                    "action": "ConvertBehaviorMine",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "button",
-                    "id": "14c42aa8-0b43-48bd-a47c-38bca2970938",
-                    "path": "<Keyboard>/8",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard",
-                    "action": "ConvertBehaviorMine",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                }
-            ]
-        },
-        {
-            "name": "HitsoundSelect",
-            "id": "b4dc7f2f-68e2-4bbd-afb0-186e85f5a40b",
-            "actions": [
-                {
-                    "name": "SelectHitsoundKick",
-                    "type": "Button",
-                    "id": "4fd0747f-c811-46d5-a935-96447368dc8c",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "SelectHitsoundSnare",
-                    "type": "Button",
-                    "id": "ef5fb7bb-16f1-463f-a4c3-ddb9c7ac05a0",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "SelectHitsoundPercussion",
-                    "type": "Button",
-                    "id": "c06c90a0-6b8c-4ff9-91b2-e3a2fbe0e66d",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "SelectHitsoundChainstart",
-                    "type": "Button",
-                    "id": "dc76decc-a697-4b1b-9f41-a5386065012d",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "SelectHitsoundChain",
-                    "type": "Button",
-                    "id": "6e323c62-a846-4ebd-948f-f742e655c867",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "SelectHitsoundMelee",
-                    "type": "Button",
-                    "id": "95abaac8-3eed-49da-8070-de4cf20803ac",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "SelectHitsoundSilent",
-                    "type": "Button",
-                    "id": "299ffac3-550c-43cf-86fb-895788829a5a",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
-                }
-            ],
-            "bindings": [
-                {
-                    "name": "",
-                    "id": "6485c361-aac3-4ba7-bbb0-c45addb5a5b2",
-                    "path": "<Keyboard>/q",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard",
-                    "action": "SelectHitsoundKick",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "ccd74f55-0737-4e3b-aabf-2e477e76aa3a",
-                    "path": "<Keyboard>/w",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard",
-                    "action": "SelectHitsoundSnare",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "fd7f1583-0164-4b30-9c8e-3b90bc4589e8",
-                    "path": "<Keyboard>/e",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard",
-                    "action": "SelectHitsoundPercussion",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "962d0c6f-9872-4b7d-876b-e7ba4928327b",
-                    "path": "<Keyboard>/r",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard",
-                    "action": "SelectHitsoundChainstart",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "e2c8a79f-ea28-444d-927b-f80976498a73",
-                    "path": "<Keyboard>/t",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard",
-                    "action": "SelectHitsoundChain",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "45f2bb26-1042-4f9e-af89-a79f01c008ca",
-                    "path": "<Keyboard>/z",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard",
-                    "action": "SelectHitsoundMelee",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "9edfc761-50e5-4dee-9faa-8d94a631a095",
-                    "path": "<Keyboard>/u",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard",
-                    "action": "SelectHitsoundSilent",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                }
-            ]
-        },
-        {
-            "name": "HitsoundConvert",
-            "id": "3220ed51-98f4-41a4-a148-634660e8d38b",
-            "actions": [
-                {
-                    "name": "ConvertHitsoundKick",
-                    "type": "Button",
-                    "id": "875e2bee-7e9b-48e2-bc4b-a771dca64103",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "ConvertHitsoundSnare",
-                    "type": "Button",
-                    "id": "23170cd3-9ad3-46aa-ac7b-420a8cba8a8f",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "ConvertHitsoundPercussion",
-                    "type": "Button",
-                    "id": "47a759cc-48c8-4e03-9c4c-41dcc6f777fa",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "ConvertHitsoundChainstart",
-                    "type": "Button",
-                    "id": "4fcc0e55-4f0e-450c-be72-4956140711f7",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "ConvertHitsoundChain",
-                    "type": "Button",
-                    "id": "c9b1bc60-db00-4e98-8e7e-f9e3b7c5f245",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "ConvertHitsoundMelee",
-                    "type": "Button",
-                    "id": "b2d71fad-c681-4455-be2c-9c5315493654",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "ConvertHitsoundSilent",
-                    "type": "Button",
-                    "id": "5becb66b-122d-4c92-ba67-3493449cb17d",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
-                }
-            ],
-            "bindings": [
-                {
-                    "name": "Button With One Modifier",
-                    "id": "4a78b5fa-2c30-4c98-a59c-f44068e6a505",
-                    "path": "ButtonWithOneModifier",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "ConvertHitsoundKick",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "modifier",
-                    "id": "328a2f3c-8552-4df4-9fab-a7e013237301",
-                    "path": "<Keyboard>/ctrl",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "ConvertHitsoundKick",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "button",
-                    "id": "9325a1f4-f5a2-48c3-ba56-072bc06aafff",
-                    "path": "<Keyboard>/q",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "ConvertHitsoundKick",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "Button With One Modifier",
-                    "id": "f977ce98-e61b-4241-893e-157db86c2a95",
-                    "path": "ButtonWithOneModifier",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "ConvertHitsoundSnare",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "modifier",
-                    "id": "4f801ca7-ed25-4d77-a033-5c1f390f6a53",
-                    "path": "<Keyboard>/ctrl",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "ConvertHitsoundSnare",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "button",
-                    "id": "df1cb619-1ffa-4b68-9a70-ce73d68e7ea3",
-                    "path": "<Keyboard>/w",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "ConvertHitsoundSnare",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "Button With One Modifier",
-                    "id": "e343cc5f-2921-422d-b066-e9833ceaccd3",
-                    "path": "ButtonWithOneModifier",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "ConvertHitsoundPercussion",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "modifier",
-                    "id": "ef9b8f81-58c5-4f02-bda4-9e74bae2ca9a",
-                    "path": "<Keyboard>/ctrl",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "ConvertHitsoundPercussion",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "button",
-                    "id": "c6a5db98-9057-4c54-a390-04fbdc62d9d8",
-                    "path": "<Keyboard>/e",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "ConvertHitsoundPercussion",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "Button With One Modifier",
-                    "id": "6165a924-ae4b-4af0-ae68-53a70cefc12f",
-                    "path": "ButtonWithOneModifier",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "ConvertHitsoundChainstart",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "modifier",
-                    "id": "7736ff76-a4b6-4a49-9b0b-d0d9fd7e9332",
-                    "path": "<Keyboard>/ctrl",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "ConvertHitsoundChainstart",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "button",
-                    "id": "21a45ebd-15d7-456d-98e4-b898ffe315f6",
-                    "path": "<Keyboard>/r",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "ConvertHitsoundChainstart",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "Button With One Modifier",
-                    "id": "b48577e2-cb3a-479b-b1f7-b9a6c4b7386f",
-                    "path": "ButtonWithOneModifier",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "ConvertHitsoundChain",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "modifier",
-                    "id": "4fda5dc8-9a59-48d7-8c5d-7505c266e532",
-                    "path": "<Keyboard>/ctrl",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "ConvertHitsoundChain",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "button",
-                    "id": "11598d8a-0f3a-434e-8ba9-6e88ef0d6c5e",
-                    "path": "<Keyboard>/t",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "ConvertHitsoundChain",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "Button With Two Modifiers",
-                    "id": "b33737e4-cd02-4cef-a92a-b31713da34be",
-                    "path": "ButtonWithTwoModifiers",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "ConvertHitsoundMelee",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "modifier1",
-                    "id": "4a137895-7191-4fdc-87ea-dfd00dc0d4d6",
-                    "path": "<Keyboard>/ctrl",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "ConvertHitsoundMelee",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "modifier2",
-                    "id": "d054dc87-f354-488c-b52c-5c7153f60d08",
-                    "path": "<Keyboard>/shift",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "ConvertHitsoundMelee",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "button",
-                    "id": "95ce1028-9acc-4390-b487-2c9e73e82a6f",
-                    "path": "<Keyboard>/y",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "ConvertHitsoundMelee",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "Button With One Modifier",
-                    "id": "25efb5d6-b10e-43c1-8a86-494161a78376",
-                    "path": "ButtonWithOneModifier",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "ConvertHitsoundSilent",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "modifier",
-                    "id": "a6b74f37-7c08-40f8-a05b-d0476e90a434",
-                    "path": "<Keyboard>/ctrl",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "ConvertHitsoundSilent",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "button",
-                    "id": "a9fadb55-7e0d-4882-b5ad-99255b40302a",
-                    "path": "<Keyboard>/u",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "ConvertHitsoundSilent",
                     "isComposite": false,
                     "isPartOfComposite": true
                 }

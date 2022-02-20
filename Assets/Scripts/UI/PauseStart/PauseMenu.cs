@@ -104,7 +104,6 @@ namespace NotReaper.UI {
 
         protected override void OnEscPressed(InputAction.CallbackContext context)
         {
-            Debug.Log("ESC PRESSED IN PAUSE MENU");
             if (Timeline.audicaLoaded) ClosePauseMenu();
         }
     }

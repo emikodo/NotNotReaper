@@ -20,7 +20,7 @@ public abstract class NRInputWithoutKeybinds : MonoBehaviour
     protected virtual void Awake()
     {
         inputCatcher = Instantiate(Resources.Load<GameObject>("InputCatcher"), transform);
-        inputCatcher.transform.localPosition = Vector3.zero;
+        inputCatcher.transform.position = Vector3.zero;
         inputCatcher.SetActive(false);
     }
     /// <summary>
@@ -36,7 +36,6 @@ public abstract class NRInputWithoutKeybinds : MonoBehaviour
     {
         KeybindManager.Global.RegisterEscCallback(OnEscPressed);
         KeybindManager.EnableAsset(null, new KeybindManager.KeybindOverrides(null, keybindsToEnable));
-        //KeybindManager.EnableSpecificEditorKeybinds(null, keybindsToEnable);
         EditorState.SetIsInUI(true);
         inputCatcher.transform.localPosition = Vector3.zero;
         inputCatcher.SetActive(true);
@@ -47,8 +46,7 @@ public abstract class NRInputWithoutKeybinds : MonoBehaviour
     protected virtual void OnDeactivated()
     {
         KeybindManager.Global.UnregisterEscCallback(OnEscPressed);
-        KeybindManager.EnableEditorKeybinds();
-        EditorState.SetIsInUI(false);
+        KeybindManager.DisableUIMenu();
         inputCatcher.SetActive(false);
     }
 

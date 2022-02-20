@@ -16,7 +16,7 @@ namespace NotReaper.UserInput
     public abstract class NRInput<T> : MonoBehaviour where T : new()
     {
         protected T actions;
-
+        private RebindConfiguration configuration;
         private InputActionAsset asset;
 
         /// <summary>
@@ -38,12 +38,16 @@ namespace NotReaper.UserInput
         /// <param name="context">The value of the esc key.</param>
         protected abstract void OnEscPressed(InputAction.CallbackContext context);
 
+        protected abstract void SetRebindConfiguration(ref RebindConfiguration options, T myKeybinds);
+
         protected virtual void Awake()
         {
             actions = new T();
-            RegisterCallbacks();
             asset = ((dynamic)actions).asset;
-            KeybindManager.RegisterAsset(asset);
+            RegisterCallbacks();
+            configuration = new RebindConfiguration(asset, new KeybindManager.KeybindOverrides(mapsToEnable, keybindsToEnable));
+            SetRebindConfiguration(ref configuration, actions);
+            KeybindManager.RegisterAsset(asset, configuration);
         }
 
         /// <summary>

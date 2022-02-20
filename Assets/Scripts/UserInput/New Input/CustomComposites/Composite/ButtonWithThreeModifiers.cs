@@ -1,12 +1,14 @@
 ﻿using System.ComponentModel;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Layouts;
+using UnityEngine.InputSystem.Utilities;
 using UnityEngine.Scripting;
 
 namespace NotReaper.CustomComposites
 {
     [Preserve]
     [DisplayName("Button with 3 Modifiers")]
+    [DisplayStringFormat("{button}+{modifier1}+{modifier2}+{modifier3}")]
     public class ButtonWithThreeModifiers : InputBindingComposite<float>
     {
         [InputControl(layout = "Button")]

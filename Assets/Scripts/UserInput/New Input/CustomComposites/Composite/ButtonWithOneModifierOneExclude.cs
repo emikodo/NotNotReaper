@@ -1,12 +1,14 @@
 ﻿using System.ComponentModel;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Layouts;
+using UnityEngine.InputSystem.Utilities;
 using UnityEngine.Scripting;
 
 namespace NotReaper.CustomComposites
 {
     [Preserve]
     [DisplayName("Button with 1 Modifier and 1 Exclude")]
+    [DisplayStringFormat("{button}+{modifier}")]
     public class ButtonWithOneModifierOneExclude : InputBindingComposite<float>
     {
         [InputControl(layout = "Button")]

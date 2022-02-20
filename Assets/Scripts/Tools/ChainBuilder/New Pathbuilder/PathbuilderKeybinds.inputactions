@@ -11,7 +11,8 @@
                     "id": "c5089688-2c93-454f-963d-a8392d6a6786",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "MousePosition",
@@ -19,7 +20,8 @@
                     "id": "fd8b12fb-3334-4527-b63f-46dc093ac20b",
                     "expectedControlType": "Vector2",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": true
                 },
                 {
                     "name": "AppendSegment",
@@ -27,15 +29,17 @@
                     "id": "36f9f8f2-c411-4341-b23f-b7d922e66e21",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
-                    "name": "Delete Segment",
+                    "name": "DeleteSegment",
                     "type": "Button",
                     "id": "324e1fc7-e17c-4f85-8e5c-9fbce19ed4a6",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "SnapToGrid",
@@ -43,7 +47,8 @@
                     "id": "ec667bbe-a6ec-427b-9ec5-f27f3ab59278",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "ChangeToNextSegment",
@@ -51,7 +56,8 @@
                     "id": "e6309fad-307d-4e60-b6d9-567f644990ea",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "ChangeToPreviousSegment",
@@ -59,7 +65,8 @@
                     "id": "448b1291-3d6e-4736-8270-96b43f305e2c",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "IncreaseLength",
@@ -67,7 +74,8 @@
                     "id": "9865982d-4833-46c3-884f-937bbb15981e",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "DecreaseLength",
@@ -75,7 +83,8 @@
                     "id": "e64d905a-0bc6-4719-998e-04d588820f0a",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "IncreaseInterval",
@@ -83,7 +92,8 @@
                     "id": "c849da78-07fc-438c-ba00-c8907b831438",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "DecreaseInterval",
@@ -91,7 +101,8 @@
                     "id": "3a52b446-39ff-431b-972d-116b4d00336d",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "ChangeScope",
@@ -99,7 +110,8 @@
                     "id": "c1e24740-a3f4-410d-88e5-0481b94ad600",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "AlternateHands",
@@ -107,7 +119,8 @@
                     "id": "afe07294-37b4-4884-bc63-d45b49bc012d",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "ChangeTargetHand",
@@ -115,7 +128,8 @@
                     "id": "f14bf3bc-76db-4a48-ad5a-9649ad6e9349",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -181,7 +195,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Delete Segment",
+                    "action": "DeleteSegment",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

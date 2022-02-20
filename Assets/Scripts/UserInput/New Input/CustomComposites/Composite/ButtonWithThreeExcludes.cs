@@ -1,12 +1,14 @@
 ﻿using System.ComponentModel;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Layouts;
+using UnityEngine.InputSystem.Utilities;
 using UnityEngine.Scripting;
-
+using NotReaper;
 namespace NotReaper.CustomComposites
 {
     [Preserve]
     [DisplayName("Button with 3 Excludes")]
+    [DisplayStringFormat("{button}")]
     public class ButtonWithThreeExcludes : InputBindingComposite<float>
     {
         [InputControl(layout = "Button")]

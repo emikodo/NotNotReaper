@@ -1,4 +1,5 @@
-﻿using NotReaper.UserInput;
+﻿using NotReaper;
+using NotReaper.UserInput;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -10,11 +11,12 @@ public static class KeybindManager
 {
     #region Fields
     private static List<InputActionAsset> inputAssets = new List<InputActionAsset>();
-
+    private static Dictionary<InputActionAsset, RebindConfiguration> registeredAssets = new Dictionary<InputActionAsset, RebindConfiguration>();
     private static InputActionAsset editorKeybinds;
     private static GlobalKeybinds globalKeybinds;
 
     private static Dictionary<InputActionAsset, KeybindOverrides> activeAssets = new Dictionary<InputActionAsset, KeybindOverrides>();
+    private static int activeUiElements = 0;
     #endregion
 
     #region Initialization
@@ -27,13 +29,21 @@ public static class KeybindManager
 
     private static void RegisterCallbacks()
     {
-        globalKeybinds.Global.Control.performed += _ => Global.IsCtrlDown = true;
-        globalKeybinds.Global.Alt.performed += _ => Global.IsAltDown = true;
-        globalKeybinds.Global.Shift.performed += _ => Global.IsShiftDown = true;
+        globalKeybinds.Global.Control.performed += _ => SetFlag(Global.Modifiers.Ctrl);//Global.IsCtrlDown = true;
+        globalKeybinds.Global.Alt.performed += _ => SetFlag(Global.Modifiers.Alt);//Global.IsAltDown = true;
+        globalKeybinds.Global.Shift.performed += _ => SetFlag(Global.Modifiers.Shift); //Global.IsShiftDown = true;
 
-        globalKeybinds.Global.Control.canceled += _ => Global.IsCtrlDown = false;
-        globalKeybinds.Global.Alt.canceled += _ => Global.IsAltDown = false;
-        globalKeybinds.Global.Shift.canceled += _ => Global.IsShiftDown = false;
+        globalKeybinds.Global.Control.canceled += _ => RemoveFlag(Global.Modifiers.Ctrl);// Global.IsCtrlDown = false;
+        globalKeybinds.Global.Alt.canceled += _ => RemoveFlag(Global.Modifiers.Alt); //Global.IsAltDown = false;
+        globalKeybinds.Global.Shift.canceled += _ => RemoveFlag(Global.Modifiers.Shift); //Global.IsShiftDown = false;
+    } 
+    private static void SetFlag(Global.Modifiers flag)
+    {
+        Global.Modifier |= flag;
+    }
+    private static void RemoveFlag(Global.Modifiers flag)
+    {
+        Global.Modifier &= ~flag;
     }
     /// <summary>
     /// Set the Standard Editor-Keybind asset.
@@ -47,12 +57,18 @@ public static class KeybindManager
     /// Register an InputActionAsset so it can be handled for keybind remapping.
     /// </summary>
     /// <param name="asset">The asset to register.</param>
-    public static void RegisterAsset(InputActionAsset asset)
+    public static void RegisterAsset(InputActionAsset asset, RebindConfiguration options)
     {
+        if (!registeredAssets.ContainsKey(asset))
+        {
+            registeredAssets.Add(asset, options);
+        }
+        /*
         if (!inputAssets.Contains(asset))
         {
             inputAssets.Add(asset);
         }
+        */
     }
     #endregion
 
@@ -76,6 +92,10 @@ public static class KeybindManager
                 activeAssets.Add(asset, overrides);
             }
         }
+        else
+        {
+            activeUiElements++;
+        }
     }
     /// <summary>
     /// Disables the asset and enables the previously active asset.
@@ -89,7 +109,13 @@ public static class KeybindManager
 
             if (activeAssets.ContainsKey(asset))
             {
-                DisableKeybinds(activeAssets[asset].keybinds);
+                if(activeAssets.Count > 1)
+                {
+                    ///we only disable the asset's override keybinds if there are other active assets in the list. 
+                    ///If we don't, it re-enables those override keybinds while they're being disabled, resulting in
+                    ///an error.
+                    DisableKeybinds(activeAssets[asset].keybinds);
+                }
                 activeAssets.Remove(asset);
             }
         }
@@ -99,8 +125,22 @@ public static class KeybindManager
             ApplyOverrides(activeAssets.Last().Value);
         }
         else
+        {         
+            EnableEditorKeybinds();   
+        }
+    }
+    /// <summary>
+    /// Call this if your object is a UI element without it's own keybinds.
+    /// </summary>
+    public static void DisableUIMenu()
+    {
+        if (activeUiElements == 0) return;
+
+        activeUiElements--;
+        if (activeUiElements == 0)
         {
             EnableEditorKeybinds();
+            EditorState.SetIsInUI(false);
         }
     }
     /// <summary>
@@ -137,43 +177,6 @@ public static class KeybindManager
                 editorKeybinds.FindAction(keybind)?.Enable();
             }
         }
-
-        /*
-        List<Map> maps = new List<Map>();
-        List<string> keybinds = new List<string>();
-        foreach (var entry in activeAssets)
-        {
-            foreach (var map in entry.Value.maps)
-            {
-                if (!maps.Contains(map))
-                {
-                    maps.Add(map);
-                }
-            }
-            foreach (var keybind in entry.Value.keybinds)
-            {
-                if (!keybinds.Contains(keybind))
-                {
-                    keybinds.Add(keybind);
-                }
-            }
-        }
-        EnableMaps(maps);
-        EnableKeybinds(keybinds);
-        */
-    }
-
-    private static List<InputAction> GetInputSnapshot()
-    {
-        List<InputAction> enabledKeybinds = new List<InputAction>();
-        foreach(var map in editorKeybinds.actionMaps)
-        {
-            foreach(var keybind in map.actions)
-            {
-                if (keybind.enabled) enabledKeybinds.Add(keybind);
-            }
-        }
-        return enabledKeybinds;
     }
     #endregion
 
@@ -263,6 +266,36 @@ public static class KeybindManager
     }
     #endregion
 
+    #region Getter
+    public static Dictionary<InputActionAsset, RebindConfiguration> GetRegisteredKeybinds()
+    {
+        return registeredAssets;
+    }
+
+    public static List<InputActionMap> ConvertEnumToActionMap(List<Map> maps)
+    {
+        List<InputActionMap> foundMaps = new List<InputActionMap>();
+
+        foreach(var map in maps)
+        {
+            var m = editorKeybinds.FindActionMap(map.ToString());
+            if (m != null) foundMaps.Add(m);
+        }
+
+        return foundMaps;
+    }
+    public static List<InputAction> ConvertStringToAction(List<string> actions)
+    {
+        List<InputAction> foundActions = new List<InputAction>();
+        foreach(var action in actions)
+        {
+            var a = editorKeybinds.FindAction(action);
+            if (a != null) foundActions.Add(a);
+        }
+        return foundActions;
+    }
+    #endregion
+
     #region Classes and Enums
     /// <summary>
     /// The list of available InputActionMaps in EditorKeybinds.
@@ -312,9 +345,11 @@ public static class KeybindManager
     /// </summary>
     public class Global
     {
-        public static bool IsCtrlDown;
-        public static bool IsShiftDown;
-        public static bool IsAltDown;
+        //public static bool IsCtrlDown;
+        //public static bool IsShiftDown;
+        //public static bool IsAltDown;
+        public static Modifiers Modifier;
+        //public static bool IsAnyModifierDown => IsCtrlDown || IsShiftDown || IsAltDown;
         public static InputAction MousePosition
         {
             get { return globalKeybinds.Global.MousePosition; }
@@ -328,50 +363,20 @@ public static class KeybindManager
         {
             globalKeybinds.Global.Close.performed -= callback;
         }
-    }
-    #endregion
 
-    #region Commented out stuff
-    /*
-    public static void EnableAsset(InputActionAsset asset)
-    {
-        if (asset is null) return;
-        asset.Enable();
-        foreach (var map in asset.actionMaps) map.Enable();
-    }
-    */
-    /*
-    private static void EnableSpecificEditorKeybinds(List<Map> maps, List<string> keybinds)
-    {
-        if (editorKeybinds is null) return;
-        if(maps is null || maps.Count == 0)
+        [Flags]
+        public enum Modifiers
         {
-            editorKeybinds.Disable();
-        }
-        if(maps != null && maps.Count > 0)
-        {
-            var names = Enum.GetNames(typeof(Map));
-            foreach (var name in names)
-            {
-                var m = (Map)Enum.Parse(typeof(Map), name);
-                if (maps.Any(map => map == m))
-                {
-                    editorKeybinds.FindActionMap(m.ToString())?.Enable();
-                }
-                else
-                {
-                    editorKeybinds.FindActionMap(m.ToString())?.Disable();
-                }
-            }
-        }      
-        if(keybinds != null && keybinds.Count > 0)
-        {
-            foreach (string keybind in keybinds)
-            {
-                editorKeybinds.FindAction(keybind)?.Enable();
-            }
+            None = 0,
+            Ctrl = 1,
+            Alt = 2,
+            Shift = 4,
+
+            CtrlShift = Ctrl | Shift,
+            CtrlAlt = Ctrl | Alt,
+            AltShift = Alt | Shift,
+            All = Ctrl | Alt | Shift
         }
     }
-    */
     #endregion
 }

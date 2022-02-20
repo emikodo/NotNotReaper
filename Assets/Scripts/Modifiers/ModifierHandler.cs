@@ -1233,6 +1233,15 @@ namespace NotReaper.Modifier
             ToggleModifiers();
         }
 
+        protected override void SetRebindConfiguration(ref RebindConfiguration options, ModifierKeybinds myKeybinds)
+        {
+            options.SetAssetTitle("Modifiers").SetRebindable(true);
+            options.AddHiddenKeybinds(myKeybinds.Modifiers.LeftMouseClick);
+            options.AddNonRebindableKeybinds(myKeybinds.Modifiers.RemoveModifier);
+            options.AddNonRebindableKeybinds(myKeybinds.Modifiers.DragSelect);
+            options.AddNonRebindableKeybinds(myKeybinds.Modifiers.Delete);
+        }
+
         //public enum ModifierType { AimAssist = 0, ColorChange = 1, ColorUpdate = 2, ColorSwap = 3, HiddenTelegraphs = 4, InvisibleGuns = 5, Particles = 6, Psychedelia = 7, PsychedeliaUpdate = 8, Speed = 9, zOffset = 10, ArenaRotation = 11, ArenaBrightness = 12, ArenaChange = 13, Fader = 14, OverlaySetter = 15, TextPopup = 16, AutoLighting = 17, ArenaPosition = 18, ArenaSpin = 19, ArenaScale = 20, SkyboxColor = 21 }
         public enum ModifierType
         {

@@ -67,13 +67,13 @@ namespace NotReaper.ReviewSystem
                 return;
             }
             base.Awake();
+            //ShowWindow(false);
         }
 
         bool init = false;
         private void Start()
         {
             SetMode(ReviewMode.Read);
-            ShowWindow(false);
             makeSuggestionButton.SetActive(false);
             showSuggestionButton.SetActive(false);
             string exportFolder = Path.Combine(Directory.GetParent(Application.dataPath).ToString(), "reviews");
@@ -533,6 +533,11 @@ namespace NotReaper.ReviewSystem
         protected override void OnEscPressed(InputAction.CallbackContext context)
         {
             ShowWindow(false);
+        }
+
+        protected override void SetRebindConfiguration(ref RebindConfiguration options, ReviewKeybinds myKeybinds)
+        {
+            options.SetAssetTitle("Review System").SetRebindable(false);
         }
     }
 

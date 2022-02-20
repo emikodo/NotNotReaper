@@ -18,7 +18,8 @@ public class ShortcutInfo : NRInputWithoutKeybinds {
     public bool isOpened = false;
 
     // Start is called before the first frame update
-    void Start() {
+    protected override void Awake() {
+        base.Awake();
         var t = transform;
         var position = t.localPosition;
         t.localPosition = new Vector3(0, position.y, position.z);

@@ -653,7 +653,12 @@ namespace NotReaper.Tools.ChainBuilder {
 			startClickNote = null;
 		}
 
-
-	
+        protected override void SetRebindConfiguration(ref RebindConfiguration options, ChainbuilderKeybinds myKeybinds)
+        {
+			options.SetAssetTitle("Legacy Pathbuilder").SetPriority(11);
+			options.AddNonRebindableKeybinds(myKeybinds.Pathbuilder.SelectTarget);
+			options.AddHiddenKeybinds(myKeybinds.Pathbuilder.MousePosition);
+			options.AddNonRebindableKeybinds(myKeybinds.Pathbuilder.SnapAngle);
+        }
     }
 }

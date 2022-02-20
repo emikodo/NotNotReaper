@@ -13,9 +13,9 @@ public class ModifierInfo : NRInputWithoutKeybinds
     public static bool isOpened = false;
     public static ModifierInfo Instance = null;
     public CanvasGroup window;
-    // Start is called before the first frame update
-    void Start()
+    protected override void Awake()
     {
+        base.Awake();
         if(Instance is null)
         {
             Instance = this;
@@ -30,7 +30,7 @@ public class ModifierInfo : NRInputWithoutKeybinds
         var position = t.localPosition;
         t.localPosition = new Vector3(0, position.y, position.z);
      
-        Hide();
+        //Hide();
     }
 
     public void Show()

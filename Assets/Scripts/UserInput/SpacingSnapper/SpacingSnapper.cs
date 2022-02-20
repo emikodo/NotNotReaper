@@ -94,7 +94,7 @@ namespace NotReaper.Tools.SpacingSnap
 
         private void HandleScrolling(bool increase)
         {
-            if (KeybindManager.Global.IsCtrlDown) return;
+            if ((KeybindManager.Global.Modifier & KeybindManager.Global.Modifiers.Ctrl) == KeybindManager.Global.Modifiers.Ctrl) return;
             ChangeRadius(increase ? -radiusIncrement : radiusIncrement);
         }
 
@@ -170,6 +170,14 @@ namespace NotReaper.Tools.SpacingSnap
         }
 
         protected override void OnEscPressed(InputAction.CallbackContext context) { }
+
+        protected override void SetRebindConfiguration(ref RebindConfiguration options, SpacingSnapKeybinds myKeybinds)
+        {
+            options.SetAssetTitle("Spacing Snapper").SetPriority(20);
+            options.AddHiddenKeybinds(myKeybinds.SpacingSnap.MousePosition);
+            options.AddNonRebindableKeybinds(myKeybinds.SpacingSnap.ChangeDistance);
+            options.AddNonRebindableKeybinds(myKeybinds.SpacingSnap.LockDirectional);
+        }
     }
 
 }
