@@ -9,6 +9,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Audio;
 using NotReaper.IO;
+using NotReaper.Audio;
+using NotReaper.Audio.Noise;
 
 namespace NotReaper.Timing {
 	public struct CopyContext {
@@ -208,10 +210,12 @@ namespace NotReaper.Timing {
 		[SerializeField] private AudioClip song_end_Asharp;
 		[SerializeField] private AudioClip song_end_B;
 
+		//[NRInject] private AudioVisualizer visualizer;
+		[NRInject] private AudioPeer visualizer;
 		private bool audioSamplesLoaded = false;
 
 		public Transform mainCameraTrans;
-		private float mainCameraX;
+		private float mainCameraX = 0f;
 
 		private void Start()
         {
@@ -242,13 +246,16 @@ namespace NotReaper.Timing {
 		}
 
         
-
+		public AudioSource GetSource()
+        {
+			return source;
+        }
         
 
 
 
 		private void Update() {
-			mainCameraX = mainCameraTrans.position.x;
+			//mainCameraX = mainCameraTrans.position.x;
             
 
         }
@@ -397,12 +404,12 @@ namespace NotReaper.Timing {
 			if(rightSustain != null) { 
 				rightSustain.SetSampleFromTime(songStartTime);
 			}
-
 			paused = false;
 			clearHitsounds = true;
 			clearClicksounds = true;
 			dspStartTime = AudioSettings.dspTime;
 			source.Play();
+			visualizer.StartVisualization();
 		}
 
 		public void PlayClickTrack(QNT_Timestamp endTime) {
@@ -446,6 +453,7 @@ namespace NotReaper.Timing {
 			paused = true;
 			StopMetronome();
 			playClickTrack = false;
+			visualizer.StopVisualization();
 		}
 
 		public void PlayPreview(QNT_Timestamp time, Relative_QNT previewDuration) {

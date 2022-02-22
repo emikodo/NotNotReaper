@@ -20,6 +20,7 @@ namespace NotReaper.Statistics
         [Header("References")]
         [SerializeField] private StatisticsElement prefabLeft;
         [SerializeField] private Transform parentLeft;
+        [SerializeField] private Transform entryHolder;
         [SerializeField] private StatisticsElement firstHighlightSlot;
         [SerializeField] private StatisticsElement secondHighlightSlot;
         [Space, Header("Text")]
@@ -36,7 +37,7 @@ namespace NotReaper.Statistics
         #endregion
 
         #region Awake and Start
-        private void Awake()
+        protected override void Awake()
         {
             if (Instance != null)
             {
@@ -44,6 +45,7 @@ namespace NotReaper.Statistics
                 return;
             }
             Instance = this;
+            base.Awake();
         }
 
         private void Start()
@@ -142,6 +144,7 @@ namespace NotReaper.Statistics
                 activeLeftElements.RemoveAt(i);
                 leftPool.Add(element);
                 element.Reset();
+                element.transform.parent = entryHolder;
                 element.gameObject.SetActive(false);
             }
             firstHighlightSlot.Reset();
@@ -187,6 +190,7 @@ namespace NotReaper.Statistics
                 element = Instantiate(prefabLeft, parentLeft);
             }
             element.gameObject.SetActive(true);
+            element.transform.parent = parentLeft;
             activeLeftElements.Add(element);
             return element;
         }

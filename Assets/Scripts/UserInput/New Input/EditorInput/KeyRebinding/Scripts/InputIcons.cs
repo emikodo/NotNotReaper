@@ -123,9 +123,9 @@ namespace NotReaper.Keybinds
 
         #endregion
 
-        public Sprite GetIcon(string path, out bool found)
+        public Sprite GetIcon(string path, out KeybindManager.Global.Modifiers modifier)
         {
-            found = true;
+            modifier = KeybindManager.Global.Modifiers.None;
             string origPath = path;
             path = path.Substring(path.IndexOf('/') + 1).ToLower();
             switch (path)
@@ -230,8 +230,10 @@ namespace NotReaper.Keybinds
                 case "x":
                     return letterX;
                 case "y":
+                case "#(y)":
                     return letterY;
                 case "z":
+                case "#(z)":
                     return letterZ;
                 #endregion
 
@@ -239,14 +241,17 @@ namespace NotReaper.Keybinds
                 case "ctrl":
                 case "leftctrl":
                 case "rightctrl":
+                    modifier = KeybindManager.Global.Modifiers.Ctrl;
                     return ctrl;
                 case "alt":
                 case "leftalt":
                 case "rightalt":
+                    modifier = KeybindManager.Global.Modifiers.All;
                     return alt;
                 case "shift":
                 case "leftshift":
                 case "rightshift":
+                    modifier = KeybindManager.Global.Modifiers.Shift;
                     return shift;
                 #endregion
 
@@ -317,7 +322,6 @@ namespace NotReaper.Keybinds
                 #endregion
                 default:
                     Debug.Log("Couldn't find key: " + origPath);
-                    found = false;
                     return noKey;
             }
         }

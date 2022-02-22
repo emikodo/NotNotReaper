@@ -26,6 +26,8 @@ namespace NotReaper.Keybinds
         private TargetHandType hand = TargetHandType.Left;
         public bool isRebinding = false;
 
+        public static Dictionary<string, KeybindDisplayData> displayKeybindData = new Dictionary<string, KeybindDisplayData>();
+
         private void Start()
         {
             PopulateKeybindsMenu();
@@ -70,6 +72,20 @@ namespace NotReaper.Keybinds
             SaveKeybinds(asset);
         }
 
+        public static KeybindDisplayData GetKeybindDisplayData(InputAction action)
+        {
+            if (displayKeybindData.ContainsKey(action.name))
+            {
+                return displayKeybindData[action.name];
+            }
+            else
+            {
+                KeybindDisplayData paths = new KeybindDisplayData();
+                paths.keybind = action.name;
+                return paths;
+            } 
+        }
+
         private void PopulateKeybindsMenu()
         {
             var sets = KeybindManager.GetRegisteredKeybinds();
@@ -99,10 +115,13 @@ namespace NotReaper.Keybinds
                         }
 
                         KeybindEntry key = Instantiate(keybindPrefab, content);
+                        KeybindDisplayData paths = new KeybindDisplayData();
                         entries.Add(key);
                         bool isRebindable = rebindOptions.IsRebindable(keybind);
                         if (isRebindable) hasRebindableKeys = true;
-                        key.Initialize(icons, keybind, rebindOptions.GetKeybindName(keybind), isRebindable, rebindOptions.GetOverrides(), hand, SaveKeybinds, OnRebind);
+                        string displayName = rebindOptions.GetKeybindName(keybind);
+                        paths.displayName = displayName;
+                        key.Initialize(icons, keybind, displayName, rebindOptions.GetMapName(map), isRebindable, rebindOptions.GetOverrides(), hand, SaveKeybinds, OnRebind);
                         bool hasModifier1 = false;
                         if (keybind.bindings[0].isComposite)
                         {
@@ -116,22 +135,29 @@ namespace NotReaper.Keybinds
                                     {
                                         hasModifier1 = true;
                                         key.SetFirstModifier(bind);
+                                        paths.modifier1 = bind.effectivePath;
                                     }
                                     else
                                     {
                                         key.SetSecondModifier(bind);
+                                        paths.modifier2 = bind.effectivePath;
                                     }
                                 }
                                 else
                                 {
                                     key.SetBindingIndex(i);
+                                    paths.keybind = keybind.bindings[i].effectivePath;
                                 }
                             }
                         }
                         else
                         {
                             key.SetBindingIndex(0);
+                            paths.keybind = keybind.bindings[0].effectivePath;
                         }
+
+                        if(!displayKeybindData.ContainsKey(keybind.name)) 
+                            displayKeybindData.Add(keybind.name, paths);
                         
                     }
                     if (hasRebindableKeys)
@@ -149,6 +175,14 @@ namespace NotReaper.Keybinds
 
                 }
             }
+        }
+
+        public struct KeybindDisplayData
+        {
+            public string keybind;
+            public string displayName;
+            public string modifier1;
+            public string modifier2;
         }
     } 
 }

@@ -334,8 +334,8 @@ namespace NotReaper.Tools {
 				if (targetData.behavior != TargetBehavior.Melee) {
                     if (!targetData.isPathbuilderTarget)
                     {
-						targetData.y += scale.y * Math.Sign(targetData.y);
-						targetData.x += scale.x * Math.Sign(targetData.x);
+						targetData.y *= scale.y;
+						targetData.x *= scale.x;
 					}
 
 					if (targetData.behavior == TargetBehavior.Legacy_Pathbuilder) {

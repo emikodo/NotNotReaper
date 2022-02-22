@@ -39,7 +39,7 @@ namespace NotReaper.UserInput
 
 		public void PlaceNote()
 		{
-			if (!EditorState.IsOverGrid) return;
+			if (!EditorState.IsOverGrid || EditorState.IsInUI) return;
 			timeline.AddTarget(ghost.position.x, ghost.position.y);
 			background.OnPlaceNote();
 		}
@@ -111,16 +111,6 @@ namespace NotReaper.UserInput
 		public void MoveTargetsAction(Vector2 direction)
 		{
 			drag.MoveTargets(direction);
-		}
-
-		public void SetHalfModifierPressed(bool pressed)
-		{
-			drag.SetControlDown(pressed);
-		}
-
-		public void SetQuarterModifierPressed(bool pressed)
-		{
-			drag.SetShiftDown(pressed);
 		}
 
 		public void ActivateSnapper(bool enable)
@@ -207,7 +197,7 @@ namespace NotReaper.UserInput
 
 		public void ChangeBeatSnap(float direction)
 		{
-			timeline.ChangeBeatSnap(direction < 0f);
+			timeline.ChangeBeatSnap(direction > 0f);
 		}
 
 		public void ZoomTimeline(float direction)

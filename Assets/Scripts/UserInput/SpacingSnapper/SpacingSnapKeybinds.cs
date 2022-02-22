@@ -55,6 +55,15 @@ namespace NotReaper.Tools.SpacingSnap
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Tab"",
+                    ""type"": ""Button"",
+                    ""id"": ""b168a2e4-7805-4ac6-a3d0-0c93e51073b7"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -90,6 +99,17 @@ namespace NotReaper.Tools.SpacingSnap
                     ""action"": ""MousePosition"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""edc4af85-d7bb-411d-8e12-1450fd92d4aa"",
+                    ""path"": ""<Keyboard>/tab"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Tab"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -101,6 +121,7 @@ namespace NotReaper.Tools.SpacingSnap
             m_SpacingSnap_ChangeDistance = m_SpacingSnap.FindAction("ChangeDistance", throwIfNotFound: true);
             m_SpacingSnap_LockDirectional = m_SpacingSnap.FindAction("LockDirectional", throwIfNotFound: true);
             m_SpacingSnap_MousePosition = m_SpacingSnap.FindAction("MousePosition", throwIfNotFound: true);
+            m_SpacingSnap_Tab = m_SpacingSnap.FindAction("Tab", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -163,6 +184,7 @@ namespace NotReaper.Tools.SpacingSnap
         private readonly InputAction m_SpacingSnap_ChangeDistance;
         private readonly InputAction m_SpacingSnap_LockDirectional;
         private readonly InputAction m_SpacingSnap_MousePosition;
+        private readonly InputAction m_SpacingSnap_Tab;
         public struct SpacingSnapActions
         {
             private @SpacingSnapKeybinds m_Wrapper;
@@ -170,6 +192,7 @@ namespace NotReaper.Tools.SpacingSnap
             public InputAction @ChangeDistance => m_Wrapper.m_SpacingSnap_ChangeDistance;
             public InputAction @LockDirectional => m_Wrapper.m_SpacingSnap_LockDirectional;
             public InputAction @MousePosition => m_Wrapper.m_SpacingSnap_MousePosition;
+            public InputAction @Tab => m_Wrapper.m_SpacingSnap_Tab;
             public InputActionMap Get() { return m_Wrapper.m_SpacingSnap; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -188,6 +211,9 @@ namespace NotReaper.Tools.SpacingSnap
                     @MousePosition.started -= m_Wrapper.m_SpacingSnapActionsCallbackInterface.OnMousePosition;
                     @MousePosition.performed -= m_Wrapper.m_SpacingSnapActionsCallbackInterface.OnMousePosition;
                     @MousePosition.canceled -= m_Wrapper.m_SpacingSnapActionsCallbackInterface.OnMousePosition;
+                    @Tab.started -= m_Wrapper.m_SpacingSnapActionsCallbackInterface.OnTab;
+                    @Tab.performed -= m_Wrapper.m_SpacingSnapActionsCallbackInterface.OnTab;
+                    @Tab.canceled -= m_Wrapper.m_SpacingSnapActionsCallbackInterface.OnTab;
                 }
                 m_Wrapper.m_SpacingSnapActionsCallbackInterface = instance;
                 if (instance != null)
@@ -201,6 +227,9 @@ namespace NotReaper.Tools.SpacingSnap
                     @MousePosition.started += instance.OnMousePosition;
                     @MousePosition.performed += instance.OnMousePosition;
                     @MousePosition.canceled += instance.OnMousePosition;
+                    @Tab.started += instance.OnTab;
+                    @Tab.performed += instance.OnTab;
+                    @Tab.canceled += instance.OnTab;
                 }
             }
         }
@@ -210,6 +239,7 @@ namespace NotReaper.Tools.SpacingSnap
             void OnChangeDistance(InputAction.CallbackContext context);
             void OnLockDirectional(InputAction.CallbackContext context);
             void OnMousePosition(InputAction.CallbackContext context);
+            void OnTab(InputAction.CallbackContext context);
         }
     }
 }

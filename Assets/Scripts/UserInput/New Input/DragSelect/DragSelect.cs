@@ -37,11 +37,10 @@ namespace NotReaper.Tools
 		private QNT_Timestamp startTimelineMoveTime;
 
 		private DragState state = DragState.None;
-
+		private SnappingMode oldSnappingMode;
 		private Camera cam;
 		private Vector2 mouseStartPosWorld;
 		private Vector2 mouseStartPosScreen;
-		private bool isShiftDown, isCtrlDown;
 
 		private bool isActive;
         #endregion
@@ -93,6 +92,10 @@ namespace NotReaper.Tools
                     }
                     else
                     {
+                        if (!iconUnderMouse.isSelected)
+                        {
+							TryToggleSelection();
+                        }
 						state = timeline.hover ? DragState.WantDragTargetsTimeline : DragState.WantDragTargetsGrid;
 						StartDragTargets();
                     }
@@ -114,7 +117,6 @@ namespace NotReaper.Tools
             {
                 if (!isActive)
                 {
-					Debug.Log("Enable drag select");
 					isActive = true;
 					EnableDragSelect();
                 }
@@ -123,7 +125,6 @@ namespace NotReaper.Tools
             {
                 if (isActive)
                 {
-					Debug.Log("Disable drag select");
 					isActive = false;
 					DisableDragSelect();
                 }
@@ -131,20 +132,14 @@ namespace NotReaper.Tools
         }
         public void EnableDragSelect()
         {
+			oldSnappingMode = EditorState.Snapping.Current;
 			isActive = true;
-			EditorState.SelectSnappingMode(SnappingMode.None);
 			OnActivated();
         }
 
 		public void DisableDragSelect()
         {
-			//EditorState.SelectTool(EditorTool.DragSelect);
-			if(EditorState.Tool.Current == EditorTool.None)
-            {
-				EditorState.SelectSnappingMode(EditorState.Snapping.Previous);
-            }
 			EndDrag();
-			isShiftDown = false;
 			OnDeactivated();
         }
         #endregion
@@ -417,9 +412,10 @@ namespace NotReaper.Tools
         #region Target Selection
         private void TryToggleSelection()
 		{
+			iconsUnderMouse = null;
 			if (NRSettings.config.singleSelectCtrl)
 			{
-				if (!isShiftDown)
+				if (KeybindManager.Global.Modifier != KeybindManager.Global.Modifiers.Shift)
 				{
 					timeline.DeselectAllTargets();
 				}
@@ -431,7 +427,7 @@ namespace NotReaper.Tools
 			}
 			else if (iconUnderMouse && !iconUnderMouse.isSelected)
 			{
-				if (isShiftDown)
+				if (KeybindManager.Global.Modifier.IsShiftDown())
 				{
 					if (Timeline.instance.selectedNotes.Count > 0)
 					{
@@ -450,7 +446,7 @@ namespace NotReaper.Tools
 			}
 			else
 			{
-				timeline.DeselectAllTargets();
+				//timeline.DeselectAllTargets();
 			}
 		}
 		#endregion
@@ -462,8 +458,8 @@ namespace NotReaper.Tools
 			noteMovement.x *= NotePosCalc.xSize;
 			noteMovement.y *= NotePosCalc.ySize;
 
-			if (isCtrlDown) noteMovement *= .5f;
-			if (isShiftDown) noteMovement *= .25f;
+			if (KeybindManager.Global.Modifier.IsCtrlDown()) noteMovement *= .5f;
+			if (KeybindManager.Global.Modifier.IsShiftDown()) noteMovement *= .25f;
 
 			timeline.MoveGridTargets(timeline.selectedNotes.Select(target => {
 				var intent = new TargetGridMoveIntent();
@@ -478,14 +474,6 @@ namespace NotReaper.Tools
 				return intent;
 			}).ToList());
 		}
-		public void SetControlDown(bool down)
-		{
-			isCtrlDown = down;
-		}
-		public void SetShiftDown(bool down)
-        {
-			isShiftDown = down;
-        }
 		#endregion
 
 		#region Helper
@@ -501,8 +489,6 @@ namespace NotReaper.Tools
         {
 			actions.DragSelect.Drag.performed += _ => OnMouseClick();
 			actions.DragSelect.Drag.canceled += _ => OnMouseRelease();
-			actions.DragSelect.GroupSelect.performed += _ => isShiftDown = true;
-			actions.DragSelect.GroupSelect.canceled += _ => isShiftDown = false;
         }
 
 		protected override void OnEscPressed(InputAction.CallbackContext context) { }
@@ -514,13 +500,14 @@ namespace NotReaper.Tools
 			mouseStartPosScreen = actions.DragSelect.MousePosition.ReadValue<Vector2>();
 			mouseStartPosWorld = cam.ScreenToWorldPoint(mouseStartPosScreen);
 			state = DragState.DetectIntent;
+			TryToggleSelection();
 		}
 
 		private void OnMouseRelease()
 		{
 			if (state == DragState.DetectIntent)
 			{
-				TryToggleSelection();
+				//TryToggleSelection();
 			}
 			EndDrag();
 		}

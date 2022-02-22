@@ -165,6 +165,11 @@ namespace NotReaper.UserInput
             else return SplitCamelCase(keybind.name);
         }
 
+        public Dictionary<InputAction, string> GetKeybindDisplayNames()
+        {
+            return customKeybindNames;
+        }
+
         public KeybindManager.KeybindOverrides GetOverrides()
         {
             return overrides;

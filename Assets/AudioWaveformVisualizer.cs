@@ -33,6 +33,12 @@ public class AudioWaveformVisualizer : MonoBehaviour {
         {
             r.enabled = visible;
         }
+        this.visible = visible;
+    }
+
+    public void ToggleWaveform()
+    {
+        SetWaveformVisible(!visible);
     }
 
 

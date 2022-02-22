@@ -340,8 +340,9 @@ namespace NotReaper {
 				musicVolume = NRSettings.config.mainVol;
 				musicVolumeSlider.value = musicVolume;
 				hitSoundVolumeSlider.value = NRSettings.config.noteVol;
-                
-                SetAudioDSP ();
+				songPlayback.volume = NRSettings.config.mainVol;
+				songPlayback.hitSoundVolume = NRSettings.config.noteVol;
+				SetAudioDSP ();
 
 				if (NRSettings.config.clearCacheOnStartup) {
 					HandleCache.ClearCache ();
@@ -478,6 +479,11 @@ namespace NotReaper {
 				return;
 			}
 
+			if (EditorState.IsInUI || !EditorState.IsOverGrid)
+            {
+				return;
+            }
+
 			TargetData data = new TargetData ();
 			data.x = x;
 			data.y = y;
@@ -538,6 +544,7 @@ namespace NotReaper {
 
 			if (tempTime.tick < 8*Constants.QuarterNoteDuration.tick) // deny if in intro redzone
 			{
+				NotificationCenter.SendNotification("Can't place target in intro zone. Targets before the 2 second mark don't properly work in-game.", NotificationType.Info);
 				return;
 			}
 		
@@ -2358,17 +2365,14 @@ namespace NotReaper {
 
 		public void ScrubTimeline(bool forward, bool byTick)
         {
-			songPlayback.volume = NRSettings.config.mainVol;
-			songPlayback.hitSoundVolume = NRSettings.config.noteVol;
 			scrubParams = new ScrubParams(forward, byTick);
 			scrub = true;
         }
 
 		private void MoveTimeline()
         {
-			Profiler.BeginSample("Move timeline");
 			var startTime = time;
-			UpdateSustains();
+			//UpdateSustains();
 			if (!paused)
 			{
 				time = ShiftTick(new QNT_Timestamp(0), (float)songPlayback.GetTime());
@@ -2380,7 +2384,7 @@ namespace NotReaper {
 				jumpDuration.tick *= scrubParams.forward ? 1 : - 1;
 
 				time = scrubParams.byTick ? time + jumpDuration : GetClosestBeatSnapped(time + jumpDuration, (uint)beatSnap);
-				UpdateSustains();
+				//UpdateSustains();
 				SafeSetTime();
 				if (paused)
 				{
@@ -2407,9 +2411,9 @@ namespace NotReaper {
 			SetCurrentTime();
 			SetCurrentTick();
 
-			miniTimeline.SetPercentagePlayed(GetPercentagePlayed());
+			//miniTimeline.SetPercentagePlayed(GetPercentagePlayed());
 
-			EnableNearSustainButtons();
+			//EnableNearSustainButtons();
 
 			UpdateLoadedNotes();
 
@@ -2434,12 +2438,32 @@ namespace NotReaper {
 			//Update trace lines
 			if (NRSettings.config.enableTraceLines)
 			{
+				//UpdateTraceLine(leftHandTraceLine, TargetHandType.Left, NRSettings.config.leftColor);
+				//UpdateTraceLine(rightHandTraceLine, TargetHandType.Right, NRSettings.config.rightColor);
+			}
+
+			//UpdateDualines();
+
+			//songPlayback.volume = NRSettings.config.mainVol;
+			//songPlayback.hitSoundVolume = NRSettings.config.noteVol;
+
+			UpdateState();
+		}
+
+		private void UpdateState()
+        {
+			UpdateSustains();
+			UpdateDualines();
+			UpdateLoadedNotes();
+			miniTimeline.SetPercentagePlayed(GetPercentagePlayed());
+			EnableNearSustainButtons();
+			if (NRSettings.config.enableTraceLines)
+			{
 				UpdateTraceLine(leftHandTraceLine, TargetHandType.Left, NRSettings.config.leftColor);
 				UpdateTraceLine(rightHandTraceLine, TargetHandType.Right, NRSettings.config.rightColor);
 			}
-
-			UpdateDualines();
-			Profiler.EndSample();
+			songPlayback.volume = NRSettings.config.mainVol;
+			songPlayback.hitSoundVolume = NRSettings.config.noteVol;
 		}
 
 		private void UpdateDualines()
@@ -2536,6 +2560,59 @@ namespace NotReaper {
 		}
 
         private static bool toggle = false;
+
+		public static void ShowTimelineTargets(bool show)
+        {
+			if (Timeline.orderedNotes != null && Timeline.orderedNotes.Count > 0)
+			{
+				QNT_Timestamp start;
+				QNT_Timestamp end;
+				if (NRSettings.config.optimizeInvisibleTargets)
+				{
+					start = Timeline.time - Relative_QNT.FromBeatTime(10f);
+					end = Timeline.time + Relative_QNT.FromBeatTime(10f);
+				}
+				else
+				{
+					start = Timeline.orderedNotes.First().data.time;
+					end = Timeline.orderedNotes.Last().data.time;
+				}
+
+
+				var targetsToShow = new NoteEnumerator(start, end);
+				/*
+				for (int i = 0; i < orderedNotes.Count; i++)
+				{
+					orderedNotes[i].timelineTargetIcon.HideTimelineTarget();
+					//orderedNotes[i].gridTargetIcon.gameObject.SetActive(false);
+					//orderedNotes[i].timelineTargetIcon.gameObject.SetActive(false);
+				}
+				*/
+				//if (!ModifierHandler.activated)
+				//{
+				if (!ModifierHandler.activated) toggle = false;
+				foreach (Target target in targetsToShow)
+				{
+                    //target.gridTargetIcon.gameObject.SetActive(true);
+                    //if(EditorState.Tool.Current != EditorTool.ModifierCreator) target.timelineTargetIcon.gameObject.SetActive(true);
+                    //if (EditorState.Tool.Current != EditorTool.ModifierCreator) target.timelineTargetIcon.ShowTimelineTarget();
+                    if (show)
+                    {
+						target.timelineTargetIcon.ShowTimelineTarget();
+                    }
+                    else
+                    {
+						target.timelineTargetIcon.HideTimelineTarget();
+                    }
+				}
+				//}
+				if (EditorState.Tool.Current == EditorTool.ModifierCreator)
+				{
+					ModifierHandler.Instance.OptimizeModifiers();
+					toggle = true;
+				}
+			}
+		}
 		public static void OptimizeInvisibleTargets()
 		{
 
@@ -2558,19 +2635,23 @@ namespace NotReaper {
 
 
 					var targetsToShow = new NoteEnumerator(start, end);
+					/*
 					for (int i = 0; i < orderedNotes.Count; i++)
 					{
-						orderedNotes[i].gridTargetIcon.gameObject.SetActive(false);
-						orderedNotes[i].timelineTargetIcon.gameObject.SetActive(false);
+						orderedNotes[i].timelineTargetIcon.HideTimelineTarget();
+						//orderedNotes[i].gridTargetIcon.gameObject.SetActive(false);
+						//orderedNotes[i].timelineTargetIcon.gameObject.SetActive(false);
 					}
+					*/
 					//if (!ModifierHandler.activated)
 					//{
-						if(!ModifierHandler.activated) toggle = false;
-						foreach (Target target in targetsToShow)
-						{
-							target.gridTargetIcon.gameObject.SetActive(true);
-							if(EditorState.Tool.Current != EditorTool.ModifierCreator) target.timelineTargetIcon.gameObject.SetActive(true);
-						}
+					if(!ModifierHandler.activated) toggle = false;
+					foreach (Target target in targetsToShow)
+					{
+						//target.gridTargetIcon.gameObject.SetActive(true);
+						//if(EditorState.Tool.Current != EditorTool.ModifierCreator) target.timelineTargetIcon.gameObject.SetActive(true);
+						if (EditorState.Tool.Current != EditorTool.ModifierCreator) target.timelineTargetIcon.ShowTimelineTarget();
+					}
 					//}
 					if(EditorState.Tool.Current == EditorTool.ModifierCreator)
 					{
@@ -2681,7 +2762,11 @@ namespace NotReaper {
 			SetCurrentTick ();
 
 			SetBeatTime (time);
+			//songPlayback.volume = NRSettings.config.mainVol;
+			//songPlayback.hitSoundVolume = NRSettings.config.noteVol;
+			//hitSoundVolumeSlider.value = NRSettings.config.noteVol;
 			songPlayback.PlayPreview (time, new Relative_QNT ((long) Constants.DurationFromBeatSnap ((uint) beatSnap).tick));
+			UpdateState();
 		}
 
 		public void JumpToX (float x) {
@@ -2695,10 +2780,11 @@ namespace NotReaper {
 			SafeSetTime ();
 			OnAnimateSetTimeDone callback = isPlaying ? new OnAnimateSetTimeDone(TogglePlayback) : null;
 			StartCoroutine (AnimateSetTime (newTime, callback));
+			UpdateState();
 		}
 
 		public void ToggleWaveform () {
-			waveformVisualizer.visible = !waveformVisualizer.visible;
+			waveformVisualizer.ToggleWaveform();
 		}
 
 		public void TogglePlayback()
@@ -2708,8 +2794,6 @@ namespace NotReaper {
 
 		public void TogglePlayback (bool metronome = false) {
 			if (!audioLoaded) return;
-			songPlayback.volume = NRSettings.config.mainVol;
-			songPlayback.hitSoundVolume = NRSettings.config.noteVol;
 			//bool isCtrlDown = Input.GetKey (KeyCode.LeftControl) || Input.GetKey (KeyCode.RightControl);
 
 			if (paused) {
@@ -2742,6 +2826,7 @@ namespace NotReaper {
 				SafeSetTime ();
 				SetCurrentTick ();
 				SetCurrentTime ();
+				UpdateState();
 			}
 		}
 

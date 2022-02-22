@@ -1308,7 +1308,7 @@ public partial class @EditorKeybinds : IInputActionCollection2, IDisposable
                 {
                     ""name"": ""button"",
                     ""id"": ""95ce1028-9acc-4390-b487-2c9e73e82a6f"",
-                    ""path"": ""<Keyboard>/y"",
+                    ""path"": ""<Keyboard>/#(Z)"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -2200,7 +2200,7 @@ public partial class @EditorKeybinds : IInputActionCollection2, IDisposable
                 {
                     ""name"": ""button"",
                     ""id"": ""0ddf8bfc-4cf7-4a7b-ba1d-7aadefa18968"",
-                    ""path"": ""<Keyboard>/y"",
+                    ""path"": ""<Keyboard>/#(Z)"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
@@ -2233,7 +2233,7 @@ public partial class @EditorKeybinds : IInputActionCollection2, IDisposable
                 {
                     ""name"": ""button"",
                     ""id"": ""ea0192d8-eb63-4971-97ee-7422cab99dd7"",
-                    ""path"": ""<Keyboard>/z"",
+                    ""path"": ""<Keyboard>/#(Y)"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",

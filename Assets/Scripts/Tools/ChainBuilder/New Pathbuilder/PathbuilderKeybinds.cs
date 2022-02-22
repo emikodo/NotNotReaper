@@ -57,7 +57,7 @@ namespace NotReaper.Tools.ChainBuilder
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Delete Segment"",
+                    ""name"": ""DeleteSegment"",
                     ""type"": ""Button"",
                     ""id"": ""324e1fc7-e17c-4f85-8e5c-9fbce19ed4a6"",
                     ""expectedControlType"": ""Button"",
@@ -219,7 +219,7 @@ namespace NotReaper.Tools.ChainBuilder
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Delete Segment"",
+                    ""action"": ""DeleteSegment"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -235,114 +235,26 @@ namespace NotReaper.Tools.ChainBuilder
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": ""Button With Three Excludes"",
-                    ""id"": ""bd038075-09b9-47d2-8fed-509b776488cb"",
-                    ""path"": ""ButtonWithThreeExcludes"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""IncreaseInterval"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""button"",
-                    ""id"": ""b9d4a1c6-3d0e-45bf-87e8-3a81be526d30"",
+                    ""name"": """",
+                    ""id"": ""44b80dd0-08d2-4336-a7b0-0749feeda181"",
                     ""path"": ""<Keyboard>/e"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""IncreaseInterval"",
                     ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""exclude1"",
-                    ""id"": ""21d8b4b3-c717-4b04-8404-a9a51898eb11"",
-                    ""path"": ""<Keyboard>/ctrl"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""IncreaseInterval"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""exclude2"",
-                    ""id"": ""237c1a3a-8731-4f67-8a79-cffd305dab2c"",
-                    ""path"": ""<Keyboard>/shift"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""IncreaseInterval"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""exclude3"",
-                    ""id"": ""b90db1d6-4f80-4ec0-a220-acf6245cb73f"",
-                    ""path"": ""<Keyboard>/alt"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""IncreaseInterval"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""Button With Three Excludes"",
-                    ""id"": ""723d358a-215d-47f7-add0-f83d13f76950"",
-                    ""path"": ""ButtonWithThreeExcludes"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""DecreaseInterval"",
-                    ""isComposite"": true,
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": ""button"",
-                    ""id"": ""8f48de39-8252-4e4d-9528-7202b3a38f0b"",
+                    ""name"": """",
+                    ""id"": ""ca4c6a30-9c77-4bf2-87db-d169d1e09b7b"",
                     ""path"": ""<Keyboard>/q"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""DecreaseInterval"",
                     ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""exclude1"",
-                    ""id"": ""b9e65280-4635-4330-b4e0-f58ab43cbaf5"",
-                    ""path"": ""<Keyboard>/ctrl"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""DecreaseInterval"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""exclude2"",
-                    ""id"": ""bd594279-9f7e-4428-bdef-101c555af5b0"",
-                    ""path"": ""<Keyboard>/shift"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""DecreaseInterval"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""exclude3"",
-                    ""id"": ""21ec7117-49f9-4719-a2f0-f28522d1c076"",
-                    ""path"": ""<Keyboard>/alt"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""DecreaseInterval"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
+                    ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
@@ -431,7 +343,7 @@ namespace NotReaper.Tools.ChainBuilder
             m_Pathbuilder_SelectTarget = m_Pathbuilder.FindAction("SelectTarget", throwIfNotFound: true);
             m_Pathbuilder_MousePosition = m_Pathbuilder.FindAction("MousePosition", throwIfNotFound: true);
             m_Pathbuilder_AppendSegment = m_Pathbuilder.FindAction("AppendSegment", throwIfNotFound: true);
-            m_Pathbuilder_DeleteSegment = m_Pathbuilder.FindAction("Delete Segment", throwIfNotFound: true);
+            m_Pathbuilder_DeleteSegment = m_Pathbuilder.FindAction("DeleteSegment", throwIfNotFound: true);
             m_Pathbuilder_SnapToGrid = m_Pathbuilder.FindAction("SnapToGrid", throwIfNotFound: true);
             m_Pathbuilder_ChangeToNextSegment = m_Pathbuilder.FindAction("ChangeToNextSegment", throwIfNotFound: true);
             m_Pathbuilder_ChangeToPreviousSegment = m_Pathbuilder.FindAction("ChangeToPreviousSegment", throwIfNotFound: true);

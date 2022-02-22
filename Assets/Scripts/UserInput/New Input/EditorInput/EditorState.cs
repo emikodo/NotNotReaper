@@ -94,6 +94,7 @@ namespace NotReaper
 		public static void SelectMode(EditorMode mode)
 		{
 			Mode.Current = mode;
+			SetIsInUI(mode != EditorMode.Compose);
 			ModeChanged?.Invoke(mode);
 		}
 

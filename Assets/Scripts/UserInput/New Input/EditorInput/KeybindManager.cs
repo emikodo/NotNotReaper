@@ -19,6 +19,16 @@ public static class KeybindManager
     private static int activeUiElements = 0;
     #endregion
 
+    #region Events
+    public delegate void OnCtrlDown();
+    public static event OnCtrlDown onCtrlDown;
+
+    public delegate void OnShiftDown();
+    public static event OnShiftDown onShiftDown;
+
+    public delegate void OnAltDown();
+    public static event OnAltDown onAltDown;
+    #endregion
     #region Initialization
     static KeybindManager()
     {        
@@ -29,14 +39,52 @@ public static class KeybindManager
 
     private static void RegisterCallbacks()
     {
-        globalKeybinds.Global.Control.performed += _ => SetFlag(Global.Modifiers.Ctrl);//Global.IsCtrlDown = true;
-        globalKeybinds.Global.Alt.performed += _ => SetFlag(Global.Modifiers.Alt);//Global.IsAltDown = true;
-        globalKeybinds.Global.Shift.performed += _ => SetFlag(Global.Modifiers.Shift); //Global.IsShiftDown = true;
+        globalKeybinds.Global.Control.performed += _ => UpdateCtrl(true);
+        globalKeybinds.Global.Alt.performed += _ => UpdateAlt(true);
+        globalKeybinds.Global.Shift.performed += _ => UpdateShift(true);
 
-        globalKeybinds.Global.Control.canceled += _ => RemoveFlag(Global.Modifiers.Ctrl);// Global.IsCtrlDown = false;
-        globalKeybinds.Global.Alt.canceled += _ => RemoveFlag(Global.Modifiers.Alt); //Global.IsAltDown = false;
-        globalKeybinds.Global.Shift.canceled += _ => RemoveFlag(Global.Modifiers.Shift); //Global.IsShiftDown = false;
+        globalKeybinds.Global.Control.canceled += _ => UpdateCtrl(false);
+        globalKeybinds.Global.Alt.canceled += _ => UpdateAlt(false);
+        globalKeybinds.Global.Shift.canceled += _ => UpdateShift(false);
     } 
+
+    private static void UpdateCtrl(bool down)
+    {
+        if (down)
+        {
+            SetFlag(Global.Modifiers.Ctrl);
+            onCtrlDown?.Invoke();
+        }
+        else
+        {
+            RemoveFlag(Global.Modifiers.Ctrl);
+        }
+    }
+    private static void UpdateShift(bool down)
+    {
+        if (down)
+        {
+            SetFlag(Global.Modifiers.Shift);
+            onShiftDown?.Invoke();
+        }
+        else
+        {
+            RemoveFlag(Global.Modifiers.Shift);
+        }
+    }
+    private static void UpdateAlt(bool down)
+    {
+        if (down)
+        {
+            SetFlag(Global.Modifiers.Alt);
+            onAltDown?.Invoke();
+        }
+        else
+        {
+            RemoveFlag(Global.Modifiers.Alt);
+        }
+    }
+
     private static void SetFlag(Global.Modifiers flag)
     {
         Global.Modifier |= flag;
@@ -63,12 +111,6 @@ public static class KeybindManager
         {
             registeredAssets.Add(asset, options);
         }
-        /*
-        if (!inputAssets.Contains(asset))
-        {
-            inputAssets.Add(asset);
-        }
-        */
     }
     #endregion
 
@@ -294,6 +336,16 @@ public static class KeybindManager
         }
         return foundActions;
     }
+
+    public static List<string> GetBindingPaths(InputAction action)
+    {
+        List<string> paths = new List<string>();
+        foreach(var binding in action.bindings)
+        {
+            paths.Add(binding.effectivePath);
+        }
+        return paths;
+    }
     #endregion
 
     #region Classes and Enums
@@ -345,11 +397,9 @@ public static class KeybindManager
     /// </summary>
     public class Global
     {
-        //public static bool IsCtrlDown;
-        //public static bool IsShiftDown;
-        //public static bool IsAltDown;
+     
         public static Modifiers Modifier;
-        //public static bool IsAnyModifierDown => IsCtrlDown || IsShiftDown || IsAltDown;
+
         public static InputAction MousePosition
         {
             get { return globalKeybinds.Global.MousePosition; }
@@ -374,9 +424,38 @@ public static class KeybindManager
 
             CtrlShift = Ctrl | Shift,
             CtrlAlt = Ctrl | Alt,
-            AltShift = Alt | Shift,
+            ShiftAlt = Alt | Shift,
             All = Ctrl | Alt | Shift
         }
+       
     }
     #endregion
+}
+
+static class ModifiersExtension
+{
+    public static bool IsShiftDown(this KeybindManager.Global.Modifiers modifier)
+    {
+        return (modifier & KeybindManager.Global.Modifiers.Shift) == KeybindManager.Global.Modifiers.Shift;
+    }
+    public static bool IsCtrlDown(this KeybindManager.Global.Modifiers modifier)
+    {
+        return (modifier & KeybindManager.Global.Modifiers.Ctrl) == KeybindManager.Global.Modifiers.Ctrl;
+    }
+    public static bool IsAltDown(this KeybindManager.Global.Modifiers modifier)
+    {
+        return (modifier & KeybindManager.Global.Modifiers.Alt) == KeybindManager.Global.Modifiers.Alt;
+    }
+    public static bool IsCtrlShiftDown(this KeybindManager.Global.Modifiers modifier)
+    {
+        return modifier == KeybindManager.Global.Modifiers.CtrlShift;
+    }
+    public static bool IsCtrlAltDown(this KeybindManager.Global.Modifiers modifier)
+    {
+        return modifier == KeybindManager.Global.Modifiers.CtrlAlt;
+    }
+    public static bool IsShiftAltDown(this KeybindManager.Global.Modifiers modifier)
+    {
+        return modifier == KeybindManager.Global.Modifiers.ShiftAlt;
+    }
 }

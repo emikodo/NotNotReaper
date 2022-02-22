@@ -58,7 +58,7 @@ namespace NotReaper.Notifications
             else
             {
                 Setup(type, text, id);
-                ShowAsFlyout();
+                StartCoroutine(ShowAsFlyout());
                 IsActive = true;
             }
         }
@@ -87,8 +87,10 @@ namespace NotReaper.Notifications
             sequence.Play();
         }
 
-        private void ShowAsFlyout()
+        private IEnumerator ShowAsFlyout()
         {
+            //wait for end of frame so the contentRect has time to update it's size.
+            yield return new WaitForEndOfFrame();
             canvas.DOKill();
             mask.sizeDelta = new Vector2(mask.sizeDelta.y, mask.sizeDelta.y);
             var sequence = DOTween.Sequence();

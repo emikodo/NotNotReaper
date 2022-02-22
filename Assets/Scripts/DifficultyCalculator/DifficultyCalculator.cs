@@ -68,9 +68,6 @@ public class CalculatedDifficulty
             difficultyRating = ((spacing + readability) / length) * 500f + (length / 100000f * lengthMultiplier);
         }
         else difficultyRating = 0f;
-
-        Debug.Log($"Length: {length.ToString()}");
-        Debug.Log($"Density: {density.ToString()}");
     }
 
     void CalculateReadability()

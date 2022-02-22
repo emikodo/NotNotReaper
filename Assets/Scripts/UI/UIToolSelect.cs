@@ -7,6 +7,7 @@ using DG.Tweening;
 using UnityEngine.UI;
 using NotReaper.Tools;
 using NotReaper.Tools.ChainBuilder;
+using System;
 
 namespace NotReaper.UI {
 
@@ -42,6 +43,9 @@ namespace NotReaper.UI {
         private float yOffset = -1.5f;
         private float indexOffset = 40f;
 
+        [NRInject] private MappingInput mapping;
+        [NRInject] private EditorKeybindController controller;
+
         private void Start()
         {
            fadeDuration = (float)NRSettings.config.UIFadeDuration;
@@ -55,12 +59,33 @@ namespace NotReaper.UI {
             }
         }
 
+        public void SwitchHandColor()
+        {
+            EditorState.SelectHand(EditorState.Hand.Current == TargetHandType.Left ? TargetHandType.Right : TargetHandType.Left);
+        }
+
         
         //Easings
 
+        public void SelectPathbuilder()
+        {
+            controller.SelectPathbuilder(new UnityEngine.InputSystem.InputAction.CallbackContext());
+        }
 
         public void SelectFromUI(string name) 
         {
+            Debug.Log("CLICK!");
+            name = char.ToUpper(name[0]) + name.Substring(1);
+            Enum.TryParse(name, out TargetBehavior behavior);
+            if (KeybindManager.Global.Modifier.IsCtrlDown())
+            {
+                mapping.SetTargetBehaviorAction(behavior);
+            }
+            else
+            {
+                EditorState.SelectBehavior(behavior);
+            }
+            return;
             switch (name) 
             {
                 case "standard":

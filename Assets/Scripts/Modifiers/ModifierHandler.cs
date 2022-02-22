@@ -184,7 +184,7 @@ namespace NotReaper.Modifier
             toolSelect.SetInteractable(activated);
             if (activated)
             {
-                EditorState.SelectTool(EditorState.Tool.Previous);
+                EditorState.SelectTool(EditorTool.ModifierCreator);
                 Activate(false);
             }
             else
@@ -211,7 +211,8 @@ namespace NotReaper.Modifier
                 if (MiniTimeline.Instance != null)
                 {
                     ShowModifiers(true);
-                    Timeline.OptimizeInvisibleTargets();
+                    //Timeline.OptimizeInvisibleTargets();
+                    Timeline.ShowTimelineTargets(false);
                 }
                 modifierWindow.GetComponent<CanvasGroup>().DOFade(1.0f, 0.3f);
                 modifierWindow.SetActive(isHidden ? false : true);
@@ -233,7 +234,8 @@ namespace NotReaper.Modifier
                 if (MiniTimeline.Instance != null)
                 {
                     ShowModifiers(false);
-                    Timeline.OptimizeInvisibleTargets();
+                    //Timeline.OptimizeInvisibleTargets();
+                    Timeline.ShowTimelineTargets(true);
                 }
                 modifierWindow.GetComponent<CanvasGroup>().DOFade(0.0f, 0.3f);
                 if (!init)

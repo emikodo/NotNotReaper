@@ -98,7 +98,7 @@ namespace NotReaper.Targets {
         public GameObject sustainButtons;
 
         public Transform holdEndTrans;
-
+        [Header("Optimization")]
         [Space, SerializeField] private Transform childComponents;
         private Transform timelineTargetCollector;
 
@@ -109,30 +109,29 @@ namespace NotReaper.Targets {
         /// </summary>
         public event Action OnTryRemoveEvent;
 
-        private void OnTriggerEnter2D(Collider2D other)
-        {
-            if (other.tag == "TimelineCatcher")
-            {
-                ShowTimelineTarget();
-            }
-        }
-
-        private void OnTriggerExit2D(Collider2D other)
-        {
-            if(other.tag == "TimelineCatcher")
-            {
-                HideTimelineTarget();
-            }
-        }
-
         public void HideTimelineTarget()
         {
             childComponents.parent = timelineTargetCollector;
+            childComponents.transform.localPosition = Vector3.zero;
         }
         public void ShowTimelineTarget()
         {
             childComponents.parent = transform;
             childComponents.transform.localPosition = Vector3.zero;
+        }
+
+        private void OnBecameInvisible()
+        {
+            if (!gameObject.activeInHierarchy) return;
+            HideTimelineTarget();
+        }
+
+        private void OnBecameVisible()
+        {
+            if(EditorState.Tool.Current != EditorTool.ModifierCreator)
+            {
+                ShowTimelineTarget();
+            }
         }
 
         public void OnTryRemove() {

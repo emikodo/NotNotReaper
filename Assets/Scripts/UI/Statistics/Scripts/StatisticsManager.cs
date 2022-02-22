@@ -39,13 +39,13 @@ namespace NotReaper.Statistics
             Stats = new Statistics(targets);
             heatmap.GenerateHeatmap(targets);
             StatisticsUI.Instance.CreateDataEntry("Notes", new Statistics.Data(targets, Stats.Total, Stats.LeftTargets, Stats.RightTargets), StatisticsUI.StatLocation.FirstHighlight);
-            StatisticsUI.Instance.CreateDataEntryWithoutPercentage("NPS", Stats.NPS, StatisticsUI.StatLocation.SecondHighlight);
+            StatisticsUI.Instance.CreateDataEntryWithoutPercentage("NPS", Stats.NPS, StatisticsUI.StatLocation.SecondHighlight).gameObject.SetActive(true);
             foreach(var entry in Stats.DataList)
             {
                 if (entry.Key == TargetBehavior.Sustain) StatisticsUI.Instance.CreateDataEntry("Sustain", entry.Value);
                 else if (entry.Key == TargetBehavior.Mine) StatisticsUI.Instance.CreateDataEntry(entry.Key, entry.Value).EnableLeftRight(false);
                 else StatisticsUI.Instance.CreateDataEntry(entry.Key, entry.Value);
-            }            
+            }       
         }
 
         #region Data Classes

@@ -1,4 +1,5 @@
 ﻿using NotReaper.CustomComposites;
+using NotReaper.Keyboard;
 using NotReaper.Models;
 using NotReaper.Notifications;
 using NotReaper.UserInput;
@@ -38,6 +39,11 @@ namespace NotReaper.Keybinds
         private InputBinding previousBinding;
         private KeybindManager.KeybindOverrides overrides;
 
+        private KeybindManager.Global.Modifiers modifier1Key, modifier2Key;
+
+        private string modifier1Path, modifier2Path;
+        private string mapName;
+
         private List<string> controlsToExclude = new List<string>()
         {
             "/mouse/position",
@@ -60,12 +66,13 @@ namespace NotReaper.Keybinds
             "/keyboard/control"
         };
 
-        internal void Initialize(InputIcons icons, InputAction action, string keybindName, bool rebindable, KeybindManager.KeybindOverrides overrides, TargetHandType hand, Action<InputActionAsset> onSaveCallback, Action<bool> enableScrollCallback)
+        internal void Initialize(InputIcons icons, InputAction action, string keybindName, string mapName, bool rebindable, KeybindManager.KeybindOverrides overrides, TargetHandType hand, Action<InputActionAsset> onSaveCallback, Action<bool> enableScrollCallback)
         {
             this.icons = icons;
             this.action = action;
             this.onSaveCallback = onSaveCallback;
             this.onRebindCallback = enableScrollCallback;
+            this.mapName = mapName;
             modifier1Image.gameObject.SetActive(false);
             modifier2Image.gameObject.SetActive(false);
             modifierPlus.gameObject.SetActive(false);
@@ -83,26 +90,32 @@ namespace NotReaper.Keybinds
         public void SetFirstModifier(InputBinding modifier)
         {
             modifier1Image.gameObject.SetActive(true);
-            modifier1Image.sprite = icons.GetIcon(modifier.effectivePath, out _);
+            modifier1Image.sprite = icons.GetIcon(modifier.effectivePath, out modifier1Key);
+            modifier1Path = modifier.effectivePath;
         }
 
         public void SetSecondModifier(InputBinding modifier)
         {
             modifierPlus.SetActive(true);
             modifier2Image.gameObject.SetActive(true);
-            modifier2Image.sprite = icons.GetIcon(modifier.effectivePath, out _);
+            modifier2Image.sprite = icons.GetIcon(modifier.effectivePath, out modifier2Key);
+            modifier2Path = modifier.effectivePath;
         }
 
         public void UpdateUI()
         {
             keyImage.sprite = icons.GetIcon(action.bindings[bindingIndex].effectivePath, out _);
+            //if (action.actionMap.asset.name.ToLower().Contains("editor"))
+            //{
+            ShortcutKeyboardHandler.Instance.UpdateKey(keybindName.text, mapName, action.bindings[bindingIndex].effectivePath, modifier1Path, modifier2Path, modifier1Key, modifier2Key);
+            //}
         }
 
         public void SetBindingIndex(int bindingIndex)
         {
             this.bindingIndex = bindingIndex;
             pressAnykeyLabel.SetActive(false);
-            keyImage.sprite = icons.GetIcon(action.bindings[bindingIndex].effectivePath, out _);
+            UpdateUI();
         }
 
         public void OnClick()
@@ -187,7 +200,7 @@ namespace NotReaper.Keybinds
 
             pressAnykeyLabel.SetActive(false);
             keyImage.gameObject.SetActive(true);
-            keyImage.sprite = icons.GetIcon(action.bindings[bindingIndex].effectivePath, out _);
+            UpdateUI();
             button.interactable = true;
             if (!canceled)
             {
