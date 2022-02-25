@@ -28,7 +28,11 @@ public static class KeybindManager
 
     public delegate void OnAltDown();
     public static event OnAltDown onAltDown;
+
+    public delegate void OnMouseDown(bool down);
+    public static event OnMouseDown onMouseDown;
     #endregion
+
     #region Initialization
     static KeybindManager()
     {        
@@ -46,6 +50,9 @@ public static class KeybindManager
         globalKeybinds.Global.Control.canceled += _ => UpdateCtrl(false);
         globalKeybinds.Global.Alt.canceled += _ => UpdateAlt(false);
         globalKeybinds.Global.Shift.canceled += _ => UpdateShift(false);
+
+        globalKeybinds.Global.MouseDown.started += _ => onMouseDown?.Invoke(true);
+        globalKeybinds.Global.MouseDown.canceled += _ => onMouseDown?.Invoke(false);
     } 
 
     private static void UpdateCtrl(bool down)
@@ -432,6 +439,7 @@ public static class KeybindManager
     #endregion
 }
 
+#region Modifier Extenstions
 static class ModifiersExtension
 {
     public static bool IsShiftDown(this KeybindManager.Global.Modifiers modifier)
@@ -459,3 +467,4 @@ static class ModifiersExtension
         return modifier == KeybindManager.Global.Modifiers.ShiftAlt;
     }
 }
+#endregion

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using NotReaper.MapBrowser.API;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,31 +13,56 @@ namespace NotReaper.MapBrowser.Recents
         [Header("References")]
         [SerializeField] private RecentDownload[] recents;
         [SerializeField] private GameObject clearButton;
+        [Space, Header("Settings")]
+        [SerializeField] private RecentType type = RecentType.Download;
+        [NRInject] private RecentsManager manager;
 
-        private RecentsManager manager;
-
-        private void Awake()
+        private void Start()
         {
-            manager = GetComponent<RecentsManager>();
-            foreach (var recent in recents) recent.Initialize(manager);
+            //manager = GetComponent<RecentsManager>();
+            foreach (var recent in recents) recent.Initialize(manager, type);
+            if(type == RecentType.Release)
+            {
+                NRDependencyInjector.Get<SearchManager>().ImmediateSearch("", CurationState.None, FilterState.All, new bool[] { false, false, false, false }, UpdateRecentReleases);
+            }
         }
+
         /// <summary>
         /// Updates the recent buttons on the UI.
         /// </summary>
         /// <param name="fileNames">The list of recent files.</param>
-        public void UpdateRecents(List<string> fileNames)
+        public void UpdateRecentDownloads(List<string> fileNames)
         {
             if (fileNames is null || fileNames.Count == 0)
             {
                 foreach (var recent in recents) recent.gameObject.SetActive(false);
-                clearButton.SetActive(false);
+                if(clearButton != null) clearButton.SetActive(false);
                 return;
             }
-            clearButton.SetActive(true);
-            for(int i = 0; i < fileNames.Count; i++)
+            if(clearButton != null) clearButton.SetActive(true);
+            for(int i = 0; i < recents.Length; i++)
             {
+                if (i >= recents.Length || i >= fileNames.Count) break;
                 recents[i].gameObject.SetActive(true);
                 recents[i].SetFilename(fileNames[i]);
+            }
+        }
+        /// <summary>
+        /// Updates the list of recently released maps in the PauseMenu.
+        /// </summary>
+        /// <param name="maps"></param>
+        private void UpdateRecentReleases(List<MapData> maps)
+        {
+            if(maps is null || maps.Count == 0)
+            {
+                foreach (var recent in recents) recent.gameObject.SetActive(false);
+                return;
+            }
+            for(int i = 0; i < recents.Length; i++)
+            {
+                if (i > maps.Count - 1) break;
+                recents[i].gameObject.SetActive(true);
+                recents[i].SetMapData(maps[i]);
             }
         }
         /// <summary>
@@ -44,9 +70,14 @@ namespace NotReaper.MapBrowser.Recents
         /// </summary>
         public void OnClearClicked()
         {
-            UpdateRecents(null);
+            UpdateRecentDownloads(null);
             manager.ClearRecents();
         }
+    }
+    public enum RecentType
+    {
+        Download,
+        Release
     }
 }
 

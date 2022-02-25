@@ -71,6 +71,15 @@ public partial class @GlobalKeybinds : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""MouseDown"",
+                    ""type"": ""Button"",
+                    ""id"": ""d3341f89-5aeb-4dd7-9e59-8c7e27458214"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -139,6 +148,17 @@ public partial class @GlobalKeybinds : IInputActionCollection2, IDisposable
                     ""action"": ""MousePosition"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""40cca82e-94c5-4e02-a0d4-320c82ea6b65"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MouseDown"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -152,6 +172,7 @@ public partial class @GlobalKeybinds : IInputActionCollection2, IDisposable
         m_Global_Alt = m_Global.FindAction("Alt", throwIfNotFound: true);
         m_Global_Shift = m_Global.FindAction("Shift", throwIfNotFound: true);
         m_Global_MousePosition = m_Global.FindAction("MousePosition", throwIfNotFound: true);
+        m_Global_MouseDown = m_Global.FindAction("MouseDown", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -216,6 +237,7 @@ public partial class @GlobalKeybinds : IInputActionCollection2, IDisposable
     private readonly InputAction m_Global_Alt;
     private readonly InputAction m_Global_Shift;
     private readonly InputAction m_Global_MousePosition;
+    private readonly InputAction m_Global_MouseDown;
     public struct GlobalActions
     {
         private @GlobalKeybinds m_Wrapper;
@@ -225,6 +247,7 @@ public partial class @GlobalKeybinds : IInputActionCollection2, IDisposable
         public InputAction @Alt => m_Wrapper.m_Global_Alt;
         public InputAction @Shift => m_Wrapper.m_Global_Shift;
         public InputAction @MousePosition => m_Wrapper.m_Global_MousePosition;
+        public InputAction @MouseDown => m_Wrapper.m_Global_MouseDown;
         public InputActionMap Get() { return m_Wrapper.m_Global; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -249,6 +272,9 @@ public partial class @GlobalKeybinds : IInputActionCollection2, IDisposable
                 @MousePosition.started -= m_Wrapper.m_GlobalActionsCallbackInterface.OnMousePosition;
                 @MousePosition.performed -= m_Wrapper.m_GlobalActionsCallbackInterface.OnMousePosition;
                 @MousePosition.canceled -= m_Wrapper.m_GlobalActionsCallbackInterface.OnMousePosition;
+                @MouseDown.started -= m_Wrapper.m_GlobalActionsCallbackInterface.OnMouseDown;
+                @MouseDown.performed -= m_Wrapper.m_GlobalActionsCallbackInterface.OnMouseDown;
+                @MouseDown.canceled -= m_Wrapper.m_GlobalActionsCallbackInterface.OnMouseDown;
             }
             m_Wrapper.m_GlobalActionsCallbackInterface = instance;
             if (instance != null)
@@ -268,6 +294,9 @@ public partial class @GlobalKeybinds : IInputActionCollection2, IDisposable
                 @MousePosition.started += instance.OnMousePosition;
                 @MousePosition.performed += instance.OnMousePosition;
                 @MousePosition.canceled += instance.OnMousePosition;
+                @MouseDown.started += instance.OnMouseDown;
+                @MouseDown.performed += instance.OnMouseDown;
+                @MouseDown.canceled += instance.OnMouseDown;
             }
         }
     }
@@ -279,5 +308,6 @@ public partial class @GlobalKeybinds : IInputActionCollection2, IDisposable
         void OnAlt(InputAction.CallbackContext context);
         void OnShift(InputAction.CallbackContext context);
         void OnMousePosition(InputAction.CallbackContext context);
+        void OnMouseDown(InputAction.CallbackContext context);
     }
 }

@@ -49,7 +49,8 @@ namespace NotReaper.MapBrowser.API
             if (difficulties[3]) webDifficulty += "&difficulties%5B%5D=expert";
             //TODO: AlmostCurated is not accessible through API yet. Implement once that's available.
             string curated = curationState == CurationState.None ? "" : "&curated=true";
-            return ApiUrl + webSearch + webPage + webDifficulty + curated;
+            string sort = "&sort=created_at";
+            return ApiUrl + webSearch + webPage + webDifficulty + curated + sort;
         }
         /// <summary>
         /// Delegate function for when search is done. Supplies APISongList from API response.

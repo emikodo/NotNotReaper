@@ -10,10 +10,11 @@ namespace NotReaper.MapBrowser.Recents
     /// </summary>
     public class RecentDownload : MonoBehaviour
     {
+        private RecentType type = RecentType.Download;
         private TextMeshProUGUI label;
         private RecentsManager manager;
         private string fileName;
-
+        private MapData data;
 
         private void Awake()
         {
@@ -24,9 +25,10 @@ namespace NotReaper.MapBrowser.Recents
         /// Set the RecentsManager.
         /// </summary>
         /// <param name="manager">The RecentsManager.</param>
-        public void Initialize(RecentsManager manager)
+        public void Initialize(RecentsManager manager, RecentType type)
         {
             this.manager = manager;
+            this.type = type;
         }
         /// <summary>
         /// Set the filename for this recent download.
@@ -35,7 +37,16 @@ namespace NotReaper.MapBrowser.Recents
         public void SetFilename(string fileName)
         {
             this.fileName = fileName;
-            label.text = this.fileName.Substring(0, this.fileName.Length - 7);
+            label.text = this.fileName.Substring(0, this.fileName.Length - 7).ToLower();
+        }
+        /// <summary>
+        /// Set the MapData of this recent release.
+        /// </summary>
+        /// <param name="map">The MapData of the recent release.</param>
+        public void SetMapData(MapData map)
+        {
+            data = map;
+            SetFilename(map.Filename);
         }
 
         /// <summary>
@@ -48,7 +59,20 @@ namespace NotReaper.MapBrowser.Recents
                 Debug.LogWarning("RecentDownload hasn't been initialized!");
                 return;
             }
-            manager.LoadMap(fileName);
+            if(type == RecentType.Download)
+            {
+                manager.LoadMap(fileName);
+            }
+            else
+            {
+                label.text = "downloading..";
+                manager.DownloadAndOpenMap(data, OnDownloadDone);
+            }
+        }
+
+        private void OnDownloadDone()
+        {
+            SetFilename(fileName);
         }
     }
 

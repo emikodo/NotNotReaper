@@ -11,7 +11,8 @@
                     "id": "f2d016b4-19a7-432c-a2b9-d914bb360f05",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Control",
@@ -19,7 +20,8 @@
                     "id": "e2ca1043-a690-41c3-a34f-b063728dd118",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Alt",
@@ -27,7 +29,8 @@
                     "id": "38f95fe9-6c04-4ef6-b036-5cce48eb7bed",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Shift",
@@ -35,7 +38,8 @@
                     "id": "e1837546-dfe1-42cc-a963-47d7618f438f",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "MousePosition",
@@ -43,7 +47,17 @@
                     "id": "375d9496-2fa3-4f72-a70c-421b0cd88153",
                     "expectedControlType": "Vector2",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "MouseDown",
+                    "type": "Button",
+                    "id": "d3341f89-5aeb-4dd7-9e59-8c7e27458214",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -110,6 +124,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "MousePosition",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "40cca82e-94c5-4e02-a0d4-320c82ea6b65",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MouseDown",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

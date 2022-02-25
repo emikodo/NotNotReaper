@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using NotReaper.MapBrowser.API;
 using NotReaper.MapBrowser.Entries;
-
+using NotReaper.UI;
 namespace NotReaper.MapBrowser.UI
 {
     /// <summary>
     /// Takes care of all UI events and handles the flow of all panels.
     /// </summary>
-    public class UIManager : FadingPanel
+    public class UIManager : View
     {
         public static UIManager Instance { get; private set; } = null;
 
@@ -27,7 +27,7 @@ namespace NotReaper.MapBrowser.UI
         #endregion
 
         #region Awake and Start
-        protected override void Awake()
+        private void Awake()
         {
             if(Instance != null)
             {
@@ -35,7 +35,6 @@ namespace NotReaper.MapBrowser.UI
                 return;
             }
             Instance = this;
-            base.Awake();
         }
 
         private void Start()
@@ -130,14 +129,6 @@ namespace NotReaper.MapBrowser.UI
             SpawnManager.Instance.ClearSelectedEntries();
             ShowDownloadOverlay(false);
 
-        }
-        /// <summary>
-        /// Shows the ModBrowser.
-        /// </summary>
-        /// <param name="show">True if it should be shown.</param>
-        public void ShowModBrowser(bool show)
-        {
-            Show(show);
         }
         /// <summary>
         /// Shows the settings panel.
@@ -257,6 +248,16 @@ namespace NotReaper.MapBrowser.UI
         public void UpdateSelectedCount(int count)
         {
             download.UpdateSelectedMapCount(count);
+        }
+
+        public override void Show()
+        {
+            
+        }
+
+        public override void Hide()
+        {
+            
         }
         #endregion
 

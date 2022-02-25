@@ -4,18 +4,23 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Windows.Forms;
+using UnityEngine.UI;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
-
-public class RecentPanel : MonoBehaviour
+public class RecentPanel : View
 {
-    [SerializeField] NRButton[] buttons;
+    [SerializeField] Button[] buttons;
     [SerializeField] Timeline timeline;
-    [SerializeField] PauseMenu pauseMenu;
+    [SerializeField] NewPauseMenu pauseMenu;
 
-    public void Show()
+    private void Start()
+    {
+        if (RecentAudicaFiles.audicaPaths == null) RecentAudicaFiles.LoadRecents();
+        FillRecentButtons();
+    }
+
+    public override void Show()
     {
         if(RecentAudicaFiles.audicaPaths == null) RecentAudicaFiles.LoadRecents();
         if (RecentAudicaFiles.audicaPaths != null)
@@ -29,18 +34,28 @@ public class RecentPanel : MonoBehaviour
 
     }
 
+    public override void Hide() { }
+
     public void FillRecentButtons()
     {
         for (int i = 0; i < buttons.Length; i++)
         {
             if (i >= (RecentAudicaFiles.audicaPaths.Count - 1)) return;
             string path = RecentAudicaFiles.audicaPaths[i];
-            buttons[i].NROnClick = new UnityEvent();
-            buttons[i].NROnClick.AddListener(new UnityAction(() => 
+            /*buttons[i].Click = new UnityEvent();
+            buttons[i].NROnClick.AddListener(new UnityAction(() =>
             {
                 if (!timeline.LoadAudicaFile(false, path)) return;
-                pauseMenu.ClosePauseMenu();
+                pauseMenu.Hide();
+            }));*/
+            buttons[i].onClick = new Button.ButtonClickedEvent();
+            buttons[i].onClick.AddListener(new UnityAction(() =>
+            {
+                timeline.LoadAudicaFile(false, path);
+                if (!timeline.LoadAudicaFile(false, path)) return;
+                pauseMenu.Hide();
             }));
+           
             string filename = path.Split(Path.DirectorySeparatorChar).Last();
             filename = filename.Substring(0, filename.Length - 7);
             buttons[i].GetComponentInChildren<TextMeshProUGUI>().text = filename;

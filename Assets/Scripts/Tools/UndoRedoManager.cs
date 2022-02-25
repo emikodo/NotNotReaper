@@ -552,9 +552,10 @@ namespace NotReaper.Tools {
 					oldHandTypes.Add(targetData.handType);
 					oldVelocities.Add(targetData.velocity);
 
+					//if (velocity != InternalTargetVelocity.Silent) targetData.velocity = velocity;
+					if (newBehavior.IsMeleeOrMine()) targetData.velocity = velocity;
 					targetData.behavior = newBehavior;
 
-					if (velocity != InternalTargetVelocity.Silent) targetData.velocity = velocity;
 
 					if (targetData.isPathbuilderTarget)
 					{

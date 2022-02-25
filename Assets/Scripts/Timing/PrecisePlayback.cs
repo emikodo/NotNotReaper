@@ -934,7 +934,9 @@ namespace NotReaper.Timing {
 
 					if(nextMetronomeTick == 0) {
 						QNT_Timestamp nextBeat = timeline.GetClosestBeatSnapped(timeline.ShiftTick(new QNT_Timestamp(0), (float)GetTimeFromCurrentSample()) + timeSignatureDuration, currentTempo.timeSignature.Denominator);
-						nextMetronomeTick = timeline.TimestampToSeconds(nextBeat);
+
+						//nextMetronomeTick = timeline.TimestampToSeconds(nextBeat);
+						nextMetronomeTick = timeline.TimestampToSeconds(timeline.ShiftTick(new QNT_Timestamp(0), (float)GetTimeFromCurrentSample()) + timeSignatureDuration);
 					}
 				}
 

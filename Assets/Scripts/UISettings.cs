@@ -23,10 +23,10 @@ public class UISettings : MonoBehaviour
    public GameObject window;
 
    public void Start() {
-      var t = transform;
-      var position = t.localPosition;
-      t.localPosition = new Vector3(0, position.y, position.z);
-      Deactivate();
+     // var t = transform;
+      //var position = t.localPosition;
+      //t.localPosition = new Vector3(0, position.y, position.z);
+     // Deactivate();
    }
 
     public void Exit()
@@ -36,14 +36,14 @@ public class UISettings : MonoBehaviour
 
     public void Activate()
    {
-      bg.SetActive(true);
-      window.SetActive(true);
+      //bg.SetActive(true);
+      //window.SetActive(true);
    }
 
    public void Deactivate()
    {
-      bg.SetActive(false);
-      window.SetActive(false);
+      //bg.SetActive(false);
+      //window.SetActive(false);
    }
 
    public void OpenSettingsFile()

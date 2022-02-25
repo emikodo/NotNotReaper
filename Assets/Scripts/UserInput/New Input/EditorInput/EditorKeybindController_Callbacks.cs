@@ -521,14 +521,12 @@ namespace NotReaper.UserInput
 
         public void RemoveNote(InputAction.CallbackContext obj)
         {
-            if (KeybindManager.Global.Modifier == KeybindManager.Global.Modifiers.None)
-                mapping.RemoveNote();
+            mapping.RemoveNote();
         }
 
         public void PlaceNote(InputAction.CallbackContext obj)
         {
-            if (KeybindManager.Global.Modifier == KeybindManager.Global.Modifiers.None)
-                mapping.PlaceNote();
+            mapping.PlaceNote();
         }
     }
 

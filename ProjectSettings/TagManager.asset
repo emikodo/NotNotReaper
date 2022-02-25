@@ -12,6 +12,7 @@ TagManager:
   - TimelineCatcherRight
   - TimelineCatcher
   - TimelineTarget
+  - Timeline
   layers:
   - Default
   - TransparentFX

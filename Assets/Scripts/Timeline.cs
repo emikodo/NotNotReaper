@@ -1370,7 +1370,7 @@ namespace NotReaper {
 			
         }
 
-		public bool LoadAudicaFile (bool loadRecent = false, string filePath = null) {
+		public bool LoadAudicaFile (bool loadRecent = false, string filePath = null, float bpm = -1) {
 			readyToRegenerate = false;
 			inTimingMode = false;
 			SetOffset (new Relative_QNT (0));
@@ -1483,6 +1483,11 @@ namespace NotReaper {
 			if (zeroBPMIndex == -1) {
 				SetBPM (new QNT_Timestamp (0), Constants.MicrosecondsPerQuarterNoteFromBPM (desc.tempo), false);
 			}
+
+			if(bpm > 0f)
+            {
+				SetBPM(new QNT_Timestamp(0), Constants.MicrosecondsPerQuarterNoteFromBPM(bpm), true, 4, 4);
+            }
 
 			//Update our discord presence
 			nrDiscordPresence.UpdatePresenceSongName (desc.title);
@@ -2239,6 +2244,8 @@ namespace NotReaper {
 		}
 
 		public void SetBeatTime (QNT_Timestamp t) {
+			if (t.tick - bpmDragOffset.tick < 0) t = new QNT_Timestamp(0);
+			else t = new QNT_Timestamp(t.tick - bpmDragOffset.tick);
 			float x = t.ToBeatTime () - offset.ToBeatTime ();
 
 			timelineBG.material.SetTextureOffset (MainTex, new Vector2 ((x / 4f + scaleOffset), 1));
@@ -2249,6 +2256,11 @@ namespace NotReaper {
 
 			//OptimizeInvisibleTargets ();
 		}
+		private QNT_Timestamp bpmDragOffset;
+		public void SetBPMDragOffset(QNT_Timestamp offset)
+        {
+			bpmDragOffset = offset;
+        }
 
 		public void ReapplyScale () {
 			SetScale (scale);
@@ -2384,6 +2396,10 @@ namespace NotReaper {
 				jumpDuration.tick *= scrubParams.forward ? 1 : - 1;
 
 				time = scrubParams.byTick ? time + jumpDuration : GetClosestBeatSnapped(time + jumpDuration, (uint)beatSnap);
+				if ((float)time.tick - bpmDragOffset.tick < 0)
+                {
+					time = bpmDragOffset;
+                }
 				//UpdateSustains();
 				SafeSetTime();
 				if (paused)
@@ -2781,6 +2797,17 @@ namespace NotReaper {
 			OnAnimateSetTimeDone callback = isPlaying ? new OnAnimateSetTimeDone(TogglePlayback) : null;
 			StartCoroutine (AnimateSetTime (newTime, callback));
 			UpdateState();
+		}
+
+		public void JumpToXInstantly(float x)
+        {
+			float posX = Math.Abs(timelineTransformParent.position.x) + x;
+			QNT_Timestamp newTime = new QNT_Timestamp(0) + QNT_Duration.FromBeatTime(posX * (scale / 20f));
+			//SafeSetTime();
+			SetBeatTime(newTime);
+			time = newTime;
+			SetCurrentTime();
+			SetCurrentTick();
 		}
 
 		public void ToggleWaveform () {

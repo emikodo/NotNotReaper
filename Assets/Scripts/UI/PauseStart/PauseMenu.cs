@@ -38,7 +38,8 @@ namespace NotReaper.UI {
             var position = t.localPosition;
             colliders = GetComponents<BoxCollider2D>();
             t.localPosition = new Vector3(0, position.y, position.z);
-            recentPanel.Show();
+            //recentPanel.Show();
+            gameObject.SetActive(false);
         }
 
         public void NewAudica() {
@@ -56,19 +57,20 @@ namespace NotReaper.UI {
         }
 
         public void Open() {
-            bool loaded = timeline.LoadAudicaFile(false);
-            if (loaded) ClosePauseMenu();
+            //bool loaded = timeline.LoadAudicaFile(false);
+            //if (loaded) ClosePauseMenu();
             //editorInput.FigureOutIsInUI();
             
         }
 
         public void OpenRecent() {
-            bool loaded = timeline.LoadAudicaFile(true);
-            if (loaded) ClosePauseMenu();
+            //bool loaded = timeline.LoadAudicaFile(true);
+            //if (loaded) ClosePauseMenu();
             //editorInput.FigureOutIsInUI();
         }
 
         public void OpenPauseMenu() {
+            return;
             gameObject.SetActive(true);
             OnActivated();
             isOpened = true;
@@ -80,10 +82,9 @@ namespace NotReaper.UI {
             }
 
             //newAudicaButton.interactable = !Timeline.audicaLoaded;
-            KeybindManager.DisableEditorKeybinds();
             BG.gameObject.SetActive(true);
             window.gameObject.SetActive(true);
-            recentPanel.Show();
+            //recentPanel.Show();
 
         }
 

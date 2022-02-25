@@ -42,7 +42,9 @@ namespace NotReaper.UI
             {
                 Application.OpenURL("https://github.com/CircuitLord/NotReaper/blob/master/README.md");
             });
-            Hide();
+            gameObject.SetActive(false);
+            keyboard.OnClose();
+            isOpened = false;
         }
 
         public void Show()

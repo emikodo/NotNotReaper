@@ -42,7 +42,7 @@ namespace NotReaper.UI
 		[SerializeField] private TimingPointsPanel timingPoints;
 
 		private QNT_Timestamp? detectBpmStart;
-
+		[NRInject] private NewPauseMenu pauseMenu;
 		private void Awake()
 		{
 			//EditorState.onEditorModeChanged += SelectMode;
@@ -270,7 +270,8 @@ namespace NotReaper.UI
 
 		public void ShowPauseWindow()
 		{
-			PauseMenu.Instance.OpenPauseMenu();
+			//PauseMenu.Instance.OpenPauseMenu();
+			pauseMenu.Show();
 		}
 
 		public void SetPreviewPoint()

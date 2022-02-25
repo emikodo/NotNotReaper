@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using NotReaper.MapBrowser.API;
 using NotReaper.UI;
 using System;
 using System.Collections;
@@ -19,6 +20,8 @@ namespace NotReaper.MapBrowser.Recents
         private static string recentDownloadsPath;
         private static List<string> recentDownloads = null;
         private static RecentWindow window = null;
+        private Action callback;
+        [NRInject] NewPauseMenu pauseMenu;
         #endregion
 
         #region Initialization
@@ -32,7 +35,8 @@ namespace NotReaper.MapBrowser.Recents
         private void Start()
         {
             LoadRecents();
-            window.UpdateRecents(recentDownloads);
+            
+            window.UpdateRecentDownloads(recentDownloads);
         }
         #endregion
 
@@ -47,7 +51,7 @@ namespace NotReaper.MapBrowser.Recents
             recentDownloads.Insert(0, fileName);
             if (recentDownloads.Count > 5) recentDownloads = recentDownloads.GetRange(0, 5);
             SaveRecents();
-            window.UpdateRecents(recentDownloads);
+            window.UpdateRecentDownloads(recentDownloads);
         }
         /// <summary>
         /// Loads a map in the editor.
@@ -56,8 +60,23 @@ namespace NotReaper.MapBrowser.Recents
         public void LoadMap(string filename)
         {
             string path = Path.Combine(downloadsFolder, filename);
-            Timeline.instance.LoadAudicaFile(false, path);
-            PauseMenu.Instance.ClosePauseMenu();
+            if (Timeline.instance.LoadAudicaFile(false, path)) pauseMenu.Hide();
+            //PauseMenu.Instance.ClosePauseMenu();
+        }
+
+        public void DownloadAndOpenMap(MapData map, Action callback)
+        {
+            this.callback = callback;
+            StartCoroutine(APIHandler.DownloadMap(map, OnDownloadComplete));
+        }
+
+        private void OnDownloadComplete(MapData map, bool success)
+        {
+            callback?.Invoke();
+            if (success)
+            {
+                LoadMap(map.Filename);
+            }
         }
         /// <summary>
         /// Clears the recents panel.

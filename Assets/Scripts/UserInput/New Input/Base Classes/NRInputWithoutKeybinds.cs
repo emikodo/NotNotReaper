@@ -15,13 +15,21 @@ public abstract class NRInputWithoutKeybinds : MonoBehaviour
     /// </summary>
     [SerializeField]
     private List<string> keybindsToEnable = new List<string>();
+    /// <summary>
+    /// Set to true if you want an input catcher zone to be created for you. It prevents any and all mouse clicks from going through to any UI elements behind this one.
+    /// </summary>
+    [SerializeField] private bool useInputCatcher = true;
 
     private GameObject inputCatcher;
     protected virtual void Awake()
     {
-        inputCatcher = Instantiate(Resources.Load<GameObject>("InputCatcher"), transform);
-        inputCatcher.transform.position = Vector3.zero;
-        inputCatcher.SetActive(false);
+        if (useInputCatcher)
+        {
+            inputCatcher = Instantiate(Resources.Load<GameObject>("InputCatcher"), transform);
+            var canvas = GetComponent<Canvas>();
+            if (canvas != null) inputCatcher.GetComponent<Canvas>().sortingOrder = canvas.sortingOrder - 1;
+            inputCatcher.SetActive(false);
+        }      
     }
     /// <summary>
     /// Callback function that gets called when Esc/Start gets pressed. Use this to close your window, or leave it empty if you don't need to do anything.
@@ -37,8 +45,13 @@ public abstract class NRInputWithoutKeybinds : MonoBehaviour
         KeybindManager.Global.RegisterEscCallback(OnEscPressed);
         KeybindManager.EnableAsset(null, new KeybindManager.KeybindOverrides(null, keybindsToEnable));
         EditorState.SetIsInUI(true);
-        inputCatcher.transform.localPosition = Vector3.zero;
-        inputCatcher.SetActive(true);
+        if (useInputCatcher)
+        {
+            inputCatcher.transform.parent = null;
+            inputCatcher.transform.position = Vector3.zero;
+            inputCatcher.SetActive(true);
+        }
+
     }
     /// <summary>
     /// Enables standard keybinds when this object gets disabled. Call this whenever this object gets deactivated/hidden/disabled.
@@ -47,7 +60,11 @@ public abstract class NRInputWithoutKeybinds : MonoBehaviour
     {
         KeybindManager.Global.UnregisterEscCallback(OnEscPressed);
         KeybindManager.DisableUIMenu();
-        inputCatcher.SetActive(false);
+        if (useInputCatcher)
+        {
+            inputCatcher.transform.parent = transform;
+            inputCatcher.SetActive(false);
+        }
     }
 
 

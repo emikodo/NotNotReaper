@@ -362,14 +362,14 @@ namespace NotReaper.Timing {
             }
 	        if (isMp3 || !skipOffset) {
                 trimAudio.SetAudioLength(loadedSong, Path.Combine(Application.streamingAssetsPath, "FFMPEG", "output.ogg"), 0, DefaultBPM, skipOffset);
-                path = AudicaGenerator.Generate(Path.Combine(Application.streamingAssetsPath, "FFMPEG", "output.ogg"), moggSongVolume, RemoveSpecialCharacters(songName + "-" + mapperName), songName, artistName, DefaultBPM, songEndEvent, mapperName, 0, loadedMidi, loadedArt, difficulty);
+                //path = AudicaGenerator.Generate(Path.Combine(Application.streamingAssetsPath, "FFMPEG", "output.ogg"), moggSongVolume, RemoveSpecialCharacters(songName + "-" + mapperName), songName, artistName, DefaultBPM, songEndEvent, mapperName, 0, loadedMidi, loadedArt, difficulty);
 		        
 	        }
 	        else {
-                path = AudicaGenerator.Generate(loadedSong, moggSongVolume, RemoveSpecialCharacters(songName + "-" + mapperName), songName, artistName, DefaultBPM, songEndEvent, mapperName, 0, loadedMidi, loadedArt, difficulty);
+                //path = AudicaGenerator.Generate(loadedSong, moggSongVolume, RemoveSpecialCharacters(songName + "-" + mapperName), songName, artistName, DefaultBPM, songEndEvent, mapperName, 0, loadedMidi, loadedArt, difficulty);
 	        }
 	        
-            timeline.LoadAudicaFile(false, path);
+            //timeline.LoadAudicaFile(false, path);
             //uiInput.SelectMode(EditorMode.Compose);
             EditorState.SelectMode(EditorMode.Compose);
 

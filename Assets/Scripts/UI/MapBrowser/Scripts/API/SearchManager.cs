@@ -136,7 +136,7 @@ namespace NotReaper.MapBrowser.API
         /// <param name="filterState">What searchText should be compared against (search for song/artist/mapper only).</param>
         /// <param name="difficulties">Which difficulties a map must contain.</param>
         /// <returns></returns>
-        private IEnumerator DoSearch(string searchText, CurationState curationState, FilterState filterState, bool[] difficulties)
+        private IEnumerator DoSearch(string searchText, CurationState curationState, FilterState filterState, bool[] difficulties, Action<List<MapData>> onSearchDone = null)
         {
             SpawnManager.Instance.ClearSearchEntries();
             string requestUrl = APIHandler.GetRequestUrl(searchText, curationState, page, difficulties);
@@ -175,7 +175,6 @@ namespace NotReaper.MapBrowser.API
                 //chache the current request and response.
                 cache.CacheQuery(requestUrl, maps, hasMore, count);
             }
-
             foreach (var data in maps)
             {
                 //only show results that pass the filter.
@@ -186,6 +185,19 @@ namespace NotReaper.MapBrowser.API
             }
             UIManager.Instance.UpdateNavigation(hasMore, page != 1, page, count);
             searchInProgress = false;
+            onSearchDone?.Invoke(maps);
+        }
+        /// <summary>
+        /// Searches for maps with the given parameters immediately, ignoring the queue.
+        /// </summary>
+        /// <param name="searchText">The text to search for.</param>
+        /// <param name="curationState">The curation state to require.</param>
+        /// <param name="filterState">Filters results by this state.</param>
+        /// <param name="difficulties">The required difficulties.</param>
+        /// <param name="callback">Called once search finishes. Returns list of MapData.</param>
+        public void ImmediateSearch(string searchText, CurationState curationState, FilterState filterState, bool[] difficulties, Action<List<MapData>> callback)
+        {
+            StartCoroutine(DoSearch(searchText, curationState, filterState, difficulties, callback));
         }
         /// <summary>
         /// Callback function for when search finishes. 

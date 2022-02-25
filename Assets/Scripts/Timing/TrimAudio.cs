@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using NAudio.Vorbis;
 using NAudio.Wave;
 using NVorbis;
 using UnityEngine;
@@ -32,12 +31,14 @@ namespace NotReaper.Timing {
                 ffmpegPath = Path.Combine(Application.streamingAssetsPath, "FFMPEG", "ffmpegOSX");
 
             ffmpeg.StartInfo.FileName = ffmpegPath;
-            ffmpeg.StartInfo.WindowStyle = ProcessWindowStyle.Normal;
+            ffmpeg.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+            ffmpeg.EnableRaisingEvents = true;
+            ffmpeg.StartInfo.CreateNoWindow = true;
             ffmpeg.StartInfo.UseShellExecute = false;
             ffmpeg.StartInfo.RedirectStandardOutput = true;
         }
 
-        public void SetAudioLength(string path, string output, int offset, double bpm, bool skipRetime = false) {
+        public IEnumerator SetAudioLength(string path, string output, int offset, double bpm, bool skipRetime = false) {
 
             string log = "";
             double offsetMs = TicksToMs(offset, bpm);
@@ -56,12 +57,15 @@ namespace NotReaper.Timing {
             }
             
             Debug.Log($"Running ffmpeg with args {args}");
-
+            bool ffmpegFinished = false;
+            var waitItem = new WaitUntil(() => ffmpegFinished);
             ffmpeg.StartInfo.Arguments = args;
+            ffmpeg.Exited += (obj, a) => ffmpegFinished = true;
             ffmpeg.Start();
 
-            Debug.Log(ffmpeg.StandardOutput.ReadToEnd());
-            ffmpeg.WaitForExit();
+            //Debug.Log(ffmpeg.StandardOutput.ReadToEnd());
+            //ffmpeg.WaitForExit();
+            yield return waitItem;
         }
 
         private double TicksToMs(double offset, double tempo) {

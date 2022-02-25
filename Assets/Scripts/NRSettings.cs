@@ -269,6 +269,8 @@ namespace NotReaper {
 
         public string savedMapperName = "";
 
+        public string maudicaToken = "";
+
         public string bgImagePath = NRSettings.GetbgImagePath();
         public bool optimizeInvisibleTargets = true;
         public bool backups = false;

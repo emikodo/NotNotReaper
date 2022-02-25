@@ -7,7 +7,8 @@ using System.Collections.Generic;
 using NotReaper.Models;
 using NotReaper;
 
-public class AudioWaveformVisualizer : MonoBehaviour {
+public class AudioWaveformVisualizer : MonoBehaviour
+{
     public GameObject waveformSegmentInstance;
 
     static uint NumQuarterNotesSampled = 4;
@@ -18,13 +19,22 @@ public class AudioWaveformVisualizer : MonoBehaviour {
 
     public bool visible = true;
 
-    struct GenerationSections {
+    public delegate void OnWaveformGenerated(List<GameObject> segments);
+    public event OnWaveformGenerated onWaveformGenerated;
+
+    private List<GameObject> segments = new List<GameObject>();
+
+    private int activeGenerations = 0;
+
+    struct GenerationSections
+    {
         public float start;
         public float end;
     };
 
-    void Update() {
-        
+    public List<GameObject> GetSegments()
+    {
+        return segments;
     }
 
     public void SetWaveformVisible(bool visible)
@@ -42,21 +52,27 @@ public class AudioWaveformVisualizer : MonoBehaviour {
     }
 
 
-    public void GenerateWaveform(ClipData aud, NotReaper.Timeline timeline) {
+    public void GenerateWaveform(ClipData aud, NotReaper.Timeline timeline)
+    {
         StopAllCoroutines();
-
-        foreach (Transform child in transform) {
+        segments.Clear();
+        activeGenerations = 0;
+        foreach (Transform child in transform)
+        {
             GameObject.Destroy(child.gameObject);
         }
 
-        if(timeline.tempoChanges.Count == 0) {
+        if (timeline.tempoChanges.Count == 0)
+        {
             return;
         }
 
         //Ensure all timestamps are different, otherwise texture generation is very crashy
         QNT_Timestamp lastTime = timeline.tempoChanges[0].time;
-        for(int i = 1; i < timeline.tempoChanges.Count; ++i) {
-            if(lastTime == timeline.tempoChanges[i].time) {
+        for (int i = 1; i < timeline.tempoChanges.Count; ++i)
+        {
+            if (lastTime == timeline.tempoChanges[i].time)
+            {
                 return;
             }
 
@@ -67,16 +83,20 @@ public class AudioWaveformVisualizer : MonoBehaviour {
         int nextTempoChange = 1;
 
         List<GenerationSections> sections = new List<GenerationSections>();
-        for(float t = 0; t < aud.Length;) {
+        for (float t = 0; t < aud.Length;)
+        {
             float endOfSection = t + SecondsPerTexture;
-            if(endOfSection > aud.Length) {
+            if (endOfSection > aud.Length)
+            {
                 endOfSection = aud.Length;
             }
 
-            if(nextTempoChange < tempoChanges.Count) {
+            if (nextTempoChange < tempoChanges.Count)
+            {
                 float nextTempoChangeSec = timeline.TimestampToSeconds(tempoChanges[nextTempoChange].time);
-                
-                if(endOfSection >= nextTempoChangeSec) {
+
+                if (endOfSection >= nextTempoChangeSec)
+                {
                     endOfSection = nextTempoChangeSec;
                     ++nextTempoChange;
                 }
@@ -89,8 +109,9 @@ public class AudioWaveformVisualizer : MonoBehaviour {
 
             t = endOfSection;
         }
-
-        foreach(GenerationSections gen in sections) {
+        int index = 1;
+        foreach (GenerationSections gen in sections)
+        {
             int sampleStart = (int)(gen.start * aud.frequency * aud.channels);
             int sampleEnd = (int)(gen.end * aud.frequency * aud.channels);
 
@@ -99,23 +120,33 @@ public class AudioWaveformVisualizer : MonoBehaviour {
 
             float beatTime = Conversion.ToQNT(gen.end - gen.start, microsecondsPerQuarterNote).ToBeatTime();
             StartCoroutine(PaintWaveformSpectrum(aud.samples, sampleStart, sampleEnd - sampleStart, (int)(beatTime * PixelsPerQuarterNote), 64, NRSettings.config.waveformColor,
-                delegate (Texture2D tex) {
-                    GameObject obj = GameObject.Instantiate(waveformSegmentInstance, new Vector3(0,0,0), Quaternion.identity, gameObject.transform);
+                delegate (Texture2D tex)
+                {
+                    GameObject obj = GameObject.Instantiate(waveformSegmentInstance, new Vector3(0, 0, 0), Quaternion.identity, gameObject.transform);
+                    obj.name = "Segment " + index;
+                    index++;
                     QNT_Timestamp start = timeline.ShiftTick(new QNT_Timestamp(0), gen.start);
                     QNT_Timestamp end = timeline.ShiftTick(new QNT_Timestamp(0), gen.end);
 
                     obj.GetComponent<MeshFilter>().mesh = CreateMesh(start.ToBeatTime(), new QNT_Duration((UInt64)(end.tick - start.tick)).ToBeatTime(), 1);
                     obj.GetComponent<MeshRenderer>().material.SetTexture("_MainTex", tex);
                     obj.GetComponent<MeshRenderer>().enabled = false;
-                    obj.GetComponent<Transform>().localPosition = new Vector3(0, -0.5f ,0);
+                    obj.GetComponent<Transform>().localPosition = new Vector3(0, -0.5f, 0);
                     obj.GetComponent<Transform>().localScale = new Vector3(1.0f, 1, 1);
+                    segments.Add(obj);
                     SetWaveformVisible(visible);
+                    activeGenerations -= 1;
+                    if(activeGenerations == 0)
+                    {
+                        onWaveformGenerated?.Invoke(segments);
+                    }
                 }
             ));
         }
     }
 
-    public Mesh CreateMesh(float startX, float width, float height) {
+    public Mesh CreateMesh(float startX, float width, float height)
+    {
         var mesh = new Mesh();
 
         var vertices = new Vector3[4]
@@ -159,17 +190,21 @@ public class AudioWaveformVisualizer : MonoBehaviour {
 
     public delegate void TextureCallback(Texture2D data);
 
-    IEnumerator PaintWaveformSpectrum(float[] samples, int sampleStart, int sampleSection, int width, int height, Color col, TextureCallback cb) {
-        if(width <= 0) {
+    IEnumerator PaintWaveformSpectrum(float[] samples, int sampleStart, int sampleSection, int width, int height, Color col, TextureCallback cb)
+    {
+        if (width <= 0)
+        {
             yield break;
         }
-
+        
+        activeGenerations += 1;
         Texture2D tex = new Texture2D(width, height, TextureFormat.RGBA32, false);
 
         //Set all to clear
         Color32 resetColor = new Color32(255, 255, 255, 0);
         Color32[] resetColorArray = tex.GetPixels32();
-        for (int i = 0; i < resetColorArray.Length; i++) {
+        for (int i = 0; i < resetColorArray.Length; i++)
+        {
             resetColorArray[i] = resetColor;
         }
         tex.SetPixels32(resetColorArray);
@@ -178,10 +213,12 @@ public class AudioWaveformVisualizer : MonoBehaviour {
         const int PIXELS_PER_YIELD = 32; //Waits every 400,000 loop
         int loopCounter = 0;
 
-        for (int x = 0; x < width; x++) {
+        for (int x = 0; x < width; x++)
+        {
             float maxValue = 0;
             float avgValue = 0;
-            for (int s = 0; s < sampleIncr; s++) {
+            for (int s = 0; s < sampleIncr; s++)
+            {
                 float sampleIdx = sampleStart + x * sampleIncr + s;
                 int idx = Math.Min((int)sampleIdx, samples.Length - 1);
                 float sampleVal = Math.Abs(samples[idx]);
@@ -189,20 +226,23 @@ public class AudioWaveformVisualizer : MonoBehaviour {
                 maxValue = Math.Max(maxValue, sampleVal * sampleVal);
             }
             avgValue /= sampleIncr;
-            
+
             //For sections with huge peaks, just use avg
-            if(maxValue > 0.5f) {
+            if (maxValue > 0.5f)
+            {
                 maxValue = avgValue;
             }
 
-            float paintHeight  = Mathf.Sqrt(maxValue) * height;
-            for (int y = 0; y <= paintHeight; y++) {
-                tex.SetPixel(x, ( height / 2 ) + y, col);
-                tex.SetPixel(x, ( height / 2 ) - y, col);
+            float paintHeight = Mathf.Sqrt(maxValue) * height;
+            for (int y = 0; y <= paintHeight; y++)
+            {
+                tex.SetPixel(x, (height / 2) + y, col);
+                tex.SetPixel(x, (height / 2) - y, col);
             }
 
             ++loopCounter;
-            if(loopCounter % PIXELS_PER_YIELD == 0) {
+            if (loopCounter % PIXELS_PER_YIELD == 0)
+            {
                 yield return null;
             }
         }

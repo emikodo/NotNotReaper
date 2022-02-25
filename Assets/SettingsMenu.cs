@@ -22,6 +22,7 @@ public class SettingsMenu : MonoBehaviour
     [SerializeField] Toggle autoSave;
 
     [SerializeField] TMP_InputField savedMapperField;
+    [SerializeField] TMP_InputField maudicaAccountToken;
 
     [SerializeField] ColorSlider LeftHand;
     [SerializeField] ColorSlider RightHand;
@@ -54,6 +55,8 @@ public class SettingsMenu : MonoBehaviour
         LeftHand.SetColor(NRSettings.config.leftColor);
         RightHand.SetColor(NRSettings.config.rightColor);
         savedMapperField.text = NRSettings.config.savedMapperName;
+        Debug.Log(maudicaAccountToken == null);
+        maudicaAccountToken.text = NRSettings.config.maudicaToken;
         
     }
 
@@ -72,6 +75,7 @@ public class SettingsMenu : MonoBehaviour
         NRSettings.config.leftColor = LeftHand.color;
         NRSettings.config.rightColor = RightHand.color;
         NRSettings.config.savedMapperName = savedMapperField.text;
+        NRSettings.config.maudicaToken = maudicaAccountToken.text;
         NRSettings.config.optimizeInvisibleTargets = optimizeInvisibleTargets.isOn;
         NRSettings.config.backups = autoSave.isOn;
         WarningText.SetActive(true);

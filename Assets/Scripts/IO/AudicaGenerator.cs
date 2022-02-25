@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
@@ -13,7 +15,7 @@ namespace NotReaper.IO {
 
 	public class AudicaGenerator {
 
-		public static string Generate(string oggPath, float moggSongVol, string songID, string songName, string artist, double bpm, string songEndEvent, string author, int offset, string midiPath, string artPath, Difficulty difficulty) {
+		public static IEnumerator Generate(string oggPath, float moggSongVol, string songID, string songName, string artist, double bpm, string songEndEvent, string author, int offset, string midiPath, string artPath, Difficulty difficulty, Action<string> onGenerationDone) {
 
 
 			HandleCache.CheckSaveFolderValid();
@@ -61,7 +63,6 @@ namespace NotReaper.IO {
 
 			Process ogg2mogg = new Process();
 			ProcessStartInfo startInfo = new ProcessStartInfo();
-			startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Normal;
 
 			startInfo.FileName = Path.Combine(workFolder, "ogg2mogg.exe");
 
@@ -70,15 +71,22 @@ namespace NotReaper.IO {
 
 			if ((Application.platform == RuntimePlatform.OSXEditor) || (Application.platform == RuntimePlatform.OSXPlayer))
 				startInfo.FileName = Path.Combine(workFolder, "ogg2moggOSX");
-			
+
+			bool processFinished = false;
+			var waitItem = new WaitUntil(() => processFinished);
+
 			string args = $"\"{oggPath}\" \"{workFolder}/song.mogg\"";
 			startInfo.Arguments = args;
 			startInfo.UseShellExecute = false;
-
 			ogg2mogg.StartInfo = startInfo;
+			ogg2mogg.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+			ogg2mogg.StartInfo.CreateNoWindow = true;
+			ogg2mogg.EnableRaisingEvents = true;
+			ogg2mogg.Exited += (obj, a) => processFinished = true;
 			ogg2mogg.Start();
 
-			ogg2mogg.WaitForExit();
+			//ogg2mogg.WaitForExit();
+			yield return waitItem;
 
 			//Set the song.moggsong volume
 			var moggpath = Path.Combine(workFolder, "song.moggsong");
@@ -125,7 +133,8 @@ namespace NotReaper.IO {
 				archive.SaveTo(Path.Combine(Application.dataPath, @"../", "saves", songID + ".audica"), SharpCompress.Common.CompressionType.None);
 			}
 			if (difficulty != Difficulty.Expert) File.Move(Path.Combine(audicaTemplate, newCuesName), cuesFile);
-			return Path.Combine(Application.dataPath, @"../", "saves", songID + ".audica");
+			onGenerationDone?.Invoke(Path.Combine(Application.dataPath, @"../", "saves", songID + ".audica"));
+			//return Path.Combine(Application.dataPath, @"../", "saves", songID + ".audica");
 			
 		/*
 		
