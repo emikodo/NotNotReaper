@@ -55,7 +55,6 @@ public class SettingsMenu : MonoBehaviour
         LeftHand.SetColor(NRSettings.config.leftColor);
         RightHand.SetColor(NRSettings.config.rightColor);
         savedMapperField.text = NRSettings.config.savedMapperName;
-        Debug.Log(maudicaAccountToken == null);
         maudicaAccountToken.text = NRSettings.config.maudicaToken;
         
     }

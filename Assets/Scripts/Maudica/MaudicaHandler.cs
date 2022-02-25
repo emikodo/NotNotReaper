@@ -7,6 +7,8 @@ using UnityEngine;
 using UnityEngine.Networking;
 using NotReaper.MapBrowser;
 using AudicaTools;
+using NotReaper.Notifications;
+
 namespace NotReaper.Maudica
 {
     public class MaudicaHandler : MonoBehaviour
@@ -16,8 +18,11 @@ namespace NotReaper.Maudica
         private const string MAPS_ENDPOINT = @"maps/";
         private const string APPROVE_ENDPOINT = @"approve/";
         private const string UNAPPROVE_ENDPOINT = @"unapprove/";
+        private const string VOTE_UP_ENDPOINT = @"vote-up/";
+        private const string VOTE_DOWN_ENDPOINT = @"vote-down/";
 
-        public static bool IsCurator;
+        public static bool IsCurator { get; private set; }
+        public static bool HasToken => NRSettings.config.maudicaToken.Length > 0;
         private Account userAccount;
         private static Audica audica;
         private void Start()
@@ -33,77 +38,90 @@ namespace NotReaper.Maudica
             if (NRSettings.config.maudicaToken.Length == 0) yield break;
 
             string requestUrl = MAUDICA_URL + ACCOUNT_ENDPOINT + @"?api_token=" + NRSettings.config.maudicaToken;
-            using (UnityWebRequest www = UnityWebRequest.Get(requestUrl))
+            using UnityWebRequest www = UnityWebRequest.Get(requestUrl);
+            www.timeout = 20;
+            yield return www.SendWebRequest();
+            userAccount = JsonConvert.DeserializeObject<Account>(www.downloadHandler.text);
+            if (userAccount.roles != null && userAccount.roles.Any(role => role == "curator"))
             {
-                www.timeout = 20;
-                yield return www.SendWebRequest();
-                Debug.Log(www.downloadHandler.text);
-                userAccount = JsonConvert.DeserializeObject<Account>(www.downloadHandler.text);
-                if (userAccount.roles != null && userAccount.roles.Any(role => role == "curator"))
-                {
-                    IsCurator = true;
-                }
+                IsCurator = true;
             }
         }
 
-        public static IEnumerator MapExists(string filepath, Action<bool> response)
+        public static IEnumerator GetMap(string filepath, Action<Song> response)
         {
             if (!IsCurator) yield break;
             string requestUrl = MAUDICA_URL + MAPS_ENDPOINT;
             audica = new Audica(filepath);
-            Debug.Log(audica.GetHashedSongID());
             requestUrl += "?filename=" + audica.fileName + ".audica";
-            Debug.Log(requestUrl);
-            using (UnityWebRequest www = UnityWebRequest.Get(requestUrl))
-            {
-                www.timeout = 20;
-                yield return www.SendWebRequest();
-                bool exists = JsonConvert.DeserializeObject<APISongList>(www.downloadHandler.text).maps.Length > 0;
-                if (!exists) audica = null;
-                response?.Invoke(exists);
-            }
+            using UnityWebRequest www = UnityWebRequest.Get(requestUrl);
+            www.timeout = 20;
+            yield return www.SendWebRequest();
+            var songList = JsonConvert.DeserializeObject<APISongList>(www.downloadHandler.text);
+            bool exists = songList.count > 0;
+            Song song = exists ? songList.maps[0] : new Song();
+            if (!exists) audica = null;
+            response?.Invoke(song);
         }
 
-        private void Update()
-        {
-            if(Input.GetKeyDown(KeyCode.C))
-            {
-                audica = new Audica(Timeline.audicaFile.filepath);
-                StartCoroutine(MapExists(Timeline.audicaFile.filepath, (b) => StartCoroutine(UnapproveMap())));
-            }
-        }
-
-        public static IEnumerator ApproveMap()
+        public static IEnumerator ApproveMap(Action onComplete = null)
         {
             if (!IsCurator) yield break;
 
             string requestUrl = MAUDICA_URL + MAPS_ENDPOINT + APPROVE_ENDPOINT;
             requestUrl += "?audica_id=" + audica.GetHashedSongID();
             requestUrl += "&api_token=" + NRSettings.config.maudicaToken;
-            Debug.Log(requestUrl);
-            using (UnityWebRequest www = UnityWebRequest.Get(requestUrl))
-            {
-                www.method = "PATCH";
-                www.timeout = 20;
-                yield return www.SendWebRequest();
-                Debug.Log("Response: " + www.responseCode);
-            }
+            using UnityWebRequest www = UnityWebRequest.Get(requestUrl);
+            www.method = "PATCH";
+            www.timeout = 20;
+            yield return www.SendWebRequest();
+            NotificationCenter.SendNotification("Map approved!", NotificationType.Success);
+            onComplete?.Invoke();
         }
 
-        public static IEnumerator UnapproveMap()
+        public static IEnumerator UnapproveMap(Action onComplete = null)
         {
             if (!IsCurator) yield break;
             string requestUrl = MAUDICA_URL + MAPS_ENDPOINT + UNAPPROVE_ENDPOINT;
             requestUrl += "?audica_id=" + audica.GetHashedSongID();
             requestUrl += "&api_token=" + NRSettings.config.maudicaToken;
 
-            using (UnityWebRequest www = UnityWebRequest.Get(requestUrl))
-            {
-                www.method = "PATCH";
-                www.timeout = 20;
-                yield return www.SendWebRequest();
-                Debug.Log("Response: " + www.responseCode);
-            }
+            using UnityWebRequest www = UnityWebRequest.Get(requestUrl);
+            www.method = "PATCH";
+            www.timeout = 20;
+            yield return www.SendWebRequest();
+            NotificationCenter.SendNotification("Map unapproved!", NotificationType.Success);
+            onComplete?.Invoke();
+        }
+
+        public static IEnumerator VoteMapUp(Action onComplete = null)
+        {
+            if (!HasToken) yield break;
+            string requestUrl = MAUDICA_URL + MAPS_ENDPOINT + VOTE_UP_ENDPOINT;
+            requestUrl += "?audica_id=" + audica.GetHashedSongID();
+            requestUrl += "&api_token=" + NRSettings.config.maudicaToken;
+
+            using UnityWebRequest www = UnityWebRequest.Get(requestUrl);
+            www.method = "PATCH";
+            www.timeout = 20;
+            yield return www.SendWebRequest();
+            NotificationCenter.SendNotification("Map upvoted!", NotificationType.Success);
+            onComplete?.Invoke();
+        }
+
+        public static IEnumerator VoteMapDown(Action onComplete = null)
+        {
+            if (!HasToken) yield break;
+            string requestUrl = MAUDICA_URL + MAPS_ENDPOINT + VOTE_DOWN_ENDPOINT;
+            requestUrl += "?audica_id=" + audica.GetHashedSongID();
+            requestUrl += "&api_token=" + NRSettings.config.maudicaToken;
+
+            using UnityWebRequest www = UnityWebRequest.Get(requestUrl);
+            www.method = "PATCH";
+            www.timeout = 20;
+            yield return www.SendWebRequest();
+            NotificationCenter.SendNotification("Map downvoated!", NotificationType.Success);
+            onComplete?.Invoke();
         }
 
         private class Account

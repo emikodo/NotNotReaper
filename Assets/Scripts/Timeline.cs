@@ -299,6 +299,9 @@ namespace NotReaper {
 
 		[NRInject] internal Pathbuilder pathbuilder;
 
+		public delegate void OnAudicaLoaded(AudicaFile file);
+		public static event OnAudicaLoaded onAudicaLoaded;
+
 		//Tools
 		private void Start () {
 
@@ -1543,6 +1546,7 @@ namespace NotReaper {
 			//Loaded successfully
 
 			//NotificationCenter.SendNotification (new NRNotification ("Map loaded successfully!"));
+			onAudicaLoaded?.Invoke(audicaFile);
 			NotificationCenter.SendNotification("Press F1 to view shortcuts", NotificationType.Info);
 			StopCoroutine (NRSettings.Autosave ());
 			StartCoroutine (NRSettings.Autosave ());
@@ -1586,7 +1590,7 @@ namespace NotReaper {
 			using (UnityWebRequest www = UnityWebRequestMultimedia.GetAudioClip (uri, AudioType.OGGVORBIS)) {
 				yield return www.SendWebRequest ();
 
-				if (www.isNetworkError) {
+				if (www.result == UnityWebRequest.Result.ConnectionError) {
 					Debug.Log (www.error);
 				} else {
 					AudioClip myClip = DownloadHandlerAudioClip.GetContent (www);

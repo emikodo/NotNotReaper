@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 using NotReaper;
 using TMPro;
 using UnityEngine.UI;
+using NotReaper.Maudica;
 
 namespace NotReaper.UI
 {
@@ -23,6 +24,12 @@ namespace NotReaper.UI
         [SerializeField] private View newView;
         [SerializeField] private View browserView;
         [SerializeField] private View settingsView;
+        [Space, Header("Maudica")]
+        [SerializeField] private GameObject startScreenView;
+        [SerializeField] private GameObject pauseView;
+        [SerializeField] private GameObject hintPanel;
+        [SerializeField] private GameObject curationPanel;
+        [SerializeField] private GameObject votePanel;
 
         private View activeView;
 
@@ -74,6 +81,18 @@ namespace NotReaper.UI
             if (!isInStartScreen)
             {
                 volumePanel.SetActive(true);
+                startScreenView.SetActive(false);
+                pauseView.SetActive(true);
+                if (MaudicaHandler.HasToken)
+                {
+                    hintPanel.SetActive(false);
+                    votePanel.SetActive(true);
+                }
+                else
+                {
+                    hintPanel.SetActive(true);
+                    votePanel.SetActive(false);
+                }
             }
             canvas.DOFade(1f, .3f);
         }

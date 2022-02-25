@@ -643,34 +643,37 @@ namespace NotReaper.Tools.PathBuilder
 		{
 			iconsUnderMouse = null;
 			isMouseDown = true;
-			if (iconUnderMouse != null)
-			{
-				var target = iconUnderMouse.target;
+			if(tempSegment == null)
+            {
+				if (iconUnderMouse != null && activePoint == null)
+				{
+					var target = iconUnderMouse.target;
 
-				if (target == activeTarget)
-				{
-					if (segments.Count > 0)
+					if (target == activeTarget)
 					{
-						SetActiveSegment(segments[0]);
+						if (segments.Count > 0)
+						{
+							SetActiveSegment(segments[0]);
+						}
+						dragStartPos = GetMousePosition();
+						dragNote = true;
+						return;
 					}
-					dragStartPos = GetMousePosition();
-					dragNote = true;
-					return;
-				}
-				else if (target.data.isPathbuilderTarget)
-				{
-					if (activeTarget != target)
+					else if (target.data.isPathbuilderTarget)
+					{
+						if (activeTarget != target)
+						{
+							SwitchData(target);
+							return;
+						}
+					}
+					else if (IsValidPathbuilderCandidate(target))
 					{
 						SwitchData(target);
 						return;
 					}
 				}
-				else if (IsValidPathbuilderCandidate(target))
-				{
-					SwitchData(target);
-					return;
-				}
-			}
+			}			
 
 			if (tempSegment != null)
 			{
@@ -695,6 +698,11 @@ namespace NotReaper.Tools.PathBuilder
 				SetActiveSegment(segment);
 			}
 		}
+
+		public bool IsDraggingNote()
+        {
+			return dragNote;
+        }
 
 		private void OnShiftDown(bool down)
         {

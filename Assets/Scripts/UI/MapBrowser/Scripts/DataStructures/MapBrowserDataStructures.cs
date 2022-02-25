@@ -54,7 +54,8 @@ namespace NotReaper.MapBrowser
         public string description = null;
         public string embed_url = null;
         public string filename = null;
-        public bool curated = false;
+        public float curated = 0f;
+        public int score;
     }
     /// <summary>
     /// Represents a map.
@@ -76,13 +77,13 @@ namespace NotReaper.MapBrowser
         public bool Downloaded { get; private set; }
         public SearchEntry BrowserEntry => SpawnManager.Instance.GetSearchEntry(this);
         public SelectedEntry SelectedEntry => SpawnManager.Instance.GetSelectedEntry(this);
-        public MapData(int id, string songName, string artist, string mapper, bool curated, string filename, string requestUrl, bool downloaded, params string[] difficulties)
+        public MapData(int id, string songName, string artist, string mapper, float curated, string filename, string requestUrl, bool downloaded, params string[] difficulties)
         {
             this.ID = id;
             this.SongName = songName;
             this.Artist = artist;
             this.Mapper = mapper;
-            this.State = curated ? CurationState.Curated : CurationState.None;
+            this.State = curated == 1f ? CurationState.Curated : CurationState.None;
             Beginner = Standard = Advanced = Expert = false;
             this.Selected = false;
             this.RequestUrl = requestUrl;

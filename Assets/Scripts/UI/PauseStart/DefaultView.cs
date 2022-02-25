@@ -1,12 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-namespace NotReaper.UI
+﻿namespace NotReaper.UI
 {
     public class DefaultView : View
     {
         private RecentPanel recents;
+
 
         private void Awake()
         {
