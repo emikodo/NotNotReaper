@@ -125,10 +125,8 @@ namespace NotReaper.Timing {
 		private ClipData mine;
 		private ClipData meleeShatter;
 
-		private ClipData hihat_hit;
+		private ClipData hihat_hit1;
 		private ClipData hihat_hit2;
-		private ClipData hihat_hit3;
-		private ClipData hihat_open;
 
 		private ClipData songend_C;
 		private ClipData songend_Csharp;
@@ -190,10 +188,8 @@ namespace NotReaper.Timing {
 		[SerializeField] private AudioClip MineClip;
 		[SerializeField] private AudioClip MeleeShatterClip;
 
-		[SerializeField] private AudioClip HiHat_Hit;
+		[SerializeField] private AudioClip HiHat_Hit1;
 		[SerializeField] private AudioClip HiHat_Hit2;
-		[SerializeField] private AudioClip HiHat_Hit3;
-		[SerializeField] private AudioClip HiHat_Open;
 
 		[Space]
 		[Header("SongEnd")]
@@ -270,10 +266,8 @@ namespace NotReaper.Timing {
 			while (MineClip.loadState != AudioDataLoadState.Loaded) yield return null;
 			while (MeleeShatterClip.loadState != AudioDataLoadState.Loaded) yield return null;
 
-			while (HiHat_Hit.loadState != AudioDataLoadState.Loaded) yield return null;
+			while (HiHat_Hit1.loadState != AudioDataLoadState.Loaded) yield return null;
 			while (HiHat_Hit2.loadState != AudioDataLoadState.Loaded) yield return null;
-			while (HiHat_Open.loadState != AudioDataLoadState.Loaded) yield return null;
-			while (HiHat_Hit3.loadState != AudioDataLoadState.Loaded) yield return null;
 
 			while (song_end_C.loadState != AudioDataLoadState.Loaded) yield return null;
 			while (song_end_Csharp.loadState != AudioDataLoadState.Loaded) yield return null;
@@ -296,11 +290,9 @@ namespace NotReaper.Timing {
 			melee = FromAudioClip(MeleeClip);
 			meleeShatter = FromAudioClip(MeleeShatterClip);
 			mine = FromAudioClip(MineClip);
-			
-			hihat_hit = FromAudioClip(HiHat_Hit);
+
+			hihat_hit1 = FromAudioClip(HiHat_Hit1);
 			hihat_hit2 = FromAudioClip(HiHat_Hit2);
-			hihat_hit3 = FromAudioClip(HiHat_Hit3);
-			hihat_open = FromAudioClip(HiHat_Open);
 
 			songend_C = FromAudioClip(song_end_C);
 			songend_Csharp = FromAudioClip(song_end_Csharp);
@@ -445,7 +437,7 @@ namespace NotReaper.Timing {
 				QNT_Timestamp currentTick = timeline.ShiftTick(new QNT_Timestamp(0), (float)((dataIndex) / (float)sampleRate));
 				TempoChange currentTempo = timeline.GetTempoForTime(currentTick);
 				QNT_Duration timeSignatureDuration = new QNT_Duration(Constants.PulsesPerWholeNote / currentTempo.timeSignature.Denominator);
-				GenerateClickTrackSamples(ctx, currentTick, currentTempo, timeSignatureDuration);
+				GenerateClickTrackSamples(ctx, currentTick, currentTempo);
 			}
 		}
 
@@ -971,36 +963,32 @@ namespace NotReaper.Timing {
 					ctx.volume = volume;
 					ctx.index = dataIndex;
 					ctx.playbackSpeed = 1.0f;
-					GenerateClickTrackSamples(ctx, currentTick, currentTempo, timeSignatureDuration);
+					GenerateClickTrackSamples(ctx, currentTick, currentTempo);
 				}
 			}
 		}
 
-		void GenerateClickTrackSamples(CopyContext ctx, QNT_Timestamp currentTick, TempoChange currentTempo, QNT_Duration timeSignatureDuration) {
-			QNT_Timestamp tempoStart = currentTempo.time;
+		void GenerateClickTrackSamples(CopyContext ctx, QNT_Timestamp currentTick, TempoChange currentTempo) {
 			QNT_Timestamp nextBeat = timeline.GetClosestBeatSnapped(currentTick, currentTempo.timeSignature.Denominator);
-			UInt64 currentBeatInBar = ((currentTick.tick - tempoStart.tick) / timeSignatureDuration.tick) % currentTempo.timeSignature.Numerator;
 
-			if(currentBeatInBar != 1) {
-				TryAddClickEvent(currentTick, nextBeat, hihat_hit);
-			}
-			else {
-				TryAddClickEvent(currentTick, nextBeat, hihat_hit3);
-			}
-
+			TryAddClickEvent(currentTick, nextBeat, hihat_hit1);
 			TryAddClickEvent(currentTick, nextBeat + Constants.SixteenthNoteDuration, hihat_hit2);
-			TryAddClickEvent(currentTick, nextBeat + Constants.EighthNoteDuration, hihat_open);
+			TryAddClickEvent(currentTick, nextBeat + Constants.EighthNoteDuration, hihat_hit2);
+			TryAddClickEvent(currentTick, nextBeat + Constants.EighthNoteDuration + Constants.SixteenthNoteDuration, hihat_hit2);
 
-			for (int i = clickTrackEvents.Count - 1; i >= 0; i--) {
+			for (int i = clickTrackEvents.Count - 1; i >= 0; i--)
+			{
 				ClickTrackEvent ev = clickTrackEvents[i];
 				ev.clip.currentSample = ev.currentSample;
 				ev.clip.CopySampleIntoBuffer(ctx);
 				ev.currentSample = ev.clip.currentSample;
 
-				if(ev.clip.ScaledCurrentSample > ev.clip.samples.Length) {
+				if (ev.clip.ScaledCurrentSample > ev.clip.samples.Length)
+				{
 					clickTrackEvents.RemoveAt(i);
 				}
-				else {
+				else
+				{
 					clickTrackEvents[i] = ev;
 				}
 			}
