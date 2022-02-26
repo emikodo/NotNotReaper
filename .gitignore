@@ -60,4 +60,5 @@ Packages/packages-lock.json
 Packages/packages-lock.json
 ProjectSettings/QualitySettings.asset
 
-# Autosaves
+# Logs
+*.log

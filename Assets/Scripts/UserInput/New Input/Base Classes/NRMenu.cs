@@ -15,8 +15,7 @@ namespace NotReaper
         /// /// <summary>
         /// Keybinds to exclude from being disabled from editor keybinds.
         /// </summary>
-        [SerializeField]
-        private List<string> keybindsToEnable = new List<string>();
+        [SerializeField] private List<InputActionReference> actionsToEnable = new List<InputActionReference>();
         /// <summary>
         /// Set to true if you want an input catcher zone to be created for you. It prevents any and all mouse clicks from going through to any UI elements behind this one.
         /// </summary>
@@ -26,6 +25,7 @@ namespace NotReaper
         /// </summary>
         [SerializeField] protected bool persistent = false;
 
+        private List<string> keybindsToEnable = new List<string>();
         private GameObject inputCatcher;
         protected virtual void Awake()
         {
@@ -36,6 +36,8 @@ namespace NotReaper
                 if (canvas != null) inputCatcher.GetComponent<Canvas>().sortingOrder = canvas.sortingOrder - 1;
                 inputCatcher.SetActive(false);
             }
+            keybindsToEnable.Clear();
+            foreach (var key in actionsToEnable) keybindsToEnable.Add(key.action.name);
         }
         /// <summary>
         /// Callback function that gets called when Esc/Start gets pressed. Use this to close your window, or leave it empty if you don't need to do anything.

@@ -36,7 +36,7 @@ namespace NotReaper.MapBrowser.Entries
             this.Data = data;
             button.interactable = true;
             songName.text = data.SongName;
-            artistMapper.text = $"{data.Artist} ・ {data.Mapper}".ToLower();       
+            artistMapper.text = $"{data.Artist} • {data.Mapper}".ToLower();       
             progress.fillAmount = 0f;
             successAnimation.SetActive(Data.Downloaded);
             failedAnimation.SetActive(false);

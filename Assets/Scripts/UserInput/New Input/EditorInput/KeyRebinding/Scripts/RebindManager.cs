@@ -31,6 +31,9 @@ namespace NotReaper.Keybinds
         private void Start()
         {
             PopulateKeybindsMenu();
+
+            transform.position = Vector3.zero;
+            rebindWindow.SetActive(false);
         }
 
         private void LoadKeybinds(InputActionAsset asset)

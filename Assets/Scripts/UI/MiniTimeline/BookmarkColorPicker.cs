@@ -16,7 +16,7 @@ public class BookmarkColorPicker : MonoBehaviour
     public BookmarkColor icy;
 
 
-    private void Start()
+    private void Awake()
     {
         if (Instance is null) Instance = this;
         else

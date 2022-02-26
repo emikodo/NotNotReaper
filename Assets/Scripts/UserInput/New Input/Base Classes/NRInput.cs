@@ -25,8 +25,9 @@ namespace NotReaper.UserInput
         [Header("Keybinds"), SerializeField]
         private List<KeybindManager.Map> mapsToEnable = new List<KeybindManager.Map>();
         [SerializeField]
-        private List<string> keybindsToEnable = new List<string>();
+        private List<InputActionReference> actionsToEnable = new List<InputActionReference>();
 
+        private List<string> keybindsToEnable = new List<string>();
         /// <summary>
         /// Register callbacks to all of your defined keybindings in actions here.
         /// </summary>
@@ -45,6 +46,8 @@ namespace NotReaper.UserInput
             actions = new T();
             asset = ((dynamic)actions).asset;
             RegisterCallbacks();
+            keybindsToEnable.Clear();
+            foreach (var key in actionsToEnable) keybindsToEnable.Add(key.action.name);
             configuration = new RebindConfiguration(asset, new KeybindManager.KeybindOverrides(mapsToEnable, keybindsToEnable));
             SetRebindConfiguration(ref configuration, actions);
             KeybindManager.RegisterAsset(asset, configuration);

@@ -25,6 +25,7 @@ namespace NotReaper.UI
             }
             inputField.onSelect.AddListener(OnInputFocused);
             inputField.onDeselect.AddListener(OnInputFocused);
+            menu.SetActive(false);
         }
 
         private void OnInputFocused(string _)
@@ -38,7 +39,7 @@ namespace NotReaper.UI
             if (active) OnActivated();
             else OnDeactivated();
             //activatePosition = menu.transform.localPosition;
-            //menu.SetActive(active);
+            menu.SetActive(active);
         }
         public void SetText(string text)
         {

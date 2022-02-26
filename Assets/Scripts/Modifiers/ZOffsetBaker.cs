@@ -25,6 +25,7 @@ namespace NotReaper.Modifier
                 Debug.LogWarning("Trying to create second ZOffsetBaker instance.");
                 return;
             }
+            zOffsetWindow.SetActive(false);
         }
 
 
@@ -61,32 +62,6 @@ namespace NotReaper.Modifier
                     }
                 }
             }
-            /*
-            foreach(Modifier m in zOffsetList)
-            {
-                float currentCount = 1f;
-                m.option1 = true;
-                bool endTickSet = m.endTime.tick != 0 && m.startTime.tick != m.endTime.tick;
-                foreach (Cue cue in cues)
-                {
-                    if (cue.tick < (int)m.startTime.tick) continue;
-                    if (cue.tick > (int)m.endTime.tick && endTickSet) break;
-                    if(cue.behavior != TargetBehavior.Melee && cue.behavior != TargetBehavior.Mine)
-                    {
-                        float transitionNumberOfTargets = 0f;
-                        float.TryParse(m.value1, out transitionNumberOfTargets);
-                        if(transitionNumberOfTargets > 0)
-                        {
-                            cue.zOffset = Mathf.Lerp(cue.zOffset, m.amount, currentCount / (float)transitionNumberOfTargets);
-                        }
-                        else
-                        {
-                            cue.zOffset = m.amount;
-                        }
-                        if (currentCount < transitionNumberOfTargets) currentCount++;
-                    }
-                }
-            }*/
             return cues;
         }
 

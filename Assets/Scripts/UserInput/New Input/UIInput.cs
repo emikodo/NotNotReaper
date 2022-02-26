@@ -71,7 +71,7 @@ namespace NotReaper.UI
 			SelectHitsound(UITargetVelocity.Standard);
 			SelectSnappingMode(SnappingMode.Grid);
 			*/
-			PauseMenu.Instance.OpenPauseMenu();
+			//PauseMenu.Instance.OpenPauseMenu();
 			soundSelect.LoadUIColors();
 			timeline.UpdateUIColors();
 

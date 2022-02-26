@@ -103,7 +103,7 @@ namespace NotReaper.MapBrowser.Entries
             outline.color = Data.Selected ? selectedColor : defaultOutlineColor;
             songNameDisplay.text = Data.SongName.ToLower();
             downloadedSprite.color = Data.Downloaded ? downloadedColor : notDownloadedColor;
-            artistAuthorNameDisplay.text = $"{Data.Artist} ・ map by {Data.Mapper}".ToLower();
+            artistAuthorNameDisplay.text = $"{Data.Artist} • map by {Data.Mapper}".ToLower();
             Sprite sprite = GetCuratedSprite();
             curatedDisplay.sprite = sprite;
             curatedDisplay.color = sprite is null ? noSpriteColor : Color.white;

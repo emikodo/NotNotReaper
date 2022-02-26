@@ -29,8 +29,8 @@ public class ModifierInfo : NRMenu
         var t = transform;
         var position = t.localPosition;
         t.localPosition = new Vector3(0, position.y, position.z);
-     
-        //Hide();
+
+        gameObject.SetActive(false);
     }
 
     public void Show()
