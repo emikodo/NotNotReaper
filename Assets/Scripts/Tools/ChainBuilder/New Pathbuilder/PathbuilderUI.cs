@@ -8,10 +8,11 @@ using System.Linq;
 using DG.Tweening;
 using NotReaper.Timing;
 using UnityEngine.UI;
+using NotReaper.Overlays;
 
 namespace NotReaper.Tools.PathBuilder
 {
-    public class PathbuilderUI : MonoBehaviour
+    public class PathbuilderUI : NROverlay
     {
         [Header("References")]
         [SerializeField] private GameObject window;
@@ -27,11 +28,10 @@ namespace NotReaper.Tools.PathBuilder
         [Space, Header("Hand")]
         [SerializeField] private TextMeshProUGUI handButtonText;
 
-        [NRInject] private Timeline timeline;
         [NRInject] private Pathbuilder pathbuilder;
 
-        private RectTransform rect;
-        private CanvasGroup canvas;
+        //private RectTransform rect;
+        //private CanvasGroup canvas;
         private BoxCollider2D boxCollider;
 
         Vector3 defaultPos = new Vector3(292.77f, -93.5f, -10f);
@@ -39,23 +39,25 @@ namespace NotReaper.Tools.PathBuilder
 
         private bool hasLoadedData = false;
 
-        internal bool isOpen => canvas.interactable;
+        //internal bool isOpen => canvas.interactable;
+        internal bool isOpen => gameObject.activeInHierarchy;
 
         private void Awake()
         {
             rect = window.GetComponent<RectTransform>();
             rect.localPosition = defaultPos;
-            canvas = window.GetComponent<CanvasGroup>();
+            //canvas = window.GetComponent<CanvasGroup>();
             boxCollider = window.GetComponent<BoxCollider2D>();
-            canvas.alpha = 0f;
+            /*canvas.alpha = 0f;
             canvas.blocksRaycasts = false;
-            boxCollider.enabled = false;
+            boxCollider.enabled = false;*/
         }
 
         public void Show()
         {
+            OnActivated();
             intervalSelector.elements = NRSettings.config.snaps;
-            Rect bounds = new Rect(rect.localPosition, rect.sizeDelta);
+            /*Rect bounds = new Rect(rect.localPosition, rect.sizeDelta);
             if (timeline.areNotesSelected)
             {
                 if(timeline.selectedNotes.Count == 1)
@@ -66,24 +68,21 @@ namespace NotReaper.Tools.PathBuilder
                         else rect.localPosition = defaultPos;
                     }                   
                 }
-            }
+            }*/
             ActivateWindow(true);
-        }
-
-        private bool IsTargetUnderOverlay(Vector2 position)
-        {
-            return RectTransformUtility.ScreenPointToLocalPointInRectangle(rect, Camera.main.WorldToScreenPoint(position), null, out _);
         }
 
         public void Hide()
         {
             hasLoadedData = false;
             ActivateWindow(false);
+            OnDeactivated();
         }
 
         private void ActivateWindow(bool activate)
         {
             ShowControls();
+            return;
             canvas.DOFade(activate ? 1f : 0f, .3f);
             canvas.interactable = activate;
             canvas.blocksRaycasts = activate;

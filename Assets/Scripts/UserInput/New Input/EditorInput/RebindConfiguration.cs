@@ -84,7 +84,7 @@ namespace NotReaper.UserInput
         /// <returns></returns>
         public RebindConfiguration AddCustomMapTitles(Dictionary<InputActionMap, string> customMapTitles)
         {
-            foreach(var entry in customMapTitles)
+            foreach (var entry in customMapTitles)
             {
                 if (!this.customMapTitles.ContainsKey(entry.Key))
                 {
@@ -100,7 +100,7 @@ namespace NotReaper.UserInput
         /// <returns></returns>
         public RebindConfiguration AddNonRebindableKeybinds(params InputAction[] keybinds)
         {
-            foreach(var keybind in keybinds)
+            foreach (var keybind in keybinds)
             {
                 if (!nonRebindableKeybinds.Contains(keybind))
                     nonRebindableKeybinds.Add(keybind);
@@ -141,7 +141,7 @@ namespace NotReaper.UserInput
         /// <returns></returns>
         public RebindConfiguration AddCustomKeybindNames(Dictionary<InputAction, string> customNames)
         {
-            foreach(var entry in customNames)
+            foreach (var entry in customNames)
             {
                 if (!customKeybindNames.ContainsKey(entry.Key))
                 {
@@ -179,7 +179,7 @@ namespace NotReaper.UserInput
             bool rebindable = !nonRebindableKeybinds.Contains(keybind) && isAssetRebindable;
             bool isModifier = false;
             bool isMouse = false;
-            foreach(var bind in keybind.bindings)
+            foreach (var bind in keybind.bindings)
             {
                 if (bind.isPartOfComposite || bind.isComposite) break;
                 string path = bind.effectivePath.ToLower();

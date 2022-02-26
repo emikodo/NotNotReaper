@@ -8,7 +8,7 @@ using NotReaper.Models;
 using UnityEngine.InputSystem;
 namespace NotReaper.UI.BPM
 {
-    public class DynamicBPMWindow : NRInputWithoutKeybinds
+    public class DynamicBPMWindow : NRMenu
     {
         public TMP_InputField dynamicBpmInput;
         public TMP_InputField timeSignatureNumerator;
@@ -41,6 +41,7 @@ namespace NotReaper.UI.BPM
 
         public void Activate()
         {
+            OnActivated();
             if (!timeline.paused)
             {
                 timeline.TogglePlayback();
@@ -55,7 +56,7 @@ namespace NotReaper.UI.BPM
             timeSignatureDenomerator.GetComponent<TMP_InputField>().text = tempo.timeSignature.Denominator.ToString();
 
             dynamicBpmInput.ActivateInputField();
-            OnActivated();
+            
         }
 
         public void Deactivate()

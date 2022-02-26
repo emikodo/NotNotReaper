@@ -18,6 +18,7 @@ namespace NotReaper.Tools.PathBuilder
 	{
         #region Inspector References
         [Space, Header("References")]
+		[SerializeField] private PathbuilderUI ui;
 		[SerializeField] private Transform canvas;
 		[SerializeField] private Transform pathbuilderParent;
 		[SerializeField] private PathbuilderNode nodePrefab;
@@ -28,7 +29,6 @@ namespace NotReaper.Tools.PathBuilder
         #region Fields
         #region Dependencies
         [NRInject] private Timeline timeline;
-		[NRInject] private PathbuilderUI ui;
         #endregion
 
         #region Classes

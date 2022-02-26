@@ -15,7 +15,7 @@ C:/dev/git/NotReaper
 -logFile
 Logs/AssetImportWorker0.log
 -srvPort
-62701
+52921
 Successfully changed project path to: C:/dev/git/NotReaper
 C:/dev/git/NotReaper
 [UnityMemory] Configuration Parameters - Can be set up in boot.config
@@ -47,7 +47,7 @@ C:/dev/git/NotReaper
     "memorysetup-temp-allocator-size-cloud-worker=32768"
     "memorysetup-temp-allocator-size-gi-baking-worker=262144"
     "memorysetup-temp-allocator-size-gfx=262144"
-Refreshing native plugins compatible for Editor in 80.79 ms, found 3 plugins.
+Refreshing native plugins compatible for Editor in 87.14 ms, found 3 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Initialize engine version: 2021.2.13f1 (90b6766da538)
 [Subsystems] Discovering subsystems at path C:/Program Files (x86)/Unity/2021.2.13f1/Editor/Data/Resources/UnitySubsystems
@@ -63,210 +63,88 @@ Initialize mono
 Mono path[0] = 'C:/Program Files (x86)/Unity/2021.2.13f1/Editor/Data/Managed'
 Mono path[1] = 'C:/Program Files (x86)/Unity/2021.2.13f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-win32'
 Mono config path = 'C:/Program Files (x86)/Unity/2021.2.13f1/Editor/Data/MonoBleedingEdge/etc'
-Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56212
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56716
 Begin MonoManager ReloadAssembly
 Registering precompiled unity dll's ...
 Register platform support module: C:/Program Files (x86)/Unity/2021.2.13f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll
-Registered in 0.003236 seconds.
+Registered in 0.004416 seconds.
 Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 69.95 ms, found 3 plugins.
+Refreshing native plugins compatible for Editor in 97.29 ms, found 3 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Mono: successfully reloaded assembly
-- Completed reload, in  0.629 seconds
+- Completed reload, in  0.798 seconds
 Domain Reload Profiling:
-	ReloadAssembly (630ms)
-		BeginReloadAssembly (68ms)
+	ReloadAssembly (798ms)
+		BeginReloadAssembly (77ms)
 			ExecutionOrderSort (0ms)
 			DisableScriptedObjects (0ms)
 			BackupInstance (0ms)
 			ReleaseScriptingObjects (0ms)
 			CreateAndSetChildDomain (1ms)
-		EndReloadAssembly (461ms)
-			LoadAssemblies (66ms)
+		EndReloadAssembly (582ms)
+			LoadAssemblies (75ms)
 			RebuildTransferFunctionScriptingTraits (0ms)
-			SetupTypeCache (116ms)
+			SetupTypeCache (132ms)
 			ReleaseScriptCaches (0ms)
-			RebuildScriptCaches (28ms)
-			SetupLoadedEditorAssemblies (262ms)
+			RebuildScriptCaches (36ms)
+			SetupLoadedEditorAssemblies (350ms)
 				LogAssemblyErrors (0ms)
-				InitializePlatformSupportModulesInManaged (6ms)
-				SetLoadedEditorAssemblies (0ms)
-				RefreshPlugins (70ms)
-				BeforeProcessingInitializeOnLoad (1ms)
-				ProcessInitializeOnLoadAttributes (140ms)
-				ProcessInitializeOnLoadMethodAttributes (45ms)
+				InitializePlatformSupportModulesInManaged (8ms)
+				SetLoadedEditorAssemblies (1ms)
+				RefreshPlugins (97ms)
+				BeforeProcessingInitializeOnLoad (2ms)
+				ProcessInitializeOnLoadAttributes (185ms)
+				ProcessInitializeOnLoadMethodAttributes (56ms)
 				AfterProcessingInitializeOnLoad (0ms)
 				EditorAssembliesLoaded (0ms)
 			ExecutionOrderSort2 (0ms)
 			AwakeInstancesAfterBackupRestoration (0ms)
 Platform modules already initialized, skipping
 Registering precompiled user dll's ...
-Registered in 0.017234 seconds.
+Registered in 0.017496 seconds.
 Begin MonoManager ReloadAssembly
 Symbol file LoadedFromMemory doesn't match image C:\dev\git\NotReaper\Assets\DiscordRPC\Plugins\DiscordRPC.dll
 Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 79.72 ms, found 3 plugins.
+Refreshing native plugins compatible for Editor in 91.93 ms, found 3 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Mono: successfully reloaded assembly
-- Completed reload, in  3.430 seconds
+- Completed reload, in  3.889 seconds
 Domain Reload Profiling:
-	ReloadAssembly (3431ms)
-		BeginReloadAssembly (104ms)
-			ExecutionOrderSort (0ms)
-			DisableScriptedObjects (7ms)
-			BackupInstance (0ms)
-			ReleaseScriptingObjects (0ms)
-			CreateAndSetChildDomain (19ms)
-		EndReloadAssembly (3226ms)
-			LoadAssemblies (83ms)
-			RebuildTransferFunctionScriptingTraits (0ms)
-			SetupTypeCache (296ms)
-			ReleaseScriptCaches (1ms)
-			RebuildScriptCaches (77ms)
-			SetupLoadedEditorAssemblies (2712ms)
-				LogAssemblyErrors (0ms)
-				InitializePlatformSupportModulesInManaged (10ms)
-				SetLoadedEditorAssemblies (0ms)
-				RefreshPlugins (80ms)
-				BeforeProcessingInitializeOnLoad (137ms)
-				ProcessInitializeOnLoadAttributes (2340ms)
-				ProcessInitializeOnLoadMethodAttributes (139ms)
-				AfterProcessingInitializeOnLoad (6ms)
-				EditorAssembliesLoaded (0ms)
-			ExecutionOrderSort2 (0ms)
-			AwakeInstancesAfterBackupRestoration (8ms)
-Platform modules already initialized, skipping
-========================================================================
-Worker process is ready to serve import requests
-Launched and connected shader compiler UnityShaderCompiler.exe after 0.10 seconds
-Refreshing native plugins compatible for Editor in 1.87 ms, found 3 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 4365 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 78 unused Assets / (2.0 MB). Loaded Objects now: 4867.
-Memory consumption went from 340.4 MB to 338.4 MB.
-Total: 58.579900 ms (FindLiveObjects: 0.729000 ms CreateObjectMapping: 0.689300 ms MarkObjects: 56.466400 ms  DeleteObjects: 0.694000 ms)
-
-AssetImportParameters requested are different than current active one (requested -> active):
-  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
-  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
-  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
-  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
-  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
-  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
-  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
-  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-========================================================================
-Received Import Request.
-  Time since last request: 198.786353 seconds.
-  path: Assets/Scripts/Tools/ChainBuilder/New Pathbuilder/PathbuilderKeybinds.cs
-  artifactKey: Guid(efc2831dcc717f942a8b6232cb3fb450) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Scripts/Tools/ChainBuilder/New Pathbuilder/PathbuilderKeybinds.cs using Guid(efc2831dcc717f942a8b6232cb3fb450) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '66c46c1933f0262978cb084b8d2dc1e1') in 0.073790 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 132.677351 seconds.
-  path: Assets/Scripts/Tools/ChainBuilder/New Pathbuilder/Pathbuilder.cs
-  artifactKey: Guid(c056257072569ae4ba62675c0f5b5343) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Scripts/Tools/ChainBuilder/New Pathbuilder/Pathbuilder.cs using Guid(c056257072569ae4ba62675c0f5b5343) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '3f5ad14dd70f7723ed39064c759ed54f') in 0.009439 seconds 
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.017166 seconds.
-Begin MonoManager ReloadAssembly
-Symbol file LoadedFromMemory doesn't match image C:\dev\git\NotReaper\Assets\DiscordRPC\Plugins\DiscordRPC.dll
-Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 1.60 ms, found 3 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Mono: successfully reloaded assembly
-- Completed reload, in  2.684 seconds
-Domain Reload Profiling:
-	ReloadAssembly (2685ms)
-		BeginReloadAssembly (162ms)
+	ReloadAssembly (3890ms)
+		BeginReloadAssembly (125ms)
 			ExecutionOrderSort (0ms)
 			DisableScriptedObjects (6ms)
 			BackupInstance (0ms)
 			ReleaseScriptingObjects (0ms)
-			CreateAndSetChildDomain (66ms)
-		EndReloadAssembly (2413ms)
-			LoadAssemblies (85ms)
+			CreateAndSetChildDomain (21ms)
+		EndReloadAssembly (3638ms)
+			LoadAssemblies (109ms)
 			RebuildTransferFunctionScriptingTraits (0ms)
-			SetupTypeCache (340ms)
-			ReleaseScriptCaches (2ms)
-			RebuildScriptCaches (87ms)
-			SetupLoadedEditorAssemblies (1829ms)
+			SetupTypeCache (399ms)
+			ReleaseScriptCaches (1ms)
+			RebuildScriptCaches (99ms)
+			SetupLoadedEditorAssemblies (2972ms)
 				LogAssemblyErrors (0ms)
-				InitializePlatformSupportModulesInManaged (12ms)
-				SetLoadedEditorAssemblies (1ms)
-				RefreshPlugins (2ms)
-				BeforeProcessingInitializeOnLoad (134ms)
-				ProcessInitializeOnLoadAttributes (1574ms)
-				ProcessInitializeOnLoadMethodAttributes (101ms)
-				AfterProcessingInitializeOnLoad (5ms)
-				EditorAssembliesLoaded (0ms)
-			ExecutionOrderSort2 (0ms)
-			AwakeInstancesAfterBackupRestoration (11ms)
-Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 3.72 ms, found 3 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 4163 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 66 unused Assets / (1.9 MB). Loaded Objects now: 4869.
-Memory consumption went from 340.0 MB to 338.0 MB.
-Total: 37.756600 ms (FindLiveObjects: 0.330800 ms CreateObjectMapping: 0.264000 ms MarkObjects: 36.383900 ms  DeleteObjects: 0.776800 ms)
-
-AssetImportParameters requested are different than current active one (requested -> active):
-  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
-  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
-  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
-  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
-  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
-  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
-  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
-  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.016232 seconds.
-Begin MonoManager ReloadAssembly
-Symbol file LoadedFromMemory doesn't match image C:\dev\git\NotReaper\Assets\DiscordRPC\Plugins\DiscordRPC.dll
-Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 0.95 ms, found 3 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Mono: successfully reloaded assembly
-- Completed reload, in  2.640 seconds
-Domain Reload Profiling:
-	ReloadAssembly (2640ms)
-		BeginReloadAssembly (153ms)
-			ExecutionOrderSort (0ms)
-			DisableScriptedObjects (7ms)
-			BackupInstance (0ms)
-			ReleaseScriptingObjects (0ms)
-			CreateAndSetChildDomain (58ms)
-		EndReloadAssembly (2379ms)
-			LoadAssemblies (82ms)
-			RebuildTransferFunctionScriptingTraits (0ms)
-			SetupTypeCache (317ms)
-			ReleaseScriptCaches (2ms)
-			RebuildScriptCaches (75ms)
-			SetupLoadedEditorAssemblies (1838ms)
-				LogAssemblyErrors (0ms)
-				InitializePlatformSupportModulesInManaged (12ms)
-				SetLoadedEditorAssemblies (1ms)
-				RefreshPlugins (1ms)
-				BeforeProcessingInitializeOnLoad (124ms)
-				ProcessInitializeOnLoadAttributes (1594ms)
-				ProcessInitializeOnLoadMethodAttributes (100ms)
+				InitializePlatformSupportModulesInManaged (11ms)
+				SetLoadedEditorAssemblies (0ms)
+				RefreshPlugins (92ms)
+				BeforeProcessingInitializeOnLoad (140ms)
+				ProcessInitializeOnLoadAttributes (2590ms)
+				ProcessInitializeOnLoadMethodAttributes (134ms)
 				AfterProcessingInitializeOnLoad (6ms)
 				EditorAssembliesLoaded (0ms)
 			ExecutionOrderSort2 (0ms)
-			AwakeInstancesAfterBackupRestoration (8ms)
+			AwakeInstancesAfterBackupRestoration (7ms)
 Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 3.81 ms, found 3 plugins.
+========================================================================
+Worker process is ready to serve import requests
+Launched and connected shader compiler UnityShaderCompiler.exe after 0.08 seconds
+Refreshing native plugins compatible for Editor in 1.15 ms, found 3 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 4163 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 66 unused Assets / (1.9 MB). Loaded Objects now: 4871.
-Memory consumption went from 317.2 MB to 315.3 MB.
-Total: 33.471300 ms (FindLiveObjects: 0.289900 ms CreateObjectMapping: 0.251200 ms MarkObjects: 32.243300 ms  DeleteObjects: 0.685800 ms)
+Unloading 4368 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 78 unused Assets / (1.9 MB). Loaded Objects now: 4872.
+Memory consumption went from 317.9 MB to 316.0 MB.
+Total: 44.463200 ms (FindLiveObjects: 0.596800 ms CreateObjectMapping: 0.560700 ms MarkObjects: 42.527200 ms  DeleteObjects: 0.777000 ms)
 
 AssetImportParameters requested are different than current active one (requested -> active):
   custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
@@ -280,54 +158,54 @@ AssetImportParameters requested are different than current active one (requested
   custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
 ========================================================================
 Received Import Request.
-  Time since last request: 214.786572 seconds.
-  path: Assets/Scripts/Tools/ChainBuilder/New Pathbuilder/Pathbuilder.cs
-  artifactKey: Guid(c056257072569ae4ba62675c0f5b5343) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Scripts/Tools/ChainBuilder/New Pathbuilder/Pathbuilder.cs using Guid(c056257072569ae4ba62675c0f5b5343) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'c6ed0963b185955ecd9b5976c5d36712') in 0.010289 seconds 
+  Time since last request: 40311.326588 seconds.
+  path: Assets/Scripts/UI/MiniTimeline/SongPreviewIcon.prefab
+  artifactKey: Guid(bebef02e1f8c7a640b8b3c8a72da0839) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/UI/MiniTimeline/SongPreviewIcon.prefab using Guid(bebef02e1f8c7a640b8b3c8a72da0839) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '5c5d38a117e92d5dd73fb755c485ed5a') in 0.303134 seconds 
 ========================================================================
 Received Prepare
 Registering precompiled user dll's ...
-Registered in 0.016486 seconds.
+Registered in 0.015648 seconds.
 Begin MonoManager ReloadAssembly
 Symbol file LoadedFromMemory doesn't match image C:\dev\git\NotReaper\Assets\DiscordRPC\Plugins\DiscordRPC.dll
 Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 0.95 ms, found 3 plugins.
+Refreshing native plugins compatible for Editor in 1.59 ms, found 3 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Mono: successfully reloaded assembly
-- Completed reload, in  2.528 seconds
+- Completed reload, in  3.503 seconds
 Domain Reload Profiling:
-	ReloadAssembly (2529ms)
-		BeginReloadAssembly (192ms)
+	ReloadAssembly (3504ms)
+		BeginReloadAssembly (332ms)
 			ExecutionOrderSort (0ms)
-			DisableScriptedObjects (8ms)
+			DisableScriptedObjects (10ms)
 			BackupInstance (0ms)
 			ReleaseScriptingObjects (0ms)
-			CreateAndSetChildDomain (80ms)
-		EndReloadAssembly (2240ms)
-			LoadAssemblies (99ms)
+			CreateAndSetChildDomain (170ms)
+		EndReloadAssembly (3006ms)
+			LoadAssemblies (136ms)
 			RebuildTransferFunctionScriptingTraits (0ms)
-			SetupTypeCache (304ms)
+			SetupTypeCache (564ms)
 			ReleaseScriptCaches (3ms)
-			RebuildScriptCaches (74ms)
-			SetupLoadedEditorAssemblies (1705ms)
+			RebuildScriptCaches (99ms)
+			SetupLoadedEditorAssemblies (2157ms)
 				LogAssemblyErrors (0ms)
-				InitializePlatformSupportModulesInManaged (11ms)
-				SetLoadedEditorAssemblies (0ms)
-				RefreshPlugins (1ms)
-				BeforeProcessingInitializeOnLoad (121ms)
-				ProcessInitializeOnLoadAttributes (1474ms)
-				ProcessInitializeOnLoadMethodAttributes (91ms)
-				AfterProcessingInitializeOnLoad (5ms)
+				InitializePlatformSupportModulesInManaged (15ms)
+				SetLoadedEditorAssemblies (1ms)
+				RefreshPlugins (2ms)
+				BeforeProcessingInitializeOnLoad (148ms)
+				ProcessInitializeOnLoadAttributes (1871ms)
+				ProcessInitializeOnLoadMethodAttributes (113ms)
+				AfterProcessingInitializeOnLoad (7ms)
 				EditorAssembliesLoaded (0ms)
 			ExecutionOrderSort2 (0ms)
-			AwakeInstancesAfterBackupRestoration (7ms)
+			AwakeInstancesAfterBackupRestoration (15ms)
 Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 4.75 ms, found 3 plugins.
+Refreshing native plugins compatible for Editor in 5.03 ms, found 3 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 4163 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 66 unused Assets / (1.9 MB). Loaded Objects now: 4873.
-Memory consumption went from 317.2 MB to 315.3 MB.
-Total: 34.434000 ms (FindLiveObjects: 0.295200 ms CreateObjectMapping: 0.319800 ms MarkObjects: 33.291100 ms  DeleteObjects: 0.526800 ms)
+Unloading 4175 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 67 unused Assets / (1.9 MB). Loaded Objects now: 4925.
+Memory consumption went from 347.7 MB to 345.8 MB.
+Total: 42.866600 ms (FindLiveObjects: 0.302600 ms CreateObjectMapping: 0.185800 ms MarkObjects: 41.830800 ms  DeleteObjects: 0.546300 ms)
 
 AssetImportParameters requested are different than current active one (requested -> active):
   custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
@@ -342,47 +220,108 @@ AssetImportParameters requested are different than current active one (requested
 ========================================================================
 Received Prepare
 Registering precompiled user dll's ...
-Registered in 0.014276 seconds.
+Registered in 0.017880 seconds.
 Begin MonoManager ReloadAssembly
 Symbol file LoadedFromMemory doesn't match image C:\dev\git\NotReaper\Assets\DiscordRPC\Plugins\DiscordRPC.dll
 Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 1.27 ms, found 3 plugins.
+Refreshing native plugins compatible for Editor in 1.46 ms, found 3 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Mono: successfully reloaded assembly
-- Completed reload, in  4.018 seconds
+- Completed reload, in  2.879 seconds
 Domain Reload Profiling:
-	ReloadAssembly (4020ms)
-		BeginReloadAssembly (229ms)
+	ReloadAssembly (2880ms)
+		BeginReloadAssembly (179ms)
 			ExecutionOrderSort (0ms)
 			DisableScriptedObjects (7ms)
 			BackupInstance (0ms)
 			ReleaseScriptingObjects (0ms)
-			CreateAndSetChildDomain (67ms)
-		EndReloadAssembly (3621ms)
-			LoadAssemblies (147ms)
+			CreateAndSetChildDomain (73ms)
+		EndReloadAssembly (2579ms)
+			LoadAssemblies (99ms)
 			RebuildTransferFunctionScriptingTraits (0ms)
-			SetupTypeCache (353ms)
-			ReleaseScriptCaches (3ms)
-			RebuildScriptCaches (131ms)
-			SetupLoadedEditorAssemblies (2965ms)
+			SetupTypeCache (339ms)
+			ReleaseScriptCaches (2ms)
+			RebuildScriptCaches (95ms)
+			SetupLoadedEditorAssemblies (1974ms)
 				LogAssemblyErrors (0ms)
-				InitializePlatformSupportModulesInManaged (14ms)
+				InitializePlatformSupportModulesInManaged (13ms)
 				SetLoadedEditorAssemblies (1ms)
-				RefreshPlugins (1ms)
-				BeforeProcessingInitializeOnLoad (159ms)
-				ProcessInitializeOnLoadAttributes (2662ms)
-				ProcessInitializeOnLoadMethodAttributes (122ms)
+				RefreshPlugins (2ms)
+				BeforeProcessingInitializeOnLoad (133ms)
+				ProcessInitializeOnLoadAttributes (1718ms)
+				ProcessInitializeOnLoadMethodAttributes (102ms)
 				AfterProcessingInitializeOnLoad (6ms)
 				EditorAssembliesLoaded (0ms)
 			ExecutionOrderSort2 (0ms)
-			AwakeInstancesAfterBackupRestoration (8ms)
+			AwakeInstancesAfterBackupRestoration (11ms)
 Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 7.35 ms, found 3 plugins.
+Refreshing native plugins compatible for Editor in 5.03 ms, found 3 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 4163 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 66 unused Assets / (1.9 MB). Loaded Objects now: 4875.
-Memory consumption went from 317.2 MB to 315.3 MB.
-Total: 40.788900 ms (FindLiveObjects: 0.430500 ms CreateObjectMapping: 0.432500 ms MarkObjects: 39.194400 ms  DeleteObjects: 0.730000 ms)
+Unloading 4175 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 66 unused Assets / (1.9 MB). Loaded Objects now: 4927.
+Memory consumption went from 324.9 MB to 322.9 MB.
+Total: 46.435400 ms (FindLiveObjects: 0.524000 ms CreateObjectMapping: 0.493800 ms MarkObjects: 44.859100 ms  DeleteObjects: 0.557400 ms)
+
+AssetImportParameters requested are different than current active one (requested -> active):
+  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
+  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
+  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
+  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
+  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
+  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
+  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
+  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+========================================================================
+Received Import Request.
+  Time since last request: 293.906996 seconds.
+  path: Assets/Scripts/ReviewSystem/ReviewOverlay.cs
+  artifactKey: Guid(4fd2bdd73e2bbcd4d813b8a9c8d30116) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/ReviewSystem/ReviewOverlay.cs using Guid(4fd2bdd73e2bbcd4d813b8a9c8d30116) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'f2b9f5782c1b38d5b9a748d27bfde442') in 0.012426 seconds 
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.015013 seconds.
+Begin MonoManager ReloadAssembly
+Symbol file LoadedFromMemory doesn't match image C:\dev\git\NotReaper\Assets\DiscordRPC\Plugins\DiscordRPC.dll
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 1.01 ms, found 3 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Mono: successfully reloaded assembly
+- Completed reload, in  3.393 seconds
+Domain Reload Profiling:
+	ReloadAssembly (3394ms)
+		BeginReloadAssembly (182ms)
+			ExecutionOrderSort (0ms)
+			DisableScriptedObjects (7ms)
+			BackupInstance (0ms)
+			ReleaseScriptingObjects (0ms)
+			CreateAndSetChildDomain (77ms)
+		EndReloadAssembly (3086ms)
+			LoadAssemblies (101ms)
+			RebuildTransferFunctionScriptingTraits (0ms)
+			SetupTypeCache (450ms)
+			ReleaseScriptCaches (4ms)
+			RebuildScriptCaches (90ms)
+			SetupLoadedEditorAssemblies (2329ms)
+				LogAssemblyErrors (0ms)
+				InitializePlatformSupportModulesInManaged (16ms)
+				SetLoadedEditorAssemblies (0ms)
+				RefreshPlugins (1ms)
+				BeforeProcessingInitializeOnLoad (142ms)
+				ProcessInitializeOnLoadAttributes (2057ms)
+				ProcessInitializeOnLoadMethodAttributes (106ms)
+				AfterProcessingInitializeOnLoad (6ms)
+				EditorAssembliesLoaded (0ms)
+			ExecutionOrderSort2 (0ms)
+			AwakeInstancesAfterBackupRestoration (17ms)
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 4.50 ms, found 3 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 4175 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 66 unused Assets / (1.9 MB). Loaded Objects now: 4929.
+Memory consumption went from 324.9 MB to 322.9 MB.
+Total: 61.832700 ms (FindLiveObjects: 0.694800 ms CreateObjectMapping: 0.506900 ms MarkObjects: 59.455400 ms  DeleteObjects: 1.173900 ms)
 
 AssetImportParameters requested are different than current active one (requested -> active):
   custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
@@ -397,663 +336,47 @@ AssetImportParameters requested are different than current active one (requested
 ========================================================================
 Received Prepare
 Registering precompiled user dll's ...
-Registered in 0.012854 seconds.
+Registered in 0.013789 seconds.
 Begin MonoManager ReloadAssembly
 Symbol file LoadedFromMemory doesn't match image C:\dev\git\NotReaper\Assets\DiscordRPC\Plugins\DiscordRPC.dll
 Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 1.85 ms, found 3 plugins.
+Refreshing native plugins compatible for Editor in 1.06 ms, found 3 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Mono: successfully reloaded assembly
-- Completed reload, in  3.840 seconds
+- Completed reload, in  3.125 seconds
 Domain Reload Profiling:
-	ReloadAssembly (3841ms)
-		BeginReloadAssembly (180ms)
+	ReloadAssembly (3126ms)
+		BeginReloadAssembly (181ms)
 			ExecutionOrderSort (0ms)
 			DisableScriptedObjects (6ms)
 			BackupInstance (0ms)
 			ReleaseScriptingObjects (0ms)
 			CreateAndSetChildDomain (68ms)
-		EndReloadAssembly (3543ms)
-			LoadAssemblies (114ms)
+		EndReloadAssembly (2810ms)
+			LoadAssemblies (113ms)
 			RebuildTransferFunctionScriptingTraits (0ms)
-			SetupTypeCache (409ms)
-			ReleaseScriptCaches (5ms)
-			RebuildScriptCaches (127ms)
-			SetupLoadedEditorAssemblies (2802ms)
-				LogAssemblyErrors (0ms)
-				InitializePlatformSupportModulesInManaged (26ms)
-				SetLoadedEditorAssemblies (2ms)
-				RefreshPlugins (2ms)
-				BeforeProcessingInitializeOnLoad (222ms)
-				ProcessInitializeOnLoadAttributes (2414ms)
-				ProcessInitializeOnLoadMethodAttributes (129ms)
-				AfterProcessingInitializeOnLoad (7ms)
-				EditorAssembliesLoaded (0ms)
-			ExecutionOrderSort2 (0ms)
-			AwakeInstancesAfterBackupRestoration (11ms)
-Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 5.99 ms, found 3 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 4163 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 66 unused Assets / (1.9 MB). Loaded Objects now: 4877.
-Memory consumption went from 317.2 MB to 315.3 MB.
-Total: 41.157800 ms (FindLiveObjects: 0.384900 ms CreateObjectMapping: 0.267900 ms MarkObjects: 39.959500 ms  DeleteObjects: 0.544400 ms)
-
-AssetImportParameters requested are different than current active one (requested -> active):
-  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
-  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
-  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
-  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
-  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
-  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
-  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
-  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.016401 seconds.
-Begin MonoManager ReloadAssembly
-Symbol file LoadedFromMemory doesn't match image C:\dev\git\NotReaper\Assets\DiscordRPC\Plugins\DiscordRPC.dll
-Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 0.94 ms, found 3 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Mono: successfully reloaded assembly
-- Completed reload, in  3.257 seconds
-Domain Reload Profiling:
-	ReloadAssembly (3257ms)
-		BeginReloadAssembly (213ms)
-			ExecutionOrderSort (0ms)
-			DisableScriptedObjects (9ms)
-			BackupInstance (0ms)
-			ReleaseScriptingObjects (0ms)
-			CreateAndSetChildDomain (74ms)
-		EndReloadAssembly (2924ms)
-			LoadAssemblies (129ms)
-			RebuildTransferFunctionScriptingTraits (0ms)
-			SetupTypeCache (367ms)
-			ReleaseScriptCaches (3ms)
-			RebuildScriptCaches (86ms)
-			SetupLoadedEditorAssemblies (2310ms)
-				LogAssemblyErrors (0ms)
-				InitializePlatformSupportModulesInManaged (12ms)
-				SetLoadedEditorAssemblies (1ms)
-				RefreshPlugins (1ms)
-				BeforeProcessingInitializeOnLoad (143ms)
-				ProcessInitializeOnLoadAttributes (2040ms)
-				ProcessInitializeOnLoadMethodAttributes (107ms)
-				AfterProcessingInitializeOnLoad (6ms)
-				EditorAssembliesLoaded (0ms)
-			ExecutionOrderSort2 (0ms)
-			AwakeInstancesAfterBackupRestoration (9ms)
-Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 3.61 ms, found 3 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 4163 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 66 unused Assets / (1.9 MB). Loaded Objects now: 4879.
-Memory consumption went from 317.3 MB to 315.3 MB.
-Total: 39.823000 ms (FindLiveObjects: 0.416600 ms CreateObjectMapping: 0.447500 ms MarkObjects: 38.127400 ms  DeleteObjects: 0.830300 ms)
-
-AssetImportParameters requested are different than current active one (requested -> active):
-  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
-  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
-  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
-  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
-  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
-  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
-  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
-  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-========================================================================
-Received Import Request.
-  Time since last request: 427.134650 seconds.
-  path: Assets/Scripts/Tools/ChainBuilder/LinePoint.prefab
-  artifactKey: Guid(97dea54a00ca4230c8db2340139be18b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Scripts/Tools/ChainBuilder/LinePoint.prefab using Guid(97dea54a00ca4230c8db2340139be18b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '469c481158f5ca10fb1c932e8642edeb') in 0.276695 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 16.699949 seconds.
-  path: Assets/Scripts/Tools/ChainBuilder/New Pathbuilder/Prefabs/Segment.prefab
-  artifactKey: Guid(5db73256acc5bb04e934bec739a261db) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Scripts/Tools/ChainBuilder/New Pathbuilder/Prefabs/Segment.prefab using Guid(5db73256acc5bb04e934bec739a261db) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '493db9d4bfc5a446a627000bab10d892') in 0.026969 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 17.628743 seconds.
-  path: Assets/Scripts/Tools/ChainBuilder/New Pathbuilder/Prefabs
-  artifactKey: Guid(5bc22b071c87ba2448f03014459019ea) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Scripts/Tools/ChainBuilder/New Pathbuilder/Prefabs using Guid(5bc22b071c87ba2448f03014459019ea) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '6cdacb811700bea23a23b280a33d8e2e') in 0.007272 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 16.349747 seconds.
-  path: Assets/Scripts/Tools/ChainBuilder/New Pathbuilder/Prefabs/Segment.prefab
-  artifactKey: Guid(5db73256acc5bb04e934bec739a261db) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Scripts/Tools/ChainBuilder/New Pathbuilder/Prefabs/Segment.prefab using Guid(5db73256acc5bb04e934bec739a261db) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'f8c552b80dcea368fa3700048d49d0ba') in 0.017495 seconds 
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.015378 seconds.
-Begin MonoManager ReloadAssembly
-Symbol file LoadedFromMemory doesn't match image C:\dev\git\NotReaper\Assets\DiscordRPC\Plugins\DiscordRPC.dll
-Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 1.00 ms, found 3 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Mono: successfully reloaded assembly
-- Completed reload, in  3.016 seconds
-Domain Reload Profiling:
-	ReloadAssembly (3017ms)
-		BeginReloadAssembly (196ms)
-			ExecutionOrderSort (0ms)
-			DisableScriptedObjects (11ms)
-			BackupInstance (0ms)
-			ReleaseScriptingObjects (0ms)
-			CreateAndSetChildDomain (77ms)
-		EndReloadAssembly (2704ms)
-			LoadAssemblies (112ms)
-			RebuildTransferFunctionScriptingTraits (0ms)
-			SetupTypeCache (349ms)
-			ReleaseScriptCaches (3ms)
-			RebuildScriptCaches (95ms)
-			SetupLoadedEditorAssemblies (2069ms)
-				LogAssemblyErrors (0ms)
-				InitializePlatformSupportModulesInManaged (13ms)
-				SetLoadedEditorAssemblies (1ms)
-				RefreshPlugins (1ms)
-				BeforeProcessingInitializeOnLoad (139ms)
-				ProcessInitializeOnLoadAttributes (1793ms)
-				ProcessInitializeOnLoadMethodAttributes (117ms)
-				AfterProcessingInitializeOnLoad (6ms)
-				EditorAssembliesLoaded (0ms)
-			ExecutionOrderSort2 (0ms)
-			AwakeInstancesAfterBackupRestoration (15ms)
-Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 3.70 ms, found 3 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 4171 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 67 unused Assets / (1.9 MB). Loaded Objects now: 4931.
-Memory consumption went from 324.7 MB to 322.7 MB.
-Total: 36.520900 ms (FindLiveObjects: 0.358800 ms CreateObjectMapping: 0.360100 ms MarkObjects: 35.154600 ms  DeleteObjects: 0.646100 ms)
-
-AssetImportParameters requested are different than current active one (requested -> active):
-  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
-  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
-  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
-  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
-  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
-  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
-  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
-  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.015354 seconds.
-Begin MonoManager ReloadAssembly
-Symbol file LoadedFromMemory doesn't match image C:\dev\git\NotReaper\Assets\DiscordRPC\Plugins\DiscordRPC.dll
-Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 1.16 ms, found 3 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Mono: successfully reloaded assembly
-- Completed reload, in  2.986 seconds
-Domain Reload Profiling:
-	ReloadAssembly (2987ms)
-		BeginReloadAssembly (166ms)
-			ExecutionOrderSort (0ms)
-			DisableScriptedObjects (6ms)
-			BackupInstance (0ms)
-			ReleaseScriptingObjects (0ms)
-			CreateAndSetChildDomain (63ms)
-		EndReloadAssembly (2703ms)
-			LoadAssemblies (97ms)
-			RebuildTransferFunctionScriptingTraits (0ms)
-			SetupTypeCache (388ms)
-			ReleaseScriptCaches (3ms)
-			RebuildScriptCaches (89ms)
-			SetupLoadedEditorAssemblies (2025ms)
-				LogAssemblyErrors (0ms)
-				InitializePlatformSupportModulesInManaged (14ms)
-				SetLoadedEditorAssemblies (1ms)
-				RefreshPlugins (1ms)
-				BeforeProcessingInitializeOnLoad (152ms)
-				ProcessInitializeOnLoadAttributes (1750ms)
-				ProcessInitializeOnLoadMethodAttributes (101ms)
-				AfterProcessingInitializeOnLoad (6ms)
-				EditorAssembliesLoaded (0ms)
-			ExecutionOrderSort2 (0ms)
-			AwakeInstancesAfterBackupRestoration (21ms)
-Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 5.49 ms, found 3 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 4171 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 66 unused Assets / (1.9 MB). Loaded Objects now: 4933.
-Memory consumption went from 324.6 MB to 322.7 MB.
-Total: 40.102000 ms (FindLiveObjects: 0.331400 ms CreateObjectMapping: 0.230100 ms MarkObjects: 38.931300 ms  DeleteObjects: 0.607900 ms)
-
-AssetImportParameters requested are different than current active one (requested -> active):
-  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
-  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
-  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
-  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
-  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
-  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
-  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
-  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.013669 seconds.
-Begin MonoManager ReloadAssembly
-Symbol file LoadedFromMemory doesn't match image C:\dev\git\NotReaper\Assets\DiscordRPC\Plugins\DiscordRPC.dll
-Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 1.10 ms, found 3 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Mono: successfully reloaded assembly
-- Completed reload, in  2.904 seconds
-Domain Reload Profiling:
-	ReloadAssembly (2904ms)
-		BeginReloadAssembly (157ms)
-			ExecutionOrderSort (0ms)
-			DisableScriptedObjects (8ms)
-			BackupInstance (0ms)
-			ReleaseScriptingObjects (0ms)
-			CreateAndSetChildDomain (63ms)
-		EndReloadAssembly (2634ms)
-			LoadAssemblies (86ms)
-			RebuildTransferFunctionScriptingTraits (0ms)
-			SetupTypeCache (326ms)
-			ReleaseScriptCaches (3ms)
-			RebuildScriptCaches (94ms)
-			SetupLoadedEditorAssemblies (2031ms)
-				LogAssemblyErrors (0ms)
-				InitializePlatformSupportModulesInManaged (12ms)
-				SetLoadedEditorAssemblies (1ms)
-				RefreshPlugins (1ms)
-				BeforeProcessingInitializeOnLoad (156ms)
-				ProcessInitializeOnLoadAttributes (1739ms)
-				ProcessInitializeOnLoadMethodAttributes (116ms)
-				AfterProcessingInitializeOnLoad (7ms)
-				EditorAssembliesLoaded (0ms)
-			ExecutionOrderSort2 (0ms)
-			AwakeInstancesAfterBackupRestoration (14ms)
-Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 4.45 ms, found 3 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 4171 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 66 unused Assets / (1.9 MB). Loaded Objects now: 4935.
-Memory consumption went from 324.6 MB to 322.7 MB.
-Total: 51.019700 ms (FindLiveObjects: 0.356500 ms CreateObjectMapping: 0.285900 ms MarkObjects: 49.495800 ms  DeleteObjects: 0.880500 ms)
-
-AssetImportParameters requested are different than current active one (requested -> active):
-  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
-  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
-  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
-  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
-  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
-  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
-  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
-  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.014199 seconds.
-Begin MonoManager ReloadAssembly
-Symbol file LoadedFromMemory doesn't match image C:\dev\git\NotReaper\Assets\DiscordRPC\Plugins\DiscordRPC.dll
-Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 2.70 ms, found 3 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Mono: successfully reloaded assembly
-- Completed reload, in  2.928 seconds
-Domain Reload Profiling:
-	ReloadAssembly (2929ms)
-		BeginReloadAssembly (191ms)
-			ExecutionOrderSort (0ms)
-			DisableScriptedObjects (9ms)
-			BackupInstance (0ms)
-			ReleaseScriptingObjects (0ms)
-			CreateAndSetChildDomain (82ms)
-		EndReloadAssembly (2590ms)
-			LoadAssemblies (101ms)
-			RebuildTransferFunctionScriptingTraits (0ms)
-			SetupTypeCache (340ms)
-			ReleaseScriptCaches (3ms)
-			RebuildScriptCaches (96ms)
-			SetupLoadedEditorAssemblies (1946ms)
-				LogAssemblyErrors (0ms)
-				InitializePlatformSupportModulesInManaged (13ms)
-				SetLoadedEditorAssemblies (1ms)
-				RefreshPlugins (3ms)
-				BeforeProcessingInitializeOnLoad (145ms)
-				ProcessInitializeOnLoadAttributes (1667ms)
-				ProcessInitializeOnLoadMethodAttributes (111ms)
-				AfterProcessingInitializeOnLoad (6ms)
-				EditorAssembliesLoaded (0ms)
-			ExecutionOrderSort2 (0ms)
-			AwakeInstancesAfterBackupRestoration (15ms)
-Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 3.77 ms, found 3 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 4171 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 66 unused Assets / (1.9 MB). Loaded Objects now: 4937.
-Memory consumption went from 347.4 MB to 345.5 MB.
-Total: 32.272300 ms (FindLiveObjects: 0.315300 ms CreateObjectMapping: 0.216700 ms MarkObjects: 31.014000 ms  DeleteObjects: 0.725100 ms)
-
-AssetImportParameters requested are different than current active one (requested -> active):
-  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
-  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
-  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
-  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
-  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
-  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
-  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
-  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-========================================================================
-Received Import Request.
-  Time since last request: 162.671668 seconds.
-  path: Assets/Scripts/Maudica/Curation.cs
-  artifactKey: Guid(ff024aad7f77ba34cbde763236ea8c98) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Scripts/Maudica/Curation.cs using Guid(ff024aad7f77ba34cbde763236ea8c98) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '760b2cebee0483eaf7350310c56e7882') in 0.012970 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 52.363570 seconds.
-  path: Assets/Scripts/Maudica/Curation.cs
-  artifactKey: Guid(ff024aad7f77ba34cbde763236ea8c98) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Scripts/Maudica/Curation.cs using Guid(ff024aad7f77ba34cbde763236ea8c98) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'd86bcef3d1cc41b25f5bcddef8d9af45') in 0.002646 seconds 
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.022788 seconds.
-Begin MonoManager ReloadAssembly
-Symbol file LoadedFromMemory doesn't match image C:\dev\git\NotReaper\Assets\DiscordRPC\Plugins\DiscordRPC.dll
-Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 1.48 ms, found 3 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Mono: successfully reloaded assembly
-- Completed reload, in  3.010 seconds
-Domain Reload Profiling:
-	ReloadAssembly (3011ms)
-		BeginReloadAssembly (191ms)
-			ExecutionOrderSort (0ms)
-			DisableScriptedObjects (10ms)
-			BackupInstance (0ms)
-			ReleaseScriptingObjects (0ms)
-			CreateAndSetChildDomain (76ms)
-		EndReloadAssembly (2712ms)
-			LoadAssemblies (103ms)
-			RebuildTransferFunctionScriptingTraits (0ms)
-			SetupTypeCache (334ms)
-			ReleaseScriptCaches (2ms)
+			SetupTypeCache (416ms)
+			ReleaseScriptCaches (4ms)
 			RebuildScriptCaches (85ms)
-			SetupLoadedEditorAssemblies (2122ms)
-				LogAssemblyErrors (0ms)
-				InitializePlatformSupportModulesInManaged (15ms)
-				SetLoadedEditorAssemblies (0ms)
-				RefreshPlugins (2ms)
-				BeforeProcessingInitializeOnLoad (135ms)
-				ProcessInitializeOnLoadAttributes (1840ms)
-				ProcessInitializeOnLoadMethodAttributes (125ms)
-				AfterProcessingInitializeOnLoad (6ms)
-				EditorAssembliesLoaded (0ms)
-			ExecutionOrderSort2 (0ms)
-			AwakeInstancesAfterBackupRestoration (13ms)
-Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 4.32 ms, found 3 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 4171 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 66 unused Assets / (1.9 MB). Loaded Objects now: 4939.
-Memory consumption went from 324.6 MB to 322.7 MB.
-Total: 39.360500 ms (FindLiveObjects: 0.333700 ms CreateObjectMapping: 0.256500 ms MarkObjects: 38.190500 ms  DeleteObjects: 0.578700 ms)
-
-AssetImportParameters requested are different than current active one (requested -> active):
-  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
-  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
-  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
-  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
-  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
-  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
-  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
-  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-========================================================================
-Received Import Request.
-  Time since last request: 129.430304 seconds.
-  path: Assets/Scripts/Maudica/Curation.cs
-  artifactKey: Guid(ff024aad7f77ba34cbde763236ea8c98) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Scripts/Maudica/Curation.cs using Guid(ff024aad7f77ba34cbde763236ea8c98) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '4f9640f8fe012aa9dbdd9e69ea9c9599') in 0.007939 seconds 
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.015214 seconds.
-Begin MonoManager ReloadAssembly
-Symbol file LoadedFromMemory doesn't match image C:\dev\git\NotReaper\Assets\DiscordRPC\Plugins\DiscordRPC.dll
-Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 2.01 ms, found 3 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Mono: successfully reloaded assembly
-- Completed reload, in  3.074 seconds
-Domain Reload Profiling:
-	ReloadAssembly (3075ms)
-		BeginReloadAssembly (222ms)
-			ExecutionOrderSort (0ms)
-			DisableScriptedObjects (6ms)
-			BackupInstance (0ms)
-			ReleaseScriptingObjects (0ms)
-			CreateAndSetChildDomain (110ms)
-		EndReloadAssembly (2722ms)
-			LoadAssemblies (107ms)
-			RebuildTransferFunctionScriptingTraits (0ms)
-			SetupTypeCache (374ms)
-			ReleaseScriptCaches (2ms)
-			RebuildScriptCaches (92ms)
-			SetupLoadedEditorAssemblies (2075ms)
-				LogAssemblyErrors (0ms)
-				InitializePlatformSupportModulesInManaged (17ms)
-				SetLoadedEditorAssemblies (1ms)
-				RefreshPlugins (2ms)
-				BeforeProcessingInitializeOnLoad (163ms)
-				ProcessInitializeOnLoadAttributes (1772ms)
-				ProcessInitializeOnLoadMethodAttributes (114ms)
-				AfterProcessingInitializeOnLoad (6ms)
-				EditorAssembliesLoaded (0ms)
-			ExecutionOrderSort2 (0ms)
-			AwakeInstancesAfterBackupRestoration (13ms)
-Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 5.00 ms, found 3 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 4171 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 66 unused Assets / (1.9 MB). Loaded Objects now: 4941.
-Memory consumption went from 324.7 MB to 322.7 MB.
-Total: 27.371500 ms (FindLiveObjects: 0.316600 ms CreateObjectMapping: 0.226400 ms MarkObjects: 26.178900 ms  DeleteObjects: 0.648400 ms)
-
-AssetImportParameters requested are different than current active one (requested -> active):
-  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
-  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
-  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
-  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
-  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
-  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
-  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
-  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-========================================================================
-Received Import Request.
-  Time since last request: 26.772100 seconds.
-  path: Assets/Scripts/Maudica/Curation.cs
-  artifactKey: Guid(ff024aad7f77ba34cbde763236ea8c98) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Scripts/Maudica/Curation.cs using Guid(ff024aad7f77ba34cbde763236ea8c98) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'bd8997aaebd677e0b33b058181e16673') in 0.007715 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 3.387229 seconds.
-  path: Assets/Scripts/Maudica/Curation.cs
-  artifactKey: Guid(ff024aad7f77ba34cbde763236ea8c98) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Scripts/Maudica/Curation.cs using Guid(ff024aad7f77ba34cbde763236ea8c98) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'd9674e400d079feabefed224c62fcbc3') in 0.003231 seconds 
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.016528 seconds.
-Begin MonoManager ReloadAssembly
-Symbol file LoadedFromMemory doesn't match image C:\dev\git\NotReaper\Assets\DiscordRPC\Plugins\DiscordRPC.dll
-Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 1.26 ms, found 3 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Mono: successfully reloaded assembly
-- Completed reload, in  2.796 seconds
-Domain Reload Profiling:
-	ReloadAssembly (2797ms)
-		BeginReloadAssembly (158ms)
-			ExecutionOrderSort (0ms)
-			DisableScriptedObjects (7ms)
-			BackupInstance (0ms)
-			ReleaseScriptingObjects (0ms)
-			CreateAndSetChildDomain (64ms)
-		EndReloadAssembly (2508ms)
-			LoadAssemblies (104ms)
-			RebuildTransferFunctionScriptingTraits (0ms)
-			SetupTypeCache (380ms)
-			ReleaseScriptCaches (2ms)
-			RebuildScriptCaches (80ms)
-			SetupLoadedEditorAssemblies (1861ms)
+			SetupLoadedEditorAssemblies (2113ms)
 				LogAssemblyErrors (0ms)
 				InitializePlatformSupportModulesInManaged (12ms)
 				SetLoadedEditorAssemblies (1ms)
 				RefreshPlugins (1ms)
-				BeforeProcessingInitializeOnLoad (122ms)
-				ProcessInitializeOnLoadAttributes (1611ms)
+				BeforeProcessingInitializeOnLoad (119ms)
+				ProcessInitializeOnLoadAttributes (1866ms)
 				ProcessInitializeOnLoadMethodAttributes (109ms)
 				AfterProcessingInitializeOnLoad (6ms)
 				EditorAssembliesLoaded (0ms)
 			ExecutionOrderSort2 (0ms)
-			AwakeInstancesAfterBackupRestoration (15ms)
+			AwakeInstancesAfterBackupRestoration (13ms)
 Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 3.71 ms, found 3 plugins.
+Refreshing native plugins compatible for Editor in 3.74 ms, found 3 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 4171 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 66 unused Assets / (1.9 MB). Loaded Objects now: 4943.
-Memory consumption went from 324.7 MB to 322.7 MB.
-Total: 44.932800 ms (FindLiveObjects: 0.378700 ms CreateObjectMapping: 0.332400 ms MarkObjects: 43.554000 ms  DeleteObjects: 0.666400 ms)
-
-AssetImportParameters requested are different than current active one (requested -> active):
-  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
-  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
-  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
-  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
-  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
-  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
-  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
-  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-========================================================================
-Received Import Request.
-  Time since last request: 35.547081 seconds.
-  path: Assets/Scripts/Maudica/Curation.cs
-  artifactKey: Guid(ff024aad7f77ba34cbde763236ea8c98) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Scripts/Maudica/Curation.cs using Guid(ff024aad7f77ba34cbde763236ea8c98) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '4b92dad9bf32f3359552928a9288cdcd') in 0.006637 seconds 
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.014507 seconds.
-Begin MonoManager ReloadAssembly
-Symbol file LoadedFromMemory doesn't match image C:\dev\git\NotReaper\Assets\DiscordRPC\Plugins\DiscordRPC.dll
-Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 0.94 ms, found 3 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Mono: successfully reloaded assembly
-- Completed reload, in  2.902 seconds
-Domain Reload Profiling:
-	ReloadAssembly (2903ms)
-		BeginReloadAssembly (214ms)
-			ExecutionOrderSort (0ms)
-			DisableScriptedObjects (9ms)
-			BackupInstance (0ms)
-			ReleaseScriptingObjects (0ms)
-			CreateAndSetChildDomain (90ms)
-		EndReloadAssembly (2570ms)
-			LoadAssemblies (102ms)
-			RebuildTransferFunctionScriptingTraits (0ms)
-			SetupTypeCache (350ms)
-			ReleaseScriptCaches (4ms)
-			RebuildScriptCaches (101ms)
-			SetupLoadedEditorAssemblies (1934ms)
-				LogAssemblyErrors (0ms)
-				InitializePlatformSupportModulesInManaged (11ms)
-				SetLoadedEditorAssemblies (0ms)
-				RefreshPlugins (1ms)
-				BeforeProcessingInitializeOnLoad (129ms)
-				ProcessInitializeOnLoadAttributes (1664ms)
-				ProcessInitializeOnLoadMethodAttributes (120ms)
-				AfterProcessingInitializeOnLoad (7ms)
-				EditorAssembliesLoaded (0ms)
-			ExecutionOrderSort2 (0ms)
-			AwakeInstancesAfterBackupRestoration (14ms)
-Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 5.37 ms, found 3 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 4171 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 66 unused Assets / (1.9 MB). Loaded Objects now: 4945.
-Memory consumption went from 324.7 MB to 322.7 MB.
-Total: 44.693000 ms (FindLiveObjects: 0.365700 ms CreateObjectMapping: 0.233200 ms MarkObjects: 43.303900 ms  DeleteObjects: 0.788800 ms)
-
-AssetImportParameters requested are different than current active one (requested -> active):
-  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
-  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
-  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
-  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
-  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
-  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
-  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
-  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-========================================================================
-Received Import Request.
-  Time since last request: 13.612223 seconds.
-  path: Assets/Scripts/Maudica/Curation.cs
-  artifactKey: Guid(ff024aad7f77ba34cbde763236ea8c98) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Scripts/Maudica/Curation.cs using Guid(ff024aad7f77ba34cbde763236ea8c98) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'ce37d29dfc5ec9eeaf39f22a2623864f') in 0.007040 seconds 
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.014395 seconds.
-Begin MonoManager ReloadAssembly
-Symbol file LoadedFromMemory doesn't match image C:\dev\git\NotReaper\Assets\DiscordRPC\Plugins\DiscordRPC.dll
-Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 1.15 ms, found 3 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Mono: successfully reloaded assembly
-- Completed reload, in  2.804 seconds
-Domain Reload Profiling:
-	ReloadAssembly (2805ms)
-		BeginReloadAssembly (164ms)
-			ExecutionOrderSort (0ms)
-			DisableScriptedObjects (6ms)
-			BackupInstance (0ms)
-			ReleaseScriptingObjects (0ms)
-			CreateAndSetChildDomain (66ms)
-		EndReloadAssembly (2513ms)
-			LoadAssemblies (102ms)
-			RebuildTransferFunctionScriptingTraits (0ms)
-			SetupTypeCache (397ms)
-			ReleaseScriptCaches (3ms)
-			RebuildScriptCaches (82ms)
-			SetupLoadedEditorAssemblies (1846ms)
-				LogAssemblyErrors (0ms)
-				InitializePlatformSupportModulesInManaged (12ms)
-				SetLoadedEditorAssemblies (0ms)
-				RefreshPlugins (1ms)
-				BeforeProcessingInitializeOnLoad (129ms)
-				ProcessInitializeOnLoadAttributes (1593ms)
-				ProcessInitializeOnLoadMethodAttributes (101ms)
-				AfterProcessingInitializeOnLoad (8ms)
-				EditorAssembliesLoaded (0ms)
-			ExecutionOrderSort2 (0ms)
-			AwakeInstancesAfterBackupRestoration (14ms)
-Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 3.51 ms, found 3 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 4171 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 66 unused Assets / (1.9 MB). Loaded Objects now: 4947.
-Memory consumption went from 324.7 MB to 322.7 MB.
-Total: 30.242000 ms (FindLiveObjects: 0.348000 ms CreateObjectMapping: 0.236200 ms MarkObjects: 29.130700 ms  DeleteObjects: 0.526000 ms)
+Unloading 4175 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 66 unused Assets / (1.9 MB). Loaded Objects now: 4931.
+Memory consumption went from 324.9 MB to 323.0 MB.
+Total: 34.118600 ms (FindLiveObjects: 0.318400 ms CreateObjectMapping: 0.201200 ms MarkObjects: 33.069400 ms  DeleteObjects: 0.528400 ms)
 
 AssetImportParameters requested are different than current active one (requested -> active):
   custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
@@ -1068,181 +391,47 @@ AssetImportParameters requested are different than current active one (requested
 ========================================================================
 Received Prepare
 Registering precompiled user dll's ...
-Registered in 0.015954 seconds.
+Registered in 0.016183 seconds.
 Begin MonoManager ReloadAssembly
 Symbol file LoadedFromMemory doesn't match image C:\dev\git\NotReaper\Assets\DiscordRPC\Plugins\DiscordRPC.dll
 Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 1.00 ms, found 3 plugins.
+Refreshing native plugins compatible for Editor in 1.52 ms, found 3 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Mono: successfully reloaded assembly
-- Completed reload, in  2.660 seconds
+- Completed reload, in  2.998 seconds
 Domain Reload Profiling:
-	ReloadAssembly (2661ms)
-		BeginReloadAssembly (208ms)
+	ReloadAssembly (2999ms)
+		BeginReloadAssembly (173ms)
 			ExecutionOrderSort (0ms)
 			DisableScriptedObjects (7ms)
 			BackupInstance (0ms)
 			ReleaseScriptingObjects (0ms)
-			CreateAndSetChildDomain (89ms)
-		EndReloadAssembly (2334ms)
-			LoadAssemblies (111ms)
+			CreateAndSetChildDomain (66ms)
+		EndReloadAssembly (2695ms)
+			LoadAssemblies (103ms)
 			RebuildTransferFunctionScriptingTraits (0ms)
-			SetupTypeCache (327ms)
-			ReleaseScriptCaches (3ms)
-			RebuildScriptCaches (81ms)
-			SetupLoadedEditorAssemblies (1748ms)
-				LogAssemblyErrors (0ms)
-				InitializePlatformSupportModulesInManaged (11ms)
-				SetLoadedEditorAssemblies (0ms)
-				RefreshPlugins (1ms)
-				BeforeProcessingInitializeOnLoad (119ms)
-				ProcessInitializeOnLoadAttributes (1514ms)
-				ProcessInitializeOnLoadMethodAttributes (97ms)
-				AfterProcessingInitializeOnLoad (5ms)
-				EditorAssembliesLoaded (0ms)
-			ExecutionOrderSort2 (0ms)
-			AwakeInstancesAfterBackupRestoration (12ms)
-Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 4.06 ms, found 3 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 4171 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 66 unused Assets / (1.9 MB). Loaded Objects now: 4949.
-Memory consumption went from 324.7 MB to 322.8 MB.
-Total: 28.746800 ms (FindLiveObjects: 0.332400 ms CreateObjectMapping: 0.209000 ms MarkObjects: 27.665600 ms  DeleteObjects: 0.538800 ms)
-
-AssetImportParameters requested are different than current active one (requested -> active):
-  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
-  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
-  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
-  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
-  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
-  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
-  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
-  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.016010 seconds.
-Begin MonoManager ReloadAssembly
-Symbol file LoadedFromMemory doesn't match image C:\dev\git\NotReaper\Assets\DiscordRPC\Plugins\DiscordRPC.dll
-Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 1.23 ms, found 3 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Mono: successfully reloaded assembly
-- Completed reload, in  3.007 seconds
-Domain Reload Profiling:
-	ReloadAssembly (3008ms)
-		BeginReloadAssembly (222ms)
-			ExecutionOrderSort (0ms)
-			DisableScriptedObjects (9ms)
-			BackupInstance (0ms)
-			ReleaseScriptingObjects (0ms)
-			CreateAndSetChildDomain (93ms)
-		EndReloadAssembly (2620ms)
-			LoadAssemblies (113ms)
-			RebuildTransferFunctionScriptingTraits (0ms)
-			SetupTypeCache (386ms)
+			SetupTypeCache (349ms)
 			ReleaseScriptCaches (2ms)
 			RebuildScriptCaches (83ms)
-			SetupLoadedEditorAssemblies (1958ms)
+			SetupLoadedEditorAssemblies (2078ms)
 				LogAssemblyErrors (0ms)
-				InitializePlatformSupportModulesInManaged (11ms)
-				SetLoadedEditorAssemblies (0ms)
-				RefreshPlugins (1ms)
-				BeforeProcessingInitializeOnLoad (130ms)
-				ProcessInitializeOnLoadAttributes (1717ms)
-				ProcessInitializeOnLoadMethodAttributes (91ms)
-				AfterProcessingInitializeOnLoad (7ms)
-				EditorAssembliesLoaded (0ms)
-			ExecutionOrderSort2 (0ms)
-			AwakeInstancesAfterBackupRestoration (11ms)
-Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 4.04 ms, found 3 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 4171 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 66 unused Assets / (1.9 MB). Loaded Objects now: 4951.
-Memory consumption went from 324.7 MB to 322.8 MB.
-Total: 34.887000 ms (FindLiveObjects: 0.385400 ms CreateObjectMapping: 0.283900 ms MarkObjects: 33.516800 ms  DeleteObjects: 0.698900 ms)
-
-AssetImportParameters requested are different than current active one (requested -> active):
-  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
-  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
-  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
-  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
-  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
-  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
-  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
-  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-========================================================================
-Received Import Request.
-  Time since last request: 184.916573 seconds.
-  path: Assets/Scripts/Maudica/Curation.cs
-  artifactKey: Guid(ff024aad7f77ba34cbde763236ea8c98) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Scripts/Maudica/Curation.cs using Guid(ff024aad7f77ba34cbde763236ea8c98) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '3e5962565d73b22e49f20f200497c134') in 0.009502 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 6.975665 seconds.
-  path: Assets/Scripts/Maudica/Curation.cs
-  artifactKey: Guid(ff024aad7f77ba34cbde763236ea8c98) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Scripts/Maudica/Curation.cs using Guid(ff024aad7f77ba34cbde763236ea8c98) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'ca4566a30977f3fd001dd29fd8726e79') in 0.010717 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 36.513922 seconds.
-  path: Assets/Scripts/Maudica/Curation.cs
-  artifactKey: Guid(ff024aad7f77ba34cbde763236ea8c98) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Scripts/Maudica/Curation.cs using Guid(ff024aad7f77ba34cbde763236ea8c98) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '44b7fa46b56a31d5c36328c7a788c855') in 0.002732 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 103.170782 seconds.
-  path: Assets/Scripts/Maudica/Curation.cs
-  artifactKey: Guid(ff024aad7f77ba34cbde763236ea8c98) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Scripts/Maudica/Curation.cs using Guid(ff024aad7f77ba34cbde763236ea8c98) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '2f5ac30c5f0206609b802d0baddccdfd') in 0.003731 seconds 
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.015284 seconds.
-Begin MonoManager ReloadAssembly
-Symbol file LoadedFromMemory doesn't match image C:\dev\git\NotReaper\Assets\DiscordRPC\Plugins\DiscordRPC.dll
-Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 1.00 ms, found 3 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Mono: successfully reloaded assembly
-- Completed reload, in  3.061 seconds
-Domain Reload Profiling:
-	ReloadAssembly (3062ms)
-		BeginReloadAssembly (193ms)
-			ExecutionOrderSort (0ms)
-			DisableScriptedObjects (6ms)
-			BackupInstance (0ms)
-			ReleaseScriptingObjects (0ms)
-			CreateAndSetChildDomain (66ms)
-		EndReloadAssembly (2703ms)
-			LoadAssemblies (132ms)
-			RebuildTransferFunctionScriptingTraits (0ms)
-			SetupTypeCache (420ms)
-			ReleaseScriptCaches (3ms)
-			RebuildScriptCaches (92ms)
-			SetupLoadedEditorAssemblies (1959ms)
-				LogAssemblyErrors (0ms)
-				InitializePlatformSupportModulesInManaged (13ms)
+				InitializePlatformSupportModulesInManaged (12ms)
 				SetLoadedEditorAssemblies (1ms)
-				RefreshPlugins (1ms)
-				BeforeProcessingInitializeOnLoad (160ms)
-				ProcessInitializeOnLoadAttributes (1666ms)
-				ProcessInitializeOnLoadMethodAttributes (112ms)
+				RefreshPlugins (2ms)
+				BeforeProcessingInitializeOnLoad (133ms)
+				ProcessInitializeOnLoadAttributes (1808ms)
+				ProcessInitializeOnLoadMethodAttributes (116ms)
 				AfterProcessingInitializeOnLoad (6ms)
 				EditorAssembliesLoaded (0ms)
 			ExecutionOrderSort2 (0ms)
 			AwakeInstancesAfterBackupRestoration (15ms)
 Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 6.27 ms, found 3 plugins.
+Refreshing native plugins compatible for Editor in 3.35 ms, found 3 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 4171 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 66 unused Assets / (1.9 MB). Loaded Objects now: 4953.
-Memory consumption went from 324.7 MB to 322.8 MB.
-Total: 32.224400 ms (FindLiveObjects: 0.607600 ms CreateObjectMapping: 0.377100 ms MarkObjects: 30.719300 ms  DeleteObjects: 0.518600 ms)
+Unloading 4175 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 66 unused Assets / (1.9 MB). Loaded Objects now: 4933.
+Memory consumption went from 324.9 MB to 323.0 MB.
+Total: 29.041000 ms (FindLiveObjects: 0.415300 ms CreateObjectMapping: 0.267200 ms MarkObjects: 27.787000 ms  DeleteObjects: 0.570500 ms)
 
 AssetImportParameters requested are different than current active one (requested -> active):
   custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
@@ -1255,116 +444,49 @@ AssetImportParameters requested are different than current active one (requested
   custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
   custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
 ========================================================================
-Received Import Request.
-  Time since last request: 158.674690 seconds.
-  path: Assets/Scripts/Maudica/Curation.cs
-  artifactKey: Guid(ff024aad7f77ba34cbde763236ea8c98) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Scripts/Maudica/Curation.cs using Guid(ff024aad7f77ba34cbde763236ea8c98) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '16f47a136ad0f51fa0ae6de16eee1d9f') in 0.012189 seconds 
-========================================================================
 Received Prepare
 Registering precompiled user dll's ...
-Registered in 0.017601 seconds.
+Registered in 0.015594 seconds.
 Begin MonoManager ReloadAssembly
 Symbol file LoadedFromMemory doesn't match image C:\dev\git\NotReaper\Assets\DiscordRPC\Plugins\DiscordRPC.dll
 Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 1.58 ms, found 3 plugins.
+Refreshing native plugins compatible for Editor in 0.98 ms, found 3 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Mono: successfully reloaded assembly
-- Completed reload, in  3.352 seconds
+- Completed reload, in  2.939 seconds
 Domain Reload Profiling:
-	ReloadAssembly (3353ms)
-		BeginReloadAssembly (224ms)
+	ReloadAssembly (2940ms)
+		BeginReloadAssembly (177ms)
 			ExecutionOrderSort (0ms)
 			DisableScriptedObjects (12ms)
 			BackupInstance (0ms)
 			ReleaseScriptingObjects (0ms)
-			CreateAndSetChildDomain (89ms)
-		EndReloadAssembly (2972ms)
-			LoadAssemblies (116ms)
+			CreateAndSetChildDomain (73ms)
+		EndReloadAssembly (2640ms)
+			LoadAssemblies (90ms)
 			RebuildTransferFunctionScriptingTraits (0ms)
-			SetupTypeCache (406ms)
-			ReleaseScriptCaches (3ms)
-			RebuildScriptCaches (106ms)
-			SetupLoadedEditorAssemblies (2244ms)
+			SetupTypeCache (346ms)
+			ReleaseScriptCaches (2ms)
+			RebuildScriptCaches (78ms)
+			SetupLoadedEditorAssemblies (2048ms)
 				LogAssemblyErrors (0ms)
-				InitializePlatformSupportModulesInManaged (14ms)
-				SetLoadedEditorAssemblies (1ms)
-				RefreshPlugins (2ms)
-				BeforeProcessingInitializeOnLoad (147ms)
-				ProcessInitializeOnLoadAttributes (1956ms)
-				ProcessInitializeOnLoadMethodAttributes (116ms)
-				AfterProcessingInitializeOnLoad (8ms)
+				InitializePlatformSupportModulesInManaged (11ms)
+				SetLoadedEditorAssemblies (0ms)
+				RefreshPlugins (1ms)
+				BeforeProcessingInitializeOnLoad (129ms)
+				ProcessInitializeOnLoadAttributes (1793ms)
+				ProcessInitializeOnLoadMethodAttributes (107ms)
+				AfterProcessingInitializeOnLoad (6ms)
 				EditorAssembliesLoaded (0ms)
 			ExecutionOrderSort2 (0ms)
-			AwakeInstancesAfterBackupRestoration (20ms)
+			AwakeInstancesAfterBackupRestoration (13ms)
 Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 4.29 ms, found 3 plugins.
+Refreshing native plugins compatible for Editor in 3.96 ms, found 3 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 4171 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 66 unused Assets / (1.9 MB). Loaded Objects now: 4955.
-Memory consumption went from 324.7 MB to 322.8 MB.
-Total: 36.918700 ms (FindLiveObjects: 0.549100 ms CreateObjectMapping: 0.470300 ms MarkObjects: 35.168600 ms  DeleteObjects: 0.729400 ms)
-
-AssetImportParameters requested are different than current active one (requested -> active):
-  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
-  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
-  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
-  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
-  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
-  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
-  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
-  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-========================================================================
-Received Import Request.
-  Time since last request: 15.938814 seconds.
-  path: Assets/Scripts/Maudica/Curation.cs
-  artifactKey: Guid(ff024aad7f77ba34cbde763236ea8c98) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Scripts/Maudica/Curation.cs using Guid(ff024aad7f77ba34cbde763236ea8c98) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '80db2ba685f299dc9ba172793f0f3de0') in 0.009594 seconds 
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.014552 seconds.
-Begin MonoManager ReloadAssembly
-Symbol file LoadedFromMemory doesn't match image C:\dev\git\NotReaper\Assets\DiscordRPC\Plugins\DiscordRPC.dll
-Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 1.46 ms, found 3 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Mono: successfully reloaded assembly
-- Completed reload, in  4.032 seconds
-Domain Reload Profiling:
-	ReloadAssembly (4033ms)
-		BeginReloadAssembly (204ms)
-			ExecutionOrderSort (0ms)
-			DisableScriptedObjects (9ms)
-			BackupInstance (0ms)
-			ReleaseScriptingObjects (0ms)
-			CreateAndSetChildDomain (82ms)
-		EndReloadAssembly (3701ms)
-			LoadAssemblies (116ms)
-			RebuildTransferFunctionScriptingTraits (0ms)
-			SetupTypeCache (462ms)
-			ReleaseScriptCaches (4ms)
-			RebuildScriptCaches (105ms)
-			SetupLoadedEditorAssemblies (2941ms)
-				LogAssemblyErrors (0ms)
-				InitializePlatformSupportModulesInManaged (14ms)
-				SetLoadedEditorAssemblies (1ms)
-				RefreshPlugins (2ms)
-				BeforeProcessingInitializeOnLoad (146ms)
-				ProcessInitializeOnLoadAttributes (2645ms)
-				ProcessInitializeOnLoadMethodAttributes (126ms)
-				AfterProcessingInitializeOnLoad (9ms)
-				EditorAssembliesLoaded (0ms)
-			ExecutionOrderSort2 (0ms)
-			AwakeInstancesAfterBackupRestoration (15ms)
-Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 4.26 ms, found 3 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 4171 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 66 unused Assets / (1.9 MB). Loaded Objects now: 4957.
-Memory consumption went from 324.7 MB to 322.8 MB.
-Total: 73.861400 ms (FindLiveObjects: 0.408900 ms CreateObjectMapping: 0.415400 ms MarkObjects: 71.974100 ms  DeleteObjects: 1.061600 ms)
+Unloading 4175 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 66 unused Assets / (1.9 MB). Loaded Objects now: 4935.
+Memory consumption went from 324.9 MB to 323.0 MB.
+Total: 28.835200 ms (FindLiveObjects: 0.341600 ms CreateObjectMapping: 0.228900 ms MarkObjects: 27.732500 ms  DeleteObjects: 0.531200 ms)
 
 AssetImportParameters requested are different than current active one (requested -> active):
   custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
@@ -1379,108 +501,47 @@ AssetImportParameters requested are different than current active one (requested
 ========================================================================
 Received Prepare
 Registering precompiled user dll's ...
-Registered in 0.014879 seconds.
+Registered in 0.014212 seconds.
 Begin MonoManager ReloadAssembly
 Symbol file LoadedFromMemory doesn't match image C:\dev\git\NotReaper\Assets\DiscordRPC\Plugins\DiscordRPC.dll
 Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 1.39 ms, found 3 plugins.
+Refreshing native plugins compatible for Editor in 1.12 ms, found 3 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Mono: successfully reloaded assembly
-- Completed reload, in  3.004 seconds
+- Completed reload, in  2.665 seconds
 Domain Reload Profiling:
-	ReloadAssembly (3004ms)
-		BeginReloadAssembly (157ms)
+	ReloadAssembly (2665ms)
+		BeginReloadAssembly (171ms)
 			ExecutionOrderSort (0ms)
 			DisableScriptedObjects (6ms)
 			BackupInstance (0ms)
 			ReleaseScriptingObjects (0ms)
-			CreateAndSetChildDomain (57ms)
-		EndReloadAssembly (2723ms)
-			LoadAssemblies (97ms)
+			CreateAndSetChildDomain (63ms)
+		EndReloadAssembly (2368ms)
+			LoadAssemblies (103ms)
 			RebuildTransferFunctionScriptingTraits (0ms)
-			SetupTypeCache (368ms)
+			SetupTypeCache (316ms)
 			ReleaseScriptCaches (3ms)
-			RebuildScriptCaches (81ms)
-			SetupLoadedEditorAssemblies (2084ms)
+			RebuildScriptCaches (95ms)
+			SetupLoadedEditorAssemblies (1773ms)
 				LogAssemblyErrors (0ms)
-				InitializePlatformSupportModulesInManaged (13ms)
+				InitializePlatformSupportModulesInManaged (14ms)
 				SetLoadedEditorAssemblies (0ms)
 				RefreshPlugins (1ms)
-				BeforeProcessingInitializeOnLoad (156ms)
-				ProcessInitializeOnLoadAttributes (1799ms)
-				ProcessInitializeOnLoadMethodAttributes (110ms)
+				BeforeProcessingInitializeOnLoad (126ms)
+				ProcessInitializeOnLoadAttributes (1527ms)
+				ProcessInitializeOnLoadMethodAttributes (99ms)
 				AfterProcessingInitializeOnLoad (5ms)
 				EditorAssembliesLoaded (0ms)
 			ExecutionOrderSort2 (0ms)
 			AwakeInstancesAfterBackupRestoration (12ms)
 Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 5.91 ms, found 3 plugins.
+Refreshing native plugins compatible for Editor in 4.75 ms, found 3 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 4171 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 66 unused Assets / (1.9 MB). Loaded Objects now: 4959.
-Memory consumption went from 324.8 MB to 322.8 MB.
-Total: 45.001100 ms (FindLiveObjects: 0.328500 ms CreateObjectMapping: 0.228800 ms MarkObjects: 43.723100 ms  DeleteObjects: 0.719400 ms)
-
-AssetImportParameters requested are different than current active one (requested -> active):
-  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
-  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
-  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
-  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
-  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
-  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
-  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
-  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-========================================================================
-Received Import Request.
-  Time since last request: 36.526804 seconds.
-  path: Assets/Scripts/Maudica/Curation.cs
-  artifactKey: Guid(ff024aad7f77ba34cbde763236ea8c98) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Scripts/Maudica/Curation.cs using Guid(ff024aad7f77ba34cbde763236ea8c98) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '70a310c219ddf3ff651114956936951c') in 0.011108 seconds 
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.015963 seconds.
-Begin MonoManager ReloadAssembly
-Symbol file LoadedFromMemory doesn't match image C:\dev\git\NotReaper\Assets\DiscordRPC\Plugins\DiscordRPC.dll
-Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 1.81 ms, found 3 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Mono: successfully reloaded assembly
-- Completed reload, in  2.756 seconds
-Domain Reload Profiling:
-	ReloadAssembly (2757ms)
-		BeginReloadAssembly (150ms)
-			ExecutionOrderSort (0ms)
-			DisableScriptedObjects (8ms)
-			BackupInstance (0ms)
-			ReleaseScriptingObjects (0ms)
-			CreateAndSetChildDomain (59ms)
-		EndReloadAssembly (2495ms)
-			LoadAssemblies (81ms)
-			RebuildTransferFunctionScriptingTraits (0ms)
-			SetupTypeCache (298ms)
-			ReleaseScriptCaches (3ms)
-			RebuildScriptCaches (90ms)
-			SetupLoadedEditorAssemblies (1924ms)
-				LogAssemblyErrors (0ms)
-				InitializePlatformSupportModulesInManaged (13ms)
-				SetLoadedEditorAssemblies (1ms)
-				RefreshPlugins (2ms)
-				BeforeProcessingInitializeOnLoad (132ms)
-				ProcessInitializeOnLoadAttributes (1648ms)
-				ProcessInitializeOnLoadMethodAttributes (119ms)
-				AfterProcessingInitializeOnLoad (9ms)
-				EditorAssembliesLoaded (0ms)
-			ExecutionOrderSort2 (0ms)
-			AwakeInstancesAfterBackupRestoration (14ms)
-Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 4.61 ms, found 3 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 4171 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 66 unused Assets / (1.9 MB). Loaded Objects now: 4961.
-Memory consumption went from 324.8 MB to 322.8 MB.
-Total: 27.167600 ms (FindLiveObjects: 0.316900 ms CreateObjectMapping: 0.200400 ms MarkObjects: 26.132500 ms  DeleteObjects: 0.516400 ms)
+Unloading 4175 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 66 unused Assets / (1.9 MB). Loaded Objects now: 4937.
+Memory consumption went from 324.9 MB to 323.0 MB.
+Total: 35.118200 ms (FindLiveObjects: 0.336100 ms CreateObjectMapping: 0.230900 ms MarkObjects: 33.941800 ms  DeleteObjects: 0.607900 ms)
 
 AssetImportParameters requested are different than current active one (requested -> active):
   custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
@@ -1495,279 +556,47 @@ AssetImportParameters requested are different than current active one (requested
 ========================================================================
 Received Prepare
 Registering precompiled user dll's ...
-Registered in 0.014826 seconds.
+Registered in 0.014185 seconds.
 Begin MonoManager ReloadAssembly
 Symbol file LoadedFromMemory doesn't match image C:\dev\git\NotReaper\Assets\DiscordRPC\Plugins\DiscordRPC.dll
 Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 1.48 ms, found 3 plugins.
+Refreshing native plugins compatible for Editor in 0.95 ms, found 3 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Mono: successfully reloaded assembly
-- Completed reload, in  2.901 seconds
+- Completed reload, in  2.867 seconds
 Domain Reload Profiling:
-	ReloadAssembly (2902ms)
-		BeginReloadAssembly (165ms)
-			ExecutionOrderSort (0ms)
-			DisableScriptedObjects (6ms)
-			BackupInstance (0ms)
-			ReleaseScriptingObjects (0ms)
-			CreateAndSetChildDomain (59ms)
-		EndReloadAssembly (2605ms)
-			LoadAssemblies (94ms)
-			RebuildTransferFunctionScriptingTraits (0ms)
-			SetupTypeCache (328ms)
-			ReleaseScriptCaches (2ms)
-			RebuildScriptCaches (86ms)
-			SetupLoadedEditorAssemblies (2001ms)
-				LogAssemblyErrors (0ms)
-				InitializePlatformSupportModulesInManaged (14ms)
-				SetLoadedEditorAssemblies (1ms)
-				RefreshPlugins (2ms)
-				BeforeProcessingInitializeOnLoad (136ms)
-				ProcessInitializeOnLoadAttributes (1718ms)
-				ProcessInitializeOnLoadMethodAttributes (120ms)
-				AfterProcessingInitializeOnLoad (11ms)
-				EditorAssembliesLoaded (0ms)
-			ExecutionOrderSort2 (0ms)
-			AwakeInstancesAfterBackupRestoration (12ms)
-Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 4.30 ms, found 3 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 4171 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 66 unused Assets / (1.9 MB). Loaded Objects now: 4963.
-Memory consumption went from 324.8 MB to 322.8 MB.
-Total: 37.115200 ms (FindLiveObjects: 0.445200 ms CreateObjectMapping: 0.414500 ms MarkObjects: 35.557300 ms  DeleteObjects: 0.697300 ms)
-
-AssetImportParameters requested are different than current active one (requested -> active):
-  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
-  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
-  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
-  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
-  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
-  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
-  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
-  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-========================================================================
-Received Import Request.
-  Time since last request: 88.831721 seconds.
-  path: Assets/Scripts/Maudica/Curation.cs
-  artifactKey: Guid(ff024aad7f77ba34cbde763236ea8c98) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Scripts/Maudica/Curation.cs using Guid(ff024aad7f77ba34cbde763236ea8c98) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '6346226d2e71281b06e99e4af5602efb') in 0.010753 seconds 
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.014663 seconds.
-Begin MonoManager ReloadAssembly
-Symbol file LoadedFromMemory doesn't match image C:\dev\git\NotReaper\Assets\DiscordRPC\Plugins\DiscordRPC.dll
-Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 1.94 ms, found 3 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Mono: successfully reloaded assembly
-- Completed reload, in  3.358 seconds
-Domain Reload Profiling:
-	ReloadAssembly (3359ms)
-		BeginReloadAssembly (264ms)
-			ExecutionOrderSort (0ms)
-			DisableScriptedObjects (8ms)
-			BackupInstance (0ms)
-			ReleaseScriptingObjects (0ms)
-			CreateAndSetChildDomain (120ms)
-		EndReloadAssembly (2943ms)
-			LoadAssemblies (128ms)
-			RebuildTransferFunctionScriptingTraits (0ms)
-			SetupTypeCache (447ms)
-			ReleaseScriptCaches (2ms)
-			RebuildScriptCaches (91ms)
-			SetupLoadedEditorAssemblies (2174ms)
-				LogAssemblyErrors (0ms)
-				InitializePlatformSupportModulesInManaged (20ms)
-				SetLoadedEditorAssemblies (1ms)
-				RefreshPlugins (2ms)
-				BeforeProcessingInitializeOnLoad (176ms)
-				ProcessInitializeOnLoadAttributes (1853ms)
-				ProcessInitializeOnLoadMethodAttributes (116ms)
-				AfterProcessingInitializeOnLoad (6ms)
-				EditorAssembliesLoaded (0ms)
-			ExecutionOrderSort2 (0ms)
-			AwakeInstancesAfterBackupRestoration (14ms)
-Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 5.56 ms, found 3 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 4171 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 66 unused Assets / (1.9 MB). Loaded Objects now: 4965.
-Memory consumption went from 324.8 MB to 322.9 MB.
-Total: 41.353600 ms (FindLiveObjects: 0.430800 ms CreateObjectMapping: 0.370100 ms MarkObjects: 40.019700 ms  DeleteObjects: 0.531600 ms)
-
-AssetImportParameters requested are different than current active one (requested -> active):
-  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
-  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
-  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
-  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
-  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
-  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
-  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
-  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-========================================================================
-Received Import Request.
-  Time since last request: 23.842229 seconds.
-  path: Assets/Scripts/Maudica/Curation.cs
-  artifactKey: Guid(ff024aad7f77ba34cbde763236ea8c98) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Scripts/Maudica/Curation.cs using Guid(ff024aad7f77ba34cbde763236ea8c98) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'fe5e8729310ef8f7e46cebf64e97e029') in 0.007472 seconds 
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.014622 seconds.
-Begin MonoManager ReloadAssembly
-Symbol file LoadedFromMemory doesn't match image C:\dev\git\NotReaper\Assets\DiscordRPC\Plugins\DiscordRPC.dll
-Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 1.71 ms, found 3 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Mono: successfully reloaded assembly
-- Completed reload, in  3.015 seconds
-Domain Reload Profiling:
-	ReloadAssembly (3015ms)
-		BeginReloadAssembly (189ms)
-			ExecutionOrderSort (0ms)
-			DisableScriptedObjects (8ms)
-			BackupInstance (0ms)
-			ReleaseScriptingObjects (0ms)
-			CreateAndSetChildDomain (70ms)
-		EndReloadAssembly (2670ms)
-			LoadAssemblies (100ms)
-			RebuildTransferFunctionScriptingTraits (0ms)
-			SetupTypeCache (362ms)
-			ReleaseScriptCaches (3ms)
-			RebuildScriptCaches (91ms)
-			SetupLoadedEditorAssemblies (2032ms)
-				LogAssemblyErrors (0ms)
-				InitializePlatformSupportModulesInManaged (12ms)
-				SetLoadedEditorAssemblies (1ms)
-				RefreshPlugins (2ms)
-				BeforeProcessingInitializeOnLoad (147ms)
-				ProcessInitializeOnLoadAttributes (1757ms)
-				ProcessInitializeOnLoadMethodAttributes (106ms)
-				AfterProcessingInitializeOnLoad (6ms)
-				EditorAssembliesLoaded (0ms)
-			ExecutionOrderSort2 (0ms)
-			AwakeInstancesAfterBackupRestoration (16ms)
-Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 5.49 ms, found 3 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 4171 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 66 unused Assets / (1.9 MB). Loaded Objects now: 4967.
-Memory consumption went from 324.9 MB to 322.9 MB.
-Total: 32.862900 ms (FindLiveObjects: 0.351400 ms CreateObjectMapping: 0.235700 ms MarkObjects: 31.691900 ms  DeleteObjects: 0.582100 ms)
-
-AssetImportParameters requested are different than current active one (requested -> active):
-  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
-  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
-  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
-  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
-  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
-  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
-  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
-  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.012969 seconds.
-Begin MonoManager ReloadAssembly
-Symbol file LoadedFromMemory doesn't match image C:\dev\git\NotReaper\Assets\DiscordRPC\Plugins\DiscordRPC.dll
-Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 1.44 ms, found 3 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Mono: successfully reloaded assembly
-- Completed reload, in  2.844 seconds
-Domain Reload Profiling:
-	ReloadAssembly (2845ms)
-		BeginReloadAssembly (164ms)
-			ExecutionOrderSort (0ms)
-			DisableScriptedObjects (8ms)
-			BackupInstance (0ms)
-			ReleaseScriptingObjects (0ms)
-			CreateAndSetChildDomain (57ms)
-		EndReloadAssembly (2566ms)
-			LoadAssemblies (92ms)
-			RebuildTransferFunctionScriptingTraits (0ms)
-			SetupTypeCache (307ms)
-			ReleaseScriptCaches (2ms)
-			RebuildScriptCaches (81ms)
-			SetupLoadedEditorAssemblies (1997ms)
-				LogAssemblyErrors (0ms)
-				InitializePlatformSupportModulesInManaged (12ms)
-				SetLoadedEditorAssemblies (1ms)
-				RefreshPlugins (2ms)
-				BeforeProcessingInitializeOnLoad (132ms)
-				ProcessInitializeOnLoadAttributes (1724ms)
-				ProcessInitializeOnLoadMethodAttributes (120ms)
-				AfterProcessingInitializeOnLoad (8ms)
-				EditorAssembliesLoaded (0ms)
-			ExecutionOrderSort2 (0ms)
-			AwakeInstancesAfterBackupRestoration (16ms)
-Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 4.52 ms, found 3 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 4171 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 66 unused Assets / (1.9 MB). Loaded Objects now: 4969.
-Memory consumption went from 324.9 MB to 322.9 MB.
-Total: 45.193700 ms (FindLiveObjects: 0.792800 ms CreateObjectMapping: 0.576800 ms MarkObjects: 43.179100 ms  DeleteObjects: 0.643700 ms)
-
-AssetImportParameters requested are different than current active one (requested -> active):
-  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
-  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
-  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
-  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
-  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
-  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
-  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
-  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.017826 seconds.
-Begin MonoManager ReloadAssembly
-Symbol file LoadedFromMemory doesn't match image C:\dev\git\NotReaper\Assets\DiscordRPC\Plugins\DiscordRPC.dll
-Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 1.04 ms, found 3 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Mono: successfully reloaded assembly
-- Completed reload, in  2.899 seconds
-Domain Reload Profiling:
-	ReloadAssembly (2900ms)
-		BeginReloadAssembly (162ms)
+	ReloadAssembly (2868ms)
+		BeginReloadAssembly (151ms)
 			ExecutionOrderSort (0ms)
 			DisableScriptedObjects (7ms)
 			BackupInstance (0ms)
 			ReleaseScriptingObjects (0ms)
 			CreateAndSetChildDomain (63ms)
-		EndReloadAssembly (2623ms)
+		EndReloadAssembly (2600ms)
 			LoadAssemblies (83ms)
 			RebuildTransferFunctionScriptingTraits (0ms)
-			SetupTypeCache (365ms)
-			ReleaseScriptCaches (3ms)
-			RebuildScriptCaches (82ms)
-			SetupLoadedEditorAssemblies (2002ms)
+			SetupTypeCache (367ms)
+			ReleaseScriptCaches (2ms)
+			RebuildScriptCaches (95ms)
+			SetupLoadedEditorAssemblies (1969ms)
 				LogAssemblyErrors (0ms)
-				InitializePlatformSupportModulesInManaged (13ms)
+				InitializePlatformSupportModulesInManaged (10ms)
 				SetLoadedEditorAssemblies (1ms)
 				RefreshPlugins (1ms)
-				BeforeProcessingInitializeOnLoad (143ms)
-				ProcessInitializeOnLoadAttributes (1734ms)
-				ProcessInitializeOnLoadMethodAttributes (105ms)
-				AfterProcessingInitializeOnLoad (6ms)
+				BeforeProcessingInitializeOnLoad (121ms)
+				ProcessInitializeOnLoadAttributes (1706ms)
+				ProcessInitializeOnLoadMethodAttributes (121ms)
+				AfterProcessingInitializeOnLoad (8ms)
 				EditorAssembliesLoaded (0ms)
 			ExecutionOrderSort2 (0ms)
-			AwakeInstancesAfterBackupRestoration (14ms)
+			AwakeInstancesAfterBackupRestoration (13ms)
 Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 3.67 ms, found 3 plugins.
+Refreshing native plugins compatible for Editor in 3.55 ms, found 3 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 4171 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 66 unused Assets / (1.9 MB). Loaded Objects now: 4971.
-Memory consumption went from 324.9 MB to 322.9 MB.
-Total: 31.181400 ms (FindLiveObjects: 0.398600 ms CreateObjectMapping: 0.273700 ms MarkObjects: 29.952600 ms  DeleteObjects: 0.555100 ms)
+Unloading 4175 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 66 unused Assets / (1.9 MB). Loaded Objects now: 4939.
+Memory consumption went from 324.9 MB to 323.0 MB.
+Total: 29.427100 ms (FindLiveObjects: 0.305900 ms CreateObjectMapping: 0.181800 ms MarkObjects: 28.414700 ms  DeleteObjects: 0.523500 ms)
 
 AssetImportParameters requested are different than current active one (requested -> active):
   custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
@@ -1782,102 +611,47 @@ AssetImportParameters requested are different than current active one (requested
 ========================================================================
 Received Prepare
 Registering precompiled user dll's ...
-Registered in 0.012263 seconds.
+Registered in 0.018553 seconds.
 Begin MonoManager ReloadAssembly
 Symbol file LoadedFromMemory doesn't match image C:\dev\git\NotReaper\Assets\DiscordRPC\Plugins\DiscordRPC.dll
 Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 1.46 ms, found 3 plugins.
+Refreshing native plugins compatible for Editor in 1.25 ms, found 3 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Mono: successfully reloaded assembly
-- Completed reload, in  2.901 seconds
+- Completed reload, in  3.071 seconds
 Domain Reload Profiling:
-	ReloadAssembly (2902ms)
-		BeginReloadAssembly (159ms)
+	ReloadAssembly (3072ms)
+		BeginReloadAssembly (164ms)
 			ExecutionOrderSort (0ms)
-			DisableScriptedObjects (8ms)
+			DisableScriptedObjects (7ms)
 			BackupInstance (0ms)
 			ReleaseScriptingObjects (0ms)
-			CreateAndSetChildDomain (60ms)
-		EndReloadAssembly (2637ms)
-			LoadAssemblies (89ms)
+			CreateAndSetChildDomain (62ms)
+		EndReloadAssembly (2782ms)
+			LoadAssemblies (98ms)
 			RebuildTransferFunctionScriptingTraits (0ms)
-			SetupTypeCache (374ms)
+			SetupTypeCache (391ms)
 			ReleaseScriptCaches (2ms)
-			RebuildScriptCaches (82ms)
-			SetupLoadedEditorAssemblies (1999ms)
-				LogAssemblyErrors (0ms)
-				InitializePlatformSupportModulesInManaged (11ms)
-				SetLoadedEditorAssemblies (1ms)
-				RefreshPlugins (2ms)
-				BeforeProcessingInitializeOnLoad (139ms)
-				ProcessInitializeOnLoadAttributes (1735ms)
-				ProcessInitializeOnLoadMethodAttributes (107ms)
-				AfterProcessingInitializeOnLoad (6ms)
-				EditorAssembliesLoaded (0ms)
-			ExecutionOrderSort2 (0ms)
-			AwakeInstancesAfterBackupRestoration (14ms)
-Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 4.46 ms, found 3 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 4171 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 66 unused Assets / (1.9 MB). Loaded Objects now: 4973.
-Memory consumption went from 324.9 MB to 322.9 MB.
-Total: 44.984500 ms (FindLiveObjects: 0.361500 ms CreateObjectMapping: 0.242700 ms MarkObjects: 43.746700 ms  DeleteObjects: 0.632500 ms)
-
-AssetImportParameters requested are different than current active one (requested -> active):
-  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
-  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
-  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
-  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
-  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
-  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
-  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
-  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.013270 seconds.
-Begin MonoManager ReloadAssembly
-Symbol file LoadedFromMemory doesn't match image C:\dev\git\NotReaper\Assets\DiscordRPC\Plugins\DiscordRPC.dll
-Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 1.05 ms, found 3 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Mono: successfully reloaded assembly
-- Completed reload, in  2.876 seconds
-Domain Reload Profiling:
-	ReloadAssembly (2877ms)
-		BeginReloadAssembly (157ms)
-			ExecutionOrderSort (0ms)
-			DisableScriptedObjects (8ms)
-			BackupInstance (0ms)
-			ReleaseScriptingObjects (0ms)
-			CreateAndSetChildDomain (61ms)
-		EndReloadAssembly (2602ms)
-			LoadAssemblies (79ms)
-			RebuildTransferFunctionScriptingTraits (0ms)
-			SetupTypeCache (308ms)
-			ReleaseScriptCaches (3ms)
-			RebuildScriptCaches (90ms)
-			SetupLoadedEditorAssemblies (2030ms)
+			RebuildScriptCaches (93ms)
+			SetupLoadedEditorAssemblies (2089ms)
 				LogAssemblyErrors (0ms)
 				InitializePlatformSupportModulesInManaged (12ms)
-				SetLoadedEditorAssemblies (0ms)
+				SetLoadedEditorAssemblies (1ms)
 				RefreshPlugins (1ms)
-				BeforeProcessingInitializeOnLoad (139ms)
-				ProcessInitializeOnLoadAttributes (1745ms)
-				ProcessInitializeOnLoadMethodAttributes (126ms)
+				BeforeProcessingInitializeOnLoad (135ms)
+				ProcessInitializeOnLoadAttributes (1829ms)
+				ProcessInitializeOnLoadMethodAttributes (104ms)
 				AfterProcessingInitializeOnLoad (6ms)
 				EditorAssembliesLoaded (0ms)
 			ExecutionOrderSort2 (0ms)
-			AwakeInstancesAfterBackupRestoration (12ms)
+			AwakeInstancesAfterBackupRestoration (11ms)
 Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 4.65 ms, found 3 plugins.
+Refreshing native plugins compatible for Editor in 3.51 ms, found 3 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 4171 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 66 unused Assets / (1.9 MB). Loaded Objects now: 4975.
-Memory consumption went from 324.9 MB to 323.0 MB.
-Total: 38.789000 ms (FindLiveObjects: 0.426100 ms CreateObjectMapping: 0.254900 ms MarkObjects: 37.499600 ms  DeleteObjects: 0.606900 ms)
+Unloading 4175 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 66 unused Assets / (1.9 MB). Loaded Objects now: 4941.
+Memory consumption went from 325.0 MB to 323.0 MB.
+Total: 28.525400 ms (FindLiveObjects: 0.412900 ms CreateObjectMapping: 0.274100 ms MarkObjects: 27.127900 ms  DeleteObjects: 0.708600 ms)
 
 AssetImportParameters requested are different than current active one (requested -> active):
   custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
@@ -1889,493 +663,3 @@ AssetImportParameters requested are different than current active one (requested
   custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
   custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
   custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-========================================================================
-Received Import Request.
-  Time since last request: 209.697558 seconds.
-  path: Assets/Plugins/Tayx/Graphy - Ultimate Stats Monitor/Textures/2x2_Texture.png
-  artifactKey: Guid(ad4148593b05d0f47980774815c325fe) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Plugins/Tayx/Graphy - Ultimate Stats Monitor/Textures/2x2_Texture.png using Guid(ad4148593b05d0f47980774815c325fe) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'df215ff1c405a3d997b9f3ba37d64541') in 0.160170 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000032 seconds.
-  path: Assets/Scripts/UserInput/New Input/EditorInput/KeyRebinding/Icons/Backspace_Key_Dark.png
-  artifactKey: Guid(d10967701b85e4640937e03a9752c217) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Scripts/UserInput/New Input/EditorInput/KeyRebinding/Icons/Backspace_Key_Dark.png using Guid(d10967701b85e4640937e03a9752c217) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '7608217dc1076fd18aaef25e4a6498a0') in 0.036303 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000031 seconds.
-  path: Assets/Scripts/UserInput/New Input/EditorInput/KeyRebinding/Icons/__Key_Dark 24.png
-  artifactKey: Guid(7a82a42098d291943969a01d00cc585c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Scripts/UserInput/New Input/EditorInput/KeyRebinding/Icons/__Key_Dark 24.png using Guid(7a82a42098d291943969a01d00cc585c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'afdfee2e400d9e27814082fdb2b4cd0f') in 0.028663 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000035 seconds.
-  path: Assets/Scripts/UserInput/New Input/EditorInput/KeyRebinding/Icons/_1_Key_Dark 1.png
-  artifactKey: Guid(184c1e8b05496014781e8361105d7f1e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Scripts/UserInput/New Input/EditorInput/KeyRebinding/Icons/_1_Key_Dark 1.png using Guid(184c1e8b05496014781e8361105d7f1e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '2fdad10e309f5f649ff0ba54d7d0236c') in 0.025717 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000020 seconds.
-  path: Assets/Scripts/UserInput/New Input/EditorInput/KeyRebinding/Icons/__Key_Dark 31.png
-  artifactKey: Guid(40b318d66b831f64a8443e3fd529954a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Scripts/UserInput/New Input/EditorInput/KeyRebinding/Icons/__Key_Dark 31.png using Guid(40b318d66b831f64a8443e3fd529954a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'a087a749fb99ed07a5b9a35cb8d59940') in 0.021914 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000020 seconds.
-  path: Assets/Scripts/UserInput/New Input/EditorInput/KeyRebinding/Icons/__Key_Dark 29.png
-  artifactKey: Guid(1d5c448a2cb48704f87c40676467a1a7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Scripts/UserInput/New Input/EditorInput/KeyRebinding/Icons/__Key_Dark 29.png using Guid(1d5c448a2cb48704f87c40676467a1a7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'eaaab0324ea682cf7581a068f397f29d') in 0.023993 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000017 seconds.
-  path: Assets/Scripts/UserInput/New Input/EditorInput/KeyRebinding/Icons/Backspace_Alt_Key_Dark.png
-  artifactKey: Guid(8d023e7f18667fe47a9e7a42e68be4cd) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Scripts/UserInput/New Input/EditorInput/KeyRebinding/Icons/Backspace_Alt_Key_Dark.png using Guid(8d023e7f18667fe47a9e7a42e68be4cd) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '764b528c8c42d6512f5309d13020c8ff') in 0.025875 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000028 seconds.
-  path: Assets/Scripts/UserInput/New Input/EditorInput/KeyRebinding/Icons/__Key_Dark 9.png
-  artifactKey: Guid(0b51eb543bedc7b4da29097b0ec50522) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Scripts/UserInput/New Input/EditorInput/KeyRebinding/Icons/__Key_Dark 9.png using Guid(0b51eb543bedc7b4da29097b0ec50522) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'b3d889adad41d55fb5361942fac3cb9e') in 0.022145 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000022 seconds.
-  path: Assets/Scripts/UserInput/New Input/EditorInput/KeyRebinding/Icons/__Key_Dark 27.png
-  artifactKey: Guid(57213600e98773f47a9edc7015e99e5f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Scripts/UserInput/New Input/EditorInput/KeyRebinding/Icons/__Key_Dark 27.png using Guid(57213600e98773f47a9edc7015e99e5f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '854d65b3adedd2e5989fe7ad27794839') in 0.028706 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000050 seconds.
-  path: Assets/Scripts/UserInput/New Input/EditorInput/KeyRebinding/Icons/_ackslash.png
-  artifactKey: Guid(42cd49426a3374b4aa85eb302a36d96b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Scripts/UserInput/New Input/EditorInput/KeyRebinding/Icons/_ackslash.png using Guid(42cd49426a3374b4aa85eb302a36d96b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'c1082b7043ed1b73f2e9dcce3c2d42b1') in 0.021881 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000024 seconds.
-  path: Assets/Scripts/UserInput/New Input/EditorInput/KeyRebinding/Icons/_6_Key_Dark.png
-  artifactKey: Guid(4b33487cc422b734396a861525c5cd67) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Scripts/UserInput/New Input/EditorInput/KeyRebinding/Icons/_6_Key_Dark.png using Guid(4b33487cc422b734396a861525c5cd67) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'ae33107e7821562272c7249011a42894') in 0.020904 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000028 seconds.
-  path: Assets/Images/background.png
-  artifactKey: Guid(8951f91f5cbac17429961d0b19536061) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Images/background.png using Guid(8951f91f5cbac17429961d0b19536061) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '8139d3f1a20ed0b1c6b58ec067683c77') in 0.239216 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000026 seconds.
-  path: Assets/Images/NoteOverlays/chainstart_overlay.png
-  artifactKey: Guid(8695bdba56982ac40a92889d0e780835) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Images/NoteOverlays/chainstart_overlay.png using Guid(8695bdba56982ac40a92889d0e780835) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '50d3367dd68413e5d6afebf94875fa3d') in 0.036820 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000043 seconds.
-  path: Assets/Notes/Icons/circle.png
-  artifactKey: Guid(af5c510a78ce30c4fb0e89ebc7953772) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Notes/Icons/circle.png using Guid(af5c510a78ce30c4fb0e89ebc7953772) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'cd28f23c3ebf25322968a043622c7f0a') in 0.045785 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000032 seconds.
-  path: Assets/DiscordRPC/Example/Textures/discord_gradient.png
-  artifactKey: Guid(04e21f67c75803a4fabc1864b27e9f11) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/DiscordRPC/Example/Textures/discord_gradient.png using Guid(04e21f67c75803a4fabc1864b27e9f11) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '83ca498c4fa0d6f1d042d060ed70c7bb') in 0.068729 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000023 seconds.
-  path: Assets/ModernUIPack/Textures/Icons/Check.png
-  artifactKey: Guid(5d08ed2465c5c104c9c915959d69b527) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/ModernUIPack/Textures/Icons/Check.png using Guid(5d08ed2465c5c104c9c915959d69b527) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '5d3fad9449bf2a792ae98360c657d11f') in 0.022966 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000034 seconds.
-  path: Assets/ModernUIPack/Textures/Icons/Clock.png
-  artifactKey: Guid(1e41e49e206bc2947b8943351eed53d3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/ModernUIPack/Textures/Icons/Clock.png using Guid(1e41e49e206bc2947b8943351eed53d3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '5cbcded6aebd10fce48be2c95d8cb308') in 0.034257 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000033 seconds.
-  path: Assets/Images/fovrectangle.png
-  artifactKey: Guid(8a1e0b24b57a4de45a62bc4e60995dde) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Images/fovrectangle.png using Guid(8a1e0b24b57a4de45a62bc4e60995dde) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '5fdcaba670feb6072330b0f02c25de7d') in 0.052203 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000033 seconds.
-  path: Assets/Notes/Timeline/Circle.png
-  artifactKey: Guid(36d39fcc6be9fdd44850801cf6ca8772) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Notes/Timeline/Circle.png using Guid(36d39fcc6be9fdd44850801cf6ca8772) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'bbdec117fae2e38c7c744240dac7caa7') in 0.023110 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000020 seconds.
-  path: Assets/Notes/Icons/chain ring.png
-  artifactKey: Guid(f3b5a7ba7308d824fa0ad4e2f615593e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Notes/Icons/chain ring.png using Guid(f3b5a7ba7308d824fa0ad4e2f615593e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '1a062ce88a2cb166bb4951cf3f11341e') in 0.022615 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000018 seconds.
-  path: Assets/ModernUIPack/Textures/Icons/Cup.png
-  artifactKey: Guid(65a1928224b8541439b433a52ea9c3d9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/ModernUIPack/Textures/Icons/Cup.png using Guid(65a1928224b8541439b433a52ea9c3d9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '9ae7695605c04412690b47b0fe1dae9b') in 0.028264 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000023 seconds.
-  path: Assets/DiscordRPC/Gizmos/discord_logo.png
-  artifactKey: Guid(0e82c8e5c734e424d827caf275b12cb9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/DiscordRPC/Gizmos/discord_logo.png using Guid(0e82c8e5c734e424d827caf275b12cb9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'e5636994b4a34fc883b0ac25c49634b8') in 0.036187 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000026 seconds.
-  path: Assets/ModernUIPack/Textures/Borders/Circles/Circle Outline 64px - Stroke 14px.png
-  artifactKey: Guid(c8d56a8699823ca46aa7eda6801a483e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/ModernUIPack/Textures/Borders/Circles/Circle Outline 64px - Stroke 14px.png using Guid(c8d56a8699823ca46aa7eda6801a483e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'fed24bd961fb9180d3612db6588d3729') in 0.035712 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000032 seconds.
-  path: Assets/Scripts/UserInput/New Input/EditorInput/KeyRebinding/Icons/Esc_Key_Dark.png
-  artifactKey: Guid(b404f69da1f1e5e4399b3a2cc282c5a2) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Scripts/UserInput/New Input/EditorInput/KeyRebinding/Icons/Esc_Key_Dark.png using Guid(b404f69da1f1e5e4399b3a2cc282c5a2) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'bb0bade50cfa22d0fd2fe27727cd186d') in 0.024592 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000030 seconds.
-  path: Assets/Scripts/UserInput/New Input/EditorInput/KeyRebinding/Icons/Ctrl_Key_Dark.png
-  artifactKey: Guid(09ee4763381b4df45a82d2234528266e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Scripts/UserInput/New Input/EditorInput/KeyRebinding/Icons/Ctrl_Key_Dark.png using Guid(09ee4763381b4df45a82d2234528266e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'a750cbf3e3e8d71bf7c2068f2034a45e') in 0.022672 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000037 seconds.
-  path: Assets/Pictures/hitcircleselect.png
-  artifactKey: Guid(708f071a7a0b22c42853246e0bb4eff3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Pictures/hitcircleselect.png using Guid(708f071a7a0b22c42853246e0bb4eff3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '4455f8b2daf5b91d67702e286f895a51') in 0.032516 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000033 seconds.
-  path: Assets/Scripts/UserInput/New Input/EditorInput/KeyRebinding/Icons/Command_Key_Dark.png
-  artifactKey: Guid(baf37026f91930e41960e43e402e82ca) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Scripts/UserInput/New Input/EditorInput/KeyRebinding/Icons/Command_Key_Dark.png using Guid(baf37026f91930e41960e43e402e82ca) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'bd0891b33c58dc1bfd9f4717f5fb66d7') in 0.039286 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000034 seconds.
-  path: Assets/Scripts/UserInput/New Input/EditorInput/KeyRebinding/Icons/_3_Key_Dark.png
-  artifactKey: Guid(99ec6f51ee8f8484e8ed23a02ceb9a47) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Scripts/UserInput/New Input/EditorInput/KeyRebinding/Icons/_3_Key_Dark.png using Guid(99ec6f51ee8f8484e8ed23a02ceb9a47) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '8419e64e679b55bf3973f55926766b9b') in 0.023054 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000020 seconds.
-  path: Assets/ModernUIPack/Textures/Borders/Circles/Circle Outline 64px - Stroke 12px.png
-  artifactKey: Guid(4d524fbec1ad7524f8e44324e211e893) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/ModernUIPack/Textures/Borders/Circles/Circle Outline 64px - Stroke 12px.png using Guid(4d524fbec1ad7524f8e44324e211e893) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'f5e05c91ac454cc754be1ebe1ee8ce5e') in 0.024341 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000027 seconds.
-  path: Assets/ModernUIPack/Textures/Borders/Circles/Circle Outline Dash 64px - Stroke 3px.png
-  artifactKey: Guid(24de22fe090ea2a4b932c13f1b3be37d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/ModernUIPack/Textures/Borders/Circles/Circle Outline Dash 64px - Stroke 3px.png using Guid(24de22fe090ea2a4b932c13f1b3be37d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '2f9468bc824079e75cb4432cf34ecc48') in 0.038871 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000026 seconds.
-  path: Assets/Scripts/UserInput/New Input/EditorInput/KeyRebinding/Icons/Alt_Key_Dark.png
-  artifactKey: Guid(2ff320733db10644aa03f9b3c65fb970) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Scripts/UserInput/New Input/EditorInput/KeyRebinding/Icons/Alt_Key_Dark.png using Guid(2ff320733db10644aa03f9b3c65fb970) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '2bd9c11789d2d64605264d1c83cbec65') in 0.027787 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000082 seconds.
-  path: Assets/Scripts/UI/MapBrowser/Icons/curated_black.png
-  artifactKey: Guid(bb49d5570365a5540a7d6f0f4a51d7ca) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Scripts/UI/MapBrowser/Icons/curated_black.png using Guid(bb49d5570365a5540a7d6f0f4a51d7ca) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'a8e6d3f1ff047b9b1fbdb4a3ee5340ca') in 0.028494 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000037 seconds.
-  path: Assets/Images/background2.png
-  artifactKey: Guid(1231c2fdff0983b47861a2ee7220d3e5) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Images/background2.png using Guid(1231c2fdff0983b47861a2ee7220d3e5) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '1fc792d6683a68154117e417ea4dfb6e') in 0.158655 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000026 seconds.
-  path: Assets/Scripts/UserInput/New Input/EditorInput/KeyRebinding/Icons/Arrow_Right_Key_Dark.png
-  artifactKey: Guid(c1f413e0b913dc844b4bee459942624d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Scripts/UserInput/New Input/EditorInput/KeyRebinding/Icons/Arrow_Right_Key_Dark.png using Guid(c1f413e0b913dc844b4bee459942624d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'd4be4ff8c4d2e0fc837b2c50d362705e') in 0.020018 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000046 seconds.
-  path: Assets/Scripts/UserInput/New Input/EditorInput/KeyRebinding/Icons/__Key_Dark.png
-  artifactKey: Guid(8e17c54ef3d3fd04b91a18ee0739706f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Scripts/UserInput/New Input/EditorInput/KeyRebinding/Icons/__Key_Dark.png using Guid(8e17c54ef3d3fd04b91a18ee0739706f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '402a826e8fa94c9ca2032f6aab93e294') in 0.023726 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000025 seconds.
-  path: Assets/ModernUIPack/Textures/Borders/Circles/Circle Outline 64px - Stroke 5px.png
-  artifactKey: Guid(0dba7f4bcc17ba64a8acc762f75a6050) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/ModernUIPack/Textures/Borders/Circles/Circle Outline 64px - Stroke 5px.png using Guid(0dba7f4bcc17ba64a8acc762f75a6050) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'e1883eb1e5690deeb3025fcd186ba4cf') in 0.021562 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000030 seconds.
-  path: Assets/Scripts/UserInput/New Input/EditorInput/KeyRebinding/Icons/__Key_Dark 7.png
-  artifactKey: Guid(678f51578fa3df6489f6c9f9f594cbc7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Scripts/UserInput/New Input/EditorInput/KeyRebinding/Icons/__Key_Dark 7.png using Guid(678f51578fa3df6489f6c9f9f594cbc7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '87460d8b77e49683e80d7841df1db2c6') in 0.023753 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000020 seconds.
-  path: Assets/ModernUIPack/Textures/Borders/Circles/Circle Outline 64px - Stroke 3px.png
-  artifactKey: Guid(2210141fc23cbcf438279f50eb4fcd74) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/ModernUIPack/Textures/Borders/Circles/Circle Outline 64px - Stroke 3px.png using Guid(2210141fc23cbcf438279f50eb4fcd74) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'c754fa4efa7db42b4bdb04efd7e620e1') in 0.027690 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000027 seconds.
-  path: Assets/Scripts/UI/MapBrowser/Icons/beginner.png
-  artifactKey: Guid(a9552da7e000f70439e95ed0aa4c0157) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Scripts/UI/MapBrowser/Icons/beginner.png using Guid(a9552da7e000f70439e95ed0aa4c0157) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'cecf099feb3f626387e168fe86b6103f') in 0.029518 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000040 seconds.
-  path: Assets/Notes/Timeline/Angle.png
-  artifactKey: Guid(3edb04d9680c8b144989eb6c784159b7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Notes/Timeline/Angle.png using Guid(3edb04d9680c8b144989eb6c784159b7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '3d498f123a824db37073ef7cb91c4e7c') in 0.028702 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000027 seconds.
-  path: Assets/Images/HelpMenu/Arrow@2x.png
-  artifactKey: Guid(cea57a077477dd94e9e3826e0badeda6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Images/HelpMenu/Arrow@2x.png using Guid(cea57a077477dd94e9e3826e0badeda6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '42a43747d00ab571e750488e27cdb729') in 0.025953 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000030 seconds.
-  path: Assets/Notes/Timeline/ChainStart.png
-  artifactKey: Guid(c778e95a6b6e9014c9e3824fb5ead9da) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Notes/Timeline/ChainStart.png using Guid(c778e95a6b6e9014c9e3824fb5ead9da) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '5bc7cace443141c44090bec18efeb9c6') in 0.022652 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000023 seconds.
-  path: Assets/Scripts/UserInput/New Input/EditorInput/KeyRebinding/Icons/__Key_Dark 1.png
-  artifactKey: Guid(6480b70c08b36d34ab455ced6a9ee36f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Scripts/UserInput/New Input/EditorInput/KeyRebinding/Icons/__Key_Dark 1.png using Guid(6480b70c08b36d34ab455ced6a9ee36f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '74df43b65a9da9b235a3d892032a9dc1') in 0.021474 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000021 seconds.
-  path: Assets/ModernUIPack/Textures/Borders/Basic/Basic Outline 10px - Stroke 5px.png
-  artifactKey: Guid(5d98067acd216d04aaa0a5c07e6b491f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/ModernUIPack/Textures/Borders/Basic/Basic Outline 10px - Stroke 5px.png using Guid(5d98067acd216d04aaa0a5c07e6b491f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '4d26f03fc24da015c818a517134f9252') in 0.031885 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000030 seconds.
-  path: Assets/ModernUIPack/Textures/Borders/Basic/Basic Filled - Modal Tab Button 10px.png
-  artifactKey: Guid(def0b999bf90eaf48ad972dc8f98df24) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/ModernUIPack/Textures/Borders/Basic/Basic Filled - Modal Tab Button 10px.png using Guid(def0b999bf90eaf48ad972dc8f98df24) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '397ac3175df5545bddc0d1a56817e9c5') in 0.030890 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000045 seconds.
-  path: Assets/Pictures/cursor-3-xxl.png
-  artifactKey: Guid(ceffc317603f1754681eaf60de8cd88b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Pictures/cursor-3-xxl.png using Guid(ceffc317603f1754681eaf60de8cd88b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '3b28e9a73c47582e703d4c3659945831') in 0.035345 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000025 seconds.
-  path: Assets/Scripts/UserInput/New Input/EditorInput/KeyRebinding/Icons/__Key_Dark 22.png
-  artifactKey: Guid(8c95777462741e14886a15e167e78641) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Scripts/UserInput/New Input/EditorInput/KeyRebinding/Icons/__Key_Dark 22.png using Guid(8c95777462741e14886a15e167e78641) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'c1fb75f6e3db508ea457c45cebca1650') in 0.026612 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000028 seconds.
-  path: Assets/Scripts/UserInput/New Input/EditorInput/KeyRebinding/Icons/__Key_Dark 21.png
-  artifactKey: Guid(99542c2731b4deb47a66e1674ed19583) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Scripts/UserInput/New Input/EditorInput/KeyRebinding/Icons/__Key_Dark 21.png using Guid(99542c2731b4deb47a66e1674ed19583) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '49ab13b5b0a37b1a1e60b4683912f718') in 0.022347 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000037 seconds.
-  path: Assets/Notes/Icons/angle.png
-  artifactKey: Guid(908790b33f364754a888f797d6b0c755) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Notes/Icons/angle.png using Guid(908790b33f364754a888f797d6b0c755) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'b3abcb857b101b34e7c63a63aa85a5c9') in 0.024977 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000026 seconds.
-  path: Assets/Notes/Icons/circlering.png
-  artifactKey: Guid(911a6d218bdf7274e9415d86a5619c2e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Notes/Icons/circlering.png using Guid(911a6d218bdf7274e9415d86a5619c2e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'd1eca3f542004eea5aed6f826fc61648') in 0.028573 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000028 seconds.
-  path: Assets/ModernUIPack/Textures/Others/Discord (demo).png
-  artifactKey: Guid(08d84bd213b882049a7fe30305745c64) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/ModernUIPack/Textures/Others/Discord (demo).png using Guid(08d84bd213b882049a7fe30305745c64) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '6169460dd730b27827fa3306400fdbf0') in 0.039383 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000024 seconds.
-  path: Assets/ModernUIPack/Textures/Borders/Basic/Basic Outline 10px - Stroke 10px.png
-  artifactKey: Guid(4859a9b48155b404492c5e59833bdea8) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/ModernUIPack/Textures/Borders/Basic/Basic Outline 10px - Stroke 10px.png using Guid(4859a9b48155b404492c5e59833bdea8) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '6b0d8f39eb1da36c23cba6c8e2632513') in 0.032845 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000027 seconds.
-  path: Assets/ModernUIPack/Textures/Borders/Basic/Basic Outline 10px - Stroke 12px.png
-  artifactKey: Guid(de5e4751c3719944aa6704fc67511221) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/ModernUIPack/Textures/Borders/Basic/Basic Outline 10px - Stroke 12px.png using Guid(de5e4751c3719944aa6704fc67511221) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'edbdad1f9a2da4def90fedcb7d093346') in 0.033489 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000029 seconds.
-  path: Assets/Scripts/UserInput/New Input/EditorInput/KeyRebinding/Icons/__Key_Dark 19.png
-  artifactKey: Guid(1ff41eaf6521ba94aab7bc6eb5278d43) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Scripts/UserInput/New Input/EditorInput/KeyRebinding/Icons/__Key_Dark 19.png using Guid(1ff41eaf6521ba94aab7bc6eb5278d43) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '91b2200afcd59a364604d3378d57add5') in 0.022127 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000034 seconds.
-  path: Assets/Scripts/UserInput/New Input/EditorInput/KeyRebinding/Icons/Blank_Black_Normal.png
-  artifactKey: Guid(0d9262d4306ab2946a1fe2f24d8ca94e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Scripts/UserInput/New Input/EditorInput/KeyRebinding/Icons/Blank_Black_Normal.png using Guid(0d9262d4306ab2946a1fe2f24d8ca94e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'f00b12a47edb9d1d45e903994c74d943') in 0.023846 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000027 seconds.
-  path: Assets/Scripts/UserInput/New Input/EditorInput/KeyRebinding/Icons/_1_Key_Dark.png
-  artifactKey: Guid(80aa44b06ed9d7b499379732ef9377e8) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Scripts/UserInput/New Input/EditorInput/KeyRebinding/Icons/_1_Key_Dark.png using Guid(80aa44b06ed9d7b499379732ef9377e8) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '575d98faae57f99dc53d39270dd265ff') in 0.024523 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000030 seconds.
-  path: Assets/ModernUIPack/Textures/Icons/Camera.png
-  artifactKey: Guid(029e049b7b633af4089920f10dbf69d9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/ModernUIPack/Textures/Icons/Camera.png using Guid(029e049b7b633af4089920f10dbf69d9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'b75c6b05867638f3eea84bf5da2ab907') in 0.030000 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000022 seconds.
-  path: Assets/Images/cursor_tint.png
-  artifactKey: Guid(3631d54e0214f7f479a948bb8ce5cb54) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Images/cursor_tint.png using Guid(3631d54e0214f7f479a948bb8ce5cb54) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '97b8d819b1c41050b0231595b9a4057f') in 0.026635 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000024 seconds.
-  path: Assets/Notes/Icons/chainstart.png
-  artifactKey: Guid(6c68a0a6e800b7848944784ff461bcc7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Notes/Icons/chainstart.png using Guid(6c68a0a6e800b7848944784ff461bcc7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '6daecf0d570ebfda196ec9f77aef84f7') in 0.022351 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000031 seconds.
-  path: Assets/Notes/Timeline/Chain.png
-  artifactKey: Guid(5d6f7574d1147f64dbad756e6fbf4071) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Notes/Timeline/Chain.png using Guid(5d6f7574d1147f64dbad756e6fbf4071) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '2f0ef6f21c1d185c85ca0e1f8145c644') in 0.022438 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000031 seconds.
-  path: Assets/Images/angle_inverted.png
-  artifactKey: Guid(7e7df65c150e84e48814f18f864df5aa) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Images/angle_inverted.png using Guid(7e7df65c150e84e48814f18f864df5aa) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '22a8536d33be0d8af1ae666b63189b5c') in 0.030916 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000029 seconds.
-  path: Assets/Pictures/chainstart-select.png
-  artifactKey: Guid(afff3bdcfb5677348bea0d885eaa14d7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Pictures/chainstart-select.png using Guid(afff3bdcfb5677348bea0d885eaa14d7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '6095f9f8239e4d491e6dae57aa8a9b4e') in 0.030997 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000023 seconds.
-  path: Assets/Scripts/UserInput/New Input/EditorInput/KeyRebinding/Icons/_7_Key_Dark.png
-  artifactKey: Guid(6cc73c850e5367a449997b445d3b5157) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Scripts/UserInput/New Input/EditorInput/KeyRebinding/Icons/_7_Key_Dark.png using Guid(6cc73c850e5367a449997b445d3b5157) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'b3b733f52cf943ed5b8adc9f15b81c54') in 0.029454 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000025 seconds.
-  path: Assets/Images/check.png
-  artifactKey: Guid(3feb2fbd2e3d1d2499e85398c1ee93a9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Images/check.png using Guid(3feb2fbd2e3d1d2499e85398c1ee93a9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '4d3bf6b2a185acada49ab40b02afdb62') in 0.023315 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000050 seconds.
-  path: Assets/Scripts/UI/MapBrowser/Icons/advanced.png
-  artifactKey: Guid(86056f6f89dd9ae45a297d6d3d3e1173) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Scripts/UI/MapBrowser/Icons/advanced.png using Guid(86056f6f89dd9ae45a297d6d3d3e1173) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'a326bf2e3ca43a18a4c258c6144e4fce') in 0.023925 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000032 seconds.
-  path: Assets/ModernUIPack/Textures/Icons/Discord.png
-  artifactKey: Guid(b6b68c8c37d5cf1419267a80c426ac83) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/ModernUIPack/Textures/Icons/Discord.png using Guid(b6b68c8c37d5cf1419267a80c426ac83) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '86e606f9da7307d3153c4ace2a4274f3') in 0.035709 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000040 seconds.
-  path: Assets/Scripts/UserInput/New Input/EditorInput/KeyRebinding/Icons/__Key_Dark 18.png
-  artifactKey: Guid(bf903039f74b8ab4aa9bd133edc762db) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Scripts/UserInput/New Input/EditorInput/KeyRebinding/Icons/__Key_Dark 18.png using Guid(bf903039f74b8ab4aa9bd133edc762db) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '5fb48c6ba1167d72cf4a13224b60ce83') in 0.024874 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000030 seconds.
-  path: Assets/Scripts/UserInput/New Input/EditorInput/KeyRebinding/Icons/__Key_Dark 33.png
-  artifactKey: Guid(8f8e3392e85221f4eae333aed9a56b30) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Scripts/UserInput/New Input/EditorInput/KeyRebinding/Icons/__Key_Dark 33.png using Guid(8f8e3392e85221f4eae333aed9a56b30) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'e99d44dd98462caa3eb41f4aeaa225b4') in 0.021616 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000049 seconds.
-  path: Assets/Scripts/UserInput/New Input/EditorInput/KeyRebinding/Icons/Asterisk_Key_Dark.png
-  artifactKey: Guid(3fe9959281eecb44a808ff9c38fdd3bf) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Scripts/UserInput/New Input/EditorInput/KeyRebinding/Icons/Asterisk_Key_Dark.png using Guid(3fe9959281eecb44a808ff9c38fdd3bf) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'b411e8d58d912738e746182acbaf709c') in 0.029141 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000033 seconds.
-  path: Assets/Scripts/UserInput/New Input/EditorInput/KeyRebinding/Icons/__Key_Dark 2.png
-  artifactKey: Guid(ef564729b841ad149bf960ca296789d3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Scripts/UserInput/New Input/EditorInput/KeyRebinding/Icons/__Key_Dark 2.png using Guid(ef564729b841ad149bf960ca296789d3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'cb1ec4c0db3501aa246ba137f5d24fc7') in 0.027412 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000026 seconds.
-  path: Assets/ModernUIPack/Textures/Borders/Basic/Basic Outline 10px - Stroke 8px.png
-  artifactKey: Guid(5c49ef3a1a4460b4ca3a969124efb7fa) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/ModernUIPack/Textures/Borders/Basic/Basic Outline 10px - Stroke 8px.png using Guid(5c49ef3a1a4460b4ca3a969124efb7fa) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '34fc0b68fa82f84a79181bf76e398db0') in 0.032545 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000022 seconds.
-  path: Assets/Scripts/UserInput/New Input/EditorInput/KeyRebinding/Icons/__Key_Dark 34.png
-  artifactKey: Guid(f926b3322a8c0ae4d865218aa9836d13) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Scripts/UserInput/New Input/EditorInput/KeyRebinding/Icons/__Key_Dark 34.png using Guid(f926b3322a8c0ae4d865218aa9836d13) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '46f9293feb01df09d0111b279d0cacbe') in 0.027388 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000024 seconds.
-  path: Assets/DiscordRPC/Example/Textures/discord_button.png
-  artifactKey: Guid(246dd50adf6b2c242ab8c1d847a538a8) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/DiscordRPC/Example/Textures/discord_button.png using Guid(246dd50adf6b2c242ab8c1d847a538a8) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '336fbb15ff61f6f2738f0fefa878f6d6') in 0.030898 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000025 seconds.
-  path: Assets/Notes/Timeline/AngleSelect.png
-  artifactKey: Guid(659feb4a81714c545898c2dad3585e30) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Notes/Timeline/AngleSelect.png using Guid(659feb4a81714c545898c2dad3585e30) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '4efa780443dc7ca6286e314dfe0cb771') in 0.025364 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000026 seconds.
-  path: Assets/Scripts/UserInput/New Input/EditorInput/KeyRebinding/Icons/Arrow_Up_Key_Dark.png
-  artifactKey: Guid(b4489b44d62a79f418a1dd94f1b8e89a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Scripts/UserInput/New Input/EditorInput/KeyRebinding/Icons/Arrow_Up_Key_Dark.png using Guid(b4489b44d62a79f418a1dd94f1b8e89a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '6f59556c03aa3e0ddeffbb2e75692013') in 0.023480 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000031 seconds.
-  path: Assets/Notes/Icons/angle ring.png
-  artifactKey: Guid(86538f13ca520bc45bba328cb7bd81e3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Notes/Icons/angle ring.png using Guid(86538f13ca520bc45bba328cb7bd81e3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '424ff766176bd6b55a57b2ff62bc22d7') in 0.023002 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000025 seconds.
-  path: Assets/Images/cursor.png
-  artifactKey: Guid(0c11560456522e94e93e0b3d66ced901) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Images/cursor.png using Guid(0c11560456522e94e93e0b3d66ced901) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'b4fd7cdf8346973b2c19c5e75177e4ea') in 0.026554 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000023 seconds.
-  path: Assets/ModernUIPack/Textures/Icons/Check with Circle.png
-  artifactKey: Guid(1c1bef4b40e990c42aed6432ebd324ef) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/ModernUIPack/Textures/Icons/Check with Circle.png using Guid(1c1bef4b40e990c42aed6432ebd324ef) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'c62cb437a81beb9e98824a8009b57c6c') in 0.029243 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000021 seconds.
-  path: Assets/ModernUIPack/Textures/Borders/Circles/Circle Outline 64px - Stroke 10px.png
-  artifactKey: Guid(6b0161e21a59dc14e96feff1ada41989) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/ModernUIPack/Textures/Borders/Circles/Circle Outline 64px - Stroke 10px.png using Guid(6b0161e21a59dc14e96feff1ada41989) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'bbc77e77ba12917b25259b8d8bcef4ae') in 0.028626 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000025 seconds.
-  path: Assets/Scripts/UserInput/New Input/EditorInput/KeyRebinding/Icons/Arrow_Left_Key_Dark.png
-  artifactKey: Guid(3c0a9f03fc59dc64b97eca2aa2ae3f2a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Scripts/UserInput/New Input/EditorInput/KeyRebinding/Icons/Arrow_Left_Key_Dark.png using Guid(3c0a9f03fc59dc64b97eca2aa2ae3f2a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '8c1afbc459b4047c01364c8aa639fbea') in 0.026185 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000022 seconds.
-  path: Assets/Images/background3.png
-  artifactKey: Guid(c7780b6645f8cbd4db9c5d6c32d93d5d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Images/background3.png using Guid(c7780b6645f8cbd4db9c5d6c32d93d5d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '7fc963bc16f5769b42c6075bb388e947') in 0.206505 seconds 
-Editor requested this worker to shutdown with reason: Scaling down because of idle timeout
-AssetImportWorker is now disconnected from the server
-Process exiting
-Exiting without the bug reporter. Application will terminate with return code 0

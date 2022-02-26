@@ -9,7 +9,7 @@ using System;
 
 namespace NotReaper.BpmAlign
 {
-    public class BPMDragView : NRInputWithoutKeybinds
+    public class BPMDragView : NRMenu
     {
         [Header("References")]
         [SerializeField] private BPMDragAlign dragAlign;
@@ -36,12 +36,12 @@ namespace NotReaper.BpmAlign
 
         public void Show()
         {
+            OnActivated();
             canvas.DOFade(1f, .3f);
             dragAlign.enabled = true;
             canvas.blocksRaycasts = true;
             bpm = (float)timeline.GetBpmFromTime(new QNT_Timestamp(0));
             bpmInput.text = bpm.ToString();
-            OnActivated();
         }
 
         public void Hide()

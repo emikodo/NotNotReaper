@@ -9,6 +9,7 @@ using UnityEngine;
 using NotReaper.Timing;
 using NotReaper.Modifier;
 using NotReaper.ReviewSystem;
+using NotReaper.UI;
 
 namespace NotReaper.Tools {
 	public class OLD_DragSelect : MonoBehaviour {
@@ -381,7 +382,7 @@ namespace NotReaper.Tools {
 
 		// Capture raw input and set the state of frame intents 
 		private void CaptureInput() {
-			if (ReviewWindow.IsOpen) return;
+			if (ReviewManager.IsOpen) return;
 			// TODO: Move these intents to a new input manager
 			bool primaryModifierHeld = false;
 			bool secondaryModifierHeld = false;
@@ -528,7 +529,7 @@ namespace NotReaper.Tools {
 		// execute simple actions which don't require any state management'
 		private void UpdateActions() {
 
-            if (ModifierHandler.activated || BookmarkMenu.isActive || ReviewWindow.IsOpen) return;
+            if (ModifierHandler.activated || BookmarkMenu.isActive || ReviewManager.IsOpen) return;
 			//if (EditorState.Tool.Current != EditorTool.DragSelect) return;
 			/** Setting hitsounds **/
 			if (frameIntentSetHitSoundStandard) SetHitsoundAction(InternalTargetVelocity.Kick);

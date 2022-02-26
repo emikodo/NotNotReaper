@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
-public class TimingPointsPanel : NRInputWithoutKeybinds, IPointerEnterHandler, IPointerExitHandler
+public class TimingPointsPanel : NRMenu, IPointerEnterHandler, IPointerExitHandler
 {
     private bool isActive;
     [SerializeField] private Timeline timeline;
@@ -33,11 +33,11 @@ public class TimingPointsPanel : NRInputWithoutKeybinds, IPointerEnterHandler, I
 
     public void Hide()
     {
-        OnDeactivated();
-        gameObject.SetActive(false);
         isActive = false;
         isHovering = false;
         ClearTimingItems();
+        OnDeactivated();
+        gameObject.SetActive(false);
     }
 
     public void Toggle()

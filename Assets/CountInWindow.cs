@@ -10,7 +10,7 @@ using UnityEngine.EventSystems;
 using NotReaper.Timing;
 using UnityEngine.InputSystem;
 
-public class CountInWindow : NRInputWithoutKeybinds {
+public class CountInWindow : NRMenu {
     public TMP_InputField lengthInput;
     
     [SerializeField] private Timeline timeline;

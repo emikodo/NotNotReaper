@@ -11,7 +11,7 @@ using UnityEngine.UI;
 
 namespace NotReaper.Statistics
 {
-    public class StatisticsUI : NRInputWithoutKeybinds
+    public class StatisticsUI : NRMenu
     {
 
         public static StatisticsUI Instance { get; private set; } = null;
@@ -72,9 +72,9 @@ namespace NotReaper.Statistics
         /// </summary>
         public void Close()
         {
-            OnDeactivated();
             ClearEntries();
             ShowWindow(false);
+            OnDeactivated();
         }
         /// <summary>
         /// Opens and closes this window.

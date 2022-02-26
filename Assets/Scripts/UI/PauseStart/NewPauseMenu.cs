@@ -10,26 +10,21 @@ using NotReaper.Maudica;
 
 namespace NotReaper.UI
 {
-    public class NewPauseMenu : NRInputWithoutKeybinds
+    public class NewPauseMenu : NRMenu
     {
         [NRInject] private Timeline timeline;
 
         private CanvasGroup canvas;
         [Header("References")]
         [SerializeField] private GameObject volumePanel;
-        [SerializeField] private ScrollRect scroll;
+        [SerializeField] private GameObject maudicaMenuButton;
         [Space, Header("Views")]
         [SerializeField] private View defaultView;
+        [SerializeField] private View maudicaView;
         [SerializeField] private View recentsView;
         [SerializeField] private View newView;
         [SerializeField] private View browserView;
         [SerializeField] private View settingsView;
-        [Space, Header("Maudica")]
-        [SerializeField] private GameObject startScreenView;
-        [SerializeField] private GameObject pauseView;
-        [SerializeField] private GameObject hintPanel;
-        [SerializeField] private GameObject curationPanel;
-        [SerializeField] private GameObject votePanel;
 
         private View activeView;
 
@@ -45,6 +40,7 @@ namespace NotReaper.UI
             newView.Initialize();
             browserView.Initialize();
             settingsView.Initialize();
+            maudicaView.Initialize();
             Reset();
             transform.localPosition = Vector3.zero;
             Show();
@@ -58,7 +54,10 @@ namespace NotReaper.UI
             SetViewEnabled(newView, false);
             SetViewEnabled(browserView, false);
             SetViewEnabled(settingsView, false);
+            SetViewEnabled(maudicaView, false);
+            maudicaMenuButton.SetActive(false);
             defaultView.gameObject.SetActive(true);
+            maudicaView.gameObject.SetActive(true);
             recentsView.gameObject.SetActive(true);
             newView.gameObject.SetActive(true);
             browserView.gameObject.SetActive(true);
@@ -71,7 +70,6 @@ namespace NotReaper.UI
             menu.canvas.blocksRaycasts = enabled;
             menu.canvas.alpha = enabled ? 1f : 0f;
             if (enabled) menu.canvas.interactable = true;
-            //canvas.gameObject.SetActive(enabled);
         }
 
         public void Show()
@@ -81,18 +79,7 @@ namespace NotReaper.UI
             if (!isInStartScreen)
             {
                 volumePanel.SetActive(true);
-                startScreenView.SetActive(false);
-                pauseView.SetActive(true);
-                if (MaudicaHandler.HasToken)
-                {
-                    hintPanel.SetActive(false);
-                    votePanel.SetActive(true);
-                }
-                else
-                {
-                    hintPanel.SetActive(true);
-                    votePanel.SetActive(false);
-                }
+                maudicaMenuButton.SetActive(true);
             }
             canvas.DOFade(1f, .3f);
         }
@@ -138,6 +125,11 @@ namespace NotReaper.UI
             ChangeView(recentsView);
         }
 
+        public void OnMaudicaPressed()
+        {
+            ChangeView(maudicaView);
+        }
+
         public void OnBrowserPressed()
         {
             ChangeView(browserView);
@@ -148,11 +140,13 @@ namespace NotReaper.UI
             ChangeView(settingsView);
         }
 
-
+        private Sequence fadeOutAnimation;
+        private Sequence fadeInAnimation;
         private void ChangeView(View newView) 
         {
             if (newView == activeView) return;
-            //newCanvas.gameObject.SetActive(true);
+            if (fadeInAnimation != null) fadeInAnimation.Complete();
+            if (fadeOutAnimation != null) fadeOutAnimation.Complete();
             Sequence animation = DOTween.Sequence();
             animation.Append(activeView.canvas.DOFade(0f, .3f));
             animation.OnComplete(() =>
@@ -168,8 +162,9 @@ namespace NotReaper.UI
                     activeView = newView;
                 });
                 fadeInAnimation.Play();
+                this.fadeInAnimation = fadeInAnimation;
             });
-
+            this.fadeOutAnimation = animation;
             animation.Play();
         }
 

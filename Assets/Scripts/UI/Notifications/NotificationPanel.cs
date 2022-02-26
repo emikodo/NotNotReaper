@@ -11,7 +11,7 @@ using UnityEngine.InputSystem;
 namespace NotReaper.Notifications
 {
     [RequireComponent(typeof(CanvasGroup))]
-    public class NotificationPanel : NRInputWithoutKeybinds, IPointerEnterHandler, IPointerExitHandler, IDeselectHandler
+    public class NotificationPanel : NRMenu, IPointerEnterHandler, IPointerExitHandler, IDeselectHandler
     {
         public static bool IsOpen = false;
 
@@ -31,7 +31,7 @@ namespace NotReaper.Notifications
         [SerializeField] private float animationDuration = 1f;
 
         private CanvasGroup canvas;
-        private Vector3 startPos = new Vector3(512f, -38f, 0f);
+        private Vector3 startPos = new Vector3(10.8404f, -0.805f, 0f);
         private bool isMouseOverPanel = false;
 
         protected override void Awake()

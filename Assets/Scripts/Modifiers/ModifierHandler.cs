@@ -28,7 +28,7 @@ namespace NotReaper.Modifier
 
         [Header("References")]
         [SerializeField] private ModifierSelectionHandler selectionHandler;
-        [SerializeField] private GameObject modifierWindow;
+        [SerializeField] private ModifierWindow modifierWindow;
         [SerializeField] private TMP_Dropdown dropdown;
         [SerializeField] private GameObject amountSlider;
         [SerializeField] private GameObject colorPicker;
@@ -197,8 +197,12 @@ namespace NotReaper.Modifier
 
         public void HideWindow(bool hide)
         {
+            if (!activated) return;
+
             isHidden = hide;
-            modifierWindow.SetActive(!hide);
+            if(hide) modifierWindow.Hide();
+            else modifierWindow.Show();
+            //modifierWindow.SetActive(!hide);
         }
 
         public void Activate(bool activate)
@@ -214,9 +218,11 @@ namespace NotReaper.Modifier
                     //Timeline.OptimizeInvisibleTargets();
                     Timeline.ShowTimelineTargets(false);
                 }
-                modifierWindow.GetComponent<CanvasGroup>().DOFade(1.0f, 0.3f);
-                modifierWindow.SetActive(isHidden ? false : true);
-                modifierWindow.transform.localPosition = activatePosition;
+                //modifierWindow.GetComponent<CanvasGroup>().DOFade(1.0f, 0.3f);
+                //modifierWindow.SetActive(isHidden ? false : true);
+                if (isHidden) modifierWindow.Hide();
+                else modifierWindow.Show();
+                //modifierWindow.transform.localPosition = activatePosition;
                 if (!init)
                 {
                     OnDropdownValueChanged();
@@ -237,7 +243,7 @@ namespace NotReaper.Modifier
                     //Timeline.OptimizeInvisibleTargets();
                     Timeline.ShowTimelineTargets(true);
                 }
-                modifierWindow.GetComponent<CanvasGroup>().DOFade(0.0f, 0.3f);
+                //modifierWindow.GetComponent<CanvasGroup>().DOFade(0.0f, 0.3f);
                 if (!init)
                 {
                     OnDropdownValueChanged();
@@ -248,8 +254,8 @@ namespace NotReaper.Modifier
                     activatePosition = modifierWindow.transform.localPosition;
                 }
                 colorPicker.SetActive(false);
-                modifierWindow.SetActive(false);
-
+                //modifierWindow.SetActive(false);
+                modifierWindow.Hide();
             }
         }
 

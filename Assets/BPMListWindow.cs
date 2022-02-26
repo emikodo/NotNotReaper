@@ -10,7 +10,7 @@ using UnityEngine.EventSystems;
 using NotReaper.Timing;
 using UnityEngine.InputSystem;
 
-public class BPMListWindow : NRInputWithoutKeybinds
+public class BPMListWindow : NRMenu
 {
     public TMP_Text bpmTextList;
 
@@ -25,6 +25,7 @@ public class BPMListWindow : NRInputWithoutKeybinds
     }
 
     public void Activate(List<float> bpmList) {
+        OnActivated();
         gameObject.GetComponent<CanvasGroup>().DOFade(1.0f, 0.3f);
         gameObject.SetActive(true);
 
@@ -32,7 +33,6 @@ public class BPMListWindow : NRInputWithoutKeybinds
         foreach(float f in bpmList) {
             bpmTextList.text += f.ToString() + "\n";
         }
-        OnActivated();
     }
 
     public void Deactivate() {

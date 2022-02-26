@@ -240,7 +240,14 @@ namespace NotReaper.UI
 
 		public void ShowHelpWindow()
 		{
-			help.Show();
+            if (help.isOpened)
+            {
+				help.Hide();
+            }
+            else
+            {
+				help.Show();
+            }
 		}
 
 		public void ShowCountinWindow()
@@ -260,12 +267,19 @@ namespace NotReaper.UI
 
 		public void ShowModifierHelpWindow()
 		{
-			ModifierInfo.Instance.Show();
+            if (ModifierInfo.isOpened)
+            {
+				ModifierInfo.Instance.Hide();
+            }
+            else
+            {
+				ModifierInfo.Instance.Show();
+            }
 		}
 
 		public void ShowReviewWindow()
 		{
-			ReviewWindow.Instance.ShowWindow(true);
+			ReviewManager.Instance.ShowWindow(!ReviewManager.IsOpen);
 		}
 
 		public void ShowPauseWindow()

@@ -214,7 +214,7 @@ namespace NotReaper.Managers {
 
             DiffsList diffs = Timeline.audicaFile.diffs;
             curSongName.text = Timeline.desc.title;
-            ReviewSystem.ReviewWindow.Instance.ClearContainer();
+            ReviewSystem.ReviewManager.Instance.ClearContainer();
             switch (index) {
                 case 0:
                     if (diffs.expert.cues != null) {

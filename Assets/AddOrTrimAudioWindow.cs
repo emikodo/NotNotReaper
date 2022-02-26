@@ -10,7 +10,7 @@ using UnityEngine.EventSystems;
 using NotReaper.Timing;
 using UnityEngine.InputSystem;
 
-public class AddOrTrimAudioWindow : NRInputWithoutKeybinds {
+public class AddOrTrimAudioWindow : NRMenu {
     public TMP_InputField timeLengthInput;
     public TMP_InputField beatLengthInput;
     

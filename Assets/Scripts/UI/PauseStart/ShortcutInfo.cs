@@ -11,7 +11,7 @@ using NotReaper.Keyboard;
 
 namespace NotReaper.UI
 {
-    public class ShortcutInfo : NRInputWithoutKeybinds
+    public class ShortcutInfo : NRMenu
     {
 
         public Image BG;
@@ -49,6 +49,7 @@ namespace NotReaper.UI
 
         public void Show()
         {
+            OnActivated();
             gameObject.SetActive(true);
             gameObject.GetComponent<CanvasGroup>().DOFade(1.0f, 0.3f);
             readmeUnderline.color = NRSettings.config.leftColor;
@@ -59,15 +60,14 @@ namespace NotReaper.UI
             window.transform.DOMove(new Vector3(transform.position.x, camTrans.position.y + 5.5f, transform.position.z), 1.0f).SetEase(Ease.OutQuint);
             isOpened = true;
             keyboard.OnOpen();
-            OnActivated();
         }
 
         public void Hide()
         {
-            OnDeactivated();
-            gameObject.SetActive(false);
             keyboard.OnClose();
             isOpened = false;
+            OnDeactivated();
+            gameObject.SetActive(false);
         }
 
         protected override void OnEscPressed(InputAction.CallbackContext context)

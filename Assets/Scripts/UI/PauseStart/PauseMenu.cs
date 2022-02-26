@@ -9,7 +9,7 @@ using UnityEngine.UI;
 namespace NotReaper.UI {
 
 
-    public class PauseMenu : NRInputWithoutKeybinds {
+    public class PauseMenu : NRMenu {
 
         public static PauseMenu Instance = null;
 

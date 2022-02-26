@@ -8,32 +8,45 @@ using NotReaper.Models;
 using System;
 using TMPro;
 using NotReaper.MapBrowser;
+using NotReaper.UI;
 
 namespace NotReaper.Maudica
 {
-    public class MaudicaUI : MonoBehaviour
+    public class MaudicaUI : View
     {
         [Header("Curation")]
-        [SerializeField] private GameObject curationPanel;
+        [SerializeField] private GameObject maudicaPanel;
         [SerializeField] private TextMeshProUGUI curationStatus;
         [Space, Header("Voting")]
         [SerializeField] private TextMeshProUGUI voteCount;
-
-        private bool isOpen = false;
+        [Space, Header("Hint")]
+        [SerializeField] private GameObject hintPanel;
+        [SerializeField] private TextMeshProUGUI hint;
 
         private void Start()
         {
-            curationPanel.SetActive(false);
             Timeline.onAudicaLoaded += OnAudicaLoaded;
         }
 
         private void OnAudicaLoaded(AudicaFile file)
         {
-            if (!MaudicaHandler.HasToken) return;
+            if (!MaudicaHandler.HasToken)
+            {
+                hint.text = "enter your maudica token in settings to access maudica features";
+                hintPanel.SetActive(true);
+                return;
+            }
             StartCoroutine(MaudicaHandler.GetMap(file.filepath, new Action<Song>((song) => 
             {
                 bool exists = song.id > 0;
-                curationPanel.SetActive(exists);               
+                if (!exists)
+                {
+                    hint.text = "map isn't available on maudica";
+                    hintPanel.SetActive(true);
+                    return;
+                }
+                maudicaPanel.SetActive(true);
+                hintPanel.SetActive(false);
                 UpdateCurationStatus(song.curated);
                 UpdateVoteCount(song.score);
             })));
@@ -78,6 +91,14 @@ namespace NotReaper.Maudica
             {
                 StartCoroutine(MaudicaHandler.GetMap(Timeline.audicaFile.filepath, new Action<Song>((song) => UpdateVoteCount(song.score))));
             })));
+        }
+
+        public override void Show()
+        {
+        }
+
+        public override void Hide()
+        {
         }
     }
 }

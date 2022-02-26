@@ -8,7 +8,7 @@ using DG.Tweening;
 using NotReaper.UserInput;
 using UnityEngine.InputSystem;
 
-public class ModifierInfo : NRInputWithoutKeybinds
+public class ModifierInfo : NRMenu
 {
     public static bool isOpened = false;
     public static ModifierInfo Instance = null;
@@ -35,6 +35,7 @@ public class ModifierInfo : NRInputWithoutKeybinds
 
     public void Show()
     {
+        OnActivated();
         gameObject.SetActive(true);
         gameObject.GetComponent<CanvasGroup>().DOFade(1.0f, 0.3f);
 
@@ -44,18 +45,17 @@ public class ModifierInfo : NRInputWithoutKeybinds
 
         window.transform.DOMove(new Vector3(transform.position.x, camTrans.position.y + 5.5f, transform.position.z), 1.0f).SetEase(Ease.OutQuint);
         isOpened = true;
-        OnActivated();
     }
 
 
 
     public void Hide()
     {
+        isOpened = false;
         OnDeactivated();
         gameObject.SetActive(false);
 
 
-        isOpened = false;
     }
 
     protected override void OnEscPressed(InputAction.CallbackContext context)

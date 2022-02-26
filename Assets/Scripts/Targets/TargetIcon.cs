@@ -663,11 +663,9 @@ namespace NotReaper.Targets {
 
         public bool IsInsideRect(Rect rect) {
             Vector2 center = transform.TransformPoint(0,0,0);
-
             Vector2 closestPoint = center;
             closestPoint.x = Mathf.Clamp(closestPoint.x, rect.min.x, rect.max.x);
             closestPoint.y = Mathf.Clamp(closestPoint.y, rect.min.y, rect.max.y);
-
             float collisionRad = transform.TransformVector(collisionRadiusDrag, 0, 0).x;
             return (closestPoint - center).sqrMagnitude < collisionRad * collisionRad;
         }

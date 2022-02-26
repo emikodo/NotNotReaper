@@ -97,7 +97,7 @@ namespace NotReaper.ReviewSystem
 
         public void SelectComment()
         {
-            ReviewWindow.Instance.SelectComment(Index);
+            ReviewManager.Instance.SelectComment(Index);
 
             SetSelected(true);          
         }
