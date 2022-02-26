@@ -2059,15 +2059,8 @@ namespace NotReaper {
 
 		public void BuildIntroZone()
 		{
-			if (!readyToRegenerate)
-			{
-				return;
-			}
-
-			if (songPlayback.song == null)
-			{
-				return;
-			}
+			if (!readyToRegenerate) return;
+			if (songPlayback.song == null) return;
 
 			QNT_Timestamp endOfAudio = ShiftTick(new QNT_Timestamp(0), songPlayback.song.Length);
 			TempoChange currentTempo = tempoChanges[0];
@@ -2078,9 +2071,7 @@ namespace NotReaper {
 			
 			for (float t = 0; t < endOfAudio.tick;)
 			{
-				ulong snap = (ulong)(beatSnap / 4);
-				float increment = 0f;
-				increment = Constants.PulsesPerWholeNote / currentTempo.timeSignature.Denominator;
+				float increment = Constants.PulsesPerWholeNote / currentTempo.timeSignature.Denominator;
 
 				float start = t / (float)Constants.PulsesPerQuarterNote;
 
@@ -2097,7 +2088,7 @@ namespace NotReaper {
 				}
 
 				barLengthIncr++;
-				barLengthIncr = barLengthIncr % currentTempo.timeSignature.Numerator;
+				barLengthIncr %= currentTempo.timeSignature.Numerator;
 
 				t += increment;
 
@@ -2105,22 +2096,13 @@ namespace NotReaper {
 
 			introZone.localPosition = new Vector3(0, 0.03f, 0); // intro red zone
 
-			float timelineScaleMulti = Timeline.scale / 20f;
-			introZone.localScale = new Vector3(endMeasure * timelineScaleMulti, 1.1f, 1);
+			introZone.localScale = new Vector3(endMeasure, 1.1f, 1);
 
 			Vector2 topLeft = introZone.transform.TransformPoint(0, 0, 0);
 			Vector2 size = introZone.transform.TransformVector(1, 1, 1);
 
 			Vector2 center = new Vector2(topLeft.x + size.x / 2, topLeft.y - size.y / 2);
 
-			/* 
-			float minX = Math.Min(center.x - size.x / 2, center.x + size.x / 2);
-			float maxX = Math.Max(center.x - size.x / 2, center.x + size.x / 2);
-			float minY = Math.Min(center.y - size.y / 2, center.y + size.y / 2);
-			float maxY = Math.Max(center.y - size.y / 2, center.y + size.y / 2);
-
-			Rect introRect = Rect.MinMaxRect(minX, minY, maxX, maxY);
-			*/
 		}
 
 
