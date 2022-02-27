@@ -2057,7 +2057,7 @@ namespace NotReaper {
 			mesh.triangles = indices.ToArray();
 
 			if (!onlyRegenerateMesh) waveformVisualizer.GenerateWaveform(songPlayback.song, this);
-
+			readyToRegenerate = false;
 		}
 
 		public void BuildIntroZone()
