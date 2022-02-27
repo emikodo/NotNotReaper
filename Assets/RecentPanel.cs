@@ -13,7 +13,7 @@ public class RecentPanel : View
     [SerializeField] Button[] buttons;
     [SerializeField] Timeline timeline;
     [SerializeField] NewPauseMenu pauseMenu;
-
+    [SerializeField] private GameObject loadingOverlay;
     private void Start()
     {
         if (RecentAudicaFiles.audicaPaths == null) RecentAudicaFiles.LoadRecents();
@@ -51,8 +51,9 @@ public class RecentPanel : View
             buttons[i].onClick = new Button.ButtonClickedEvent();
             buttons[i].onClick.AddListener(new UnityAction(() =>
             {
-                timeline.LoadAudicaFile(false, path);
+                loadingOverlay.SetActive(true);
                 if (!timeline.LoadAudicaFile(false, path)) return;
+                loadingOverlay.SetActive(false);
                 pauseMenu.Hide();
             }));
            

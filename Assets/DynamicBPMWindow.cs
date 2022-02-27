@@ -16,14 +16,11 @@ namespace NotReaper.UI.BPM
 
         [SerializeField] private Timeline timeline;
 
-        private bool active = false;
+        public bool isActive = false;
 
         void Start()
         {
-            Vector3 defaultPos;
-            defaultPos.x = 0;
-            defaultPos.y = 0;
-            defaultPos.z = -10.0f;
+            Vector3 defaultPos = Vector3.zero;
             gameObject.GetComponent<RectTransform>().localPosition = defaultPos;
             gameObject.GetComponent<CanvasGroup>().alpha = 0.0f;
             gameObject.SetActive(false);
@@ -34,8 +31,8 @@ namespace NotReaper.UI.BPM
 
         public void ToggleWindow()
         {
-            active = !active;
-            if (active) Activate();
+            isActive = !isActive;
+            if (isActive) Activate();
             else Deactivate();
         }
 

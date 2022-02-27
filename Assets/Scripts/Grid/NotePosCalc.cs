@@ -11,7 +11,7 @@ namespace NotReaper.Grid {
 		public static float xSize = 1.1f;
 		public static float ySize = 0.9f;
 		public static float xStart = 6.05f;
-		public static float yStart = 2.7f;
+		public static float yStart = 2.7f; //2.7f
 
 
 		//Gets the cue status based on a target.

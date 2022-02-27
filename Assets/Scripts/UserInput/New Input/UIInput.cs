@@ -230,7 +230,7 @@ namespace NotReaper.UI
 
 		public void ShowBpmWindow()
 		{
-			bpmWindow.Activate();
+			bpmWindow.ToggleWindow();
 		}
 
 		public void MoveGrid(Vector2 direction)
@@ -252,17 +252,19 @@ namespace NotReaper.UI
 
 		public void ShowCountinWindow()
 		{
-			countin.Activate();
+			if (countin.isActive) countin.Deactivate();
+			else countin.Activate();
 		}
 
 		public void ShowModifyAudioWindow()
 		{
-			audioModify.Activate();
+			if (audioModify.isActive) audioModify.Deactivate();
+			else audioModify.Activate();
 		}
 
 		public void ShowTimingPointsWindow()
 		{
-			timingPoints.Show();
+			timingPoints.Toggle();
 		}
 
 		public void ShowModifierHelpWindow()

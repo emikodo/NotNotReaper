@@ -1374,6 +1374,7 @@ namespace NotReaper {
         }
 
 		public bool LoadAudicaFile (bool loadRecent = false, string filePath = null, float bpm = -1) {
+			Debug.Log("Loading audica file");
 			readyToRegenerate = false;
 			inTimingMode = false;
 			SetOffset (new Relative_QNT (0));

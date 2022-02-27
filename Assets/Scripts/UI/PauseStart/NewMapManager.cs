@@ -214,7 +214,7 @@ namespace NotReaper.UI
             if (paths is null || paths.Length == 0) yield break;
             var filePath = paths[0];
             PlayerPrefs.SetString("lastSong", Path.GetDirectoryName(filePath));
-            FadeOverlayIn();
+            ShowOverlay();
             bool ffmpegFinished = false;
             var waitItem = new WaitUntil(() => ffmpegFinished);
             if (filePath != null)
@@ -251,7 +251,7 @@ namespace NotReaper.UI
                 {
                     SetAutoVolume();
                 }
-                FadeOverlayOut();
+                HideOverlay();
             }
         }
 
@@ -442,7 +442,7 @@ namespace NotReaper.UI
 
             string path;
             Difficulty difficulty = (Difficulty)selectedDifficulty;
-            FadeOverlayIn();
+            ShowOverlay();
             if (isMp3)
             {
                 yield return StartCoroutine(trimAudio.SetAudioLength(loadedSong, Path.Combine(Application.streamingAssetsPath, "FFMPEG", "output.ogg"), 0, defaultBpm, true));
@@ -462,29 +462,19 @@ namespace NotReaper.UI
         private void OnGenerationDone(string path)
         {
             timeline.LoadAudicaFile(false, path, defaultBpm);
-            FadeOverlayOut();
+            HideOverlay();
             view.ContinueToBPM();
             //EditorState.SelectMode(EditorMode.Compose);
         }
 
-        private void FadeOverlayIn()
+        private void ShowOverlay()
         {
-            loadingOverlay.alpha = 0f;
             loadingOverlay.gameObject.SetActive(true);
-            loadingOverlay.DOFade(1f, .3f);
         }
 
-        private void FadeOverlayOut()
+        private void HideOverlay()
         {
-            loadingOverlay.DOKill();
-            loadingOverlay.alpha = 1f;
-            var sequence = DOTween.Sequence();
-            sequence.Append(loadingOverlay.DOFade(0f, .3f));
-            sequence.OnComplete(() =>
-            {
-                loadingOverlay.gameObject.SetActive(false);
-            });
-            sequence.Play();
+            loadingOverlay.gameObject.SetActive(false);
         }
 
         private string RemoveSpecialCharacters(string str)

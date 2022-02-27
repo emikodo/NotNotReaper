@@ -14,11 +14,10 @@ namespace NotReaper.Grid {
         private static Vector2 GetNearestPointOnGrid(Vector2 pos, SnappingMode mode) {
 
             //pos -= gridOffset; //Enable if grid is actually offset.
-            pos.y += 0.45f;
+            pos.y += .45f;
             int x = Mathf.FloorToInt(pos.x / NotePosCalc.xSize);
             int y = Mathf.FloorToInt(pos.y / NotePosCalc.ySize);
-
-            Vector2 result = new Vector2((float) x * NotePosCalc.xSize, (float) y * NotePosCalc.ySize);
+            Vector2 result = new Vector2((float) x * NotePosCalc.xSize, (float)y * NotePosCalc.ySize);
             result.x += NotePosCalc.xSize / 2; //0.65f; //from 1.3 / 2
 
             //result += gridOffset; //Enable if grid is actually offset.

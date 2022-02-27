@@ -18,6 +18,8 @@ namespace NotReaper.UI
         [Header("References")]
         [SerializeField] private GameObject volumePanel;
         [SerializeField] private GameObject maudicaMenuButton;
+        [SerializeField] private Image nrStartOverlay;
+        [SerializeField] private TextMeshProUGUI title;
         [Space, Header("Views")]
         [SerializeField] private View defaultView;
         [SerializeField] private View maudicaView;
@@ -43,7 +45,18 @@ namespace NotReaper.UI
             maudicaView.Initialize();
             Reset();
             transform.localPosition = Vector3.zero;
+            Color c = nrStartOverlay.color;
+            c.a = 1f;
+            nrStartOverlay.color = c;
             Show();
+        }
+
+        private void Start()
+        {
+            nrStartOverlay.DOFade(0f, 2f).SetDelay(.5f).OnComplete(() =>
+            {
+                nrStartOverlay.gameObject.SetActive(false);
+            });
         }
 
         private void Reset()

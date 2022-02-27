@@ -13,7 +13,7 @@ namespace NotReaper.Modifier
 
         public GameObject zOffsetWindow;
 
-        private Vector3 activatePosition = new Vector3(0f, 13f, 0f);
+        private Vector3 activatePosition = new Vector3(0f, 0f, 0f);
         private void Start()
         {
             if (Instance is null)

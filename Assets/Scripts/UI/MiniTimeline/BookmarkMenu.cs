@@ -13,7 +13,7 @@ namespace NotReaper.UI
         public static bool inputFocused = false;
         public TMP_InputField inputField;
         public GameObject menu;
-        private Vector3 activatePosition = new Vector3(0f, 13f, 0f);
+        private Vector3 activatePosition = new Vector3(0f, 0f, 0f);
 
         private void Start()
         {

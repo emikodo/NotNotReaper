@@ -8,7 +8,7 @@ using UnityEngine.InputSystem;
 
 public class TimingPointsPanel : NRMenu, IPointerEnterHandler, IPointerExitHandler
 {
-    private bool isActive;
+    public bool isActive;
     [SerializeField] private Timeline timeline;
     public TimingPointItem timingPointItem;
     public Transform scrollContent;

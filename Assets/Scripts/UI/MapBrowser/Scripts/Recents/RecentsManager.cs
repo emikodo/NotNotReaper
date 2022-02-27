@@ -15,6 +15,7 @@ namespace NotReaper.MapBrowser.Recents
     /// </summary>
     public class RecentsManager : MonoBehaviour
     {
+        [SerializeField] private GameObject loadingOverlay;
         #region Fields
         private string downloadsFolder;
         private static string recentDownloadsPath;
@@ -59,14 +60,17 @@ namespace NotReaper.MapBrowser.Recents
         /// <param name="filename">The file to load.</param>
         public void LoadMap(string filename)
         {
+            loadingOverlay.SetActive(true);
             string path = Path.Combine(downloadsFolder, filename);
             if (Timeline.instance.LoadAudicaFile(false, path)) pauseMenu.Hide();
+            loadingOverlay.SetActive(false);
             //PauseMenu.Instance.ClosePauseMenu();
         }
 
         public void DownloadAndOpenMap(MapData map, Action callback)
         {
             this.callback = callback;
+            loadingOverlay.SetActive(true);
             StartCoroutine(APIHandler.DownloadMap(map, OnDownloadComplete));
         }
 
