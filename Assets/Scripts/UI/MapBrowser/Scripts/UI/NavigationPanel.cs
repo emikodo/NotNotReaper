@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using NotReaper.UI.Components;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -13,8 +14,8 @@ namespace NotReaper.MapBrowser.UI
     {
         #region References
         [Header("Buttons")]
-        [SerializeField] private Button buttonNext;
-        [SerializeField] private Button buttonPrevious;
+        [SerializeField] private NRButton buttonNext;
+        [SerializeField] private NRButton buttonPrevious;
         [Space, Header("Text")]
         [SerializeField] private TextMeshProUGUI pageText;
         #endregion

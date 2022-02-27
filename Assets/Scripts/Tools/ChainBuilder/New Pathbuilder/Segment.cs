@@ -150,8 +150,8 @@ namespace NotReaper.Tools.PathBuilder
             EnableConnectorsAndHandles(true);
 
             //set handles in a straight line, inwards from start and end point, so we always start with a straight line
-            startPointHandle.transform.position = Vector2.Lerp(startPoint.position, endPoint.transform.position, .25f);
-            endPointHandle.transform.position = Vector2.Lerp(startPoint.position, endPoint.transform.position, .75f);
+            startPointHandle.transform.position = Vector2.Lerp(startPoint.position, endPoint.transform.position, .2f);
+            endPointHandle.transform.position = Vector2.Lerp(startPoint.position, endPoint.transform.position, .8f);
 
 
             UpdateSegment();

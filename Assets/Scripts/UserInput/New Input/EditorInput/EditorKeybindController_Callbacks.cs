@@ -346,12 +346,17 @@ namespace NotReaper.UserInput
             if (KeybindManager.Global.Modifier == KeybindManager.Global.Modifiers.Ctrl)
             {
                 useLegacy = !useLegacy;
+                if (useLegacy && EditorState.IsToolActive(EditorTool.Pathbuilder)) EditorState.SelectTool(EditorTool.Pathbuilder);
+                else if (!useLegacy && EditorState.IsToolActive(EditorTool.ChainBuilder))
+                {
+                    mapping.ToggleChainbuilder();
+                }
             }
             if (KeybindManager.Global.Modifier == KeybindManager.Global.Modifiers.None)
             {
                 if (useLegacy)
                 {
-                    EditorState.SelectTool(EditorTool.ChainBuilder);
+                    mapping.ToggleChainbuilder();
                 }
                 else
                 {

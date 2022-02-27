@@ -17,6 +17,7 @@ namespace NotReaper
 		public static bool IsInUI { get; private set; }
 		public static bool IsOverGrid { get; private set; }
 		public static bool IsUsingCursor { get; private set; }
+		public static bool IsToolActive(EditorTool tool) => activeTools.Contains(tool);
 
 		private static List<EditorTool> activeTools = new List<EditorTool>();
 

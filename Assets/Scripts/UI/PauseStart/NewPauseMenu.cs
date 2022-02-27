@@ -37,6 +37,7 @@ namespace NotReaper.UI
             base.Awake();
 
             canvas = GetComponent<CanvasGroup>();
+            canvas.alpha = 0f;
             defaultView.Initialize();
             recentsView.Initialize();
             newView.Initialize();
@@ -53,7 +54,7 @@ namespace NotReaper.UI
 
         private void Start()
         {
-            nrStartOverlay.DOFade(0f, 2f).SetDelay(.5f).OnComplete(() =>
+            nrStartOverlay.DOFade(0f, 1f).SetDelay(.5f).OnComplete(() =>
             {
                 nrStartOverlay.gameObject.SetActive(false);
             });
@@ -94,13 +95,18 @@ namespace NotReaper.UI
                 volumePanel.SetActive(true);
                 maudicaMenuButton.SetActive(true);
             }
-            canvas.DOFade(1f, .3f);
+            // canvas.DOFade(1f, .3f);
+            canvas.alpha = 1f;
         }
 
         public void Hide()
         {
+            canvas.alpha = 0f;
+            Reset();
+            OnDeactivated();
+            /*
             Sequence animation = DOTween.Sequence();
-            animation.Append(canvas.DOFade(0f, .3f));
+            animation.Append(canvas.DOFade(0f, .5f));
             animation.OnComplete(() =>
             {
                 gameObject.SetActive(false);
@@ -112,6 +118,7 @@ namespace NotReaper.UI
                 OnDeactivated();
             });
             animation.Play();
+            */
         }
 
         public void OnOpenFile()

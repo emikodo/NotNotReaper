@@ -37,7 +37,7 @@ public partial class @DragSelectKeybinds : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Group Select"",
+                    ""name"": ""GroupSelect"",
                     ""type"": ""Button"",
                     ""id"": ""4c13b94b-5b82-4cf6-a5eb-199f801d8473"",
                     ""expectedControlType"": ""Button"",
@@ -46,13 +46,22 @@ public partial class @DragSelectKeybinds : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Mouse Position"",
+                    ""name"": ""MousePosition"",
                     ""type"": ""Value"",
                     ""id"": ""efa11db2-eaa7-4a38-adc8-6ea45fde6e6d"",
                     ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Scrub"",
+                    ""type"": ""Button"",
+                    ""id"": ""eb7db679-9b59-460d-b698-628dbed96c49"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -74,7 +83,7 @@ public partial class @DragSelectKeybinds : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Group Select"",
+                    ""action"": ""GroupSelect"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -85,7 +94,18 @@ public partial class @DragSelectKeybinds : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Mouse Position"",
+                    ""action"": ""MousePosition"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d69ab22f-023d-42a0-83f4-8bbe559436f1"",
+                    ""path"": ""<Mouse>/scroll/y"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Scrub"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -97,8 +117,9 @@ public partial class @DragSelectKeybinds : IInputActionCollection2, IDisposable
         // DragSelect
         m_DragSelect = asset.FindActionMap("DragSelect", throwIfNotFound: true);
         m_DragSelect_Drag = m_DragSelect.FindAction("Drag", throwIfNotFound: true);
-        m_DragSelect_GroupSelect = m_DragSelect.FindAction("Group Select", throwIfNotFound: true);
-        m_DragSelect_MousePosition = m_DragSelect.FindAction("Mouse Position", throwIfNotFound: true);
+        m_DragSelect_GroupSelect = m_DragSelect.FindAction("GroupSelect", throwIfNotFound: true);
+        m_DragSelect_MousePosition = m_DragSelect.FindAction("MousePosition", throwIfNotFound: true);
+        m_DragSelect_Scrub = m_DragSelect.FindAction("Scrub", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -161,6 +182,7 @@ public partial class @DragSelectKeybinds : IInputActionCollection2, IDisposable
     private readonly InputAction m_DragSelect_Drag;
     private readonly InputAction m_DragSelect_GroupSelect;
     private readonly InputAction m_DragSelect_MousePosition;
+    private readonly InputAction m_DragSelect_Scrub;
     public struct DragSelectActions
     {
         private @DragSelectKeybinds m_Wrapper;
@@ -168,6 +190,7 @@ public partial class @DragSelectKeybinds : IInputActionCollection2, IDisposable
         public InputAction @Drag => m_Wrapper.m_DragSelect_Drag;
         public InputAction @GroupSelect => m_Wrapper.m_DragSelect_GroupSelect;
         public InputAction @MousePosition => m_Wrapper.m_DragSelect_MousePosition;
+        public InputAction @Scrub => m_Wrapper.m_DragSelect_Scrub;
         public InputActionMap Get() { return m_Wrapper.m_DragSelect; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -186,6 +209,9 @@ public partial class @DragSelectKeybinds : IInputActionCollection2, IDisposable
                 @MousePosition.started -= m_Wrapper.m_DragSelectActionsCallbackInterface.OnMousePosition;
                 @MousePosition.performed -= m_Wrapper.m_DragSelectActionsCallbackInterface.OnMousePosition;
                 @MousePosition.canceled -= m_Wrapper.m_DragSelectActionsCallbackInterface.OnMousePosition;
+                @Scrub.started -= m_Wrapper.m_DragSelectActionsCallbackInterface.OnScrub;
+                @Scrub.performed -= m_Wrapper.m_DragSelectActionsCallbackInterface.OnScrub;
+                @Scrub.canceled -= m_Wrapper.m_DragSelectActionsCallbackInterface.OnScrub;
             }
             m_Wrapper.m_DragSelectActionsCallbackInterface = instance;
             if (instance != null)
@@ -199,6 +225,9 @@ public partial class @DragSelectKeybinds : IInputActionCollection2, IDisposable
                 @MousePosition.started += instance.OnMousePosition;
                 @MousePosition.performed += instance.OnMousePosition;
                 @MousePosition.canceled += instance.OnMousePosition;
+                @Scrub.started += instance.OnScrub;
+                @Scrub.performed += instance.OnScrub;
+                @Scrub.canceled += instance.OnScrub;
             }
         }
     }
@@ -208,5 +237,6 @@ public partial class @DragSelectKeybinds : IInputActionCollection2, IDisposable
         void OnDrag(InputAction.CallbackContext context);
         void OnGroupSelect(InputAction.CallbackContext context);
         void OnMousePosition(InputAction.CallbackContext context);
+        void OnScrub(InputAction.CallbackContext context);
     }
 }

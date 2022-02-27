@@ -63,3 +63,4 @@ ProjectSettings/QualitySettings.asset
 # Logs
 *.log
 Logs/
+Logs/*

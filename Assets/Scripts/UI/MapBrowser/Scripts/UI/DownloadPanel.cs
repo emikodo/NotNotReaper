@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using NotReaper.UI.Components;
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -11,8 +12,8 @@ namespace NotReaper.MapBrowser.UI
     {
         #region References
         [Header("Buttons")]
-        [SerializeField] private Button buttonDownload;
-        [SerializeField] private Button buttonClear;
+        [SerializeField] private NRButton buttonDownload;
+        [SerializeField] private NRButton buttonClear;
         [Space, Header("Scroller")]
         [SerializeField] private Scrollbar scrollbar;
         [SerializeField] private ScrollRect scrollRect;

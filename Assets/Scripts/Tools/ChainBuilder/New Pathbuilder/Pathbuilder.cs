@@ -667,7 +667,7 @@ namespace NotReaper.Tools.PathBuilder
 							return;
 						}
 					}
-					else if (IsValidPathbuilderCandidate(target))
+					else if (IsValidPathbuilderCandidate(target) && activeTarget == null)
 					{
 						SwitchData(target);
 						return;

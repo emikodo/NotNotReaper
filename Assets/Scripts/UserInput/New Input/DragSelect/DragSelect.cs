@@ -43,6 +43,7 @@ namespace NotReaper.Tools
 		private Vector2 mouseStartPosScreen;
 
 		private bool isActive;
+		private bool isMouseDown;
         #endregion
 
         #region Properties
@@ -429,9 +430,18 @@ namespace NotReaper.Tools
 			{
 				if (KeybindManager.Global.Modifier.IsShiftDown())
 				{
-					if (Timeline.instance.selectedNotes.Count > 0)
+					if (Timeline.instance.selectedNotes.Count > 0 && iconUnderMouse.location == TargetIconLocation.Timeline)
 					{
-						NoteEnumerator targets = new NoteEnumerator(Timeline.instance.selectedNotes[0].data.time, iconUnderMouse.data.time);
+						NoteEnumerator targets;
+						if(iconUnderMouse.data.time > Timeline.instance.selectedNotes.Last().data.time)
+                        {
+							targets = new NoteEnumerator(Timeline.instance.selectedNotes[0].data.time, iconUnderMouse.data.time);
+                        }
+                        else
+                        {
+							targets = new NoteEnumerator(iconUnderMouse.data.time, Timeline.instance.selectedNotes.Last().data.time);
+
+                        }
 						foreach (var target in targets) target.MakeTimelineSelectTarget();
 					}
 					else
@@ -489,6 +499,7 @@ namespace NotReaper.Tools
         {
 			actions.DragSelect.Drag.performed += _ => OnMouseClick();
 			actions.DragSelect.Drag.canceled += _ => OnMouseRelease();
+			actions.DragSelect.Scrub.performed += obj => OnScrub(obj.ReadValue<float>() < 0);
         }
 
 		protected override void OnEscPressed(InputAction.CallbackContext context) { }
@@ -497,6 +508,7 @@ namespace NotReaper.Tools
 		#region Callbacks
 		private void OnMouseClick()
 		{
+			isMouseDown = true;
 			mouseStartPosScreen = actions.DragSelect.MousePosition.ReadValue<Vector2>();
 			mouseStartPosWorld = cam.ScreenToWorldPoint(mouseStartPosScreen);
 			state = DragState.DetectIntent;
@@ -505,17 +517,26 @@ namespace NotReaper.Tools
 
 		private void OnMouseRelease()
 		{
-			if (state == DragState.DetectIntent)
-			{
-				//TryToggleSelection();
-			}
 			EndDrag();
+			isMouseDown = false;
 		}
+
+		private void OnScrub(bool forward)
+        {
+            if (KeybindManager.Global.Modifier.IsAltDown())
+            {
+				timeline.ChangeBeatSnap(forward);
+            }
+            else
+            {
+				timeline.ScrubTimeline(forward, !isMouseDown);
+            }
+        }
 
         protected override void SetRebindConfiguration(ref RebindConfiguration options, DragSelectKeybinds myKeybinds)
         {
 			options.SetRebindable(false);
-			options.AddHiddenKeybinds(myKeybinds.DragSelect.MousePosition);
+			options.AddHiddenKeybinds(myKeybinds.DragSelect.MousePosition, myKeybinds.DragSelect.Scrub);
         }
         #endregion
 

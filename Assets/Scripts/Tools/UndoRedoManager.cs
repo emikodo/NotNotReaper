@@ -168,6 +168,7 @@ namespace NotReaper.Tools {
 				intent.target.position = intent.intendedPosition;
 
 			});
+			timeline.UpdateState();
 			TransformTool.instance.UpdateOverlay();
 		}
 		public override void UndoAction(Timeline timeline) {
@@ -177,6 +178,7 @@ namespace NotReaper.Tools {
 				intent.target.position = intent.startingPosition;
                 
 			});
+			timeline.UpdateState();
 			TransformTool.instance.UpdateOverlay();
 		}
 	}
@@ -201,6 +203,7 @@ namespace NotReaper.Tools {
 				intent.endRepeaterSiblingsToBeCreated.ForEach(data => { timeline.AddTargetFromAction(data); });
 			});
 			timeline.SortOrderedList();
+			timeline.UpdateState();
 			TransformTool.instance.UpdateOverlay();
 		}
 		public override void UndoAction(Timeline timeline) {
@@ -220,6 +223,7 @@ namespace NotReaper.Tools {
 				intent.startSiblingsToBeDestroyed.ForEach(data => { timeline.AddTargetFromAction(data); });
 			});
 			timeline.SortOrderedList();
+			timeline.UpdateState();
 			TransformTool.instance.UpdateOverlay();
 		}
 	}

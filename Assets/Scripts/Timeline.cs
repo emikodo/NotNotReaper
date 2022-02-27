@@ -324,7 +324,7 @@ namespace NotReaper {
 
 			Physics.autoSyncTransforms = false;
 
-			ChainBuilder.timeline = this;
+			//ChainBuilder.timeline = this;
 
 			musicVolumeSlider.onValueChanged.AddListener (val => {
 				musicVolume = val;
@@ -924,6 +924,7 @@ namespace NotReaper {
 			{
 				target.MakeTimelineSelectTarget();
 			}
+			OnSelectedNoteCountChanged.Invoke(selectedNotes.Count);
 		}
 
 		public void DeselectTarget (Target target, bool resettingAll = false) {
@@ -949,6 +950,7 @@ namespace NotReaper {
 			}
 
 			selectedNotes = new List<Target> ();
+			OnSelectedNoteCountChanged.Invoke(0);
 		}
 
 		/// <summary>
@@ -2453,7 +2455,7 @@ namespace NotReaper {
 			UpdateState();
 		}
 
-		private void UpdateState()
+		public void UpdateState()
         {
 			UpdateSustains();
 			UpdateDualines();
@@ -2908,7 +2910,7 @@ namespace NotReaper {
 
 		private void OnMouseDown () {
 			//We don't want to interfere with drag select
-			if (EditorState.Tool.Current == EditorTool.DragSelect) return;
+			if (EditorState.Tool.Current == EditorTool.DragSelect || EditorState.Tool.Current == EditorTool.Pathbuilder || EditorState.Tool.Current == EditorTool.ChainBuilder) return;
 			JumpToX (Camera.main.ScreenToWorldPoint (Input.mousePosition).x);
 		}
 

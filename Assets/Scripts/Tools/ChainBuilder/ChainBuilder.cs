@@ -27,7 +27,6 @@ namespace NotReaper.Tools.ChainBuilder {
  
 
 	public class ChainBuilder : NRInput<ChainbuilderKeybinds> {
-		public static Timeline timeline;
 		public LayerMask notesLayer;
 
 
@@ -78,7 +77,7 @@ namespace NotReaper.Tools.ChainBuilder {
 		private bool isMouseDown;
 		public bool snapAngle;
 
-		[SerializeField] private GameObject chainBuilderWindow; 
+		[SerializeField] private ChainBuilderWindow chainBuilderWindow; 
 		[SerializeField] private GameObject chainBuilderWindowSelectedControls; 
 		[SerializeField] private GameObject chainBuilderWindowUnselectedControls; 
 
@@ -89,10 +88,11 @@ namespace NotReaper.Tools.ChainBuilder {
 		[SerializeField] private TextSliderCombo stepIncrement;
 
 		public static ChainBuilder Instance = null;
+		private static Timeline timeline;
 
-		private CanvasGroup canvas;
+		/*private CanvasGroup canvas;
 		private RectTransform rect;
-		private BoxCollider2D boxCollider;
+		private BoxCollider2D boxCollider;*/
 
 		protected override void Awake() 
 		{
@@ -108,18 +108,34 @@ namespace NotReaper.Tools.ChainBuilder {
 			defaultPos.x = 289.0f;
 			defaultPos.y = -92.2f;
 			defaultPos.z = -10.0f;
-			rect = chainBuilderWindow.GetComponent<RectTransform>();
-			canvas = chainBuilderWindow.GetComponent<CanvasGroup>();
-			boxCollider = chainBuilderWindow.GetComponent<BoxCollider2D>();
-			rect.localPosition = defaultPos;
+			//rect = chainBuilderWindow.GetComponent<RectTransform>();
+			//canvas = chainBuilderWindow.GetComponent<CanvasGroup>();
+			//boxCollider = chainBuilderWindow.GetComponent<BoxCollider2D>();
+			/*rect.localPosition = defaultPos;
 			canvas.alpha = 0.0f;
 			canvas.blocksRaycasts = false;
 			canvas.interactable = false;
-			boxCollider.enabled = false;
+			boxCollider.enabled = false;*/
 			angleIncrement.OnValueChanged += OnAngleVelocityChange;
 			angleIncrementIncrement.OnValueChanged += OnAngleAccelerationChange;
 			stepDistance.OnValueChanged += OnStepDistanceChange;
 			stepIncrement.OnValueChanged += OnStepIncrementChange;
+		}
+
+        private void Start()
+        {
+			timeline = NRDependencyInjector.Get<Timeline>();
+			timeline.OnSelectedNoteCountChanged.AddListener(OnSelectedNoteCountChanged);
+			OnSelectedNoteCountChanged(0);
+		}
+
+        [NRListener]
+		private void OnBehaviorChanged(TargetBehavior behavior)
+		{
+			if (activated)
+			{
+				Activate(false);
+			}
 		}
 
 		/// <summary>
@@ -135,12 +151,12 @@ namespace NotReaper.Tools.ChainBuilder {
 			startClickNote = null;
 
 			pathBuilderInterval.elements = NRSettings.config.snaps;
-
-			if(active) 
+			EditorState.SelectTool(EditorTool.ChainBuilder);
+			if (active) 
 			{
 				OnActivated();
 				bool validNoteSelected = (timeline.selectedNotes.Count == 1 && timeline.selectedNotes[0].data.behavior == TargetBehavior.Legacy_Pathbuilder);
-				EditorState.SelectTool(EditorTool.ChainBuilder);
+				//EditorState.SelectTool(EditorTool.ChainBuilder);
 				if(!validNoteSelected) 
 				{
 					if(timeline.selectedNotes.Count == 1)
@@ -152,6 +168,8 @@ namespace NotReaper.Tools.ChainBuilder {
 						timeline.DeselectAllTargets();
                     }
 				}
+				EditorState.SelectSnappingMode(SnappingMode.None);
+				
 				ShowPathbuilderWindow(true);
 
 				if(validNoteSelected) 
@@ -161,7 +179,7 @@ namespace NotReaper.Tools.ChainBuilder {
 			}
 			else 
 			{
-				EditorState.SelectTool(EditorState.Tool.Previous);
+				EditorState.SelectSnappingMode(EditorState.Snapping.Previous);
 				ShowPathbuilderWindow(false);
 				OnDeactivated();
 			}
@@ -183,22 +201,22 @@ namespace NotReaper.Tools.ChainBuilder {
 
 		private void ShowPathbuilderWindow(bool show)
         {
-			canvas.DOFade(show ? 1.0f : 0f, 0.3f);
+			if (show) chainBuilderWindow.Show();
+			else chainBuilderWindow.Hide();
+			/*canvas.DOFade(show ? 1.0f : 0f, 0.3f);
 			canvas.interactable = show;
 			boxCollider.enabled = show;
-			canvas.blocksRaycasts = show;
+			canvas.blocksRaycasts = show;*/
 		}
 
         protected override void OnActivated()
         {
-            base.OnActivated();
-			timeline.OnSelectedNoteCountChanged.AddListener(OnSelectedNoteCountChanged);
+			base.OnActivated();
         }
 
         protected override void OnDeactivated()
         {
             base.OnDeactivated();
-			timeline.OnSelectedNoteCountChanged.RemoveListener(OnSelectedNoteCountChanged);
         }
 
         public void OnIntervalChange() {

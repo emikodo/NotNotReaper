@@ -14,6 +14,7 @@ using NotReaper.Tools.SpacingSnap;
 using NotReaper.Modifier;
 using NotReaper.Tools.ChainBuilder;
 using NotReaper.Tools.PathBuilder;
+using NotReaper.Notifications;
 
 namespace NotReaper.UserInput
 {
@@ -95,6 +96,7 @@ namespace NotReaper.UserInput
 				intents.Add(intent);
 			}
 			timeline.SetTargetHitsounds(intents);
+			NotificationCenter.SendNotification($"Converted hitsound{(timeline.selectedNotes.Count > 1 ? "s" : "")} to {velocity}.", NotificationType.Success);
 		}
 
 		public void SetTargetBehaviorAction(TargetBehavior behavior)
@@ -241,15 +243,8 @@ namespace NotReaper.UserInput
         }
 
         internal void ToggleChainbuilder()
-        {
-            if(pathbuilder.isActive)
-            {
-				pathbuilder.Activate(false);
-				return;
-            }
-            
-			chainbuilder.Activate(!chainbuilder.activated);
-            
+        {            
+			chainbuilder.Activate(!chainbuilder.activated);   
         }
 
         internal void ToggleModifierPreview()

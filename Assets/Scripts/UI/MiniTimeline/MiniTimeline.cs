@@ -91,7 +91,7 @@ namespace NotReaper.UI {
 		float prevX = 0f;
 
 		private void OnMouseDrag() {
-			if (EditorState.IsInUI) return;
+			if (EditorState.IsInUI || EditorState.Tool.Current == EditorTool.ChainBuilder || EditorState.Tool.Current == EditorTool.Pathbuilder || EditorState.Tool.Current == EditorTool.DragSelect) return;
 			var x = _mainCamera.ScreenToWorldPoint(Input.mousePosition).x;
 
 			x -= _mainCamera.transform.position.x;
@@ -116,12 +116,13 @@ namespace NotReaper.UI {
 		bool timelineWasPlaying = false;
 
 		private void OnMouseDown() {
-			if (EditorState.IsInUI) return;
+			if (EditorState.IsInUI || EditorState.Tool.Current == EditorTool.ChainBuilder || EditorState.Tool.Current == EditorTool.Pathbuilder || EditorState.Tool.Current == EditorTool.DragSelect) return;
 			if (!timeline.paused) timeline.TogglePlayback();
 			timelineWasPlaying = true;
 		}
 
 		private void OnMouseUp() {
+			if (EditorState.IsInUI || EditorState.Tool.Current == EditorTool.ChainBuilder || EditorState.Tool.Current == EditorTool.Pathbuilder || EditorState.Tool.Current == EditorTool.DragSelect) return;
 			timelineWasPlaying = false;
 			if (timelineWasPlaying && timeline.paused) timeline.TogglePlayback();
 		}
