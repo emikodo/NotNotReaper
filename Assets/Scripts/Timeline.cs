@@ -1353,7 +1353,7 @@ namespace NotReaper {
 
 		public void SetTimingModeStats (UInt64 microsecondsPerQuarterNote, int tickOffset) {
 			DeleteAllTargets ();
-
+			readyToRegenerate = false;
 			SetBPM (new QNT_Timestamp (0), microsecondsPerQuarterNote, false);
 
 			SafeSetTime ();
@@ -2057,7 +2057,6 @@ namespace NotReaper {
 			mesh.triangles = indices.ToArray();
 
 			if (!onlyRegenerateMesh) waveformVisualizer.GenerateWaveform(songPlayback.song, this);
-			readyToRegenerate = false;
 		}
 
 		public void BuildIntroZone()

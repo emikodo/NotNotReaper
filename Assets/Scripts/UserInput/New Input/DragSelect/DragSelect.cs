@@ -525,7 +525,7 @@ namespace NotReaper.Tools
         {
             if (KeybindManager.Global.Modifier.IsAltDown())
             {
-				timeline.ChangeBeatSnap(forward);
+				timeline.ChangeBeatSnap(!forward);
             }
             else
             {

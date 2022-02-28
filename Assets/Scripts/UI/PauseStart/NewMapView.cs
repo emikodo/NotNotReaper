@@ -11,6 +11,7 @@ namespace NotReaper.UI
     {
         [Header("References")]
         [SerializeField] private NewMapManager manager;
+        [SerializeField] private GameObject skipAlignmentButton;
         [Space, Header("Views")]
         [SerializeField] private CanvasGroup metadataView;
         [SerializeField] private CanvasGroup genreView;
@@ -18,10 +19,14 @@ namespace NotReaper.UI
         [NRInject] private NewPauseMenu pauseMenu;
         private CanvasGroup activeView, previousView;
         [NRInject] private BPMDragView bpmView;
+        private bool skipAlignment;
         private void Start()
         {
             activeView = metadataView;
             genreView.blocksRaycasts = false;
+            skipAlignmentButton.SetActive(false);
+            bool skipUnlocked = PlayerPrefs.GetInt("s_align", 0) == 1;
+            skipAlignmentButton.SetActive(skipUnlocked);
         }
         public override void Hide()
         {
@@ -38,15 +43,19 @@ namespace NotReaper.UI
             ChangeView(metadataView, genreView);
         }
 
-        public void GenerateOgg()
+        public void GenerateOgg(bool skipAlignment)
         {
+            this.skipAlignment = skipAlignment;
             manager.GenerateOgg();
         }
 
         internal void ContinueToBPM()
         {
             pauseMenu.Hide();
-            bpmView.Show();
+            if (!skipAlignment)
+            {
+                bpmView.Show();
+            }
         }
 
         private void ChangeView(CanvasGroup from, CanvasGroup to)
