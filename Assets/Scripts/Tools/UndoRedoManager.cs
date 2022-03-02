@@ -254,11 +254,24 @@ namespace NotReaper.Tools
             {
 
                 intent.target.position = intent.intendedPosition;
+
                 if (intent.target.isRepeaterTarget)
                 {
                     foreach (var target in timeline.repeaterManager.GetMatchingRepeaterTargets(intent.target))
                     {
-                        target.position = intent.intendedPosition;
+                        var pos = intent.intendedPosition;
+                        
+                        if (target.repeaterData.Section.mirrorHorizontally || (target.repeaterData.Section.isParent && intent.target.repeaterData.Section.mirrorHorizontally))
+                        {
+                            pos.x *= -1f;
+                        }
+                        if (target.repeaterData.Section.mirrorVertically || (target.repeaterData.Section.isParent && intent.target.repeaterData.Section.mirrorVertically))
+                        {
+                            pos.y *= -1f;
+                        }
+
+                        
+                        target.position = pos;
                     }
                 }
 
@@ -277,7 +290,19 @@ namespace NotReaper.Tools
                 {
                     foreach (var target in timeline.repeaterManager.GetMatchingRepeaterTargets(intent.target))
                     {
-                        target.position = intent.startingPosition;
+                        var pos = intent.intendedPosition;
+
+                        if (target.repeaterData.Section.mirrorHorizontally || (target.repeaterData.Section.isParent && intent.target.repeaterData.Section.mirrorHorizontally))
+                        {
+                            pos.x *= -1f;
+                        }
+                        if (target.repeaterData.Section.mirrorVertically || (target.repeaterData.Section.isParent && intent.target.repeaterData.Section.mirrorVertically))
+                        {
+                            pos.y *= -1f;
+                        }
+
+
+                        target.position = pos;
                     }
                 }
 
@@ -301,7 +326,7 @@ namespace NotReaper.Tools
 
             targetTimelineMoveIntents.ForEach(intent =>
             {
-                if (timeline.repeaterManager.IsTargetInRepeaterZone(intent.intendedTick))
+                if (timeline.repeaterManager.IsTargetInRepeaterZone(intent.intendedTick, intent.targetData.repeaterData.Section.startTime))
                 {
                     NotificationCenter.SendNotification("Can't move target into repeater zone.", NotificationType.Warning);
                     intent.targetData.SetTimeFromAction(intent.startTick);
@@ -377,16 +402,51 @@ namespace NotReaper.Tools
         {
             affectedTargets.ForEach(targetData =>
             {
-                switch (targetData.handType)
-                {
-                    case TargetHandType.Left:
-                        targetData.handType = TargetHandType.Right;
-                        break;
 
-                    case TargetHandType.Right:
-                        targetData.handType = TargetHandType.Left;
-                        break;
+                if (targetData.isRepeaterTarget)
+                {
+                    var parent = timeline.repeaterManager.GetParentTarget(targetData);
+                    if(parent.handType == TargetHandType.Left)
+                    {
+                        parent.handType = TargetHandType.Right;
+                    }
+                    else if(parent.handType == TargetHandType.Right)
+                    {
+                        parent.handType = TargetHandType.Left;
+                    }
+                    foreach (var target in timeline.repeaterManager.GetMatchingRepeaterTargets(parent))
+                    {
+                        if (target.repeaterData.Section.flipTargetColors)
+                        {
+                            if (parent.handType == TargetHandType.Left)
+                            {
+                                target.handType = TargetHandType.Right;
+                            }
+                            else if (parent.handType == TargetHandType.Right)
+                            {
+                                target.handType = TargetHandType.Left;
+                            }
+                        }
+                        else
+                        {
+                            target.handType = parent.handType;
+                        }
+                    }
                 }
+                else
+                {
+                    switch (targetData.handType)
+                    {
+                        case TargetHandType.Left:
+                            targetData.handType = TargetHandType.Right;
+                            break;
+
+                        case TargetHandType.Right:
+                            targetData.handType = TargetHandType.Left;
+                            break;
+                    }
+                }
+                
 
                 if (targetData.behavior == TargetBehavior.Legacy_Pathbuilder)
                 {
@@ -403,14 +463,6 @@ namespace NotReaper.Tools
 
                     targetData.handType = targetData.handType;
                     ChainBuilder.ChainBuilder.GenerateChainNotes(targetData);
-                }
-
-                if (targetData.isRepeaterTarget)
-                {
-                    foreach (var target in timeline.repeaterManager.GetMatchingRepeaterTargets(targetData))
-                    {
-                        target.handType = targetData.handType;
-                    }
                 }
             });
         }
@@ -481,26 +533,30 @@ namespace NotReaper.Tools
         {
             affectedTargets.ForEach(targetData =>
             {
-                targetData.y *= -1;
-                if (targetData.isPathbuilderTarget)
+                if (targetData.behavior != TargetBehavior.Melee)
                 {
-                    targetData.pathbuilderData.Flip(new Vector2(1, -1));
-                }
-                if (targetData.behavior == TargetBehavior.Legacy_Pathbuilder)
-                {
-                    targetData.legacyPathbuilderData.initialAngle = FlipAngle(targetData.legacyPathbuilderData.initialAngle);
-                    targetData.legacyPathbuilderData.angle *= -1;
-                    targetData.legacyPathbuilderData.angleIncrement *= -1;
-
-                    ChainBuilder.ChainBuilder.GenerateChainNotes(targetData);
-                }
-                if (targetData.isRepeaterTarget)
-                {
-                    foreach (var target in timeline.repeaterManager.GetMatchingRepeaterTargets(targetData))
+                    targetData.y *= -1;
+                    if (targetData.isPathbuilderTarget)
                     {
-                        target.y *= -1;
+                        targetData.pathbuilderData.Flip(new Vector2(1, -1));
+                    }
+                    if (targetData.behavior == TargetBehavior.Legacy_Pathbuilder)
+                    {
+                        targetData.legacyPathbuilderData.initialAngle = FlipAngle(targetData.legacyPathbuilderData.initialAngle);
+                        targetData.legacyPathbuilderData.angle *= -1;
+                        targetData.legacyPathbuilderData.angleIncrement *= -1;
+
+                        ChainBuilder.ChainBuilder.GenerateChainNotes(targetData);
+                    }
+                    if (targetData.isRepeaterTarget)
+                    {
+                        foreach (var target in timeline.repeaterManager.GetMatchingRepeaterTargets(targetData))
+                        {
+                            target.y *= -1;
+                        }
                     }
                 }
+                
             });
             TransformTool.instance.UpdateOverlay();
         }

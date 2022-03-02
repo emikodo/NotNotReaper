@@ -8,7 +8,6 @@ using System.IO;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
-using Sirenix.Utilities;
 using TMPro;
 using System.Collections;
 using NotReaper.Managers;

@@ -13,6 +13,11 @@ namespace NotReaper.Repeaters
     public class RepeaterSection
     {
         public string ID;
+        [NonSerialized]
+        public bool isParent;
+        public bool flipTargetColors;
+        public bool mirrorHorizontally;
+        public bool mirrorVertically;
         public QNT_Timestamp startTime;
         public QNT_Timestamp endTime;
 
@@ -23,8 +28,9 @@ namespace NotReaper.Repeaters
         [NonSerialized] public RepeaterIndicator indicator;
         [NonSerialized] private Timeline timeline;
 
+        private ulong targetIndexID = 0;
 
-        public RepeaterSection(string ID, QNT_Timestamp startTime, QNT_Timestamp endTime, QNT_Timestamp activeEndTime, RepeaterIndicator indicator, List<TargetData> targets, Timeline timeline)
+        public RepeaterSection(string ID, bool isParent, QNT_Timestamp startTime, QNT_Timestamp endTime, QNT_Timestamp activeEndTime, RepeaterIndicator indicator, List<TargetData> targets, Timeline timeline)
         {
             this.ID = ID;
             this.startTime = activeStartTime = startTime;
@@ -33,14 +39,17 @@ namespace NotReaper.Repeaters
             this.timeline = timeline;
             this.indicator = indicator;
             this.targets = targets;
+            this.isParent = isParent;
 
             foreach(var target in targets)
             {
                 target.repeaterData.Section = this;
+                target.repeaterData.targetID = targetIndexID;
+                targetIndexID++;
             }
         }
 
-        public RepeaterSection(string ID, QNT_Timestamp startTime, QNT_Timestamp activeStartTime, QNT_Timestamp endTime, QNT_Timestamp activeEndTime, RepeaterIndicator indicator, List<TargetData> targets, Timeline timeline)
+        public RepeaterSection(string ID, bool isParent, bool flipTargetColors, bool mirrorHorizontally, bool mirrorVertically, QNT_Timestamp startTime, QNT_Timestamp activeStartTime, QNT_Timestamp endTime, QNT_Timestamp activeEndTime, RepeaterIndicator indicator, List<TargetData> targets, Timeline timeline)
         {
             this.ID = ID;
             this.startTime = startTime;
@@ -50,10 +59,16 @@ namespace NotReaper.Repeaters
             this.timeline = timeline;
             this.indicator = indicator;
             this.targets = targets;
+            this.isParent = isParent;
+            this.flipTargetColors = flipTargetColors;
+            this.mirrorHorizontally = mirrorHorizontally;
+            this.mirrorVertically = mirrorVertically;
 
             foreach (var target in targets)
             {
                 target.repeaterData.Section = this;
+                target.repeaterData.targetID = targetIndexID;
+                targetIndexID++;
             }
         }
 
@@ -85,6 +100,12 @@ namespace NotReaper.Repeaters
             UpdateActiveNotes();
         }
 
+        public void SetIsParent(bool isParent)
+        {
+            this.isParent = isParent;
+            indicator.SetIsParent(isParent);
+        }
+
         public void CreateRepeaterTarget(TargetData data)
         {
             TargetData repeaterTarget = new TargetData();
@@ -93,6 +114,8 @@ namespace NotReaper.Repeaters
             repeaterTarget.repeaterData.Copy(data.repeaterData);
             repeaterTarget.SetTimeFromAction(new QNT_Timestamp(startTime.tick + repeaterTarget.repeaterData.RelativeTime.tick));
             repeaterTarget.repeaterData.Section = this;
+            repeaterTarget.repeaterData.targetID = targetIndexID;
+            targetIndexID++;
             targets.Add(repeaterTarget);
             if(repeaterTarget.time >= activeStartTime && repeaterTarget.time <= activeEndTime)
             {
@@ -102,7 +125,33 @@ namespace NotReaper.Repeaters
 
         public void RemoveRepeaterTargetAtRelativeTime(TargetData data)
         {
-            var target = targets.First(t => t.repeaterData.RelativeTime == data.repeaterData.RelativeTime && t.position == data.position);
+            /*
+            TargetData matchingTarget = data;
+
+            if (flipTargetColors)
+            {
+                foreach (var target in targets)
+                {
+                    if (target.repeaterData.RelativeTime == data.repeaterData.RelativeTime)
+                    {
+                        if (target.behavior == TargetBehavior.Melee && data.behavior == TargetBehavior.Melee)
+                        {
+                            matchingTarget = target;
+                        }
+                        else if (target.behavior == data.behavior &&
+                        ((target.handType == TargetHandType.Left && data.handType == TargetHandType.Right) ||
+                        (target.handType == TargetHandType.Right && data.handType == TargetHandType.Left)))
+                        {
+                            matchingTarget = target;
+                        }
+                    }
+
+                }
+            }
+            */
+
+            //var target = targets.First(t => t.repeaterData.RelativeTime == data.repeaterData.RelativeTime && t.behavior == data.behavior && t.handType == data.handType);
+            var target = targets.First(t => t.repeaterData.targetID == data.repeaterData.targetID);
             targets.Remove(target);
             timeline.DeleteTargetFromAction(target);
         }

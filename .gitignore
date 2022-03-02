@@ -64,3 +64,6 @@ ProjectSettings/QualitySettings.asset
 *.log
 Logs/
 Logs/*
+
+# Plugins
+Assets/Plugins/Sirenix/

@@ -8,7 +8,6 @@ using NotReaper.UI;
 using NotReaper.UserInput;
 using NotReaper.Managers;
 using NotReaper.Models;
-using Sirenix.OdinInspector;
 using UnityEngine.UI;
 
 namespace NotReaper.Tools {
@@ -18,8 +17,7 @@ namespace NotReaper.Tools {
         
         public UndoRedoManager undoRedoManager;
 
-        [ChildGameObjectsOnly]
-        [SerializeField] private List<Button> selectionTools;
+        //[SerializeField] private List<Button> selectionTools;
 
         [SerializeField] private GameObject hiddenButtons;
         

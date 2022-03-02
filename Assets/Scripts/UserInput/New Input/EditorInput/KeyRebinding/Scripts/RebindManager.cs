@@ -32,7 +32,7 @@ namespace NotReaper.Keybinds
         {
             PopulateKeybindsMenu();
 
-            transform.position = Vector3.zero;
+            transform.localPosition = Vector3.zero;
             rebindWindow.SetActive(false);
         }
 

@@ -17,12 +17,16 @@ namespace NotReaper.Repeaters
         [SerializeField] private TextMeshProUGUI textContainer;
         [SerializeField] private Transform startHandle;
         [SerializeField] private Transform endHandle;
-        [SerializeField] private RectTransform miniTimelineIndicatorPrefab;
+        [SerializeField] private RepeaterMiniIndicator miniTimelineIndicatorPrefab;
+        [SerializeField] private RectTransform topBar;
+        [SerializeField] private RectTransform bottomBar;
         [Space]
         [SerializeField] private Color normalColor;
         [SerializeField] private Color selectedColor;
         [SerializeField] private Color miniNormalColor;
         [SerializeField] private Color miniSelectedColor;
+        [SerializeField] private Color barNormalColor;
+        [SerializeField] private Color barSelectedColor;
         private Timeline timeline;
         private InputAction mousePosition;
         private RepeaterSection section;
@@ -36,10 +40,12 @@ namespace NotReaper.Repeaters
         private GraphicRaycaster raycaster;
         private MiniTimeline miniTimeline;
         private Transform miniTimelineParent;
-        private RectTransform miniTimelineIndicator;
+        private RepeaterMiniIndicator miniTimelineIndicator;
         private Image miniBackground;
+        private Image topBarBackground;
+        private Image bottomBarBackground;
 
-        public void Initialize(Transform miniTimelineParent)
+        public void Initialize(Transform miniTimelineParent, bool isParent)
         {
             miniTimeline = NRDependencyInjector.Get<MiniTimeline>();
             raycaster = GetComponent<GraphicRaycaster>();
@@ -49,6 +55,24 @@ namespace NotReaper.Repeaters
             this.miniTimelineParent = miniTimelineParent;
             miniTimelineIndicator = Instantiate(miniTimelineIndicatorPrefab, miniTimelineParent);
             miniBackground = miniTimelineIndicator.GetComponent<Image>();
+            bottomBarBackground = bottomBar.GetComponent<Image>();
+            topBarBackground = topBar.GetComponent<Image>();
+            SetIsParent(isParent);
+            background.color = normalColor;
+            miniBackground.color = miniNormalColor;
+            topBarBackground.color = barNormalColor;
+            bottomBarBackground.color = barNormalColor;
+            miniTimelineIndicator.SetColor(miniNormalColor, barNormalColor);
+            var pos = transform.localPosition;
+            pos.y = .031f;
+            transform.localPosition = pos;
+        }
+
+        public void SetIsParent(bool isParent)
+        {
+            topBar.gameObject.SetActive(isParent);
+            bottomBar.gameObject.SetActive(isParent);
+            miniTimelineIndicator.SetIsParent(isParent);
         }
 
         public void SetSection(RepeaterSection section)
@@ -63,16 +87,22 @@ namespace NotReaper.Repeaters
 
         public void SetWidth(float width)
         {
-            rect.sizeDelta = new Vector2(width, 1f);
+            rect.sizeDelta = new Vector2(width, 1.062f);
+            Vector2 size = topBar.sizeDelta;
+            size.x = width;
+            topBar.sizeDelta = size;
+            size.y = bottomBar.sizeDelta.y;
+            bottomBar.sizeDelta = size;
             Bounds bounds = new(rect.position, rect.sizeDelta);
             startHandle.position = new Vector2(bounds.min.x + rect.sizeDelta.x * .5f, bounds.min.y);
             endHandle.position = new Vector2(bounds.max.x + rect.sizeDelta.x * .5f, bounds.min.y);
             transform.localScale = Vector3.one;
-            Vector3 pos = miniTimelineIndicator.localPosition;
+            Vector3 pos = miniTimelineIndicator.transform.localPosition;
             pos.x = miniTimeline.TimestampToMinitimeline(section.activeStartTime);
-            miniTimelineIndicator.localPosition = pos;
+            miniTimelineIndicator.transform.localPosition = pos;
             float miniWidth = miniTimeline.TimestampToMinitimeline(section.activeEndTime) - pos.x;
-            miniTimelineIndicator.sizeDelta = new Vector2(miniWidth, 22.1f);
+            miniTimelineIndicator.SetWidth(miniWidth);
+            //miniTimelineIndicator.sizeDelta = new Vector2(miniWidth, 22.1f);
 
         }
 
@@ -203,12 +233,14 @@ namespace NotReaper.Repeaters
             if (active)
             {
                 background.color = selectedColor;
-                miniBackground.color = miniSelectedColor;
+                miniTimelineIndicator.SetColor(miniSelectedColor, barSelectedColor);
+                topBarBackground.color = bottomBarBackground.color = barSelectedColor;
             }
             else
             {
                 background.color = normalColor;
-                miniBackground.color = miniNormalColor;
+                miniTimelineIndicator.SetColor(miniNormalColor, barNormalColor);
+                topBarBackground.color = bottomBarBackground.color = barNormalColor;
             }
         }
 
@@ -219,7 +251,7 @@ namespace NotReaper.Repeaters
 
         public void RemoveMiniIndicator()
         {
-            Destroy(miniTimelineIndicator);
+            Destroy(miniTimelineIndicator.gameObject);
         }
     }
 }

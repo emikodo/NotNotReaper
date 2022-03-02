@@ -6,7 +6,6 @@ using UnityEngine.UI;
 using System.Linq;
 using System;
 using NotReaper.Timing;
-using Sirenix.Utilities;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 using NotReaper.UI;

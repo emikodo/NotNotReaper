@@ -52,7 +52,8 @@ namespace NotReaper.MapBrowser.UI
         /// <param name="enable">True if interactable.</param>
         public void EnableDownloadButton(bool enable)
         {
-            buttonDownload.interactable = enable;
+            buttonDownload.gameObject.SetActive(enable);
+            //buttonDownload.interactable = enable;
         }
         /// <summary>
         /// Updates the amount of selected maps.

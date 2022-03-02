@@ -53,6 +53,9 @@ namespace NotReaper.UI.Components
         private bool initializedPosition = false;
         private bool initialized = false;
         private bool _interactable = true;
+        private bool stayOnSelected = false;
+        private bool isSelected = false;
+        private Action<NRButton> onSelectedAction;
 
         public bool interactable
         {
@@ -128,6 +131,7 @@ namespace NotReaper.UI.Components
                 defaultColor = buttonGroup.defaultColor;
                 highlightedColor = buttonGroup.highlightedColor;
                 pressedColor = buttonGroup.pressedColor;
+                stayOnSelected = buttonGroup.stayOnSelected;
             }
             
             background.color = skin.defaultColor;
@@ -164,7 +168,7 @@ namespace NotReaper.UI.Components
 
         public void OnPointerEnter(PointerEventData eventData)
         {
-            if (!interactable) return;
+            if (!interactable || isSelected) return;
 
             isMouseOver = true;
             DoBackgroundColorTransition(skin.highlightedColor);
@@ -174,7 +178,7 @@ namespace NotReaper.UI.Components
 
         public void OnPointerExit(PointerEventData eventData)
         {
-            if (!interactable) return;
+            if (!interactable || isSelected) return;
 
             isMouseOver = false;
             DoBackgroundColorTransition(skin.defaultColor);
@@ -184,7 +188,7 @@ namespace NotReaper.UI.Components
 
         public void OnPointerUp(PointerEventData eventData)
         {
-            if (!interactable) return;
+            if (!interactable || isSelected) return;
 
             DoBackgroundColorTransition(isMouseOver ? skin.highlightedColor : skin.defaultColor);
             DoIconColorTransition(isMouseOver ? highlightedColor : defaultColor);
@@ -196,7 +200,7 @@ namespace NotReaper.UI.Components
 
         public void OnPointerDown(PointerEventData eventData)
         {
-            if (!interactable) return;
+            if (!interactable || isSelected) return;
 
             DoBackgroundColorTransition(skin.pressedColor);
             DoIconColorTransition(pressedColor);
@@ -204,7 +208,31 @@ namespace NotReaper.UI.Components
             {
                 GrowOnClick(true);
             }
+            if (stayOnSelected)
+            {
+                if(buttonGroup != null)
+                {
+                    buttonGroup.SetSelectedButton(this);
+                }
+                else
+                {
+                    onSelectedAction?.Invoke(this);
+                }
+                isSelected = true;
+            }
             onClick.Invoke();
+        }
+
+        public void OverrideStayOnSelected(bool stay, Action<NRButton> onSelectedAction)
+        {
+            stayOnSelected = stay;
+            this.onSelectedAction = onSelectedAction;
+        }
+
+        public void Deselect()
+        {
+            isSelected = false;
+            OnPointerExit(null);
         }
 
         private void DoBackgroundColorTransition(Color newColor)

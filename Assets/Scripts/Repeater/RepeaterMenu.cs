@@ -1,3 +1,4 @@
+using NotReaper.Models;
 using NotReaper.Notifications;
 using NotReaper.Overlays;
 using NotReaper.UI.Components;
@@ -7,6 +8,7 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 namespace NotReaper.Repeaters
 {
@@ -18,7 +20,12 @@ namespace NotReaper.Repeaters
         [SerializeField] private NRButton buttonRenameRepeater;
         [SerializeField] private NRButton buttonMakeUnique;
         [SerializeField] private NRButton buttonDelete;
+        [SerializeField] private NRButton buttonDeleteChildren;
         [SerializeField] private NRButton buttonClose;
+        [SerializeField] private GameObject settingsPanel;
+        [SerializeField] private Toggle toggleFlipTargetColors;
+        [SerializeField] private Toggle toggleMirrorHorizontally;
+        [SerializeField] private Toggle toggleMirrorVertically;
         [SerializeField] private TMP_InputField inputRename;
         [SerializeField] private RepeaterListEntry repeaterListEntryPrefab;
         [SerializeField] private GameObject hint;
@@ -46,7 +53,9 @@ namespace NotReaper.Repeaters
         private void Reset()
         {
             buttonMakeUnique.gameObject.SetActive(false);
+            buttonDelete.SetText("delete");
             buttonDelete.gameObject.SetActive(false);
+            buttonDeleteChildren.gameObject.SetActive(false);
             hint.gameObject.SetActive(false);
             inputID.text = "";
             state = State.Disabled;
@@ -54,6 +63,10 @@ namespace NotReaper.Repeaters
             buttonRenameRepeater.SetText("rename");
             inputRename.text = "";
             inputRename.gameObject.SetActive(false);
+            settingsPanel.gameObject.SetActive(false);
+            toggleMirrorHorizontally.SetIsOnWithoutNotify(false);
+            toggleFlipTargetColors.SetIsOnWithoutNotify(false);
+            toggleMirrorVertically.SetIsOnWithoutNotify(false);
             if(activeSection != null)
             {
                 activeSection.SetSectionActive(false);
@@ -168,9 +181,40 @@ namespace NotReaper.Repeaters
 
         public void OnDeleteClicked()
         {
-            manager.RemoveRepeater(activeSection.GetSection().ID, activeSection.GetSection().startTime);
+            string id = activeSection.GetSection().ID;
+            if (activeSection.GetSection().isParent)
+            {
+                manager.RemoveAllRepeatersWithID(id);
+                RemoveEntry(id);
+                inputID.text = "";
+            }
+            else
+            {
+                manager.RemoveRepeater(id, activeSection.GetSection().startTime);
+            }
             activeSection = null;
             UpdateState();
+        }
+
+        public void OnDeleteChildrenClicked()
+        {
+            manager.RemoveAllChildRepeaters(activeSection.GetSection().ID);
+            UpdateState();
+        }
+
+        public void OnFlipTargetColorsToggled()
+        {
+            manager.FlipRepeaterTargetColors(activeSection.GetSection().ID, activeSection.GetSection().startTime, toggleFlipTargetColors.isOn);
+        }
+
+        public void OnMirrorHorizontallyToggled()
+        {
+            manager.MirrorRepeaterHorizontally(activeSection.GetSection().ID, activeSection.GetSection().startTime, toggleMirrorHorizontally.isOn);
+        }
+
+        public void OnMirrorVerticallyToggled()
+        {
+            manager.MirrorRepeaterVertically(activeSection.GetSection().ID, activeSection.GetSection().startTime, toggleMirrorVertically.isOn);
         }
 
         private void UpdateState()
@@ -178,6 +222,16 @@ namespace NotReaper.Repeaters
             string currentID = inputID.text;
             hint.SetActive(false);
             buttonInsertCreateRepeater.gameObject.SetActive(true);
+            buttonMakeUnique.gameObject.SetActive(false);
+            buttonDelete.gameObject.SetActive(false);
+            buttonDeleteChildren.gameObject.SetActive(false);
+            buttonRenameRepeater.gameObject.SetActive(false);
+            settingsPanel.SetActive(false);
+            if (manager.RepeaterExists(inputID.text))
+            {
+                buttonRenameRepeater.gameObject.SetActive(true);
+            }
+
             if (manager.RepeaterExists(currentID))
             {
                 buttonInsertCreateRepeater.SetText("insert");
@@ -195,8 +249,23 @@ namespace NotReaper.Repeaters
                 buttonInsertCreateRepeater.SetText("create");
                 state = State.Create;
             }
-            buttonMakeUnique.gameObject.SetActive(activeSection != null);
-            buttonDelete.gameObject.SetActive(activeSection != null);
+            
+            if(activeSection != null)
+            {
+                buttonDelete.gameObject.SetActive(true);
+                
+                if (activeSection.GetSection().isParent)
+                {
+                    buttonDelete.SetText("delete all");
+                    buttonDeleteChildren.gameObject.SetActive(true);
+                }
+                else
+                {
+                    buttonDelete.SetText("delete");
+                    buttonMakeUnique.gameObject.SetActive(true);
+                    settingsPanel.SetActive(true);
+                }
+            }
         }
 
         public void SetActiveSection(RepeaterIndicator section)
@@ -205,6 +274,9 @@ namespace NotReaper.Repeaters
             section.SetSectionActive(true);
             activeSection = section;
             inputID.SetTextWithoutNotify(activeSection.GetSection().ID);
+            toggleFlipTargetColors.SetIsOnWithoutNotify(activeSection.GetSection().flipTargetColors);
+            toggleMirrorVertically.SetIsOnWithoutNotify(activeSection.GetSection().mirrorVertically);
+            toggleMirrorHorizontally.SetIsOnWithoutNotify(activeSection.GetSection().mirrorHorizontally);
             UpdateState();
         }
 
@@ -212,7 +284,7 @@ namespace NotReaper.Repeaters
         {
             var entry = repeaterListEntries.Where(e => e.GetID() == id).First();
             repeaterListEntries.Remove(entry);
-            Destroy(entry);
+            Destroy(entry.gameObject);
 
         }
 

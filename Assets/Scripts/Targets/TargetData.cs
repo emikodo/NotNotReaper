@@ -226,7 +226,7 @@ namespace NotReaper.Targets {
     {
         private QNT_Timestamp _relativeTime;
         private Repeaters.RepeaterSection _section;
-
+        public ulong targetID;
         public QNT_Timestamp RelativeTime
         {
             get { return _relativeTime; }
@@ -241,6 +241,7 @@ namespace NotReaper.Targets {
 
         public void Copy(RepeaterData data)
         {
+            targetID = data.targetID;
             _relativeTime = data._relativeTime;
             _section = new Repeaters.RepeaterSection();
             _section.Copy(data._section);
