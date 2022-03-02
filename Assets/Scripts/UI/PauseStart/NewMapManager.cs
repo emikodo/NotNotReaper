@@ -78,14 +78,14 @@ namespace NotReaper.UI
         #region Fields
         Process ffmpeg = new Process();
         private bool isMp3;
-        private string loadedSong;
-        private string loadedMidi;
-        private string loadedArt;
+        private string loadedSong = "";
+        private string loadedMidi = "";
+        private string loadedArt = "";
         private float moggSongVolume = -5;
         private float defaultBpm = 150;
-        private string songName;
-        private string artistName;
-        private string mapperName;
+        private string songName = "";
+        private string artistName = "";
+        private string mapperName = "";
         private string songEndEvent;
         private AudioClip audioFile;
         private Color expertColor = new Color(0.74118f, 0.15686f, 1.00000f);
@@ -461,10 +461,20 @@ namespace NotReaper.UI
 
         private void OnGenerationDone(string path)
         {
-            timeline.LoadAudicaFile(false, path, defaultBpm);
-            HideOverlay();
-            view.ContinueToBPM();
+            StartCoroutine(timeline.LoadAudicaFile(false, path, defaultBpm, OnLoaded));
+            
+            //HideOverlay();
+            //view.ContinueToBPM();
             //EditorState.SelectMode(EditorMode.Compose);
+        }
+
+        private void OnLoaded(bool success)
+        {
+            HideOverlay();
+            if (success)
+            {
+                view.ContinueToBPM();
+            }
         }
 
         private void ShowOverlay()
@@ -489,7 +499,7 @@ namespace NotReaper.UI
             }
             return sb.ToString();
         }
-        private bool CheckAllUIFilled()
+        public bool CheckAllUIFilled()
         {
             var workFolder = Path.Combine(Application.streamingAssetsPath, "Ogg2Audica");
             if (loadedSong != "" && mapperName != "" && songName != "" && artistName != "")

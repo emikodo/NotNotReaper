@@ -2,6 +2,7 @@
 using NotReaper.Grid;
 using NotReaper.Managers;
 using NotReaper.Models;
+using NotReaper.Repeaters;
 using NotReaper.ReviewSystem;
 using NotReaper.Timing;
 using NotReaper.UI.BPM;
@@ -40,7 +41,8 @@ namespace NotReaper.UI
 		[SerializeField] private CountInWindow countin;
 		[SerializeField] private AddOrTrimAudioWindow audioModify;
 		[SerializeField] private TimingPointsPanel timingPoints;
-
+		[SerializeField] private RepeaterMenu repeaterMenu;
+ 
 		private QNT_Timestamp? detectBpmStart;
 		[NRInject] private NewPauseMenu pauseMenu;
 		private void Awake()
@@ -114,6 +116,8 @@ namespace NotReaper.UI
 		[NRListener]
 		private void SelectBehavior(TargetBehavior behavior)
         {
+			if(EditorState.IsInUI) return;
+
 			var prevBehavior = EditorState.Behavior.Previous;
 			if (prevBehavior.IsMeleeOrMine() && EditorState.Hand.Current == TargetHandType.Either && !behavior.IsMeleeOrMine())
 			{
@@ -255,6 +259,12 @@ namespace NotReaper.UI
 			if (countin.isActive) countin.Deactivate();
 			else countin.Activate();
 		}
+
+		public void ShowRepeaterWindow()
+        {
+			if (repeaterMenu.isActive) repeaterMenu.Hide();
+			else repeaterMenu.Show();
+        }
 
 		public void ShowModifyAudioWindow()
 		{

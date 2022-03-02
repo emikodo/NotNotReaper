@@ -102,6 +102,10 @@ namespace NotReaper.UI
         public void Hide()
         {
             canvas.alpha = 0f;
+            if (isInStartScreen)
+            {
+                isInStartScreen = false;
+            }
             Reset();
             OnDeactivated();
             /*
@@ -123,11 +127,16 @@ namespace NotReaper.UI
 
         public void OnOpenFile()
         {
-            if (timeline.LoadAudicaFile(false))
+            StartCoroutine(timeline.LoadAudicaFile(false, null, -1, OnLoaded));
+            //editorInput.FigureOutIsInUI();
+        }
+
+        private void OnLoaded(bool success)
+        {
+            if (success)
             {
                 Hide();
             }
-            //editorInput.FigureOutIsInUI();
         }
 
         public void OnOpenPressed()

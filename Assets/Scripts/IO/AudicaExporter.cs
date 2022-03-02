@@ -179,7 +179,7 @@ namespace NotReaper.IO {
             }
             catch (IOException)
             {
-				NotificationCenter.SendNotification("Audica file is in use!", NotificationType.Success);
+				NotificationCenter.SendNotification("Audica file is in use!", NotificationType.Error);
             }
 		}
 

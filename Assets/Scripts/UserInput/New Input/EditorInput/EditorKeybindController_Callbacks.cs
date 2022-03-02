@@ -533,6 +533,11 @@ namespace NotReaper.UserInput
         {
             mapping.PlaceNote();
         }
+
+        public void ShowRepeaterWindow(InputAction.CallbackContext obj)
+        {
+            ui.ShowRepeaterWindow();
+        }
     }
 
 }

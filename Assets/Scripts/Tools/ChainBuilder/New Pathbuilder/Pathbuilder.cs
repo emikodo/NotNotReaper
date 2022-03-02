@@ -1,5 +1,7 @@
 ﻿using NotReaper.Grid;
 using NotReaper.Models;
+using NotReaper.Notifications;
+using NotReaper.Repeaters;
 using NotReaper.Targets;
 using NotReaper.Timing;
 using NotReaper.Tools.ChainBuilder;
@@ -29,6 +31,7 @@ namespace NotReaper.Tools.PathBuilder
         #region Fields
         #region Dependencies
         [NRInject] private Timeline timeline;
+		[NRInject] private RepeaterManager repeaterManager;
         #endregion
 
         #region Classes
@@ -260,6 +263,8 @@ namespace NotReaper.Tools.PathBuilder
 			Transform startPoint = target.gridTargetIcon.transform;
 			isSegmentScope = data.IsSegmentScope;
 			alternateHands = data.AlternateHands;
+			beatLengthOverride = data.BeatLengthOverride;
+			intervalOverride = data.IntervalOverride;
 			for(int i = 0; i < segmentData.Count; i++)
             {
 				var segment = segmentPool.Spawn(pathbuilderParent);
@@ -337,7 +342,8 @@ namespace NotReaper.Tools.PathBuilder
 
 		internal void OnBeatlengthChanged(bool increase)
         {
-			QNT_Duration increment = Constants.DurationFromBeatSnap((uint)timeline.beatSnap);
+			//QNT_Duration increment = Constants.DurationFromBeatSnap((uint)timeline.beatSnap);
+			QNT_Duration increment = Constants.DurationFromBeatSnap((uint)activeSegment.interval.denominator); //uses segment interval to increase/decrease length
 			QNT_Duration targetLength = isSegmentScope ? activeSegment.beatLength : beatLengthOverride;
 			if (increase)
 			{
@@ -354,8 +360,17 @@ namespace NotReaper.Tools.PathBuilder
 					targetLength -= increment;
                 }
 			}
+			if (activeTarget.data.isRepeaterTarget)
+			{
+				if (activeTarget.data.repeaterData.Section.activeEndTime < new QNT_Timestamp(activeTarget.data.time.tick + targetLength.tick))
+				{
+					NotificationCenter.SendNotification("Can't change length. It falls outside of this repeater zone.", NotificationType.Warning);
+					return;
+				}
+			}
 			if (isSegmentScope) activeSegment.SetBeatlength(targetLength); 
-			else beatLengthOverride = targetLength;			
+			else beatLengthOverride = targetLength;
+
 			UpdateActivePathbuilderTarget(activeTarget);
 		}
 
@@ -377,8 +392,16 @@ namespace NotReaper.Tools.PathBuilder
 
         private void AppendSegment()
         {
-			var segment = segmentPool.Spawn(pathbuilderParent);
 			var lastSegment = segments.Last();
+            if (activeTarget.data.isRepeaterTarget)
+            {
+				if(activeTarget.data.repeaterData.Section.activeEndTime < new QNT_Timestamp(activeTarget.data.time.tick + activeTarget.data.pathbuilderData.BeatLength.tick + lastSegment.beatLength.tick))
+                {
+					NotificationCenter.SendNotification("Can't append segment. It falls outside of this repeater zone.", NotificationType.Warning);
+					return;
+                }
+            }
+			var segment = segmentPool.Spawn(pathbuilderParent);
 			lastSegment.childSegment = segment;
 			segment.parentSegment = lastSegment;
 			segment.StartNewSegment(actions, lastSegment.GetSegmentEndPoint(), activeTarget, this, segments.Count);
@@ -398,7 +421,10 @@ namespace NotReaper.Tools.PathBuilder
 		public void UpdatePathbuilderTargetFromAction(TargetData targetData, PathbuilderData data)
         {
 			Target target = (activeTarget != null && activeTarget.data == targetData) ? activeTarget : timeline.FindNote(targetData);
-			if (target == null) return;
+			if (target == null)
+            {
+				return;
+            }
 			if (targetData.pathbuilderData == null) targetData.pathbuilderData = new PathbuilderData();
 			else RemoveAllNodes(targetData.pathbuilderData);
 			targetData.pathbuilderData = data;
@@ -412,11 +438,33 @@ namespace NotReaper.Tools.PathBuilder
             }
 		}
 
+		public void UpdatePathbuilderRepeaterTargetFromAction(TargetData targetData, PathbuilderData data)
+        {
+			Target target = timeline.FindNote(targetData);
+			if (targetData.pathbuilderData == null) targetData.pathbuilderData = new PathbuilderData();
+			else RemoveAllNodes(targetData.pathbuilderData);
+			targetData.pathbuilderData = data;
+			targetData.isPathbuilderTarget = data.Segments.Count > 0;
+			calculator.CalculateNodes(targetData, true);
+			target.timelineTargetIcon.SetBeatlengthLineActive(target.data.isPathbuilderTarget);
+		}
+
 		private void UpdateActivePathbuilderTarget(Target target)
         {
 			if (activeTarget == null) return;
 			Save();
 			UpdatePathbuilderTargetFromAction(target.data, target.data.pathbuilderData);
+
+            if (target.data.isRepeaterTarget)
+            {
+				foreach(var repeaterTarget in repeaterManager.GetMatchingRepeaterTargets(target.data))
+                {
+					PathbuilderData data = new PathbuilderData();
+					data.Copy(target.data.pathbuilderData);
+					UpdatePathbuilderRepeaterTargetFromAction(repeaterTarget, data);
+                }
+            }
+
         }
 
 		public void UpdatePathbuilderTarget(TargetData data)

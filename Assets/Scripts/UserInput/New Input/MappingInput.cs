@@ -96,7 +96,10 @@ namespace NotReaper.UserInput
 				intents.Add(intent);
 			}
 			timeline.SetTargetHitsounds(intents);
-			NotificationCenter.SendNotification($"Converted hitsound{(timeline.selectedNotes.Count > 1 ? "s" : "")} to {velocity}.", NotificationType.Success);
+			if(timeline.selectedNotes.Count > 0)
+            {
+				NotificationCenter.SendNotification($"Converted hitsound{(timeline.selectedNotes.Count > 1 ? "s" : "")} to {velocity}.", NotificationType.Success);
+            }
 		}
 
 		public void SetTargetBehaviorAction(TargetBehavior behavior)

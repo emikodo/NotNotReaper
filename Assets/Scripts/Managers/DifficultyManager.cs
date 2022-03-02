@@ -275,7 +275,7 @@ namespace NotReaper.Managers {
 
             timeline.DeleteAllTargets();
             timeline.RemoveAllRepeaters();
-
+            timeline.repeaterManager.RemoveAllRepeaters();
             foreach (Cue cue in cueFile.cues) {
                 timeline.AddTargetFromAction(timeline.GetTargetDataForCue(cue));
             }
@@ -328,6 +328,13 @@ namespace NotReaper.Managers {
                         }
                         
                         
+                    }
+                }
+                if(cueFile.NRCueData.newRepeaterSections.Count > 0)
+                {
+                    foreach(var section in cueFile.NRCueData.newRepeaterSections)
+                    {
+                        timeline.repeaterManager.LoadRepeater(section);
                     }
                 }
 

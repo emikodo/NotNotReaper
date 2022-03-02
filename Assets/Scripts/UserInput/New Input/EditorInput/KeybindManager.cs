@@ -16,12 +16,16 @@ public static class KeybindManager
     private static GlobalKeybinds globalKeybinds;
 
     private static Dictionary<InputActionAsset, KeybindOverrides> activeAssets = new Dictionary<InputActionAsset, KeybindOverrides>();
+    private static KeybindOverrides activeUIOverrides;
     private static int activeUiElements = 0;
     #endregion
 
     #region Events
     public delegate void OnCtrlDown();
     public static event OnCtrlDown onCtrlDown;
+
+    public delegate void OnCtrlUp();
+    public static event OnCtrlUp onCtrlUp;
 
     public delegate void OnShiftDown();
     public static event OnShiftDown onShiftDown;
@@ -65,6 +69,7 @@ public static class KeybindManager
         else
         {
             RemoveFlag(Global.Modifiers.Ctrl);
+            onCtrlUp?.Invoke();
         }
     }
     private static void UpdateShift(bool down)
@@ -143,6 +148,7 @@ public static class KeybindManager
         }
         else
         {
+            activeUIOverrides = overrides;
             activeUiElements++;
         }
     }
@@ -175,7 +181,14 @@ public static class KeybindManager
         }
         else
         {         
-            EnableEditorKeybinds();   
+            if(activeUiElements == 0)
+            {
+                EnableEditorKeybinds();
+            }
+            else
+            {
+                ApplyOverrides(activeUIOverrides);
+            }
         }
     }
     /// <summary>
@@ -186,6 +199,7 @@ public static class KeybindManager
         if (activeUiElements == 0) return;
 
         activeUiElements--;
+        activeUIOverrides = null;
         if (activeUiElements == 0)
         {
             EnableEditorKeybinds();

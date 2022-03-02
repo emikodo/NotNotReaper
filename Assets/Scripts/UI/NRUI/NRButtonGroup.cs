@@ -37,6 +37,14 @@ namespace NotReaper.UI.Components
             }
         }
 
+        public void UnregisterButton(NRButton button)
+        {
+            if (buttons.Contains(button))
+            {
+                buttons.Remove(button);
+            }
+        }
+
         private void OnValidate()
         {
 

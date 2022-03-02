@@ -19,6 +19,9 @@ namespace NotReaper.Notifications
 
         public bool RequestPopup(NotificationType type, bool forceShow, out NotificationPopup popup)
         {
+            popup = this.popup;
+            return true;
+            /*
             if(forceShow && !this.popup.IsForceShowing)
             {
                 popup = this.popup;
@@ -32,6 +35,7 @@ namespace NotReaper.Notifications
             }
             popup = null;
             return false;
+            */
         }
 
         public NotificationItem SpawnNotification()

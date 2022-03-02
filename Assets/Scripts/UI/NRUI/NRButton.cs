@@ -9,6 +9,7 @@ using UnityEngine.UI;
 using DG.Tweening;
 namespace NotReaper.UI.Components
 {
+    [ExecuteAlways]
     public class NRButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerEnterHandler, IPointerExitHandler
     {
         [Header("Skin")]
@@ -73,6 +74,16 @@ namespace NotReaper.UI.Components
             }
         }
 
+#if UNITY_EDITOR
+        private void OnDestroy()
+        {
+            if(buttonGroup != null)
+            {
+                buttonGroup.UnregisterButton(this);
+            }
+        }
+#endif
+
         public void Initialize()
         {
             initialized = true;
@@ -85,6 +96,8 @@ namespace NotReaper.UI.Components
 
         private void OnValidate()
         {
+            if (Application.isPlaying) return;
+
             if (!initialized)
             {
                 Initialize();
@@ -129,6 +142,8 @@ namespace NotReaper.UI.Components
                 textContainer.gameObject.SetActive(true);
                 textContainer.text = text.ToLower();
                 textContainer.enableAutoSizing = autoSizeText;
+                textContainer.fontSizeMax = textSize;
+                textContainer.fontSizeMin = 0.1f;
                 textContainer.fontSize = textSize;
             }
             else
@@ -143,6 +158,7 @@ namespace NotReaper.UI.Components
 
         public void SetText(string text)
         {
+            this.text = text;
             textContainer.text = text.ToLower();
         }
 

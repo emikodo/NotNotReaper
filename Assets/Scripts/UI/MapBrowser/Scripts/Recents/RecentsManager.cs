@@ -62,9 +62,18 @@ namespace NotReaper.MapBrowser.Recents
         {
             loadingOverlay.SetActive(true);
             string path = Path.Combine(downloadsFolder, filename);
-            if (Timeline.instance.LoadAudicaFile(false, path)) pauseMenu.Hide();
+            StartCoroutine(Timeline.instance.LoadAudicaFile(false, path, -1, OnLoaded));
+            //if (Timeline.instance.LoadAudicaFile(false, path)) pauseMenu.Hide();
+            //loadingOverlay.SetActive(false);
+        }
+
+        private void OnLoaded(bool success)
+        {
+            if (success)
+            {
+                pauseMenu.Hide();
+            }
             loadingOverlay.SetActive(false);
-            //PauseMenu.Instance.ClosePauseMenu();
         }
 
         public void DownloadAndOpenMap(MapData map, Action callback)

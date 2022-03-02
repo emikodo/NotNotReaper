@@ -2248,6 +2248,15 @@ public partial class @EditorKeybinds : IInputActionCollection2, IDisposable
             ""id"": ""ac39d824-9aad-4518-a599-97c84335be8b"",
             ""actions"": [
                 {
+                    ""name"": ""Help"",
+                    ""type"": ""Button"",
+                    ""id"": ""62b967ae-bca2-484d-a1cf-35d5e60fcfc8"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""Countin"",
                     ""type"": ""Button"",
                     ""id"": ""39f40699-8482-4e19-9ace-ad424f10361b"",
@@ -2269,6 +2278,15 @@ public partial class @EditorKeybinds : IInputActionCollection2, IDisposable
                     ""name"": ""TimingPoints"",
                     ""type"": ""Button"",
                     ""id"": ""6626579a-95d0-46a4-8673-1c2e0656b16b"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Repeater"",
+                    ""type"": ""Button"",
+                    ""id"": ""edab6fb9-2184-4525-8ec2-4594b3290136"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -2309,29 +2327,9 @@ public partial class @EditorKeybinds : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Help"",
-                    ""type"": ""Button"",
-                    ""id"": ""62b967ae-bca2-484d-a1cf-35d5e60fcfc8"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
-                {
-                    ""name"": """",
-                    ""id"": ""4c4767a9-8383-4873-b4c0-1b9d0149d4c3"",
-                    ""path"": ""<Keyboard>/f3"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard"",
-                    ""action"": ""Countin"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
                 {
                     ""name"": """",
                     ""id"": ""0cca827e-e9f3-4d57-851d-281dfeb6eb4e"",
@@ -2406,6 +2404,28 @@ public partial class @EditorKeybinds : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
                     ""action"": ""Help"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4c4767a9-8383-4873-b4c0-1b9d0149d4c3"",
+                    ""path"": ""<Keyboard>/f3"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Countin"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e46e884a-7560-41b0-a73d-431059c78246"",
+                    ""path"": ""<Keyboard>/f7"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Repeater"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -2930,14 +2950,15 @@ public partial class @EditorKeybinds : IInputActionCollection2, IDisposable
         m_Utility_Redo = m_Utility.FindAction("Redo", throwIfNotFound: true);
         // Menus
         m_Menus = asset.FindActionMap("Menus", throwIfNotFound: true);
+        m_Menus_Help = m_Menus.FindAction("Help", throwIfNotFound: true);
         m_Menus_Countin = m_Menus.FindAction("Countin", throwIfNotFound: true);
         m_Menus_ModifyAudio = m_Menus.FindAction("ModifyAudio", throwIfNotFound: true);
         m_Menus_TimingPoints = m_Menus.FindAction("TimingPoints", throwIfNotFound: true);
+        m_Menus_Repeater = m_Menus.FindAction("Repeater", throwIfNotFound: true);
         m_Menus_ModifierHelp = m_Menus.FindAction("ModifierHelp", throwIfNotFound: true);
         m_Menus_ReviewMenu = m_Menus.FindAction("ReviewMenu", throwIfNotFound: true);
         m_Menus_Bookmark = m_Menus.FindAction("Bookmark", throwIfNotFound: true);
         m_Menus_Pause = m_Menus.FindAction("Pause", throwIfNotFound: true);
-        m_Menus_Help = m_Menus.FindAction("Help", throwIfNotFound: true);
         // Grid
         m_Grid = asset.FindActionMap("Grid", throwIfNotFound: true);
         m_Grid_GridView = m_Grid.FindAction("GridView", throwIfNotFound: true);
@@ -3751,26 +3772,28 @@ public partial class @EditorKeybinds : IInputActionCollection2, IDisposable
     // Menus
     private readonly InputActionMap m_Menus;
     private IMenusActions m_MenusActionsCallbackInterface;
+    private readonly InputAction m_Menus_Help;
     private readonly InputAction m_Menus_Countin;
     private readonly InputAction m_Menus_ModifyAudio;
     private readonly InputAction m_Menus_TimingPoints;
+    private readonly InputAction m_Menus_Repeater;
     private readonly InputAction m_Menus_ModifierHelp;
     private readonly InputAction m_Menus_ReviewMenu;
     private readonly InputAction m_Menus_Bookmark;
     private readonly InputAction m_Menus_Pause;
-    private readonly InputAction m_Menus_Help;
     public struct MenusActions
     {
         private @EditorKeybinds m_Wrapper;
         public MenusActions(@EditorKeybinds wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Help => m_Wrapper.m_Menus_Help;
         public InputAction @Countin => m_Wrapper.m_Menus_Countin;
         public InputAction @ModifyAudio => m_Wrapper.m_Menus_ModifyAudio;
         public InputAction @TimingPoints => m_Wrapper.m_Menus_TimingPoints;
+        public InputAction @Repeater => m_Wrapper.m_Menus_Repeater;
         public InputAction @ModifierHelp => m_Wrapper.m_Menus_ModifierHelp;
         public InputAction @ReviewMenu => m_Wrapper.m_Menus_ReviewMenu;
         public InputAction @Bookmark => m_Wrapper.m_Menus_Bookmark;
         public InputAction @Pause => m_Wrapper.m_Menus_Pause;
-        public InputAction @Help => m_Wrapper.m_Menus_Help;
         public InputActionMap Get() { return m_Wrapper.m_Menus; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -3780,6 +3803,9 @@ public partial class @EditorKeybinds : IInputActionCollection2, IDisposable
         {
             if (m_Wrapper.m_MenusActionsCallbackInterface != null)
             {
+                @Help.started -= m_Wrapper.m_MenusActionsCallbackInterface.OnHelp;
+                @Help.performed -= m_Wrapper.m_MenusActionsCallbackInterface.OnHelp;
+                @Help.canceled -= m_Wrapper.m_MenusActionsCallbackInterface.OnHelp;
                 @Countin.started -= m_Wrapper.m_MenusActionsCallbackInterface.OnCountin;
                 @Countin.performed -= m_Wrapper.m_MenusActionsCallbackInterface.OnCountin;
                 @Countin.canceled -= m_Wrapper.m_MenusActionsCallbackInterface.OnCountin;
@@ -3789,6 +3815,9 @@ public partial class @EditorKeybinds : IInputActionCollection2, IDisposable
                 @TimingPoints.started -= m_Wrapper.m_MenusActionsCallbackInterface.OnTimingPoints;
                 @TimingPoints.performed -= m_Wrapper.m_MenusActionsCallbackInterface.OnTimingPoints;
                 @TimingPoints.canceled -= m_Wrapper.m_MenusActionsCallbackInterface.OnTimingPoints;
+                @Repeater.started -= m_Wrapper.m_MenusActionsCallbackInterface.OnRepeater;
+                @Repeater.performed -= m_Wrapper.m_MenusActionsCallbackInterface.OnRepeater;
+                @Repeater.canceled -= m_Wrapper.m_MenusActionsCallbackInterface.OnRepeater;
                 @ModifierHelp.started -= m_Wrapper.m_MenusActionsCallbackInterface.OnModifierHelp;
                 @ModifierHelp.performed -= m_Wrapper.m_MenusActionsCallbackInterface.OnModifierHelp;
                 @ModifierHelp.canceled -= m_Wrapper.m_MenusActionsCallbackInterface.OnModifierHelp;
@@ -3801,13 +3830,13 @@ public partial class @EditorKeybinds : IInputActionCollection2, IDisposable
                 @Pause.started -= m_Wrapper.m_MenusActionsCallbackInterface.OnPause;
                 @Pause.performed -= m_Wrapper.m_MenusActionsCallbackInterface.OnPause;
                 @Pause.canceled -= m_Wrapper.m_MenusActionsCallbackInterface.OnPause;
-                @Help.started -= m_Wrapper.m_MenusActionsCallbackInterface.OnHelp;
-                @Help.performed -= m_Wrapper.m_MenusActionsCallbackInterface.OnHelp;
-                @Help.canceled -= m_Wrapper.m_MenusActionsCallbackInterface.OnHelp;
             }
             m_Wrapper.m_MenusActionsCallbackInterface = instance;
             if (instance != null)
             {
+                @Help.started += instance.OnHelp;
+                @Help.performed += instance.OnHelp;
+                @Help.canceled += instance.OnHelp;
                 @Countin.started += instance.OnCountin;
                 @Countin.performed += instance.OnCountin;
                 @Countin.canceled += instance.OnCountin;
@@ -3817,6 +3846,9 @@ public partial class @EditorKeybinds : IInputActionCollection2, IDisposable
                 @TimingPoints.started += instance.OnTimingPoints;
                 @TimingPoints.performed += instance.OnTimingPoints;
                 @TimingPoints.canceled += instance.OnTimingPoints;
+                @Repeater.started += instance.OnRepeater;
+                @Repeater.performed += instance.OnRepeater;
+                @Repeater.canceled += instance.OnRepeater;
                 @ModifierHelp.started += instance.OnModifierHelp;
                 @ModifierHelp.performed += instance.OnModifierHelp;
                 @ModifierHelp.canceled += instance.OnModifierHelp;
@@ -3829,9 +3861,6 @@ public partial class @EditorKeybinds : IInputActionCollection2, IDisposable
                 @Pause.started += instance.OnPause;
                 @Pause.performed += instance.OnPause;
                 @Pause.canceled += instance.OnPause;
-                @Help.started += instance.OnHelp;
-                @Help.performed += instance.OnHelp;
-                @Help.canceled += instance.OnHelp;
             }
         }
     }
@@ -4190,14 +4219,15 @@ public partial class @EditorKeybinds : IInputActionCollection2, IDisposable
     }
     public interface IMenusActions
     {
+        void OnHelp(InputAction.CallbackContext context);
         void OnCountin(InputAction.CallbackContext context);
         void OnModifyAudio(InputAction.CallbackContext context);
         void OnTimingPoints(InputAction.CallbackContext context);
+        void OnRepeater(InputAction.CallbackContext context);
         void OnModifierHelp(InputAction.CallbackContext context);
         void OnReviewMenu(InputAction.CallbackContext context);
         void OnBookmark(InputAction.CallbackContext context);
         void OnPause(InputAction.CallbackContext context);
-        void OnHelp(InputAction.CallbackContext context);
     }
     public interface IGridActions
     {

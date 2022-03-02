@@ -4,6 +4,8 @@ using UnityEngine;
 using TMPro;
 using NotReaper.Notifications;
 using UnityEngine.InputSystem;
+using NotReaper.Downmap;
+
 namespace NotReaper.UI
 {
     public class BookmarkMenu : NRMenu

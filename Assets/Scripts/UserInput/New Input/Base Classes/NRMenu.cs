@@ -16,6 +16,7 @@ namespace NotReaper
         /// Keybinds to exclude from being disabled from editor keybinds.
         /// </summary>
         [SerializeField] private List<InputActionReference> actionsToEnable = new List<InputActionReference>();
+        [SerializeField] private List<KeybindManager.Map> mapsToEnable = new List<KeybindManager.Map>();
         /// <summary>
         /// Set to true if you want an input catcher zone to be created for you. It prevents any and all mouse clicks from going through to any UI elements behind this one.
         /// </summary>
@@ -52,7 +53,7 @@ namespace NotReaper
         {
             gameObject.SetActive(true);
             KeybindManager.Global.RegisterEscCallback(OnEscPressed);
-            KeybindManager.EnableAsset(null, new KeybindManager.KeybindOverrides(null, keybindsToEnable));
+            KeybindManager.EnableAsset(null, new KeybindManager.KeybindOverrides(mapsToEnable, keybindsToEnable));
             EditorState.SetIsInUI(true);
             if (useInputCatcher)
             {

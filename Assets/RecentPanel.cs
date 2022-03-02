@@ -52,15 +52,25 @@ public class RecentPanel : View
             buttons[i].onClick.AddListener(new UnityAction(() =>
             {
                 loadingOverlay.SetActive(true);
-                if (!timeline.LoadAudicaFile(false, path)) return;
+                StartCoroutine(timeline.LoadAudicaFile(false, path, -1, OnLoaded));
+                /*if (!timeline.LoadAudicaFile(false, path)) return;
                 loadingOverlay.SetActive(false);
-                pauseMenu.Hide();
+                pauseMenu.Hide();*/
             }));
            
             string filename = path.Split(Path.DirectorySeparatorChar).Last();
             filename = filename.Substring(0, filename.Length - 7);
             buttons[i].GetComponentInChildren<TextMeshProUGUI>().text = filename;
             buttons[i].gameObject.SetActive(true);
+        }
+    }
+
+    private void OnLoaded(bool success)
+    {
+        if (success)
+        {
+            loadingOverlay.SetActive(false);
+            pauseMenu.Hide();
         }
     }
 

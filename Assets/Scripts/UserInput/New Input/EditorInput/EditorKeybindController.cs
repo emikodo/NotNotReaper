@@ -141,6 +141,7 @@ namespace NotReaper.UserInput
             actions.Menus.TimingPoints.performed += ShowTimingPoints;
             actions.Menus.ModifierHelp.performed += ShowModifierHelp;
             actions.Menus.ReviewMenu.performed += ShowReviewMenu;
+            actions.Menus.Repeater.performed += ShowRepeaterWindow;
             #endregion
 
             #region Utility

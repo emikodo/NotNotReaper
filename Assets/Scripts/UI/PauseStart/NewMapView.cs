@@ -4,6 +4,7 @@ using UnityEngine;
 using DG.Tweening;
 using NotReaper.BpmAlign;
 using TMPro;
+using NotReaper.Notifications;
 
 namespace NotReaper.UI
 {
@@ -40,6 +41,11 @@ namespace NotReaper.UI
 
         public void ContinueToGenre()
         {
+            if (!manager.CheckAllUIFilled())
+            {
+                NotificationCenter.SendNotification("Please fill out all data.", NotificationType.Warning);
+                return;
+            }
             ChangeView(metadataView, genreView);
         }
 

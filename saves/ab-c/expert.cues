@@ -1,0 +1,52 @@
+{
+    "cues": [
+        {
+            "tick": 4320,
+            "tickLength": 120,
+            "pitch": 41,
+            "velocity": 20,
+            "gridOffset": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "zOffset": 0.0,
+            "handType": 2,
+            "behavior": 0
+        },
+        {
+            "tick": 4800,
+            "tickLength": 120,
+            "pitch": 42,
+            "velocity": 20,
+            "gridOffset": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "zOffset": 0.0,
+            "handType": 2,
+            "behavior": 0
+        },
+        {
+            "tick": 5280,
+            "tickLength": 120,
+            "pitch": 43,
+            "velocity": 20,
+            "gridOffset": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "zOffset": 0.0,
+            "handType": 2,
+            "behavior": 0
+        }
+    ],
+    "NRCueData": {
+        "Version": 1,
+        "pathBuilderNoteCues": [],
+        "pathBuilderNoteData": [],
+        "newPathbuilderData": [],
+        "newPathbuilderCues": [],
+        "repeaterSections": [],
+        "modifiers": []
+    }
+}

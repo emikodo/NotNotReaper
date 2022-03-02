@@ -222,6 +222,31 @@ namespace NotReaper.Targets {
         }
     }
 
+    public class RepeaterData
+    {
+        private QNT_Timestamp _relativeTime;
+        private Repeaters.RepeaterSection _section;
+
+        public QNT_Timestamp RelativeTime
+        {
+            get { return _relativeTime; }
+            set { _relativeTime = value; }
+        }
+
+        public Repeaters.RepeaterSection Section
+        {
+            get { return _section; }
+            set { _section = value; }
+        }
+
+        public void Copy(RepeaterData data)
+        {
+            _relativeTime = data._relativeTime;
+            _section = new Repeaters.RepeaterSection();
+            _section.Copy(data._section);
+        }
+    }
+
     [Serializable]
     public class LegacyPathbuilderData {
 
@@ -347,6 +372,7 @@ namespace NotReaper.Targets {
         public LegacyPathbuilderData legacyPathbuilderData;
         public PathbuilderData pathbuilderData;
         public bool isPathbuilderTarget;
+        
 
         public float x {
             get { return _x; }
@@ -440,6 +466,7 @@ namespace NotReaper.Targets {
             behavior = data.behavior;
             legacyPathbuilderData = data.legacyPathbuilderData;
             pathbuilderData = data.pathbuilderData;
+            repeaterData = data.repeaterData;
             isPathbuilderTarget = data.isPathbuilderTarget;
         }
 
@@ -460,6 +487,9 @@ namespace NotReaper.Targets {
             get { return data.legacyPathbuilderData; }
             set { data.legacyPathbuilderData = value; }
         }
+
+        public RepeaterData repeaterData;
+        public bool isRepeaterTarget => repeaterData != null;
 
         private QNT_Timestamp _time;
 

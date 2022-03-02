@@ -28,6 +28,8 @@ namespace NotReaper.BpmAlign
         private uint denominator;
         [NRInject] private Timeline timeline;
 
+        private Vector3 startPosition = new Vector3(0, -0.28f, 0);
+
         protected override void Awake()
         {
             base.Awake();
@@ -37,19 +39,23 @@ namespace NotReaper.BpmAlign
         public void Show()
         {
             OnActivated();
+            transform.localPosition = startPosition;
             canvas.DOFade(1f, .3f);
             dragAlign.enabled = true;
             canvas.blocksRaycasts = true;
             bpm = (float)timeline.GetBpmFromTime(new QNT_Timestamp(0));
+            if (bpm % 1 > .98f) bpm = Mathf.Round(bpm);
             bpmInput.text = bpm.ToString();
         }
 
         public void Hide()
         {
-            canvas.DOFade(0f, .3f);
             dragAlign.enabled = false;
             canvas.blocksRaycasts = false;
-            OnDeactivated();
+            canvas.DOFade(0f, .5f).OnComplete(() =>
+            {
+                OnDeactivated();
+            });
         }
 
         public void ApplyBPM()

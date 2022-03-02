@@ -2226,6 +2226,15 @@
             "id": "ac39d824-9aad-4518-a599-97c84335be8b",
             "actions": [
                 {
+                    "name": "Help",
+                    "type": "Button",
+                    "id": "62b967ae-bca2-484d-a1cf-35d5e60fcfc8",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Countin",
                     "type": "Button",
                     "id": "39f40699-8482-4e19-9ace-ad424f10361b",
@@ -2247,6 +2256,15 @@
                     "name": "TimingPoints",
                     "type": "Button",
                     "id": "6626579a-95d0-46a4-8673-1c2e0656b16b",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Repeater",
+                    "type": "Button",
+                    "id": "edab6fb9-2184-4525-8ec2-4594b3290136",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -2287,29 +2305,9 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
-                },
-                {
-                    "name": "Help",
-                    "type": "Button",
-                    "id": "62b967ae-bca2-484d-a1cf-35d5e60fcfc8",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
                 }
             ],
             "bindings": [
-                {
-                    "name": "",
-                    "id": "4c4767a9-8383-4873-b4c0-1b9d0149d4c3",
-                    "path": "<Keyboard>/f3",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard",
-                    "action": "Countin",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
                 {
                     "name": "",
                     "id": "0cca827e-e9f3-4d57-851d-281dfeb6eb4e",
@@ -2384,6 +2382,28 @@
                     "processors": "",
                     "groups": "Keyboard",
                     "action": "Help",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4c4767a9-8383-4873-b4c0-1b9d0149d4c3",
+                    "path": "<Keyboard>/f3",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Countin",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e46e884a-7560-41b0-a73d-431059c78246",
+                    "path": "<Keyboard>/f7",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Repeater",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

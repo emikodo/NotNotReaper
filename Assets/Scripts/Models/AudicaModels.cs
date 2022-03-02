@@ -147,6 +147,7 @@ namespace NotReaper.Models {
 		public List<PathbuilderData> newPathbuilderData = new List<PathbuilderData>();
 		public List<Cue> newPathbuilderCues = new List<Cue>();
         public List<RepeaterSection> repeaterSections = new List<RepeaterSection>();
+		public List<Repeaters.RepeaterSection> newRepeaterSections = new List<Repeaters.RepeaterSection>();
         public List<ModifierHandler> modifiers = new List<ModifierHandler>(); //TODO: is this needed?
 	}
 

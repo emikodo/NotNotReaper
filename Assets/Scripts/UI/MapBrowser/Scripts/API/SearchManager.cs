@@ -140,7 +140,7 @@ namespace NotReaper.MapBrowser.API
         {
             SpawnManager.Instance.ClearSearchEntries();
             string requestUrl = APIHandler.GetRequestUrl(searchText, curationState, page, difficulties);
-            int count;
+            int count = 0;
             songList = null;
             List<MapData> maps = new List<MapData>();
             //check if we already performed the same request earlier and retreive it from cache.
@@ -153,8 +153,11 @@ namespace NotReaper.MapBrowser.API
             else
             {
                 yield return StartCoroutine(APIHandler.Search(requestUrl, OnSearchDone));
-                count = songList.count;
-                hasMore = songList.has_more;
+                if(songList != null)
+                {
+                    count = songList.count;
+                    hasMore = songList.has_more;
+                }
             }
 
             if (count == 0)

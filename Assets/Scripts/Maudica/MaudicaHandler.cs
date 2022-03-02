@@ -39,7 +39,7 @@ namespace NotReaper.Maudica
 
             string requestUrl = MAUDICA_URL + ACCOUNT_ENDPOINT + @"?api_token=" + NRSettings.config.maudicaToken;
             using UnityWebRequest www = UnityWebRequest.Get(requestUrl);
-            www.timeout = 20;
+            www.timeout = 60;
             yield return www.SendWebRequest();
             userAccount = JsonConvert.DeserializeObject<Account>(www.downloadHandler.text);
             if (userAccount.roles != null && userAccount.roles.Any(role => role == "curator"))
@@ -55,7 +55,7 @@ namespace NotReaper.Maudica
             audica = new Audica(filepath);
             requestUrl += "?filename=" + audica.fileName + ".audica";
             using UnityWebRequest www = UnityWebRequest.Get(requestUrl);
-            www.timeout = 20;
+            www.timeout = 60;
             yield return www.SendWebRequest();
             var songList = JsonConvert.DeserializeObject<APISongList>(www.downloadHandler.text);
             bool exists = songList.count > 0;
@@ -73,7 +73,7 @@ namespace NotReaper.Maudica
             requestUrl += "&api_token=" + NRSettings.config.maudicaToken;
             using UnityWebRequest www = UnityWebRequest.Get(requestUrl);
             www.method = "PATCH";
-            www.timeout = 20;
+            www.timeout = 60;
             yield return www.SendWebRequest();
             NotificationCenter.SendNotification("Map approved!", NotificationType.Success);
             onComplete?.Invoke();
@@ -88,7 +88,7 @@ namespace NotReaper.Maudica
 
             using UnityWebRequest www = UnityWebRequest.Get(requestUrl);
             www.method = "PATCH";
-            www.timeout = 20;
+            www.timeout = 60;
             yield return www.SendWebRequest();
             NotificationCenter.SendNotification("Map unapproved!", NotificationType.Success);
             onComplete?.Invoke();
@@ -103,7 +103,7 @@ namespace NotReaper.Maudica
 
             using UnityWebRequest www = UnityWebRequest.Get(requestUrl);
             www.method = "PATCH";
-            www.timeout = 20;
+            www.timeout = 60;
             yield return www.SendWebRequest();
             NotificationCenter.SendNotification("Map upvoted!", NotificationType.Success);
             onComplete?.Invoke();
@@ -118,7 +118,7 @@ namespace NotReaper.Maudica
 
             using UnityWebRequest www = UnityWebRequest.Get(requestUrl);
             www.method = "PATCH";
-            www.timeout = 20;
+            www.timeout = 60;
             yield return www.SendWebRequest();
             NotificationCenter.SendNotification("Map downvoated!", NotificationType.Success);
             onComplete?.Invoke();

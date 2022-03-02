@@ -23,7 +23,8 @@ public class FileDragAndDrop : MonoBehaviour
         if (aFiles[0].Contains(".audica"))
         {
             if(Timeline.audicaLoaded) Timeline.instance.Export();
-            Timeline.instance.LoadAudicaFile(false, aFiles[0]);
+            StartCoroutine(Timeline.instance.LoadAudicaFile(false, aFiles[0]));
+            //Timeline.instance.LoadAudicaFile(false, aFiles[0]);
         }
     }
 
