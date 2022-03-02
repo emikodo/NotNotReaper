@@ -67,3 +67,6 @@ Logs/*
 
 # Plugins
 Assets/Plugins/Sirenix/
+
+# User Settings
+UserSettings/

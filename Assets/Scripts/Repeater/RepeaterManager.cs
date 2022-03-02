@@ -420,6 +420,11 @@ namespace NotReaper.Repeaters
                 var pos = target.position;
                 pos.x *= -1f;
                 target.position = pos;
+
+                if (target.isPathbuilderTarget)
+                {
+                    target.pathbuilderData.Flip(new Vector2(-1f, 0f));
+                }
             }
         }
         public void MirrorRepeaterVertically(string id, QNT_Timestamp startTime, bool mirror)
