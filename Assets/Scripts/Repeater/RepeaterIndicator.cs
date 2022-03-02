@@ -161,7 +161,6 @@ namespace NotReaper.Repeaters
                 if (newTime != lastTime)
                 {
                     lastTime = newTime;
-
                     float length = isStartHandle ? (section.activeEndTime.tick - newTime.tick) : newTime.tick - section.activeStartTime.tick;
                     if(length > 0f)
                     {
@@ -181,7 +180,7 @@ namespace NotReaper.Repeaters
                                 maxTime = foundTarget.data.time;
                                 foundBoundary = true;
                             }
-                            if (foundTarget.transient && !foundTransient)
+                            if (foundTarget.transient && !foundTransient && !isStartHandle)
                             {
                                 foundTransient = true;
                                 minTime = new QNT_Timestamp(foundTarget.data.time.tick - 1);

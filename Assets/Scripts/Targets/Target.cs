@@ -278,7 +278,7 @@ namespace NotReaper.Targets {
             }
 		}
 
-		private void OnTickChanged(QNT_Timestamp newTime) {
+		private void OnTickChanged(QNT_Timestamp newTime, QNT_Timestamp oldTime) {
 			var pos = gridTargetIcon.transform.localPosition;
 			pos.z = newTime.ToBeatTime();
 			gridTargetIcon.transform.localPosition = pos;
@@ -298,7 +298,15 @@ namespace NotReaper.Targets {
 			}
 			else if (data.isPathbuilderTarget)
             {
-				pathbuilder.UpdatePathbuilderTarget(data);
+				var delta = oldTime - newTime;
+				//pathbuilder.UpdatePathbuilderTarget(data);
+				foreach (var segment in data.pathbuilderData.Segments)
+                {
+					foreach(var node in segment.generatedNodes)
+                    {
+						node.SetTimeFromAction(node.time - delta);
+                    }
+                }
 			}
 		}
 

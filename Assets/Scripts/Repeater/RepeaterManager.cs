@@ -351,7 +351,7 @@ namespace NotReaper.Repeaters
                 foreach (RepeaterSection section in repeater.Value)
                 {
                     if (section.startTime == excludeSectionStartTime) continue;
-
+                    
                     if (section.Contains(time))
                     {
                         return true;

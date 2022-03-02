@@ -53,7 +53,7 @@ namespace NotReaper.Notifications
         {
             if (IsActive)
             {
-                ShowAsFade(type, text, id);              
+                StartCoroutine(ShowAsFade(type, text, id));             
             }
             else
             {
@@ -63,12 +63,15 @@ namespace NotReaper.Notifications
             }
         }
 
-        private void ShowAsFade(NotificationType type, string text, int id)
+        private IEnumerator ShowAsFade(NotificationType type, string text, int id)
         {
+            //wait for end of frame so the contentRect has time to update it's size.
+            yield return new WaitForEndOfFrame();
             StopFadeout();
             canvas.DOKill();
+            //mask.sizeDelta = new Vector2(mask.sizeDelta.y, mask.sizeDelta.y);
             var sequence = DOTween.Sequence();
-            sequence.OnComplete(() => OnChangeFadeoutComplete(type, text, id));
+            sequence.OnComplete(() => StartCoroutine(OnChangeFadeoutComplete(type, text, id)));
             sequence.Append(transform.DOScale(new Vector3(.95f, .95f, .95f), changeDuration));
             sequence.Join(iconHolder.DOFade(0f, changeDuration));
             sequence.Join(notificationText.DOFade(0f, changeDuration));
@@ -76,12 +79,14 @@ namespace NotReaper.Notifications
             transform.DOPunchPosition(new Vector3(transform.position.x + .1f, transform.position.y, transform.position.z), changeDuration * 2f, 0, .5f);
         }
 
-        private void OnChangeFadeoutComplete(NotificationType type, string text, int id)
+        private IEnumerator OnChangeFadeoutComplete(NotificationType type, string text, int id)
         {
             Setup(type, text, id);
+            yield return new WaitForEndOfFrame();
             var sequence = DOTween.Sequence();
             sequence.OnComplete(() => OnPopupShown());
             sequence.Append(transform.DOScale(Vector3.one, changeDuration));
+            sequence.Join(mask.DOSizeDelta(new Vector2(originalMaskSize.x, contentRect.sizeDelta.y), changeDuration).SetEase(Ease.OutBack));
             sequence.Join(iconHolder.DOFade(1f, changeDuration));
             sequence.Join(notificationText.DOFade(1f, changeDuration));
             sequence.Play();

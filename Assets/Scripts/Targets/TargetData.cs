@@ -92,6 +92,8 @@ namespace NotReaper.Targets {
             AlternateHands = data.AlternateHands;
             BeatLengthOverride = data.BeatLengthOverride;
             IntervalOverride = new Interval(data.IntervalOverride.nominator, data.IntervalOverride.denominator);
+            IsSegmentScope = data.IsSegmentScope;
+            ActiveSegment = data.ActiveSegment;
             foreach(var segment in data.Segments)
             {
                 var targets = new List<TargetData>();
@@ -514,7 +516,12 @@ namespace NotReaper.Targets {
 		public virtual QNT_Timestamp time
 		{
 			get { return _time; }
-			protected set { _time = value; if (TickChangeEvent != null) TickChangeEvent(time); }
+			protected set 
+            {
+                var oldTime = _time;
+                _time = value; 
+                if (TickChangeEvent != null) TickChangeEvent(time, oldTime); 
+            }
 		}
 
 		//This should only be used when you need to set time directly, and are handling repeaters yourself.
@@ -559,7 +566,7 @@ namespace NotReaper.Targets {
 			remove {data.PositionChangeEvent -= value; }
 		}
 		
-        public Action<QNT_Timestamp> TickChangeEvent;
+        public Action<QNT_Timestamp, QNT_Timestamp> TickChangeEvent;
 
         public event Action<QNT_Duration> BeatLengthChangeEvent {
 			add { data.BeatLengthChangeEvent += value; }

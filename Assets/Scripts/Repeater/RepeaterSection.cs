@@ -166,6 +166,23 @@ namespace NotReaper.Repeaters
                     {
                         timeline.AddTargetFromAction(target);
                     }
+                    if (target.isPathbuilderTarget)
+                    {
+                        foreach(var segment in target.pathbuilderData.Segments)
+                        {
+                            foreach(var node in segment.generatedNodes)
+                            {
+                                if(node.time > activeEndTime)
+                                {
+                                    timeline.DeleteTargetFromAction(node);
+                                }
+                                else if(timeline.FindNote(node) == null)
+                                {
+                                    timeline.AddTargetFromAction(node);
+                                }
+                            }
+                        }
+                    }
                 }
                 else
                 {

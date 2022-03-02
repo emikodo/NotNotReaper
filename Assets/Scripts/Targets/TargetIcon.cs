@@ -118,6 +118,7 @@ namespace NotReaper.Targets {
         {
             childComponents.parent = transform;
             childComponents.transform.localPosition = Vector3.zero;
+            UpdateTimelineSustainLength();
         }
 
         private void OnBecameInvisible()
@@ -367,10 +368,8 @@ namespace NotReaper.Targets {
             if (!data.supportsBeatLength) {
                 return;
             }
-            
             float scale = 20.0f / Timeline.scale;
             QNT_Duration beatLength = data.isPathbuilderTarget ? data.pathbuilderData.BeatLength : data.beatLength;
-
             var lineRenderers = gameObject.GetComponentsInChildren<LineRenderer>(true);
             foreach (LineRenderer l in lineRenderers) {
                 if (l.positionCount < 3) {
@@ -576,7 +575,7 @@ namespace NotReaper.Targets {
             }
         }
 
-        private void OnTickChanged(QNT_Timestamp newTime) {
+        private void OnTickChanged(QNT_Timestamp newTime, QNT_Timestamp oldTime) {
             SetupFade();
         }
 

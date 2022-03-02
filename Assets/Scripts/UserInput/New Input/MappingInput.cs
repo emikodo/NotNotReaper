@@ -128,10 +128,20 @@ namespace NotReaper.UserInput
 		{
 			if (copyTimestamp) timeline.CopyTimestampToClipboard();
 			clipboard = new List<TargetData>();
+			bool displayWarning = false;
 			foreach (var target in timeline.selectedNotes)
 			{
+				if (target.data.isRepeaterTarget)
+                {
+					displayWarning = true;
+					continue;
+                }
 				clipboard.Add(target.data);
 			}
+            if (displayWarning)
+            {
+				NotificationCenter.SendNotification("Repeater targets can't be copied.", NotificationType.Warning);
+            }
 		}
 
 		public void CutSelectedTargets()

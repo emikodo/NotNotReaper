@@ -368,10 +368,28 @@ namespace NotReaper.Tools.PathBuilder
 					return;
 				}
 			}
+			else
+			{
+				var time = activeTarget.data.time + activeTarget.data.pathbuilderData.TotalSegmentLength;
+				if (increase) time += increment;
+				else time -= increment;
+                if (repeaterManager.IsTargetInRepeaterZone(time))
+                {
+					NotificationCenter.SendNotification("Can't change length. It would cross into a repeater zone.", NotificationType.Warning);
+					return;
+                }
+            }
 			if (isSegmentScope) activeSegment.SetBeatlength(targetLength); 
 			else beatLengthOverride = targetLength;
 
 			UpdateActivePathbuilderTarget(activeTarget);
+            if (activeTarget.data.isRepeaterTarget)
+            {
+				foreach(var section in timeline.repeaterManager.GetMatchingRepeaterSections(activeTarget.data.repeaterData))
+                {
+					section.UpdateActiveNotes();
+                }
+            }
 		}
 
 		private void MakeNewPathbuilderTarget(Target target)
@@ -410,6 +428,13 @@ namespace NotReaper.Tools.PathBuilder
 			segment.SetBeatlength(lastSegment.beatLength);
 			segment.SetSegmentEndPoint();
 			SaveTargetState();
+			if (activeTarget.data.isRepeaterTarget)
+			{
+				foreach (var section in timeline.repeaterManager.GetMatchingRepeaterSections(activeTarget.data.repeaterData))
+				{
+					section.UpdateActiveNotes();
+				}
+			}
 		}
 
 		public void SaveTargetState()
@@ -658,10 +683,25 @@ namespace NotReaper.Tools.PathBuilder
         /// Checks if a target is a valid Pathbuilder target.
         /// </summary>
         /// <param name="target">The target to check</param>
-        /// <returns>True if target is not chain, melee, mine or a NR tool or already a pathbuilder target and not a transient</returns>
+        /// <returns>True if target is not chain, melee, mine, a NR tool or already a pathbuilder target and not a transient.
+		/// Also checks if there's enough space if the target is inside of a repeater.</returns>
         private bool IsValidPathbuilderCandidate(Target target)
         {
 			if (target == null) return false;
+
+            if (target.data.isRepeaterTarget)
+            {
+				if(new QNT_Timestamp(Constants.DurationFromBeatSnap((uint)timeline.beatSnap).tick + target.data.time.tick) > target.data.repeaterData.Section.activeEndTime)
+                {
+					NotificationCenter.SendNotification("Can't make pathbuilder target: Not enough space in repeater.", NotificationType.Warning);
+					return false;
+                }
+            }
+			else if(repeaterManager.IsTargetInRepeaterZone(target.data.time + Constants.DurationFromBeatSnap((uint)timeline.beatSnap)))
+            {
+				NotificationCenter.SendNotification("Can't make pathbuilder target: Target would cross into repeater section.", NotificationType.Warning);
+				return false;
+            }
 
 			int index = (int)target.data.behavior;
 			return index < 5 && !target.transient && !target.data.isPathbuilderTarget;

@@ -323,17 +323,69 @@ namespace NotReaper.Tools
             {
                 intent.startSiblingsToBeDestroyed.ForEach(data => { timeline.DeleteTargetFromAction(data); });
             });
+            bool canMove = true;
+
+            if(targetTimelineMoveIntents.Any(t => (t.targetData.isRepeaterTarget ? 
+            timeline.repeaterManager.IsTargetInRepeaterZone(t.targetData.time, t.targetData.repeaterData.Section.startTime) :
+            timeline.repeaterManager.IsTargetInRepeaterZone(t.targetData.time))))
+            {
+                canMove = false;
+            }
+            else if (targetTimelineMoveIntents.Any(i => i.targetData.isPathbuilderTarget))
+            {
+                var pathbuilderTargets = targetTimelineMoveIntents.Where(i => i.targetData.isPathbuilderTarget).Select(d => d).ToList();
+                foreach (var t in pathbuilderTargets)
+                {
+                    if (t.targetData.isRepeaterTarget)
+                    {
+                        if (timeline.repeaterManager.IsTargetInRepeaterZone(t.targetData.pathbuilderData.Segments.Last().generatedNodes.Last().time, t.targetData.repeaterData.Section.startTime))
+                        {
+                            canMove = false;
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        if (timeline.repeaterManager.IsTargetInRepeaterZone(t.targetData.pathbuilderData.Segments.Last().generatedNodes.Last().time))
+                        {
+                            canMove = false;
+                            break;
+                        }
+                    }
+                }
+            }
+
+            if (!canMove)
+            {
+                foreach(var intent in targetTimelineMoveIntents)
+                {
+                    intent.targetData.SetTimeFromAction(intent.startTick);
+                }
+                NotificationCenter.SendNotification("Can't move target into repeater zone.", NotificationType.Warning);
+                return;
+            }
+
 
             targetTimelineMoveIntents.ForEach(intent =>
             {
+                /*if (intent.targetData.isPathbuilderTarget)
+                {
+                    if(timeline.repeaterManager.IsTargetInRepeaterZone(intent.targetData.pathbuilderData.Segments.Last().generatedNodes.Last().time, intent.targetData.repeaterData.Section.startTime))
+                    {
+                        NotificationCenter.SendNotification("Can't move target into repeater zone.", NotificationType.Warning);
+                        intent.targetData.SetTimeFromAction(intent.startTick);
+                        return;
+                    }
+                }
+
                 if (timeline.repeaterManager.IsTargetInRepeaterZone(intent.intendedTick, intent.targetData.repeaterData.Section.startTime))
                 {
                     NotificationCenter.SendNotification("Can't move target into repeater zone.", NotificationType.Warning);
                     intent.targetData.SetTimeFromAction(intent.startTick);
                     return;
-                }
-                else
-                {
+                }*/
+                //else
+                //{
                     //Move the actual note
                     intent.targetData.SetTimeFromAction(intent.intendedTick);
                     if (intent.targetData.isRepeaterTarget)
@@ -352,7 +404,7 @@ namespace NotReaper.Tools
 
                     //Finally, create targets in the ending section (if any exist)
                     intent.endRepeaterSiblingsToBeCreated.ForEach(data => { timeline.AddTargetFromAction(data); });
-                }
+                //}
             });
             timeline.SortOrderedList();
             timeline.UpdateState();
@@ -1036,8 +1088,11 @@ namespace NotReaper.Tools
                 {
                     PathbuilderData repeaterState = new PathbuilderData();
                     repeaterState.Copy(newState);
+                    target.isPathbuilderTarget = targetData.isPathbuilderTarget;
                     pathbuilder.UpdatePathbuilderRepeaterTargetFromAction(target, repeaterState);
+                    target.repeaterData.Section.UpdateActiveNotes();
                 }
+                targetData.repeaterData.Section.UpdateActiveNotes();
             }
         }
 
@@ -1052,6 +1107,7 @@ namespace NotReaper.Tools
                     {
                         PathbuilderData repeaterState = new PathbuilderData();
                         repeaterState.Copy(oldState);
+                        target.isPathbuilderTarget = targetData.isPathbuilderTarget;
                         pathbuilder.UpdatePathbuilderRepeaterTargetFromAction(target, repeaterState);
                     }
                 }
