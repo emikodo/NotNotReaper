@@ -225,6 +225,15 @@ namespace NotReaper.Tools.PathBuilder
         internal void RemovePathbuilderTarget(TargetData targetData)
         {
 			RemoveAllNodes(targetData.pathbuilderData);
+
+            if (targetData.isRepeaterTarget)
+            {
+				foreach(var sibling in repeaterManager.GetMatchingRepeaterTargets(targetData))
+                {
+					RemoveAllNodes(sibling.pathbuilderData);
+                }
+            }
+
 			if(activeTarget != null && activeTarget.data == targetData)
             {
 				ClearData();

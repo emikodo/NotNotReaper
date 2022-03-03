@@ -121,16 +121,17 @@ namespace NotReaper.Repeaters
                     return;
                 }
                 manager.RenameRepeater(inputID.text, inputRename.text);
-                foreach (var entry in repeaterListEntries)
-                {
-                    entry.SetID(inputRename.text);
-                }
                 inputID.text = inputRename.text;
                 inputRename.text = "";
                 inputRename.gameObject.SetActive(false);
                 buttonRenameRepeater.SetText("rename");
             }
             isRenaming = !isRenaming;
+        }
+
+        public void UpdateRepeaterID(string oldID, string newID)
+        {
+            repeaterListEntries.First(e => e.GetID() == oldID).SetID(newID);
         }
 
         public void OnInsertCreateClicked()
@@ -185,12 +186,11 @@ namespace NotReaper.Repeaters
             if (activeSection.GetSection().isParent)
             {
                 manager.RemoveAllRepeatersWithID(id);
-                RemoveEntry(id);
                 inputID.text = "";
             }
             else
             {
-                manager.RemoveRepeater(id, activeSection.GetSection().startTime);
+                manager.RemoveRepeater(activeSection.GetSection());
             }
             activeSection = null;
             UpdateState();
@@ -215,6 +215,13 @@ namespace NotReaper.Repeaters
         public void OnMirrorVerticallyToggled()
         {
             manager.MirrorRepeaterVertically(activeSection.GetSection().ID, activeSection.GetSection().startTime, toggleMirrorVertically.isOn);
+        }
+
+        public void OnBakeClicked()
+        {
+            manager.BakeRepeaterSection(activeSection.GetSection());
+            activeSection = null;
+            UpdateState();
         }
 
         private void UpdateState()

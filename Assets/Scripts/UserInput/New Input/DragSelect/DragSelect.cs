@@ -322,6 +322,17 @@ namespace NotReaper.Tools
 				intent.targetData = target.data;
 				intent.startTick = target.data.time;
 
+                if (target.data.isRepeaterTarget)
+                {
+					foreach(var sibling in timeline.repeaterManager.GetMatchingRepeaterTargets(target.data))
+                    {
+						TargetTimelineMoveIntent siblingIntent = new();
+						siblingIntent.targetData = sibling;
+						siblingIntent.startTick = sibling.time;
+						timelineTargetMoveIntents.Add(siblingIntent);
+                    }
+                }
+
 				timelineTargetMoveIntents.Add(intent);
 			});
 		}
@@ -393,6 +404,19 @@ namespace NotReaper.Tools
 		{
 			if (timelineTargetMoveIntents.Count > 0)
 			{
+                for (int i = timelineTargetMoveIntents.Count - 1; i >= 0; i--)
+                {
+					var intent = timelineTargetMoveIntents[i];
+
+					if (intent.targetData.isRepeaterTarget)
+                    {
+                        if (!intent.targetData.repeaterData.Section.isParent)
+                        {
+							intent.targetData.SetTimeFromAction(intent.startTick);
+							timelineTargetMoveIntents.RemoveAt(i);
+                        }
+                    }
+                }
 				timeline.MoveTimelineTargets(timelineTargetMoveIntents);
 				timelineTargetMoveIntents = new List<TargetTimelineMoveIntent>();
 			}

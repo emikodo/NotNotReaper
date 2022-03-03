@@ -99,7 +99,9 @@ namespace NotReaper.Targets {
 			SetOutlineColor(NRSettings.config.selectedHighlightColor);
 
 			this.transient = transient;
-			if(transient) {
+
+			#region Transient Color Change (Commented out)
+			/*if(transient) {
 				foreach (Renderer r in gridTargetIcon.GetComponentsInChildren<Renderer>(true)) {
 					if (r.name == "WhiteRing") {
 						var color = r.material.GetColor("_Tint");
@@ -119,9 +121,10 @@ namespace NotReaper.Targets {
 						r.material.color = color; 
 					}
 				}
-			}
+			}*/
+			#endregion
 
-			if(data.behavior == TargetBehavior.Legacy_Pathbuilder) {
+			if (data.behavior == TargetBehavior.Legacy_Pathbuilder) {
 				data.legacyPathbuilderData.InitialAngleChangedEvent += UpdatePathInitialAngle;
 				data.legacyPathbuilderData.RecalculateEvent += RecalculatePathbuilderData;
 				data.legacyPathbuilderData.RecalculateFinishedEvent += UpdatePath;

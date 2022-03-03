@@ -656,38 +656,13 @@ namespace NotReaper
                     break;
             }
 
-            if (repeaterManager.IsTargetInRepeaterZone(data, out RepeaterData repeaterData))
+            /*if (repeaterManager.IsTargetInRepeaterZone(data.time))
             {
-                data.repeaterData = repeaterData;
+                repeaterManager.CreateRepeaterTarget(data);
 
-                if (!data.repeaterData.Section.isParent)
-                {
-                    if (data.repeaterData.Section.flipTargetColors)
-                    {
-                        if (data.handType == TargetHandType.Left)
-                        {
-                            data.handType = TargetHandType.Right;
-                        }
-                        else if (data.handType == TargetHandType.Right)
-                        {
-                            data.handType = TargetHandType.Left;
-                        }
-                    }
-                    if (data.repeaterData.Section.mirrorHorizontally)
-                    {
-                        var pos = data.position;
-                        pos.x *= -1f;
-                        data.position = pos;
-                    }
-                    if (data.repeaterData.Section.mirrorVertically)
-                    {
-                        var pos = data.position;
-                        pos.y *= -1f;
-                        data.position = pos;
-                    }
-                }
-                data.repeaterData.targetID = data.repeaterData.Section.GetCurrentTargetIndexID();
-            }
+               
+                //data.repeaterData.targetID = data.repeaterData.Section.GetCurrentTargetIndexID();
+            }*/
 
             var action = new NRActionAddNote { targetData = data };
             Tools.undoRedoManager.AddAction(action);
@@ -734,7 +709,6 @@ namespace NotReaper
 
             //Trigger all callbacks on the note
             targetData.Copy(targetData);
-
             //Also generate chains if needed
             //this might be the culprit of chain nodes staying on grid + hitsounds not working.
             if (targetData.behavior == TargetBehavior.Legacy_Pathbuilder)

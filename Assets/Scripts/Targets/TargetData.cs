@@ -94,6 +94,7 @@ namespace NotReaper.Targets {
             IntervalOverride = new Interval(data.IntervalOverride.nominator, data.IntervalOverride.denominator);
             IsSegmentScope = data.IsSegmentScope;
             ActiveSegment = data.ActiveSegment;
+            Segments.Clear();
             foreach(var segment in data.Segments)
             {
                 var targets = new List<TargetData>();
@@ -228,7 +229,7 @@ namespace NotReaper.Targets {
     {
         private QNT_Timestamp _relativeTime;
         private Repeaters.RepeaterSection _section;
-        public ulong targetID;
+        public long targetID { get; set; } = -1;
         public QNT_Timestamp RelativeTime
         {
             get { return _relativeTime; }

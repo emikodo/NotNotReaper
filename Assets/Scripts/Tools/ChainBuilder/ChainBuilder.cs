@@ -292,7 +292,7 @@ namespace NotReaper.Tools.ChainBuilder {
             if (data.isRepeaterTarget)
             {
 				var parent = timeline.repeaterManager.GetParentTarget(data);
-
+				parent.legacyPathbuilderData.Copy(data.legacyPathbuilderData);
                 if (data.repeaterData.Section.flipTargetColors)
                 {
 					if (data.legacyPathbuilderData.handType == TargetHandType.Left)

@@ -28,7 +28,7 @@ namespace NotReaper.Repeaters
         [NonSerialized] public RepeaterIndicator indicator;
         [NonSerialized] private Timeline timeline;
 
-        private ulong targetIndexID = 0;
+        private long targetIndexID = 0;
 
         public RepeaterSection(string ID, bool isParent, QNT_Timestamp startTime, QNT_Timestamp endTime, QNT_Timestamp activeEndTime, RepeaterIndicator indicator, List<TargetData> targets, Timeline timeline)
         {
@@ -106,29 +106,54 @@ namespace NotReaper.Repeaters
             indicator.SetIsParent(isParent);
         }
 
-        public ulong GetCurrentTargetIndexID()
+        public long GetCurrentTargetIndexID()
         {
             return targetIndexID;
         }
-
-        public void CreateRepeaterTarget(TargetData data)
+        /// <summary>
+        /// Creates a parent target in this section.
+        /// </summary>
+        /// <param name="data">The parent's data.</param>
+        public void CreateRepeaterParentTarget(TargetData data)
+        {
+            var repeaterData = new RepeaterData();
+            repeaterData.RelativeTime = new QNT_Timestamp(data.time.tick - startTime.tick);
+            repeaterData.Section = this;
+            if(data.repeaterData.targetID == -1)
+            {
+                repeaterData.targetID = targetIndexID;
+                targetIndexID++;
+            }
+            else
+            {
+                repeaterData.targetID = data.repeaterData.targetID;
+            }
+            data.repeaterData = repeaterData;
+            targets.Add(data);
+            timeline.AddTargetFromAction(data);
+        }
+        /// <summary>
+        /// Creates a child target in this repeater section.
+        /// </summary>
+        /// <param name="parentData">The parent section's target data.</param>
+        public void CreateRepeaterChildTarget(TargetData parentData)
         {
             TargetData repeaterTarget = new TargetData();
-            repeaterTarget.Copy(data);
+            repeaterTarget.Copy(parentData);
             repeaterTarget.repeaterData = new RepeaterData();
-            repeaterTarget.repeaterData.Copy(data.repeaterData);
+            repeaterTarget.repeaterData.RelativeTime = parentData.repeaterData.RelativeTime;
             repeaterTarget.SetTimeFromAction(new QNT_Timestamp(startTime.tick + repeaterTarget.repeaterData.RelativeTime.tick));
             repeaterTarget.repeaterData.Section = this;
-            repeaterTarget.repeaterData.targetID = targetIndexID;
+            repeaterTarget.repeaterData.targetID = parentData.repeaterData.targetID;
             targetIndexID++;
 
             if (flipTargetColors)
             {
-                if(data.handType == TargetHandType.Left)
+                if(parentData.handType == TargetHandType.Left)
                 {
                     repeaterTarget.handType = TargetHandType.Right;
                 }
-                else if(data.handType == TargetHandType.Right)
+                else if(parentData.handType == TargetHandType.Right)
                 {
                     repeaterTarget.handType = TargetHandType.Left;
                 }
@@ -152,7 +177,10 @@ namespace NotReaper.Repeaters
                 timeline.AddTargetFromAction(repeaterTarget);
             }
         }
-
+        /// <summary>
+        /// Adds an already existing target to a repeater. Mainly used for baking targets from pathbuilder/chainbuilder.
+        /// </summary>
+        /// <param name="data">The target to add to this repeater section.</param>
         public void AddExistingTargetToRepeater(TargetData data)
         {
             data.repeaterData = new();
@@ -163,34 +191,8 @@ namespace NotReaper.Repeaters
             targets.Add(data);
         }
 
-        public void RemoveRepeaterTargetAtRelativeTime(TargetData data)
+        public void RemoveRepeaterTarget(TargetData data)
         {
-            /*
-            TargetData matchingTarget = data;
-
-            if (flipTargetColors)
-            {
-                foreach (var target in targets)
-                {
-                    if (target.repeaterData.RelativeTime == data.repeaterData.RelativeTime)
-                    {
-                        if (target.behavior == TargetBehavior.Melee && data.behavior == TargetBehavior.Melee)
-                        {
-                            matchingTarget = target;
-                        }
-                        else if (target.behavior == data.behavior &&
-                        ((target.handType == TargetHandType.Left && data.handType == TargetHandType.Right) ||
-                        (target.handType == TargetHandType.Right && data.handType == TargetHandType.Left)))
-                        {
-                            matchingTarget = target;
-                        }
-                    }
-
-                }
-            }
-            */
-
-            //var target = targets.First(t => t.repeaterData.RelativeTime == data.repeaterData.RelativeTime && t.behavior == data.behavior && t.handType == data.handType);
             var target = targets.First(t => t.repeaterData.targetID == data.repeaterData.targetID);
             targets.Remove(target);
             timeline.DeleteTargetFromAction(target);
