@@ -1017,7 +1017,7 @@ public partial class @EditorKeybinds : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""45f2bb26-1042-4f9e-af89-a79f01c008ca"",
-                    ""path"": ""<Keyboard>/z"",
+                    ""path"": ""<Keyboard>/y"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
