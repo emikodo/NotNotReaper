@@ -665,6 +665,34 @@ namespace NotReaper
             if (repeaterManager.IsTargetInRepeaterZone(data, out RepeaterData repeaterData))
             {
                 data.repeaterData = repeaterData;
+
+                if (!data.repeaterData.Section.isParent)
+                {
+                    if (data.repeaterData.Section.flipTargetColors)
+                    {
+                        if (data.handType == TargetHandType.Left)
+                        {
+                            data.handType = TargetHandType.Right;
+                        }
+                        else if (data.handType == TargetHandType.Right)
+                        {
+                            data.handType = TargetHandType.Left;
+                        }
+                    }
+                    if (data.repeaterData.Section.mirrorHorizontally)
+                    {
+                        var pos = data.position;
+                        pos.x *= -1f;
+                        data.position = pos;
+                    }
+                    if (data.repeaterData.Section.mirrorVertically)
+                    {
+                        var pos = data.position;
+                        pos.y *= -1f;
+                        data.position = pos;
+                    }
+                }
+                data.repeaterData.targetID = data.repeaterData.Section.GetCurrentTargetIndexID();
             }
 
             var action = new NRActionAddNote { targetData = data };
@@ -1433,6 +1461,8 @@ namespace NotReaper
 
         public void Export(bool autoSave = false)
         {
+            if (isSaving) return;
+
             isSaving = true;
             //Debug.Log ("Saving: " + audicaFile.desc.title);
 

@@ -423,7 +423,7 @@ namespace NotReaper.Repeaters
 
                 if (target.isPathbuilderTarget)
                 {
-                    target.pathbuilderData.Flip(new Vector2(-1f, 0f));
+                    target.pathbuilderData.Flip(new Vector2(-1f, 1f));
                 }
             }
         }
@@ -438,6 +438,11 @@ namespace NotReaper.Repeaters
                 var pos = target.position;
                 pos.y *= -1f;
                 target.position = pos;
+
+                if (target.isPathbuilderTarget)
+                {
+                    target.pathbuilderData.Flip(new Vector2(1f, -1f));
+                }
             }
         }
 

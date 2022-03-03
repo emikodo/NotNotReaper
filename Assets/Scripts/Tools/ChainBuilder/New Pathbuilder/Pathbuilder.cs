@@ -186,7 +186,7 @@ namespace NotReaper.Tools.PathBuilder
 			timeline.Tools.undoRedoManager.AddAction(action);
         }
 
-        internal void BakeTarget(TargetData data)
+        internal void BakeTarget(TargetData data, bool isRepeaterTarget = false)
         {
 
 			data.isPathbuilderTarget = false;
@@ -195,9 +195,24 @@ namespace NotReaper.Tools.PathBuilder
 				foreach(var foundTarget in timeline.FindNotes(segment.generatedNodes))
                 {
 					foundTarget.transient = false;
+                    if (data.isRepeaterTarget)
+                    {
+						data.repeaterData.Section.AddExistingTargetToRepeater(foundTarget.data);
+                    }
                 }
             }
-			OnPathbuilderTargetChanged(activeTarget);
+            if (isRepeaterTarget)
+            {
+				var target = timeline.FindNote(data);
+				if(target != null)
+                {
+					target.timelineTargetIcon.SetBeatlengthLineActive(target.data.isPathbuilderTarget);
+                }
+            }
+            else
+            {
+				OnPathbuilderTargetChanged(activeTarget);
+            }
         }
 
         internal void ChangeScope()
@@ -652,7 +667,7 @@ namespace NotReaper.Tools.PathBuilder
 		private void ClearData()
         {
 			
-			Save();
+			//Save();
 			RemoveAllSegments();
 			//timeline.DeselectAllTargets();
 			if(activeTarget != null)
@@ -691,7 +706,7 @@ namespace NotReaper.Tools.PathBuilder
 
             if (target.data.isRepeaterTarget)
             {
-				if(new QNT_Timestamp(Constants.DurationFromBeatSnap((uint)timeline.beatSnap).tick + target.data.time.tick) > target.data.repeaterData.Section.activeEndTime)
+				if(new QNT_Timestamp(Constants.QuarterNoteDuration.tick + target.data.time.tick) > target.data.repeaterData.Section.activeEndTime)
                 {
 					NotificationCenter.SendNotification("Can't make pathbuilder target: Not enough space in repeater.", NotificationType.Warning);
 					return false;
@@ -769,6 +784,13 @@ namespace NotReaper.Tools.PathBuilder
 				segments.Add(tempSegment);
 				tempSegment = null;
 				SaveTargetState();
+				if(activeTarget != null && activeTarget.data.isRepeaterTarget)
+                {
+					foreach(var section in repeaterManager.GetMatchingRepeaterSections(activeTarget.data.repeaterData))
+                    {
+						section.UpdateActiveNotes();
+                    }
+                }
 			}
 		}
 

@@ -7,6 +7,7 @@ using UnityEngine.UI;
 using NotReaper.Timing;
 using NotReaper.Tools.ChainBuilder;
 using System.Linq;
+using NotReaper.Notifications;
 
 namespace NotReaper.Targets {
 
@@ -315,6 +316,33 @@ namespace NotReaper.Targets {
         }
 
         public void IncreaseBeatLength() {
+
+            QNT_Duration increment = Constants.DurationFromBeatSnap((uint)Timeline.instance.beatSnap);
+            QNT_Duration targetLength = data.beatLength;
+            if (targetLength < increment)
+            {
+                targetLength = new QNT_Duration(0);
+            }
+            targetLength += increment;
+            QNT_Timestamp endTime = new QNT_Timestamp(data.time.tick + targetLength.tick);
+            if (data.isRepeaterTarget)
+            {
+                
+                if(!data.repeaterData.Section.Contains(endTime))
+                {
+                    NotificationCenter.SendNotification("Can't change beat length: target would be outside of repeater zone.", NotificationType.Warning);
+                    return;
+                }
+            }
+            else
+            {
+                if (Timeline.instance.repeaterManager.IsTargetInRepeaterZone(endTime))
+                {
+                    NotificationCenter.SendNotification("Can't change beat length: target would cross into a repater zone.", NotificationType.Warning);
+                    return;
+                }
+            }
+
 
             if (target.data.legacyPathbuilderData != null && ChainBuilder.Instance.snapAngle)              
             {

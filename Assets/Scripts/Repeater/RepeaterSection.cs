@@ -106,6 +106,11 @@ namespace NotReaper.Repeaters
             indicator.SetIsParent(isParent);
         }
 
+        public ulong GetCurrentTargetIndexID()
+        {
+            return targetIndexID;
+        }
+
         public void CreateRepeaterTarget(TargetData data)
         {
             TargetData repeaterTarget = new TargetData();
@@ -116,11 +121,46 @@ namespace NotReaper.Repeaters
             repeaterTarget.repeaterData.Section = this;
             repeaterTarget.repeaterData.targetID = targetIndexID;
             targetIndexID++;
+
+            if (flipTargetColors)
+            {
+                if(data.handType == TargetHandType.Left)
+                {
+                    repeaterTarget.handType = TargetHandType.Right;
+                }
+                else if(data.handType == TargetHandType.Right)
+                {
+                    repeaterTarget.handType = TargetHandType.Left;
+                }
+            }
+            if (mirrorHorizontally)
+            {
+                var pos = repeaterTarget.position;
+                pos.x *= -1f;
+                repeaterTarget.position = pos;
+            }
+            if (mirrorVertically)
+            {
+                var pos = repeaterTarget.position;
+                pos.y *= -1f;
+                repeaterTarget.position = pos;
+            }
+
             targets.Add(repeaterTarget);
             if(repeaterTarget.time >= activeStartTime && repeaterTarget.time <= activeEndTime)
             {
                 timeline.AddTargetFromAction(repeaterTarget);
             }
+        }
+
+        public void AddExistingTargetToRepeater(TargetData data)
+        {
+            data.repeaterData = new();
+            data.repeaterData.RelativeTime = new QNT_Timestamp(data.time.tick - startTime.tick);
+            data.repeaterData.Section = this;
+            data.repeaterData.targetID = targetIndexID;
+            targetIndexID++;
+            targets.Add(data);
         }
 
         public void RemoveRepeaterTargetAtRelativeTime(TargetData data)

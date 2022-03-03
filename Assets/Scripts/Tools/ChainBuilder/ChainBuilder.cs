@@ -9,6 +9,7 @@ using UnityEngine;
 using DG.Tweening;
 using NotReaper.Timing;
 using UnityEngine.InputSystem;
+using NotReaper.Notifications;
 
 namespace NotReaper.Tools.ChainBuilder { 
 
@@ -287,22 +288,112 @@ namespace NotReaper.Tools.ChainBuilder {
 		}
 
 		public static void GenerateChainNotes(TargetData data) {
-			CalculateChainNotes(data);
 
-			//Add new notes
-			data.legacyPathbuilderData.generatedNotes.ForEach(t => {
-				var newTarget = timeline.AddTargetFromAction(t, true);
-			});
+            if (data.isRepeaterTarget)
+            {
+				var parent = timeline.repeaterManager.GetParentTarget(data);
 
-			data.legacyPathbuilderData.createdNotes = true;
+                if (data.repeaterData.Section.flipTargetColors)
+                {
+					if (data.legacyPathbuilderData.handType == TargetHandType.Left)
+					{
+						parent.legacyPathbuilderData.handType = TargetHandType.Right;
+					}
+					else if (data.legacyPathbuilderData.handType == TargetHandType.Right)
+					{
+						parent.legacyPathbuilderData.handType = TargetHandType.Left;
+					}
+				}
+				if (data.repeaterData.Section.mirrorHorizontally)
+				{
+					parent.legacyPathbuilderData.initialAngle = FlipAngleHorizontal(parent.legacyPathbuilderData.initialAngle);
+					parent.legacyPathbuilderData.angle *= -1;
+					parent.legacyPathbuilderData.angleIncrement *= -1;
+				}
+				if (data.repeaterData.Section.mirrorVertically)
+				{
+					parent.legacyPathbuilderData.initialAngle = FlipAngleVertical(parent.legacyPathbuilderData.initialAngle);
+					parent.legacyPathbuilderData.angle *= -1;
+					parent.legacyPathbuilderData.angleIncrement *= -1;
+				}
+				CalculateChainNotes(parent);
+
+				foreach (var node in parent.legacyPathbuilderData.generatedNotes)
+				{
+					timeline.AddTargetFromAction(node, true);
+				}
+				parent.legacyPathbuilderData.createdNotes = true;
+
+				foreach (var sibling in timeline.repeaterManager.GetMatchingRepeaterTargets(parent))
+				{
+					sibling.legacyPathbuilderData.Copy(parent.legacyPathbuilderData);
+
+					if (sibling.repeaterData.Section.flipTargetColors)
+					{
+						if (parent.legacyPathbuilderData.handType == TargetHandType.Left)
+						{
+							sibling.legacyPathbuilderData.handType = TargetHandType.Right;
+						}
+						else if (parent.legacyPathbuilderData.handType == TargetHandType.Right)
+						{
+							sibling.legacyPathbuilderData.handType = TargetHandType.Left;
+						}
+					}
+                    if (sibling.repeaterData.Section.mirrorHorizontally)
+                    {
+						sibling.legacyPathbuilderData.initialAngle = FlipAngleHorizontal(sibling.legacyPathbuilderData.initialAngle);
+						sibling.legacyPathbuilderData.angle *= -1;
+						sibling.legacyPathbuilderData.angleIncrement *= -1;
+					}
+                    if (sibling.repeaterData.Section.mirrorVertically)
+                    {
+						sibling.legacyPathbuilderData.initialAngle = FlipAngleVertical(sibling.legacyPathbuilderData.initialAngle);
+						sibling.legacyPathbuilderData.angle *= -1;
+						sibling.legacyPathbuilderData.angleIncrement *= -1;
+					}
+					CalculateChainNotes(sibling);
+
+					foreach (var node in sibling.legacyPathbuilderData.generatedNotes)
+					{
+						timeline.AddTargetFromAction(node, true);
+					}
+					sibling.legacyPathbuilderData.createdNotes = true;
+				}
+			}
+            else
+            {
+				CalculateChainNotes(data);
+
+				//Add new notes
+				data.legacyPathbuilderData.generatedNotes.ForEach(t => {
+					var newTarget = timeline.AddTargetFromAction(t, true);
+				});
+				data.legacyPathbuilderData.createdNotes = true;
+			}
 		}
-		
+
+		private static float FlipAngleVertical(float angle)
+		{
+			angle = ((angle + 180) % 360) - 180;
+
+			if (angle >= 0)
+				return 180 - angle;
+			else
+				return -180 - angle;
+		}
+
+		private static float FlipAngleHorizontal(float angle)
+		{
+			angle = ((angle + 180) % 360) - 180;
+			return -angle;
+		}
+
 		public static void CalculateChainNotes(TargetData parentData) {
 			if(parentData.behavior != TargetBehavior.Legacy_Pathbuilder) {
 				return;
 			}
 
-			if(parentData.legacyPathbuilderData.createdNotes) {
+			if (parentData.legacyPathbuilderData.createdNotes) {
                 parentData.legacyPathbuilderData.generatedNotes.ForEach(t => {
 					timeline.DeleteTargetFromAction(t);
 				});
@@ -420,6 +511,20 @@ namespace NotReaper.Tools.ChainBuilder {
 				{
 					NRActionConvertNoteToLegacyPathbuilder action = new NRActionConvertNoteToLegacyPathbuilder();
 					action.data = iconUnderMouse.data;
+					var time = new QNT_Timestamp(action.data.time.tick + (action.data.isRepeaterTarget ? Constants.QuarterNoteDuration.tick : Constants.DurationFromBeatSnap((uint)timeline.beatSnap).tick));
+					if (action.data.isRepeaterTarget)
+                    {						
+						if(time > action.data.repeaterData.Section.activeEndTime)
+                        {
+							NotificationCenter.SendNotification("Can't create pathbuilder target: Target would be out of bounds of repeater zone.", NotificationType.Warning);
+							return;
+						}
+                    }
+					else if(timeline.repeaterManager.IsTargetInRepeaterZone(time))
+                    {
+						NotificationCenter.SendNotification("Can't create pathbuilder target: Target would cross into repeater zone.", NotificationType.Warning);
+						return;
+                    }
 
 					timeline.Tools.undoRedoManager.AddAction(action);
 				}
@@ -433,7 +538,7 @@ namespace NotReaper.Tools.ChainBuilder {
 				{
 					SetPathbuilderStateToSelectedNote();
 				}
-			}
+            }
 		}
 
 		private void Update() {
@@ -661,8 +766,9 @@ namespace NotReaper.Tools.ChainBuilder {
 
 		private void OnMouseClicked()
 		{
-			SelectTarget();
+			iconsUnderMouse = null;
 			isMouseDown = true;
+			SelectTarget();
 		}
 
 		private void OnDone()

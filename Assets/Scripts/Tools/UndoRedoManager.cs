@@ -104,6 +104,7 @@ namespace NotReaper.Tools
             
             if (targetData.isRepeaterTarget)
             {
+                targetData.repeaterData.targetID = targetData.repeaterData.Section.GetCurrentTargetIndexID();
                 foreach (var section in timeline.repeaterManager.GetMatchingRepeaterSections(targetData.repeaterData))
                 {
                     section.CreateRepeaterTarget(targetData);
@@ -113,7 +114,6 @@ namespace NotReaper.Tools
             {    
                 timeline.AddTargetFromAction(targetData);
             }
-            
 
             if (repeaterData == null)
             {
@@ -175,7 +175,7 @@ namespace NotReaper.Tools
     {
         public TargetData targetData;
         public List<TargetData> repeaterData;
-
+        private bool hasFlipped = false;
         public override void DoAction(Timeline timeline)
         {
             if (repeaterData == null)
@@ -189,7 +189,7 @@ namespace NotReaper.Tools
             repeaterData.ForEach(data => { timeline.DeleteTargetFromAction(data); });
 
             if (targetData.isRepeaterTarget)
-            {           
+            {
                 foreach (var section in timeline.repeaterManager.GetMatchingRepeaterSections(targetData.repeaterData))
                 {
                     section.RemoveRepeaterTargetAtRelativeTime(targetData);
@@ -209,6 +209,38 @@ namespace NotReaper.Tools
 
             if (targetData.isRepeaterTarget)
             {
+                if (!hasFlipped)
+                {
+                    if (!targetData.repeaterData.Section.isParent)
+                    {
+                        if (targetData.repeaterData.Section.flipTargetColors)
+                        {
+                            if (targetData.handType == TargetHandType.Left)
+                            {
+                                targetData.handType = TargetHandType.Right;
+                            }
+                            else if (targetData.handType == TargetHandType.Right)
+                            {
+                                targetData.handType = TargetHandType.Left;
+                            }
+                        }
+                        if (targetData.repeaterData.Section.mirrorHorizontally)
+                        {
+                            var pos = targetData.position;
+                            pos.x *= -1f;
+                            targetData.position = pos;
+                        }
+                        if (targetData.repeaterData.Section.mirrorVertically)
+                        {
+                            var pos = targetData.position;
+                            pos.y *= -1f;
+                            targetData.position = pos;
+                        }
+                    }
+                    hasFlipped = true;
+                }
+                
+                targetData.repeaterData.targetID = targetData.repeaterData.Section.GetCurrentTargetIndexID();
                 foreach (var section in timeline.repeaterManager.GetMatchingRepeaterSections(targetData.repeaterData))
                 {
                     section.CreateRepeaterTarget(targetData);
@@ -354,6 +386,29 @@ namespace NotReaper.Tools
                     }
                 }
             }
+            else if(targetTimelineMoveIntents.Any(i => i.targetData.legacyPathbuilderData != null))
+            {
+                var pathbuilderTargets = targetTimelineMoveIntents.Where(i => i.targetData.legacyPathbuilderData != null).Select(d => d).ToList();
+                foreach(var t in pathbuilderTargets)
+                {
+                    if (t.targetData.isRepeaterTarget)
+                    {
+                        if(timeline.repeaterManager.IsTargetInRepeaterZone(t.targetData.legacyPathbuilderData.generatedNotes.Last().time, t.targetData.repeaterData.Section.startTime))
+                        {
+                            canMove = false;
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        if (timeline.repeaterManager.IsTargetInRepeaterZone(t.targetData.legacyPathbuilderData.generatedNotes.Last().time))
+                        {
+                            canMove = false;
+                            break;
+                        }
+                    }
+                }
+            }
 
             if (!canMove)
             {
@@ -368,43 +423,24 @@ namespace NotReaper.Tools
 
             targetTimelineMoveIntents.ForEach(intent =>
             {
-                /*if (intent.targetData.isPathbuilderTarget)
+                //Move the actual note
+                intent.targetData.SetTimeFromAction(intent.intendedTick);
+                if (intent.targetData.isRepeaterTarget)
                 {
-                    if(timeline.repeaterManager.IsTargetInRepeaterZone(intent.targetData.pathbuilderData.Segments.Last().generatedNodes.Last().time, intent.targetData.repeaterData.Section.startTime))
+                    foreach (var repeaterTarget in timeline.repeaterManager.GetMatchingRepeaterTargets(intent.targetData))
                     {
-                        NotificationCenter.SendNotification("Can't move target into repeater zone.", NotificationType.Warning);
-                        intent.targetData.SetTimeFromAction(intent.startTick);
-                        return;
+                        QNT_Timestamp newTime = new QNT_Timestamp(repeaterTarget.time.tick + (intent.intendedTick.tick - intent.startTick.tick));
+                        repeaterTarget.SetTimeFromAction(newTime);
+                        repeaterTarget.repeaterData.Section.UpdateActiveNotes();
                     }
+                    intent.targetData.repeaterData.Section.UpdateActiveNotes();
                 }
 
-                if (timeline.repeaterManager.IsTargetInRepeaterZone(intent.intendedTick, intent.targetData.repeaterData.Section.startTime))
-                {
-                    NotificationCenter.SendNotification("Can't move target into repeater zone.", NotificationType.Warning);
-                    intent.targetData.SetTimeFromAction(intent.startTick);
-                    return;
-                }*/
-                //else
-                //{
-                    //Move the actual note
-                    intent.targetData.SetTimeFromAction(intent.intendedTick);
-                    if (intent.targetData.isRepeaterTarget)
-                    {
-                        foreach (var repeaterTarget in timeline.repeaterManager.GetMatchingRepeaterTargets(intent.targetData))
-                        {
-                            QNT_Timestamp newTime = new QNT_Timestamp(repeaterTarget.time.tick + (intent.intendedTick.tick - intent.startTick.tick));
-                            repeaterTarget.SetTimeFromAction(newTime);
-                            repeaterTarget.repeaterData.Section.UpdateActiveNotes();
-                        }
-                        intent.targetData.repeaterData.Section.UpdateActiveNotes();
-                    }
+                //Then, we move all the siblings by the delta
+                intent.startSiblingsToBeMoved.ForEach(sibling => { sibling.SetTimeFromAction(sibling.time + (intent.intendedTick - intent.startTick)); });
 
-                    //Then, we move all the siblings by the delta
-                    intent.startSiblingsToBeMoved.ForEach(sibling => { sibling.SetTimeFromAction(sibling.time + (intent.intendedTick - intent.startTick)); });
-
-                    //Finally, create targets in the ending section (if any exist)
-                    intent.endRepeaterSiblingsToBeCreated.ForEach(data => { timeline.AddTargetFromAction(data); });
-                //}
+                //Finally, create targets in the ending section (if any exist)
+                intent.endRepeaterSiblingsToBeCreated.ForEach(data => { timeline.AddTargetFromAction(data); });
             });
             timeline.SortOrderedList();
             timeline.UpdateState();
@@ -1081,18 +1117,65 @@ namespace NotReaper.Tools
         }
         public override void DoAction(Timeline timeline)
         {
-            pathbuilder.UpdatePathbuilderTargetFromAction(targetData, newState);
             if (targetData.isRepeaterTarget)
             {
-                foreach (var target in timeline.repeaterManager.GetMatchingRepeaterTargets(targetData))
+                var parent = timeline.repeaterManager.GetParentTarget(targetData);
+
+                foreach (var segment in newState.Segments)
                 {
+                    foreach (var node in segment.generatedNodes)
+                    {
+                        timeline.DeleteTargetFromAction(node);
+                    }
+                }
+
+                //we un-flip the state so we can apply it to the parent
+                if (targetData.repeaterData.Section.mirrorHorizontally)
+                {
+                    newState.Flip(new Vector2(-1f, 1f));
+                }
+                if (targetData.repeaterData.Section.mirrorVertically)
+                {
+                    newState.Flip(new Vector2(1f, -1f));
+                }
+                if(parent == targetData)
+                {
+                    pathbuilder.UpdatePathbuilderTargetFromAction(parent, newState);
+                }
+                else
+                {
+                    pathbuilder.UpdatePathbuilderRepeaterTargetFromAction(parent, newState);
+                }
+                foreach (var target in timeline.repeaterManager.GetMatchingRepeaterTargets(parent))
+                {
+
                     PathbuilderData repeaterState = new PathbuilderData();
                     repeaterState.Copy(newState);
+                    //now we flip the previously unflipped state again if necessary
+                    if (target.repeaterData.Section.mirrorHorizontally)
+                    {
+                        repeaterState.Flip(new Vector2(-1f, 1f));
+                    }
+                    if (target.repeaterData.Section.mirrorVertically)
+                    {
+                        repeaterState.Flip(new Vector2(1f, -1f));
+                    }
                     target.isPathbuilderTarget = targetData.isPathbuilderTarget;
-                    pathbuilder.UpdatePathbuilderRepeaterTargetFromAction(target, repeaterState);
+                    if(target == targetData && targetData != parent)
+                    {
+                        pathbuilder.UpdatePathbuilderTargetFromAction(target, repeaterState);
+                    }
+                    else
+                    {
+                        pathbuilder.UpdatePathbuilderRepeaterTargetFromAction(target, repeaterState);
+                    }
                     target.repeaterData.Section.UpdateActiveNotes();
                 }
-                targetData.repeaterData.Section.UpdateActiveNotes();
+                parent.repeaterData.Section.UpdateActiveNotes();
+            }
+            else
+            {
+                pathbuilder.UpdatePathbuilderTargetFromAction(targetData, newState);
             }
         }
 
@@ -1140,7 +1223,7 @@ namespace NotReaper.Tools
                     oldRepeaterState.Add(target.time, target.pathbuilderData);
                     if (target.isPathbuilderTarget)
                     {
-                        pathbuilder.BakeTarget(target);
+                        pathbuilder.BakeTarget(target, true);
                     }
                 }
             }
@@ -1169,7 +1252,7 @@ namespace NotReaper.Tools
                             timeline.DeleteTargetFromAction(node);
                         }
                     }
-                    pathbuilder.UpdatePathbuilderTargetFromAction(targetData, state);
+                    pathbuilder.UpdatePathbuilderRepeaterTargetFromAction(targetData, state);
                 }
             }
         }
@@ -1183,20 +1266,67 @@ namespace NotReaper.Tools
 
         public override void DoAction(Timeline timeline)
         {
-            pathBuilderData.behavior = data.behavior;
-            pathBuilderData.velocity = data.velocity;
-            pathBuilderData.handType = data.handType;
-            data.legacyPathbuilderData = pathBuilderData;
 
-            //Ensure the path builder always starts with a quarter note of build time
-            oldBeatLength = data.beatLength;
-            if (data.beatLength < Constants.QuarterNoteDuration)
+            if (data.isRepeaterTarget)
             {
-                data.beatLength = Constants.QuarterNoteDuration;
+                var parent = timeline.repeaterManager.GetParentTarget(data);
+
+                pathBuilderData.behavior = data.behavior;
+                pathBuilderData.velocity = data.velocity;
+                oldBeatLength = parent.beatLength;
+                if (parent.beatLength < Constants.QuarterNoteDuration)
+                {
+                    parent.beatLength = Constants.QuarterNoteDuration;
+                }
+                if (data.repeaterData.Section.flipTargetColors)
+                {
+                    if(data.handType == TargetHandType.Left)
+                    {
+                        pathBuilderData.handType = TargetHandType.Right;
+                    }
+                    else if(data.handType == TargetHandType.Right)
+                    {
+                        pathBuilderData.handType = TargetHandType.Left;
+                    }
+                }
+                else
+                {
+                    pathBuilderData.handType = data.handType;
+                }
+                parent.legacyPathbuilderData = pathBuilderData;
+                parent.behavior = TargetBehavior.Legacy_Pathbuilder;
+
+                foreach (var sibling in timeline.repeaterManager.GetMatchingRepeaterTargets(parent))
+                {
+                    sibling.beatLength = parent.beatLength;
+                    LegacyPathbuilderData siblingData = new LegacyPathbuilderData();
+                    siblingData.Copy(pathBuilderData);
+                    sibling.legacyPathbuilderData = siblingData;
+                    sibling.behavior = TargetBehavior.Legacy_Pathbuilder;
+                }
+                
+                ChainBuilder.ChainBuilder.GenerateChainNotes(parent);
+            }
+            else
+            {
+                pathBuilderData.behavior = data.behavior;
+                pathBuilderData.velocity = data.velocity;
+                pathBuilderData.handType = data.handType;
+                data.legacyPathbuilderData = pathBuilderData;
+
+                //Ensure the path builder always starts with a quarter note of build time
+                oldBeatLength = data.beatLength;
+                if (data.beatLength < Constants.QuarterNoteDuration)
+                {
+                    data.beatLength = Constants.QuarterNoteDuration;
+                }
+
+                data.behavior = TargetBehavior.Legacy_Pathbuilder;
+
+                ChainBuilder.ChainBuilder.GenerateChainNotes(data);
             }
 
-            data.behavior = TargetBehavior.Legacy_Pathbuilder;
-            ChainBuilder.ChainBuilder.GenerateChainNotes(data);
+            
         }
         public override void UndoAction(Timeline timeline)
         {
@@ -1220,10 +1350,29 @@ namespace NotReaper.Tools
             ChainBuilder.ChainBuilder.GenerateChainNotes(removeNoteAction.targetData);
             foreach (TargetData genData in removeNoteAction.targetData.legacyPathbuilderData.generatedNotes)
             {
-                timeline.AddTargetFromAction(new TargetData(genData));
+                TargetData newData = new(genData);
+                timeline.AddTargetFromAction(newData);
+                if (removeNoteAction.targetData.isRepeaterTarget)
+                {
+                    removeNoteAction.targetData.repeaterData.Section.AddExistingTargetToRepeater(newData);
+                }
+            }
+            if (removeNoteAction.targetData.isRepeaterTarget)
+            {
+                foreach(var sibling in timeline.repeaterManager.GetMatchingRepeaterTargets(removeNoteAction.targetData))
+                {
+                    foreach(var node in sibling.legacyPathbuilderData.generatedNotes)
+                    {
+                        TargetData newNode = new(node);
+                        timeline.AddTargetFromAction(newNode);
+                        sibling.repeaterData.Section.AddExistingTargetToRepeater(newNode);
+                    }
+                    timeline.DeleteTargetFromAction(sibling);
+                }
             }
 
             //Destroy the path builder note (and all the generated transient notes
+
             removeNoteAction.DoAction(timeline);
         }
         public override void UndoAction(Timeline timeline)
