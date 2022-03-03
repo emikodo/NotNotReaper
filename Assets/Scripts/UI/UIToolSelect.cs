@@ -490,7 +490,8 @@ namespace NotReaper.UI {
         }
 
         private void SetSelectedSliderPosY(float pos) {
-            sliderRTrans.anchoredPosition = new Vector3(29.5f, pos, 0);
+            //sliderRTrans.anchoredPosition = new Vector3(29.5f, pos, 0);
+            sliderRTrans.anchoredPosition = new Vector3(0, pos, 0);
         }
 
 

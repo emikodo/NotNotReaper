@@ -65,6 +65,7 @@ namespace NotReaper.UI
 		{
 			EditorState.SelectHand(TargetHandType.Left);
 			EditorState.SelectBehavior(TargetBehavior.Standard);
+			EditorState.SelectHitsound(TargetHitsound.Standard);
 			EditorState.SelectMode(EditorMode.Compose);
 			/*
 			SelectMode(EditorMode.Compose);
@@ -74,7 +75,7 @@ namespace NotReaper.UI
 			SelectSnappingMode(SnappingMode.Grid);
 			*/
 			//PauseMenu.Instance.OpenPauseMenu();
-			soundSelect.LoadUIColors();
+			//soundSelect.LoadUIColors();
 			timeline.UpdateUIColors();
 
 			StartCoroutine(LoadBGImage(NRSettings.config.bgImagePath));
@@ -158,12 +159,6 @@ namespace NotReaper.UI
 		public void ShiftBpmMarker()
 		{
 			timeline.ShiftNearestBPMToCurrentTime();
-		}
-
-		[NRListener]
-		private void SelectHitsound(TargetHitsound velocity)
-		{
-			soundDropdown.SetValueWithoutNotify((int)velocity);
 		}
 
 		public void DetectBpm()

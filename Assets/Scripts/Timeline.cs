@@ -630,27 +630,21 @@ namespace NotReaper
                 case TargetHitsound.Standard:
                     data.velocity = InternalTargetVelocity.Kick;
                     break;
-
                 case TargetHitsound.Snare:
                     data.velocity = InternalTargetVelocity.Snare;
                     break;
-
                 case TargetHitsound.Percussion:
                     data.velocity = InternalTargetVelocity.Percussion;
                     break;
-
                 case TargetHitsound.ChainStart:
                     data.velocity = InternalTargetVelocity.ChainStart;
                     break;
-
                 case TargetHitsound.ChainNode:
                     data.velocity = InternalTargetVelocity.Chain;
                     break;
-
                 case TargetHitsound.Melee:
                     data.velocity = InternalTargetVelocity.Melee;
                     break;
-
                 case TargetHitsound.Mine:
                     data.velocity = InternalTargetVelocity.Mine;
                     break;
