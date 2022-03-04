@@ -102,6 +102,8 @@ NotReaper is the work of quite a few awesome people.
 
 [MeepsKitten](https://github.com/MeepsKitten): The doer of various random things since before NR was even called NR. R.I.P Edica
 
+[Wolf](https://github.com/Wolferacing): Developer of new audio related feautures, fixer of various bugs, graphics design.
+
 And all the awesome people on Audica Modding Discord who've reported bugs and tested it out.
 
 ## History
