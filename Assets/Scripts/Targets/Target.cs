@@ -17,7 +17,6 @@ namespace NotReaper.Targets {
 
 		public TargetIcon gridTargetIcon;
 		public TargetIcon timelineTargetIcon;
-
 		private bool noteIsAnimating = false;
 		public TargetData data;
 		public bool transient;
@@ -468,12 +467,12 @@ namespace NotReaper.Targets {
 			noteIsAnimating = false;
 		}
 
-		public void AddTargetIconsCloseToPointAtTime(List<TargetIcon> icons, QNT_Timestamp time, Vector2 point) {
-			if(gridTargetIcon.IsInValidTime(time) && gridTargetIcon.IsCloseToPoint(point)) {
+		public void AddTargetIconsCloseToPointAtTime(List<TargetIcon> icons, QNT_Timestamp time, Vector2 timelinePoint, Vector2 gridPoint) {
+			if(gridTargetIcon.IsInValidTime(time) && gridTargetIcon.IsCloseToPoint(gridPoint)) {
 				icons.Add(gridTargetIcon);
 			}
 
-			if(timelineTargetIcon.IsInValidTime(time) && timelineTargetIcon.IsCloseToPoint(point)) {
+			if(timelineTargetIcon.IsInValidTime(time) && timelineTargetIcon.IsCloseToPoint(timelinePoint)) {
 				icons.Add(timelineTargetIcon);
 			}
 		}

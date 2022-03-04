@@ -101,6 +101,7 @@ namespace NotReaper.Targets {
         public Transform holdEndTrans;
         [Header("Optimization")]
         [Space, SerializeField] private Transform childComponents;
+        [SerializeField] private Camera timelineCamera;
         private Transform timelineTargetCollector;
 
         public bool SustainButtonsActive => sustainButtons.activeSelf;
@@ -109,32 +110,6 @@ namespace NotReaper.Targets {
         /// For when the note is right clicked on.
         /// </summary>
         public event Action OnTryRemoveEvent;
-
-        public void HideTimelineTarget()
-        {
-            childComponents.parent = timelineTargetCollector;
-            childComponents.transform.localPosition = Vector3.zero;
-        }
-        public void ShowTimelineTarget()
-        {
-            childComponents.parent = transform;
-            childComponents.transform.localPosition = Vector3.zero;
-            UpdateTimelineSustainLength();
-        }
-
-        private void OnBecameInvisible()
-        {
-            if (!gameObject.activeInHierarchy) return;
-            HideTimelineTarget();
-        }
-
-        private void OnBecameVisible()
-        {
-            if(EditorState.Tool.Current != EditorTool.ModifierCreator)
-            {
-                ShowTimelineTarget();
-            }
-        }
 
         public void OnTryRemove() {
             if(!target.transient) {
@@ -176,6 +151,7 @@ namespace NotReaper.Targets {
             data.TickChangeEvent += OnTickChanged;
             this.timelineTargetCollector = timelineTargetCollector;
             this.target = target;
+            sustainButtons.GetComponent<Canvas>().worldCamera = timelineCamera;
 
             foreach (Renderer r in gameObject.GetComponentsInChildren<Renderer>(true)) {
                 r.material.SetFloat("_FadeThreshold", 1.7f);

@@ -10,10 +10,12 @@ namespace NotReaper.UserInput {
 			//if (!EditorInput.isOverGrid) return new TargetIcon[0];
 			Vector3 cameraPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-			Vector2 point = new Vector2(cameraPoint.x, cameraPoint.y);
+			Vector2 gridPoint = new Vector2(cameraPoint.x, cameraPoint.y);
+			Vector2 timelinePoint = gridPoint;
+			timelinePoint.x += Timeline.instance.timelineCamera.position.x;
 			List<TargetIcon> targetsUnderMouse = new List<TargetIcon>();
 			foreach(Target target in Timeline.loadedNotes) {
-				target.AddTargetIconsCloseToPointAtTime(targetsUnderMouse, Timeline.time, point);
+				target.AddTargetIconsCloseToPointAtTime(targetsUnderMouse, Timeline.time, timelinePoint, gridPoint);
 			}
 
 			return targetsUnderMouse

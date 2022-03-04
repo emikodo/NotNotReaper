@@ -235,14 +235,14 @@ namespace NotReaper.UI
 
                     isMp3 = true;
                     yield return waitItem;
-                    StartCoroutine(
+                    yield return StartCoroutine(
                         GetAudioClip($"file://" + Path.Combine(Application.streamingAssetsPath, "FFMPEG", filePath)));
                 }
 
                 else
                 {
                     isMp3 = false;
-                    StartCoroutine(GetAudioClip(filePath));
+                    yield return StartCoroutine(GetAudioClip(filePath));
                 }
 
                 loadAudioText.text = System.IO.Path.GetFileName(paths[0]);
@@ -251,8 +251,8 @@ namespace NotReaper.UI
                 {
                     SetAutoVolume();
                 }
-                HideOverlay();
             }
+            HideOverlay();
         }
 
         private void SetAutoVolume()
@@ -290,7 +290,7 @@ namespace NotReaper.UI
             }
             string normalized_db = max_volume.Split(' ')[4]; // Grab only the number
 
-            float foundVolume = float.Parse(normalized_db); // Crappy maths
+            float.TryParse(normalized_db, out float foundVolume); // Crappy maths
             if (foundVolume > 0)
             {
                 foundVolume *= -1;
@@ -452,7 +452,7 @@ namespace NotReaper.UI
             }
             else
             {
-                StartCoroutine(AudicaGenerator.Generate(loadedSong, moggSongVolume, RemoveSpecialCharacters(songName + "-" + mapperName),
+                yield return StartCoroutine(AudicaGenerator.Generate(loadedSong, moggSongVolume, RemoveSpecialCharacters(songName + "-" + mapperName),
                     songName, artistName, defaultBpm, songEndEvent, mapperName, 0, loadedMidi, loadedArt, difficulty, OnGenerationDone));
             }
 

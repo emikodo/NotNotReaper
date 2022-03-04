@@ -5,6 +5,7 @@ using NotReaper.Models;
 using NotReaper.UserInput;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 
 namespace NotReaper.Grid {
 
@@ -14,10 +15,13 @@ namespace NotReaper.Grid {
         public static IsHoveringGrid Instance = null;
 
         public HoverTarget hover;
-
+        public LayerMask layerMask;
+        [Range(1, 60)] public int raycastsPerSecond = 10;
         private BoxCollider2D defaultCollider;
         private BoxCollider2D pathBuilderCollider;
 
+        private Camera cam;
+        private InputAction mousePosition;
 
         private Vector2 defaultSize;
         private Vector2 defaultOffset;
@@ -49,7 +53,68 @@ namespace NotReaper.Grid {
             defaultCollider = GetComponent<BoxCollider2D>();
             defaultSize = defaultCollider.size;
             defaultOffset = defaultCollider.offset;
+            cam = Camera.main;
+            mousePosition = KeybindManager.Global.MousePosition;
+            StartCoroutine(Raycast());
             //hover.RegisterOnUIToolUpdatedCallback(OnUIToolUpdated);
+        }
+
+        private IEnumerator Raycast()
+        {
+            while (true)
+            {
+                if (EditorState.IsInUI)
+                {
+                    if (hover.iconEnabled)
+                    {
+                        hover.TryDisable();
+                    }
+                }
+                else
+                {
+
+                    if(!hover.iconEnabled && (EditorState.Tool.Current == EditorTool.ChainBuilder || EditorState.Tool.Current == EditorTool.DragSelect))
+                    {
+                        EditorState.SetIsOverGrid(true);
+                        hover.Enable();
+                    }
+                    else
+                    {
+                        Vector2 point = cam.ScreenToWorldPoint(mousePosition.ReadValue<Vector2>());
+                        RaycastHit2D hit = Physics2D.Raycast(point, Vector2.zero, 0f, layerMask);
+                        if (hit.collider != null)
+                        {
+                            if (hit.collider.tag == "Grid")
+                            {
+
+                                if (!hover.iconEnabled)
+                                {
+                                    EditorState.SetIsOverGrid(true);
+                                    hover.Enable();
+                                }
+                            }
+                            else
+                            {
+                                if (hover.iconEnabled)
+                                {
+                                    EditorState.SetIsOverGrid(false);
+                                    hover.TryDisable();
+                                }
+                            }
+                        }
+                        else
+                        {
+                            if (hover.iconEnabled)
+                            {
+                                EditorState.SetIsOverGrid(false);
+                                hover.TryDisable();
+                            }
+                        }
+                    }
+                }
+
+                yield return new WaitForSeconds(1f / raycastsPerSecond);
+            }
         }
 
         public void ChangeColliderSize(bool grow)
@@ -57,7 +122,12 @@ namespace NotReaper.Grid {
             if (grow)
             {
                 defaultCollider.size = pathBuilderSize;
-                defaultCollider.offset = pathBuilderOffset;               
+                defaultCollider.offset = pathBuilderOffset;
+                if (!hover.iconEnabled)
+                {
+                    EditorState.SetIsOverGrid(true);
+                    hover.Enable();
+                }
             }
             else
             {
@@ -77,7 +147,7 @@ namespace NotReaper.Grid {
         }
 
 
-        public void OnMouseOver()
+        /*public void OnMouseOver()
         {
             if(EditorState.IsInUI)
             {
@@ -104,7 +174,7 @@ namespace NotReaper.Grid {
         {
             EditorState.SetIsOverGrid(false);
             hover.TryDisable();
-        }
+        }*/
        
     }
 

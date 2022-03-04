@@ -329,6 +329,7 @@ namespace NotReaper
         [SerializeField] public LineRenderer rightHandTraceLine;
         [SerializeField] public GameObject dualNoteTraceLinePrefab;
         [Space, SerializeField] private Transform timelineTargetCollector;
+        public Transform timelineCamera;
         List<LineRenderer> dualNoteTraceLines = new List<LineRenderer>();
 
         [NRInject] internal Pathbuilder pathbuilder;
@@ -1787,33 +1788,10 @@ namespace NotReaper
             NotificationCenter.SendNotification("Press F1 to view shortcuts", NotificationType.Info);
             StopCoroutine(NRSettings.Autosave());
             StartCoroutine(NRSettings.Autosave());
-            OptimizeOnLoad();
 
            
             onLoaded?.Invoke(true);
             yield return null;
-            //return true;
-        }
-
-        private void OptimizeOnLoad()
-        {
-            QNT_Timestamp start;
-            QNT_Timestamp end;
-
-            start = time - Relative_QNT.FromBeatTime(10f);
-            end = time + Relative_QNT.FromBeatTime(10f);
-
-
-
-            var targetsToShow = new NoteEnumerator(start, end);
-            for (int i = 0; i < orderedNotes.Count; i++)
-            {
-                orderedNotes[i].timelineTargetIcon.HideTimelineTarget();
-            }
-            foreach (Target target in targetsToShow)
-            {
-                target.timelineTargetIcon.ShowTimelineTarget();
-            }
         }
 
         public List<RepeaterSection> loadRepeaterSectionAfterAudio;
@@ -2573,10 +2551,12 @@ namespace NotReaper
             else t = new QNT_Timestamp(t.tick - bpmDragOffset.tick);
             float x = t.ToBeatTime() - offset.ToBeatTime();
 
-            timelineBG.material.SetTextureOffset(MainTex, new Vector2((x / 4f + scaleOffset), 1));
+            //timelineBG.material.SetTextureOffset(MainTex, new Vector2((x / 4f + scaleOffset), 1));
 
-            timelineTransformParent.transform.localPosition = Vector3.left * x / (scale / 20f);
-
+            //timelineTransformParent.transform.localPosition = Vector3.left * x / (scale / 20f);
+            Vector3 pos = timelineCamera.transform.localPosition;
+            pos.x = 1f * x / (scale / 20f);
+            timelineCamera.transform.localPosition = pos;
             gridTransformParent.transform.localPosition = Vector3.back * x;
 
             //OptimizeInvisibleTargets ();
@@ -2909,106 +2889,11 @@ namespace NotReaper
             if (scrub) scrub = false;
         }
 
-        private static bool toggle = false;
-
         public static void ShowTimelineTargets(bool show)
         {
-            if (Timeline.orderedNotes != null && Timeline.orderedNotes.Count > 0)
+            foreach (var target in orderedNotes)
             {
-                QNT_Timestamp start;
-                QNT_Timestamp end;
-                if (NRSettings.config.optimizeInvisibleTargets)
-                {
-                    start = Timeline.time - Relative_QNT.FromBeatTime(10f);
-                    end = Timeline.time + Relative_QNT.FromBeatTime(10f);
-                }
-                else
-                {
-                    start = Timeline.orderedNotes.First().data.time;
-                    end = Timeline.orderedNotes.Last().data.time;
-                }
-
-
-                var targetsToShow = new NoteEnumerator(start, end);
-                /*
-				for (int i = 0; i < orderedNotes.Count; i++)
-				{
-					orderedNotes[i].timelineTargetIcon.HideTimelineTarget();
-					//orderedNotes[i].gridTargetIcon.gameObject.SetActive(false);
-					//orderedNotes[i].timelineTargetIcon.gameObject.SetActive(false);
-				}
-				*/
-                //if (!ModifierHandler.activated)
-                //{
-                if (!ModifierHandler.activated) toggle = false;
-                foreach (Target target in targetsToShow)
-                {
-                    //target.gridTargetIcon.gameObject.SetActive(true);
-                    //if(EditorState.Tool.Current != EditorTool.ModifierCreator) target.timelineTargetIcon.gameObject.SetActive(true);
-                    //if (EditorState.Tool.Current != EditorTool.ModifierCreator) target.timelineTargetIcon.ShowTimelineTarget();
-                    if (show)
-                    {
-                        target.timelineTargetIcon.ShowTimelineTarget();
-                    }
-                    else
-                    {
-                        target.timelineTargetIcon.HideTimelineTarget();
-                    }
-                }
-                //}
-                if (EditorState.Tool.Current == EditorTool.ModifierCreator)
-                {
-                    ModifierHandler.Instance.OptimizeModifiers();
-                    toggle = true;
-                }
-            }
-        }
-        public static void OptimizeInvisibleTargets()
-        {
-
-            if (NRSettings.config.optimizeInvisibleTargets || ModifierHandler.activated || toggle)
-            {
-                if (Timeline.orderedNotes != null && Timeline.orderedNotes.Count > 0)
-                {
-                    QNT_Timestamp start;
-                    QNT_Timestamp end;
-                    if (NRSettings.config.optimizeInvisibleTargets)
-                    {
-                        start = Timeline.time - Relative_QNT.FromBeatTime(10f);
-                        end = Timeline.time + Relative_QNT.FromBeatTime(10f);
-                    }
-                    else
-                    {
-                        start = Timeline.orderedNotes.First().data.time;
-                        end = Timeline.orderedNotes.Last().data.time;
-                    }
-
-
-                    var targetsToShow = new NoteEnumerator(start, end);
-                    /*
-					for (int i = 0; i < orderedNotes.Count; i++)
-					{
-						orderedNotes[i].timelineTargetIcon.HideTimelineTarget();
-						//orderedNotes[i].gridTargetIcon.gameObject.SetActive(false);
-						//orderedNotes[i].timelineTargetIcon.gameObject.SetActive(false);
-					}
-					*/
-                    //if (!ModifierHandler.activated)
-                    //{
-                    if (!ModifierHandler.activated) toggle = false;
-                    foreach (Target target in targetsToShow)
-                    {
-                        //target.gridTargetIcon.gameObject.SetActive(true);
-                        //if(EditorState.Tool.Current != EditorTool.ModifierCreator) target.timelineTargetIcon.gameObject.SetActive(true);
-                        if (EditorState.Tool.Current != EditorTool.ModifierCreator) target.timelineTargetIcon.ShowTimelineTarget();
-                    }
-                    //}
-                    if (EditorState.Tool.Current == EditorTool.ModifierCreator)
-                    {
-                        ModifierHandler.Instance.OptimizeModifiers();
-                        toggle = true;
-                    }
-                }
+                target.timelineTargetIcon.gameObject.SetActive(show);
             }
         }
 
@@ -3258,16 +3143,6 @@ namespace NotReaper
             callback?.Invoke();
             yield break;
 
-        }
-
-        void OnMouseEnter()
-        {
-            hover = true;
-        }
-
-        void OnMouseExit()
-        {
-            hover = false;
         }
 
         //Snap (rounded down) to the nearest beat given by `beatSnap`

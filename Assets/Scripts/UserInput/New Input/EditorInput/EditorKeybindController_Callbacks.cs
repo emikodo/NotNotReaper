@@ -367,8 +367,11 @@ namespace NotReaper.UserInput
 
         public void ActivateModifierPreview(InputAction.CallbackContext obj)
         {
-            if (KeybindManager.Global.Modifier == KeybindManager.Global.Modifiers.None)
+            if (KeybindManager.Global.Modifier == KeybindManager.Global.Modifiers.Alt)
+            {
                 mapping.ToggleModifierPreview();
+                mapping.TogglePlayPause(false);
+            }
         }
 
         public void SelectVertical(InputAction.CallbackContext obj)

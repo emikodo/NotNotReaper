@@ -21,6 +21,7 @@ namespace NotReaper.Tools
 		public Timeline timeline;
 		public Transform dragSelectTimeline;
 		public Transform timelineNotes;
+		public Transform timelineCamera;
 		public GameObject dragSelectGrid;
         #endregion
 
@@ -158,8 +159,8 @@ namespace NotReaper.Tools
 			timeline.DeselectAllTargets();
 			float mouseX = mouseStartPosWorld.x;
 			dragSelectTimeline.SetParent(timelineNotes);
-			dragSelectTimeline.position = new Vector3(mouseX, 0, 0);
-			dragSelectTimeline.localPosition = new Vector3(dragSelectTimeline.transform.localPosition.x, 0.03f, 0);
+			dragSelectTimeline.position = new Vector3(mouseX + timelineCamera.position.x, 0, 1);
+			dragSelectTimeline.localPosition = new Vector3(dragSelectTimeline.transform.localPosition.x, 0.03f, 1);
 			dragSelectTimeline.localScale = new Vector3(0f, 1.1f, 1f);
 			dragSelectTimeline.gameObject.SetActive(true);
 			dragTimelineSelectedTargets = new List<Target>();
@@ -188,7 +189,7 @@ namespace NotReaper.Tools
 
 		private void UpdateTimelineSelection()
 		{
-			float diff = cam.ScreenToWorldPoint(actions.DragSelect.MousePosition.ReadValue<Vector2>()).x - dragSelectTimeline.position.x;
+			float diff = cam.ScreenToWorldPoint(actions.DragSelect.MousePosition.ReadValue<Vector2>()).x - dragSelectTimeline.position.x + timelineCamera.position.x;
 			float timelineScaleMulti = Timeline.scale / 20f;
 			dragSelectTimeline.localScale = new Vector3(diff * timelineScaleMulti, 1.1f, 1);
 
@@ -204,7 +205,7 @@ namespace NotReaper.Tools
 
 			Rect selectionRect = Rect.MinMaxRect(minX, minY, maxX, maxY);
 
-			float offscreenOffset = timelineNotes.parent.position.x;
+			float offscreenOffset = timelineCamera.position.x; //timelineNotes.parent.position.x;
 			QNT_Timestamp start = Timeline.time + Relative_QNT.FromBeatTime((minX - offscreenOffset - 1.0f) * timelineScaleMulti);
 			QNT_Timestamp end = Timeline.time + Relative_QNT.FromBeatTime((maxX - offscreenOffset + 1.0f) * timelineScaleMulti);
 			if (start > end)

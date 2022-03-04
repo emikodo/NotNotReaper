@@ -10,10 +10,11 @@ using SFB;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Networking;
+using UnityEngine.InputSystem;
 
 namespace NotReaper.UI {
 
-    public class UIMetadata : MonoBehaviour {
+    public class UIMetadata : NRMenu {
 
         public static UIMetadata Instance = null;
         public DifficultyManager difficultyManager;
@@ -482,7 +483,7 @@ namespace NotReaper.UI {
         public IEnumerator FadeIn() {
 
             if (!Timeline.audicaLoaded) yield break;
-
+            OnActivated();
 
             //Set colors
             foreach (Image img in inputBoxLines) {
@@ -500,6 +501,7 @@ namespace NotReaper.UI {
         }
 
         public IEnumerator FadeOut() {
+            OnDeactivated();
             BG.gameObject.SetActive(false);
             window.gameObject.SetActive(false);
             
@@ -508,7 +510,10 @@ namespace NotReaper.UI {
             yield break;
         }
 
-
+        protected override void OnEscPressed(InputAction.CallbackContext context)
+        {
+            StartCoroutine(FadeOut());
+        }
     }
 
 }

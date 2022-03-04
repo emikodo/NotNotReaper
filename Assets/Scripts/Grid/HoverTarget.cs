@@ -9,10 +9,11 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-namespace NotReaper.Grid {
+namespace NotReaper.Grid
+{
 
 
-    public class HoverTarget : MonoBehaviour 
+    public class HoverTarget : MonoBehaviour
     {
 
         public GameObject icon;
@@ -58,13 +59,15 @@ namespace NotReaper.Grid {
             //UpdateUITool(EditorState.Tool.Current);
         }
 
-        public void Enable() {
+        public void Enable()
+        {
             iconEnabled = true;
             icon.SetActive(true);
         }
-        public void TryDisable() {
-
-            switch (EditorState.Tool.Current) {
+        public void TryDisable()
+        {
+            switch (EditorState.Tool.Current)
+            {
                 case EditorTool.ChainBuilder:
                 case EditorTool.DragSelect:
                 case EditorTool.Pathbuilder:
@@ -87,13 +90,13 @@ namespace NotReaper.Grid {
             spacingLocked = doLock;
         }
 
-        private void Update() {
-            
+        private void Update()
+        {
+
             if (!iconEnabled || spacingLocked) return;
 
             Vector3 mousePos = cam.ScreenToWorldPoint(Input.mousePosition);
             transform.position = isBehavior ? NoteGridSnap.SnapToGrid(new Vector3(mousePos.x, mousePos.y, -1f), EditorState.Snapping.Current) : new Vector3(mousePos.x, mousePos.y, -1f);
-
             /*
             switch (EditorState.Tool.Current) {
                 case EditorTool.ChainBuilder:
@@ -121,10 +124,11 @@ namespace NotReaper.Grid {
 
         public float animColorSpeed = 0.3f;
         [NRListener]
-        private void UpdateUIHandColor(TargetHandType _) {
+        private void UpdateUIHandColor(TargetHandType _)
+        {
             var color = NRSettings.GetSelectedColor();
 
-            foreach(var behavior in behaviors)
+            foreach (var behavior in behaviors)
             {
                 behavior.DOColor(color, animColorSpeed);
             }
@@ -141,7 +145,7 @@ namespace NotReaper.Grid {
         [NRListener]
         private void UpdateUITool(EditorTool tool)
         {
-            if(tool == EditorTool.None)
+            if (tool == EditorTool.None)
             {
                 UpdateUIBehavior(EditorState.Behavior.Current);
             }
@@ -152,7 +156,7 @@ namespace NotReaper.Grid {
                 isBehavior = false;
                 canvas.overrideSorting = true;
             }
-           
+
         }
 
         [NRListener]

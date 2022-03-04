@@ -41,6 +41,15 @@ namespace NotReaper.UI.Components
             }
         }
 
+        private void OnDisable()
+        {
+            if(selectedButton != null)
+            {
+                selectedButton.Deselect();
+            }
+            selectedButton = null;
+        }
+
         public void RegisterButton(NRButton button)
         {
             if (!buttons.Contains(button))

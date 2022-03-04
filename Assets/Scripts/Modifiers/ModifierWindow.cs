@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using NotReaper.UI;
 using NotReaper.Overlays;
+using NotReaper.Models;
 
 namespace NotReaper.Modifier
 {
@@ -30,6 +31,16 @@ namespace NotReaper.Modifier
         public void OnPointerExit(PointerEventData eventData)
         {
             modifierCreator.isHovering = false;
+        }
+        [NRListener]
+        protected override void OnEditorModeChanged(EditorMode mode)
+        {
+            if (!gameObject.activeInHierarchy) return;
+
+            if (mode != EditorMode.Compose)
+            {
+                modifierCreator.Activate(false);
+            }
         }
     }
 }

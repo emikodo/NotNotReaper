@@ -1,4 +1,5 @@
-﻿using NotReaper.Overlays;
+﻿using NotReaper.Models;
+using NotReaper.Overlays;
 using NotReaper.Tools.ChainBuilder;
 using System.Collections;
 using System.Collections.Generic;
@@ -29,6 +30,17 @@ namespace NotReaper.Tools.ChainBuilder
         public void Hide()
         {
             OnDeactivated();
+        }
+
+        [NRListener]
+        protected override void OnEditorModeChanged(EditorMode mode)
+        {
+            if (!gameObject.activeInHierarchy) return;
+
+            if(mode != EditorMode.Compose)
+            {
+                chainBuilder.Activate(false);
+            }
         }
     }
 }

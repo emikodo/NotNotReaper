@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1401324071643400384}
-  m_Layer: 9
+  m_Layer: 14
   m_Name: PositionRetainer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -42,7 +42,7 @@ GameObject:
   - component: {fileID: 2633904944298091780}
   - component: {fileID: 9190679311828121994}
   - component: {fileID: 8590687048415550667}
-  m_Layer: 9
+  m_Layer: 14
   m_Name: TLTargetIcon
   m_TagString: TimelineTarget
   m_Icon: {fileID: 0}
@@ -136,6 +136,7 @@ MonoBehaviour:
   sustainButtons: {fileID: 7216641027524925641}
   holdEndTrans: {fileID: 0}
   childComponents: {fileID: 8625843565006352257}
+  timelineCamera: {fileID: 0}
 --- !u!212 &8590687048415550667
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -199,7 +200,7 @@ GameObject:
   - component: {fileID: 2943350016567042115}
   - component: {fileID: 6904045685145732144}
   - component: {fileID: 6850206044340403651}
-  m_Layer: 5
+  m_Layer: 14
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -273,7 +274,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8625843565006352257}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Components
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -309,7 +310,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5580887524603858364}
   - component: {fileID: 7636611703576252193}
-  m_Layer: 9
+  m_Layer: 14
   m_Name: Sustain
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -444,7 +445,7 @@ GameObject:
   - component: {fileID: 3323883747489270179}
   - component: {fileID: 3323772510333639347}
   - component: {fileID: 3380929575297434479}
-  m_Layer: 5
+  m_Layer: 14
   m_Name: HoldDecrease
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -599,7 +600,7 @@ GameObject:
   - component: {fileID: 3216798417209093821}
   - component: {fileID: 3219016956408439277}
   - component: {fileID: 3328132880658251511}
-  m_Layer: 5
+  m_Layer: 14
   m_Name: Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -676,7 +677,7 @@ GameObject:
   - component: {fileID: 3217136607905551603}
   - component: {fileID: 3219725462348089649}
   - component: {fileID: 3327983458281016143}
-  m_Layer: 5
+  m_Layer: 14
   m_Name: Icon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -752,7 +753,7 @@ GameObject:
   - component: {fileID: 3216922751389166435}
   - component: {fileID: 3219933122544651637}
   - component: {fileID: 3327626370559613947}
-  m_Layer: 5
+  m_Layer: 14
   m_Name: Icon Highlighted
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -827,7 +828,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7219536529543342091}
   - component: {fileID: 7671712862182785124}
-  m_Layer: 9
+  m_Layer: 14
   m_Name: Note
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -911,7 +912,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5644645337985901340}
   - component: {fileID: 6960228028383700939}
-  m_Layer: 9
+  m_Layer: 14
   m_Name: SelectRing
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -996,7 +997,7 @@ GameObject:
   - component: {fileID: 6166275628678960645}
   - component: {fileID: 6167764541748506643}
   - component: {fileID: 6276284762106570397}
-  m_Layer: 5
+  m_Layer: 14
   m_Name: Icon Highlighted
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1072,7 +1073,7 @@ GameObject:
   - component: {fileID: 6166093654847859093}
   - component: {fileID: 6167976620392674391}
   - component: {fileID: 6275927038697535017}
-  m_Layer: 5
+  m_Layer: 14
   m_Name: Icon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1148,7 +1149,7 @@ GameObject:
   - component: {fileID: 6166430836190860251}
   - component: {fileID: 6168792312711060619}
   - component: {fileID: 6275812301501891473}
-  m_Layer: 5
+  m_Layer: 14
   m_Name: Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1227,7 +1228,7 @@ GameObject:
   - component: {fileID: 6275488561481938117}
   - component: {fileID: 6275665259206780885}
   - component: {fileID: 6331133880469683721}
-  m_Layer: 5
+  m_Layer: 14
   m_Name: HoldIncrease
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1383,7 +1384,7 @@ GameObject:
   - component: {fileID: 6275338620674491713}
   - component: {fileID: 6184418723140688735}
   - component: {fileID: 808433707752444871}
-  m_Layer: 9
+  m_Layer: 14
   m_Name: HoldModifyUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1484,7 +1485,7 @@ GameObject:
   - component: {fileID: 4573371264360220588}
   - component: {fileID: 123916954357591665}
   - component: {fileID: 4939441020895764969}
-  m_Layer: 5
+  m_Layer: 14
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}

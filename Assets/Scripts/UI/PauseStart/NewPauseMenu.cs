@@ -49,6 +49,14 @@ namespace NotReaper.UI
             Color c = nrStartOverlay.color;
             c.a = 1f;
             nrStartOverlay.color = c;
+
+            var can = GetComponent<Canvas>();
+            can.renderMode = RenderMode.ScreenSpaceOverlay;
+            var scaler = GetComponent<CanvasScaler>();
+            scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
+            scaler.screenMatchMode = CanvasScaler.ScreenMatchMode.Shrink;
+
+
             Show();
         }
 

@@ -24,7 +24,7 @@ namespace NotReaper.Modifier
         private List<Modifier> selectedEntries = new List<Modifier>();
         private List<ModifierDTO> copiedEntries = new List<ModifierDTO>();
 
-        private Camera main;
+        [SerializeField] private Camera cam;
         private CopyMode mode = CopyMode.Copy;
         private Vector3 dragStartPos;
         private Renderer rend;
@@ -43,7 +43,6 @@ namespace NotReaper.Modifier
 
             posGetter = GameObject.Instantiate(new GameObject("PosGetter").transform);
             posGetter.SetParent(Timeline.timelineNotesStatic);
-            main = Camera.main;
             rend = selectionBox.GetComponent<Renderer>();
             selectionBox.SetActive(false);
            
@@ -119,7 +118,7 @@ namespace NotReaper.Modifier
             QNT_Timestamp newStartTick = Timeline.time;
             QNT_Timestamp firstTick = new QNT_Timestamp((ulong)copiedEntries.First().startTick);
             float tickOffset = newStartTick.tick - copiedEntries.First().startTick;
-            posGetter.position = Vector3.zero;
+            posGetter.position = cam.transform.position; //Vector3.zero;
             float positionOffset = posGetter.position.x - copiedEntries.First().startPosX;
             float miniOffset = MiniTimeline.Instance.GetXForTheBookmarkThingy() - copiedEntries.First().miniStartX;
             if (tickOffset == 0 && mode == CopyMode.Copy) return;
@@ -319,7 +318,7 @@ namespace NotReaper.Modifier
 
         private void UpdateDragSelect()
         {
-            float sizeX = dragStartPos.x - Timeline.timelineNotesStatic.InverseTransformPoint(main.ScreenToWorldPoint(Input.mousePosition)).x;
+            float sizeX = dragStartPos.x - Timeline.timelineNotesStatic.InverseTransformPoint(cam.ScreenToWorldPoint(Input.mousePosition)).x;
 
             if (Mathf.Abs(sizeX) > .2f)
             {
@@ -362,7 +361,7 @@ namespace NotReaper.Modifier
         {
             isMouseDown = true;
             int layerMask = LayerMask.GetMask("Modifier");
-            RaycastHit2D hit = Physics2D.Raycast(main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero, 1000000f, layerMask);
+            RaycastHit2D hit = Physics2D.Raycast(cam.ScreenToWorldPoint(Input.mousePosition), Vector2.zero, 0f, layerMask);
             if (hit.collider != null)
             {
                 Modifier m = hit.transform.GetComponent<ClickNotifier>().GetModifier();
@@ -384,7 +383,7 @@ namespace NotReaper.Modifier
             else
             {
                 layerMask = LayerMask.GetMask("Timeline");
-                hit = Physics2D.Raycast(main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero, 1000000f, layerMask);
+                hit = Physics2D.Raycast(cam.ScreenToWorldPoint(Input.mousePosition), Vector2.zero, 1000000f, layerMask);
                 if (hit.collider != null)
                 {
                     if (hit.transform.gameObject.layer == 14)
@@ -398,7 +397,7 @@ namespace NotReaper.Modifier
 
             if (isCtrlDown)
             {
-                dragStartPos = Timeline.timelineNotesStatic.InverseTransformPoint(main.ScreenToWorldPoint(Input.mousePosition));
+                dragStartPos = Timeline.timelineNotesStatic.InverseTransformPoint(cam.ScreenToWorldPoint(Input.mousePosition));
                 selectionBox.transform.SetParent(Timeline.timelineNotesStatic);
                 Vector3 newPos = selectionBox.transform.localPosition;
                 newPos.x = dragStartPos.x;
@@ -438,7 +437,7 @@ namespace NotReaper.Modifier
         private void RemoveModifier()
         {
             int layerMask = LayerMask.GetMask("Modifier");
-            RaycastHit2D hit = Physics2D.Raycast(main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero, 1000000f, layerMask);
+            RaycastHit2D hit = Physics2D.Raycast(cam.ScreenToWorldPoint(Input.mousePosition), Vector2.zero, 1000000f, layerMask);
             if (hit.collider != null)
             {
                 Modifier m = hit.transform.GetComponent<ClickNotifier>().GetModifier();

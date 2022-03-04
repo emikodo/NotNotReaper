@@ -40,6 +40,7 @@ namespace NotReaper.Tools.ErrorChecker
 
         public void RunErrorCheck()
         {
+            EditorState.SelectMode(EditorMode.Compose);
             /* retrieve orderedNotes
              * parse notes for errors
              * export error messages to txt

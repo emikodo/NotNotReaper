@@ -9,6 +9,7 @@ using DG.Tweening;
 using NotReaper.Timing;
 using UnityEngine.UI;
 using NotReaper.Overlays;
+using NotReaper.Models;
 
 namespace NotReaper.Tools.PathBuilder
 {
@@ -82,11 +83,6 @@ namespace NotReaper.Tools.PathBuilder
         private void ActivateWindow(bool activate)
         {
             ShowControls();
-            return;
-            canvas.DOFade(activate ? 1f : 0f, .3f);
-            canvas.interactable = activate;
-            canvas.blocksRaycasts = activate;
-            boxCollider.enabled = activate;
         }
 
         public void OnIntervalChanged(bool next)
@@ -220,7 +216,17 @@ namespace NotReaper.Tools.PathBuilder
             int.TryParse(beatLengthText.text, out int result);
             return result;
         }
+        [NRListener]
+        protected override void OnEditorModeChanged(EditorMode mode)
+        {
+            if (!gameObject.activeInHierarchy) return;
 
-       
+            if (mode != EditorMode.Compose)
+            {
+                pathbuilder.Activate(false);
+            }
+        }
+
+
     }
 }

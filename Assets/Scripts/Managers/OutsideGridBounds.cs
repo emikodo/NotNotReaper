@@ -33,6 +33,7 @@ namespace NotReaper.Managers
 		{
 			foreach (MeshRenderer r in gridOutline.GetComponentsInChildren<MeshRenderer>()) {
 				gridOutlineLines.Add(r);
+				r.material.DOFade(.25f, .1f);
 			}
 		}
 		
@@ -50,18 +51,18 @@ namespace NotReaper.Managers
 			gridY = Mathf.Clamp(gridY, -1, 1);
 			
 			Camera.main.transform.DOMove(new Vector3(gridX * xModifier, (gridY * yModifier) + 0.5f, -5), fadeSpeed).SetEase(Ease.InOutCubic);
-			gridUI.DOMove(new Vector3(gridX * xModifier, gridY * yModifier, 0), fadeSpeed).SetEase(Ease.InOutCubic);
-			timelineTransform.DOMove(new Vector3(gridX * xModifier, (gridY * yModifier) + 4.7f), fadeSpeed).SetEase(Ease.InOutCubic);
-			
+			gridUI.DOMove(Vector3.zero, fadeSpeed).SetEase(Ease.InOutCubic);
+			//gridUI.DOMove(new Vector3(-gridX * xModifier, gridY * -yModifier, 0), fadeSpeed).SetEase(Ease.InOutCubic);
+			//timelineTransform.DOMove(new Vector3(gridX * xModifier, (gridY * yModifier) + 4.7f), fadeSpeed).SetEase(Ease.InOutCubic);
 
 			if (gridX == 0 && gridY == 0) {
 				foreach (var line in gridOutlineLines) {
-					line.material.DOFade(0.0f, fadeSpeed);
+					line.material.DOFade(.25f, fadeSpeed);
 				}
 			}
 			else {
 				foreach (var line in gridOutlineLines) {
-					line.material.DOFade(1.0f, fadeSpeed);
+					line.material.DOFade(1f, fadeSpeed);
 				}
 			}
 

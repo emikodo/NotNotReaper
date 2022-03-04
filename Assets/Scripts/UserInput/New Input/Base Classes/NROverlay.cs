@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using System;
+using NotReaper.Models;
 
 namespace NotReaper.Overlays
 {
@@ -55,6 +56,7 @@ namespace NotReaper.Overlays
                 canvas.DOFade(1f, fadeDuration);
             }
         }
+
         protected virtual void OnDeactivated()
         {
             if (doFadeAnimation)
@@ -70,6 +72,8 @@ namespace NotReaper.Overlays
                 gameObject.SetActive(false);
             }
         }
+
+        protected abstract void OnEditorModeChanged(EditorMode mode);
 
         private void PositionOverlay()
         {
