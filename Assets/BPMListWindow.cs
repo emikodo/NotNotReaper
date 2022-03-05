@@ -13,18 +13,16 @@ using UnityEngine.InputSystem;
 public class BPMListWindow : NRMenu
 {
     public TMP_Text bpmTextList;
-
+    public bool isActive;
     void Start() {
-        Vector3 defaultPos;
-        defaultPos.x = 0;
-        defaultPos.y = 0;
-        defaultPos.z = -10.0f;
+        Vector3 defaultPos = Vector3.zero;
         gameObject.GetComponent<RectTransform>().localPosition = defaultPos;
         gameObject.GetComponent<CanvasGroup>().alpha = 0.0f;
         gameObject.SetActive(false);
     }
 
     public void Activate(List<float> bpmList) {
+        isActive = true;
         OnActivated();
         gameObject.GetComponent<CanvasGroup>().DOFade(1.0f, 0.3f);
         gameObject.SetActive(true);
@@ -36,6 +34,7 @@ public class BPMListWindow : NRMenu
     }
 
     public void Deactivate() {
+        isActive = false;
         OnDeactivated();
         gameObject.GetComponent<CanvasGroup>().DOFade(0.0f, 0.3f);
         gameObject.SetActive(false);

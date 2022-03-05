@@ -28,13 +28,19 @@ namespace NotReaper
 
         private List<string> keybindsToEnable = new List<string>();
         private GameObject inputCatcher;
+        private bool hasBeenInitialized = false;
         protected virtual void Awake()
         {
             if (useInputCatcher)
             {
                 inputCatcher = Instantiate(Resources.Load<GameObject>("InputCatcher"), transform);
+                inputCatcher.layer = gameObject.layer;
                 var canvas = GetComponent<Canvas>();
-                if (canvas != null) inputCatcher.GetComponent<Canvas>().sortingOrder = canvas.sortingOrder - 1;
+                if (canvas != null)
+                {
+                    var catcherCanvas = inputCatcher.GetComponent<Canvas>();
+                    catcherCanvas.sortingOrder = canvas.sortingOrder + 100;//canvas.sortingOrder - 1;                   
+                }
                 inputCatcher.SetActive(false);
             }
             keybindsToEnable.Clear();
@@ -51,6 +57,7 @@ namespace NotReaper
         /// </summary>
         protected void OnActivated()
         {
+            if (!hasBeenInitialized) hasBeenInitialized = true;
             gameObject.SetActive(true);
             KeybindManager.Global.RegisterEscCallback(OnEscPressed);
             KeybindManager.EnableAsset(null, new KeybindManager.KeybindOverrides(mapsToEnable, keybindsToEnable));
@@ -68,6 +75,8 @@ namespace NotReaper
         /// </summary>
         protected void OnDeactivated()
         {
+            if (!hasBeenInitialized) return;
+
             KeybindManager.Global.UnregisterEscCallback(OnEscPressed);
             KeybindManager.DisableUIMenu();
             if (useInputCatcher)

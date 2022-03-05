@@ -405,7 +405,7 @@ namespace NotReaper.UI
             yield break;
         }
 
-        private void ApplyValues()
+        public void ApplyValues()
         {
 
             if (!timeline.paused)

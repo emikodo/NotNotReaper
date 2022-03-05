@@ -90,16 +90,35 @@ namespace NotReaper.UI {
 
 		float prevX = 0f;
 
-		private void OnMouseDrag() {
+
+		bool timelineWasPlaying = false;
+
+        public void MouseDown()
+        {
+			if (EditorState.IsInUI || EditorState.Tool.Current == EditorTool.ChainBuilder || EditorState.Tool.Current == EditorTool.Pathbuilder || EditorState.Tool.Current == EditorTool.DragSelect) return;
+			if (!timeline.paused) timeline.TogglePlayback();
+			timelineWasPlaying = true;
+		}
+        public void MouseUp()
+        {
+			if (EditorState.IsInUI || EditorState.Tool.Current == EditorTool.ChainBuilder || EditorState.Tool.Current == EditorTool.Pathbuilder || EditorState.Tool.Current == EditorTool.DragSelect) return;
+			timelineWasPlaying = false;
+			if (timelineWasPlaying && timeline.paused) timeline.TogglePlayback();
+		}
+		
+		public void DoDrag()
+        {
 			if (EditorState.IsInUI || EditorState.Tool.Current == EditorTool.ChainBuilder || EditorState.Tool.Current == EditorTool.Pathbuilder || EditorState.Tool.Current == EditorTool.DragSelect) return;
 			var x = _mainCamera.ScreenToWorldPoint(Input.mousePosition).x;
 
 			x -= _mainCamera.transform.position.x;
 
-			if (x == prevX) {
+			if (x == prevX)
+			{
 				return;
 			}
-			else {
+			else
+			{
 				prevX = x;
 			}
 
@@ -110,21 +129,6 @@ namespace NotReaper.UI {
 			float percent = x / mouseClickAreaLength;
 
 			timeline.JumpToPercent(percent);
-		}
-
-
-		bool timelineWasPlaying = false;
-
-		private void OnMouseDown() {
-			if (EditorState.IsInUI || EditorState.Tool.Current == EditorTool.ChainBuilder || EditorState.Tool.Current == EditorTool.Pathbuilder || EditorState.Tool.Current == EditorTool.DragSelect) return;
-			if (!timeline.paused) timeline.TogglePlayback();
-			timelineWasPlaying = true;
-		}
-
-		private void OnMouseUp() {
-			if (EditorState.IsInUI || EditorState.Tool.Current == EditorTool.ChainBuilder || EditorState.Tool.Current == EditorTool.Pathbuilder || EditorState.Tool.Current == EditorTool.DragSelect) return;
-			timelineWasPlaying = false;
-			if (timelineWasPlaying && timeline.paused) timeline.TogglePlayback();
 		}
 
 

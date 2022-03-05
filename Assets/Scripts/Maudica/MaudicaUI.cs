@@ -23,12 +23,7 @@ namespace NotReaper.Maudica
         [SerializeField] private GameObject hintPanel;
         [SerializeField] private TextMeshProUGUI hint;
 
-        private void Start()
-        {
-            Timeline.onAudicaLoaded += OnAudicaLoaded;
-        }
-
-        private void OnAudicaLoaded(AudicaFile file)
+        private void OnEnable()
         {
             if (!MaudicaHandler.HasToken)
             {
@@ -36,7 +31,17 @@ namespace NotReaper.Maudica
                 hintPanel.SetActive(true);
                 return;
             }
-            StartCoroutine(MaudicaHandler.GetMap(file.filepath, new Action<Song>((song) => 
+            else
+            {
+                hint.text = "invalid token";
+            }
+
+            if (!Timeline.audicaLoaded)
+            {
+                return;
+            }
+
+            StartCoroutine(MaudicaHandler.GetMap(Timeline.audicaFile.filepath, new Action<Song>((song) =>
             {
                 bool exists = song.id > 0;
                 if (!exists)

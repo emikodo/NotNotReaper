@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6187297861525418}
   - component: {fileID: 6187297861525413}
-  m_Layer: 16
+  m_Layer: 17
   m_Name: Mask
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27,6 +27,7 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2553171785596517702}
   m_Father: {fileID: 577360363690429172}
@@ -63,7 +64,7 @@ GameObject:
   - component: {fileID: 577360363311666055}
   - component: {fileID: 577360363311666072}
   - component: {fileID: 577360363311666069}
-  m_Layer: 16
+  m_Layer: 17
   m_Name: Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -80,6 +81,7 @@ RectTransform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6781230581116122871}
   m_RootOrder: 0
@@ -212,10 +214,9 @@ GameObject:
   - component: {fileID: 577360363690429168}
   - component: {fileID: 577360363690429171}
   - component: {fileID: 4918517617406044775}
-  - component: {fileID: 577360363690429175}
-  - component: {fileID: 577360363690429174}
-  m_Layer: 16
-  m_Name: NotificationPopup 1
+  - component: {fileID: 582874623441404179}
+  m_Layer: 17
+  m_Name: NotificationPopup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -231,6 +232,7 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6187297861525418}
   m_Father: {fileID: 0}
@@ -266,7 +268,7 @@ MonoBehaviour:
   errorSprite: {fileID: 21300000, guid: 88dca061d041a2a4596563e6a38f66c8, type: 3}
   iconHolder: {fileID: 577360365300042201}
   notificationText: {fileID: 577360363311666072}
-  stayDuration: 3
+  stayDuration: 2.5
   fadeoutDuration: 1
   closeDuration: 0.5
   changeDuration: 0.75
@@ -312,7 +314,7 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
---- !u!223 &577360363690429175
+--- !u!223 &582874623441404179
 Canvas:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -326,30 +328,13 @@ Canvas:
   m_PlaneDistance: 100
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
-  m_OverrideSorting: 1
+  m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
-  m_SortingOrder: 1000
+  m_SortingOrder: 0
   m_TargetDisplay: 0
---- !u!114 &577360363690429174
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 577360363690429173}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_IgnoreReversedGraphics: 1
-  m_BlockingObjects: 0
-  m_BlockingMask:
-    serializedVersion: 2
-    m_Bits: 65335
 --- !u!1 &577360365300042203
 GameObject:
   m_ObjectHideFlags: 0
@@ -363,7 +348,7 @@ GameObject:
   - component: {fileID: 577360365300042201}
   - component: {fileID: 6775648082276517045}
   - component: {fileID: 577360365300042197}
-  m_Layer: 16
+  m_Layer: 17
   m_Name: Icon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -380,6 +365,7 @@ RectTransform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.12, y: 0.12, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2553171785596517702}
   m_RootOrder: 1
@@ -472,7 +458,7 @@ GameObject:
   - component: {fileID: 9045307319191415516}
   - component: {fileID: 5593943835186800526}
   - component: {fileID: 7647598903335031250}
-  m_Layer: 16
+  m_Layer: 17
   m_Name: CloseButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -489,6 +475,7 @@ RectTransform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2553171785596517702}
   m_RootOrder: 2
@@ -591,6 +578,7 @@ MonoBehaviour:
   parentWindow: {fileID: 0}
   onHoverSpeed: 0.15
   onHoverExitSpeed: 0.25
+  action: {fileID: 0}
 --- !u!1 &2553171785596517703
 GameObject:
   m_ObjectHideFlags: 0
@@ -602,7 +590,7 @@ GameObject:
   - component: {fileID: 2553171785596517702}
   - component: {fileID: 2553171785596517701}
   - component: {fileID: 2553171785596517700}
-  m_Layer: 16
+  m_Layer: 17
   m_Name: Content
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -619,6 +607,7 @@ RectTransform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6445702176339122014}
   - {fileID: 577360365300042202}
@@ -628,7 +617,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 0.000011620352, y: -0.000022888184}
+  m_AnchoredPosition: {x: -0.00007113665, y: -0.000022888184}
   m_SizeDelta: {x: 150, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &2553171785596517701
@@ -685,7 +674,7 @@ GameObject:
   - component: {fileID: 4982989059952874184}
   - component: {fileID: 4384407640257537052}
   - component: {fileID: 2913717431541915230}
-  m_Layer: 16
+  m_Layer: 17
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -702,6 +691,7 @@ RectTransform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 577360363311666073}
   m_Father: {fileID: 6445702176339122014}
@@ -820,7 +810,7 @@ GameObject:
   - component: {fileID: 6445702176339122014}
   - component: {fileID: 3319536904331531810}
   - component: {fileID: 1968422947113736905}
-  m_Layer: 16
+  m_Layer: 17
   m_Name: TextboxContainer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -837,6 +827,7 @@ RectTransform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6781230581116122871}
   m_Father: {fileID: 2553171785596517702}
@@ -844,8 +835,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 75, y: 0}
+  m_SizeDelta: {x: 150, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &3319536904331531810
 MonoBehaviour:

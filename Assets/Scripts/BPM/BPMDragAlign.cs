@@ -11,11 +11,11 @@ namespace NotReaper.BpmAlign
     public class BPMDragAlign : MonoBehaviour
     {
         [SerializeField] private Transform waveform;
+        [SerializeField] private Camera cam;
 
         private Vector2 startPosition;
         private Vector3 waveformPosition;
         private Vector3 originalWaveformPosition;
-        private Camera cam;
 
         [NRInject] private PrecisePlayback playback;
 
@@ -28,7 +28,6 @@ namespace NotReaper.BpmAlign
 
         private void OnEnable()
         {
-            cam = Camera.main;
             KeybindManager.onMouseDown += MouseDown;
             waveformPosition = waveform.position;
             //originalWaveformPosition = waveformPosition;

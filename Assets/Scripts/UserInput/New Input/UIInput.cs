@@ -2,6 +2,7 @@
 using NotReaper.Grid;
 using NotReaper.Managers;
 using NotReaper.Models;
+using NotReaper.Notifications;
 using NotReaper.Repeaters;
 using NotReaper.ReviewSystem;
 using NotReaper.Timing;
@@ -163,8 +164,13 @@ namespace NotReaper.UI
 
 		public void DetectBpm()
 		{
-			if (detectBpmStart is null)
+            if (bpmListWindow.isActive)
+            {
+				bpmListWindow.Deactivate();
+            }
+			else if (detectBpmStart == null)
 			{
+				NotificationCenter.SendNotification("BPM Detect start position set.", NotificationType.Info);
 				detectBpmStart = Timeline.time;
 			}
 			else

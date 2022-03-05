@@ -48,20 +48,21 @@ namespace NotReaper.Maudica
             }
         }
 
+
         public static IEnumerator GetMap(string filepath, Action<Song> response)
         {
             if (!IsCurator) yield break;
+
             string requestUrl = MAUDICA_URL + MAPS_ENDPOINT;
             audica = new Audica(filepath);
-            requestUrl += "?filename=" + audica.fileName + ".audica";
             using UnityWebRequest www = UnityWebRequest.Get(requestUrl);
-            www.timeout = 60;
             yield return www.SendWebRequest();
             var songList = JsonConvert.DeserializeObject<APISongList>(www.downloadHandler.text);
             bool exists = songList.count > 0;
             Song song = exists ? songList.maps[0] : new Song();
             if (!exists) audica = null;
             response?.Invoke(song);
+                      
         }
 
         public static IEnumerator ApproveMap(Action onComplete = null)

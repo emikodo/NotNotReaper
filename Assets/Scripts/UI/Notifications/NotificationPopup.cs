@@ -27,7 +27,7 @@ namespace NotReaper.Notifications
 
         private bool isBeingClosed = false;
 
-        private Vector3 startPos = new Vector3(900f, 397f, 0f);
+        private Vector3 startPos = new Vector3(900f, 380f, 0f);
         private RectTransform rect;
 
         protected override void Awake()
@@ -76,7 +76,12 @@ namespace NotReaper.Notifications
             sequence.Join(iconHolder.DOFade(0f, changeDuration));
             sequence.Join(notificationText.DOFade(0f, changeDuration));
             sequence.Play();
-            transform.DOPunchPosition(new Vector3(transform.position.x + .1f, transform.position.y, transform.position.z), changeDuration * 2f, 0, .5f);
+            var secondSequence = DOTween.Sequence();
+            Vector3 startPos = transform.localPosition;
+            Vector3 amount = new Vector3(5f, 3f, 0f);
+            secondSequence.Append(transform.DOLocalMove(startPos + amount, changeDuration).SetEase(Ease.OutBack));
+            secondSequence.Append(transform.DOLocalMove(startPos, changeDuration));
+            //transform.DOPunchPosition(new Vector3(transform.position.x + .001f, transform.position.y, transform.position.z), changeDuration * 2f, 0, .001f);
         }
 
         private IEnumerator OnChangeFadeoutComplete(NotificationType type, string text, int id)
@@ -86,7 +91,7 @@ namespace NotReaper.Notifications
             var sequence = DOTween.Sequence();
             sequence.OnComplete(() => OnPopupShown());
             sequence.Append(transform.DOScale(Vector3.one, changeDuration));
-            sequence.Join(mask.DOSizeDelta(new Vector2(originalMaskSize.x, contentRect.sizeDelta.y), changeDuration).SetEase(Ease.OutBack));
+            sequence.Join(mask.DOSizeDelta(new Vector2(originalMaskSize.x, contentRect.sizeDelta.y), changeDuration));
             sequence.Join(iconHolder.DOFade(1f, changeDuration));
             sequence.Join(notificationText.DOFade(1f, changeDuration));
             sequence.Play();
@@ -101,9 +106,9 @@ namespace NotReaper.Notifications
             var sequence = DOTween.Sequence();
             sequence.SetAutoKill(false);
             sequence.OnComplete(() => OnPopupShown());
-            sequence.Append(transform.DOMoveX(transform.position.x - 4.1f, .2f).SetEase(Ease.OutQuart));
+            sequence.Append(transform.DOLocalMoveX(transform.localPosition.x - 210f, .2f).SetEase(Ease.OutQuart));
             sequence.Join(canvas.DOFade(1f, .2f));
-            sequence.Append(transform.DOMoveX(transform.position.x - 4f, .2f).SetEase(Ease.InQuart));
+            sequence.Append(transform.DOLocalMoveX(transform.localPosition.x - 200f, .2f).SetEase(Ease.InQuart));
             sequence.Join(mask.DOSizeDelta(new Vector2(originalMaskSize.x, mask.sizeDelta.y), .2f).SetEase(Ease.InQuart));
             sequence.Join(mask.DOSizeDelta(new Vector2(originalMaskSize.x, contentRect.sizeDelta.y), .4f).SetEase(Ease.OutBack).SetDelay(.2f));
             sequence.Play();

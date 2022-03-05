@@ -11,6 +11,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Networking;
 using UnityEngine.InputSystem;
+using DifficultyCalculation;
+using AudicaTools;
 
 namespace NotReaper.UI {
 
@@ -29,7 +31,7 @@ namespace NotReaper.UI {
         public TMP_InputField titleField;
         public TMP_InputField artistField;
         public TMP_InputField mapperField;
-
+        public TextMeshProUGUI difficultyRating;
         public Slider moggSongVolume;
 
 
@@ -94,6 +96,10 @@ namespace NotReaper.UI {
             ChangeSelectedDifficulty(difficultyManager.loadedIndex);
             LoadCurrentDifficultyName(difficultyManager.loadedIndex);
             SetDifficultyIcons(difficultyManager.loadedIndex);
+
+            float rating = DifficultyCalculator.GetRating(new Audica(Timeline.audicaFile.filepath), difficultyManager.loadedIndex);
+            rating = (float)Math.Round(rating, 2);
+            difficultyRating.text = rating.ToString();
             // Song end pitch event
             switch (Timeline.desc.songEndEvent)
             {

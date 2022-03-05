@@ -21,6 +21,7 @@ namespace NotReaper.Notifications
         [SerializeField] private RectTransform parent;
         [SerializeField] private Puller puller;
         [SerializeField] private Button clearButton;
+        [SerializeField] private GameObject inputBlocker;
         //[SerializeField] private GameObject inputCatcher;
         [Space, Header("Slide Settings")]
         [SerializeField] private float slideDistance = 5f;
@@ -39,6 +40,7 @@ namespace NotReaper.Notifications
             base.Awake();
             canvas = GetComponent<CanvasGroup>();
             parent.anchoredPosition = startPos;
+            inputBlocker.SetActive(false);
         }
 
         public void ToggleShow()
@@ -47,11 +49,13 @@ namespace NotReaper.Notifications
             if (IsOpen)
             {
                 clearButton.interactable = true;
+                inputBlocker.SetActive(true);
                 OnActivated();
                 EventSystem.current.SetSelectedGameObject(gameObject);
             }
             else
             {
+                inputBlocker.SetActive(false);
                 OnDeactivated();
             }
             float distance = IsOpen ? -slideDistance : slideDistance;

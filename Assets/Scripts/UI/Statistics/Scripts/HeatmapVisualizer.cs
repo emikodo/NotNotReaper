@@ -1,6 +1,8 @@
 ﻿using NotReaper.Targets;
+using NotReaper.Timing;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 namespace NotReaper.Statistics
@@ -13,6 +15,7 @@ namespace NotReaper.Statistics
         [SerializeField] private Transform topRight;
         [SerializeField] private Transform bottomLeft;
         [SerializeField] private Transform bottomRight;
+        [SerializeField] private TextMeshProUGUI currentTimeLabel;
 
         private Grid grid;
         private Mesh mesh;
@@ -45,8 +48,23 @@ namespace NotReaper.Statistics
         /// <remarks>Using a Coroutine to see the heatmap get drawn in realtime.</remarks>
         private IEnumerator AddNotes(List<Target> targets)
         {
+            float songLength = Timeline.instance.songPlayback.song.Length;
+            int songMinutes = Mathf.FloorToInt(songLength / 60f);
+            int songSeconds = Mathf.FloorToInt(songLength % 60f);
+            string strSongMinutes = songMinutes < 10 ? "0" : "";
+            strSongMinutes += songMinutes;
+            string strSongSeconds = songSeconds < 10 ? "0" : "";
+            strSongSeconds += songSeconds;
             foreach (Target target in targets)
             {
+                float targetTime = Timeline.instance.TimestampToSeconds(target.data.time);
+                int targetMinutes = Mathf.FloorToInt(targetTime / 60f);
+                int targetSeconds = Mathf.FloorToInt(targetTime % 60f);
+                string strTargetMinutes = targetMinutes < 10 ? "0" : "";
+                strTargetMinutes += targetMinutes;
+                string strTargetSeconds = targetSeconds < 10 ? "0" : "";
+                strTargetSeconds += targetSeconds;
+                currentTimeLabel.text = $"time: {strTargetMinutes}:{strTargetSeconds} / {strSongMinutes}:{strSongSeconds}";
                 int value = Mathf.FloorToInt(grid.GetMaxValue() / 20f);
                 grid.AddValue(target.gridTargetIcon.data.position, value, 5, 7);
                 yield return null;
@@ -65,14 +83,13 @@ namespace NotReaper.Statistics
         private void UpdateHeatMapVisual()
         {
             MeshUtils.CreateEmptyMeshArrays(grid.GetWidth() * grid.GetHeight(), out Vector3[] vertices, out Vector2[] uv, out int[] triangles);
-
             for (int x = 0; x < grid.GetWidth(); x++)
             {
                 for (int y = 0; y < grid.GetHeight(); y++)
                 {
                     int index = x * grid.GetHeight() + y;
                     Vector3 quadSize = grid.GetCellSize();
-
+                    
                     int gridValue = grid.GetValue(x, y);
                     float gridValueNormalized = (float)gridValue / grid.GetMaxValue();
                     //Due to light texture offset (or some other weird stuff going on), the x-offset on the texture is set to 0.0078f, which is the gray pixel.

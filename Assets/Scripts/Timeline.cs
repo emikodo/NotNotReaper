@@ -2266,7 +2266,8 @@ namespace NotReaper
             uint barLengthIncr = 0;
             for (float t = 0; t < endOfAudio.tick;)
             {
-                ulong snap = (ulong)(beatSnap / 4);
+                //ulong snap = (ulong)(beatSnap / 4);
+                float snap = beatSnap / 4f;
                 float increment = 0f;
                 if (snap != 0) increment = Constants.PulsesPerWholeNote / currentTempo.timeSignature.Denominator / snap;
                 else increment = Constants.PulsesPerWholeNote / currentTempo.timeSignature.Denominator;
@@ -2562,9 +2563,15 @@ namespace NotReaper
             //OptimizeInvisibleTargets ();
         }
         private QNT_Timestamp bpmDragOffset;
+
         public void SetBPMDragOffset(QNT_Timestamp offset)
         {
             bpmDragOffset = offset;
+        }
+        public bool hasBpmDragOffset => bpmDragOffset.tick != 0;
+        public QNT_Timestamp GetBPMDragOffset()
+        {
+            return bpmDragOffset;
         }
 
         public void ReapplyScale()
@@ -2776,7 +2783,16 @@ namespace NotReaper
 
             //songPlayback.volume = NRSettings.config.mainVol;
             //songPlayback.hitSoundVolume = NRSettings.config.noteVol;
-
+            var songEndTime = ShiftTick(new QNT_Timestamp(0), songPlayback.song.Length);
+            if (time >= songEndTime)
+            {
+                if (!paused)
+                {
+                    paused = true;
+                }
+                time = songEndTime;
+                SetBeatTime(time);
+            }
             UpdateState();
         }
 
@@ -3026,24 +3042,13 @@ namespace NotReaper
             StopCoroutine(AnimateSetTime(new QNT_Timestamp(0)));
             bool isPlaying = !paused;
             if (isPlaying) TogglePlayback();
-            float posX = Math.Abs(timelineTransformParent.position.x) + x;
+            float posX = Math.Abs(timelineCamera.position.x) + x;
             QNT_Timestamp newTime = new QNT_Timestamp(0) + QNT_Duration.FromBeatTime(posX * (scale / 20f));
             newTime = GetClosestBeatSnapped(newTime, (uint)beatSnap);
             SafeSetTime();
             OnAnimateSetTimeDone callback = isPlaying ? new OnAnimateSetTimeDone(TogglePlayback) : null;
             StartCoroutine(AnimateSetTime(newTime, callback));
             UpdateState();
-        }
-
-        public void JumpToXInstantly(float x)
-        {
-            float posX = Math.Abs(timelineTransformParent.position.x) + x;
-            QNT_Timestamp newTime = new QNT_Timestamp(0) + QNT_Duration.FromBeatTime(posX * (scale / 20f));
-            //SafeSetTime();
-            SetBeatTime(newTime);
-            time = newTime;
-            SetCurrentTime();
-            SetCurrentTick();
         }
 
         public void ToggleWaveform()
@@ -3151,13 +3156,13 @@ namespace NotReaper
             int tempoIndex = GetCurrentBPMIndex(timeToSnap);
             if (tempoIndex == -1)
             {
+                timeToSnap = new QNT_Timestamp(timeToSnap.tick + bpmDragOffset.tick);
                 return QNT_Timestamp.GetSnappedValue(timeToSnap, beatSnap);
             }
-
             TempoChange currentTempo = tempoChanges[tempoIndex];
             QNT_Duration offsetFromTempoChange = new QNT_Duration(timeToSnap.tick - currentTempo.time.tick);
             offsetFromTempoChange = QNT_Duration.GetSnappedValue(offsetFromTempoChange, beatSnap);
-            return currentTempo.time + offsetFromTempoChange;
+            return new QNT_Timestamp(currentTempo.time.tick + offsetFromTempoChange.tick + bpmDragOffset.tick);
         }
 
         private void OnMouseDown()

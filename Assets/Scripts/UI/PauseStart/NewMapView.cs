@@ -41,6 +41,7 @@ namespace NotReaper.UI
 
         public void ContinueToGenre()
         {
+            manager.ApplyValues();
             if (!manager.CheckAllUIFilled())
             {
                 NotificationCenter.SendNotification("Please fill out all data.", NotificationType.Warning);

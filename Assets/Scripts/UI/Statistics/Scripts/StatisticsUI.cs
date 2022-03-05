@@ -1,4 +1,9 @@
-﻿using NotReaper.Models;
+﻿using AudicaTools;
+using DifficultyCalculation;
+using NotReaper.Managers;
+using NotReaper.Models;
+using NotReaper.UI;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -24,8 +29,10 @@ namespace NotReaper.Statistics
         [SerializeField] private StatisticsElement firstHighlightSlot;
         [SerializeField] private StatisticsElement secondHighlightSlot;
         [Space, Header("Text")]
-        [SerializeField] private TextMeshProUGUI songArtistLabel;
+        [SerializeField] private TextMeshProUGUI songLabel;
+        [SerializeField] private TextMeshProUGUI artistLabel;
         [SerializeField] private TextMeshProUGUI mapperLabel;
+        [SerializeField] private TextMeshProUGUI difficultyLabel;
         [Space, Header("Toggle")]
         [SerializeField] private Toggle percentageToggle;
 
@@ -63,8 +70,12 @@ namespace NotReaper.Statistics
         {
             OnActivated();
             ShowWindow(true);
-            songArtistLabel.text = $"{Timeline.desc.title} - {Timeline.desc.artist}".ToLowerInvariant();
+            songLabel.text = Timeline.desc.title.ToLowerInvariant();
+            artistLabel.text = Timeline.desc.artist.ToLowerInvariant();
             mapperLabel.text = $"by {Timeline.desc.author}".ToLowerInvariant();
+            float rating = DifficultyCalculator.GetRating(new Audica(Timeline.audicaFile.filepath), DifficultyManager.I.loadedIndex);
+            rating = (float)Math.Round(rating, 2);
+            difficultyLabel.text = $"difficulty: {rating}";
             StatisticsManager.Instance.GatherStatistics();
         }
         /// <summary>

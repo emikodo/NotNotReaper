@@ -728,7 +728,7 @@ namespace NotReaper.Tools.PathBuilder
             }
 
 			int index = (int)target.data.behavior;
-			return index < 5 && !target.transient && !target.data.isPathbuilderTarget;
+			return index < 6 && !target.transient && !target.data.isPathbuilderTarget;
         }
 
 		#region Input Callbacks
