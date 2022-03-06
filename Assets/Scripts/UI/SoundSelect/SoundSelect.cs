@@ -51,6 +51,13 @@ namespace NotReaper.UI {
             EditorState.SelectHitsound((TargetHitsound)value);
             //uiInput.SelectHitsound((TargetHitsound)value);
         }
+
+        [NRListener]
+        private void OnHandUpdated(TargetHandType _)
+        {
+            SelectHitsound(EditorState.Hitsound.Current);
+        }
+
         private void FadeoutBehaviors()
         {
             kick.DOColor(Color.white, fadeDuration);

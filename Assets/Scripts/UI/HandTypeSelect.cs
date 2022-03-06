@@ -21,15 +21,15 @@ namespace NotReaper.UI {
         private void UpdateUI(TargetHandType type) {
             switch (type) {
                 case TargetHandType.Left:
-                    lrText.SetText("Left");
+                    lrText.SetText("Left hand");
                     lrText.DOColor(NRSettings.config.leftColor, (float)NRSettings.config.UIFadeDuration);
                     break;
                 case TargetHandType.Right:
-                    lrText.SetText("Right");
+                    lrText.SetText("Right hand");
                     lrText.DOColor(NRSettings.config.rightColor, (float)NRSettings.config.UIFadeDuration);
                     break;
                 case TargetHandType.Either:
-                    lrText.SetText("Either");
+                    lrText.SetText("Either hand");
                     lrText.DOColor(Color.gray, (float)NRSettings.config.UIFadeDuration);
                     break;
                 
