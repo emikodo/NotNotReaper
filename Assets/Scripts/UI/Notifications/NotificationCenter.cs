@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using NotReaper.Audio;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 namespace NotReaper.Notifications
@@ -32,20 +33,20 @@ namespace NotReaper.Notifications
             spawner = GetComponent<NotificationSpawner>();
             spawner.OnNotificationRemoved.AddListener(OnNotificationRemoved);
         }
-        public static int SendNotification(object text, NotificationType type, bool forceShowPopup = false)
+        public static int SendNotification(object text, NotificationType type, bool playNotificationSound = true)
         {
             if (!NotificationPanel.IsOpen)
             {
-                if (spawner.RequestPopup(type, forceShowPopup, out NotificationPopup popup))
-                {
-                    popup.IsForceShowing = forceShowPopup;
-                    popup.Show(type, text.ToString(), index);
-                }
+                spawner.RequestPopup().Show(type, text.ToString(), index);   
             }
             var notif = spawner.SpawnNotification();
             notif.Show(type, text.ToString(), index);
             notifications.Add(index, notif);
             UpdateBadge(true);
+            if (playNotificationSound)
+            {
+                SoundEffects.Instance.PlaySound(SoundEffects.Sound.Notification);
+            }
             return index++;
         }
 

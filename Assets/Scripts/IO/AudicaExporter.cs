@@ -16,6 +16,7 @@ using NotReaper.Timing;
 using NotReaper.Modifier;
 using NotReaper.UI;
 using NotReaper.Notifications;
+using NotReaper.Audio;
 
 namespace NotReaper.IO {
 
@@ -175,7 +176,8 @@ namespace NotReaper.IO {
 
 
 				if (autoSave) NRSettings.autosavePath = autoSavePath;
-				NotificationCenter.SendNotification("Map saved!", NotificationType.Success, true);
+				NotificationCenter.SendNotification("Map saved!", NotificationType.Success, false);
+				SoundEffects.Instance.PlaySound(SoundEffects.Sound.Save);
             }
             catch (IOException)
             {

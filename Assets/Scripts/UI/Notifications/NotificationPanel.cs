@@ -7,6 +7,7 @@ using UnityEngine.Events;
 using NotReaper.UserInput;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using NotReaper.Audio;
 
 namespace NotReaper.Notifications
 {
@@ -35,6 +36,8 @@ namespace NotReaper.Notifications
         private Vector3 startPos = new Vector3(10.8404f, -0.805f, 0f);
         private bool isMouseOverPanel = false;
 
+        private SoundEffects effects;
+
         protected override void Awake()
         {
             base.Awake();
@@ -43,11 +46,17 @@ namespace NotReaper.Notifications
             inputBlocker.SetActive(false);
         }
 
+        private void Start()
+        {
+            effects = NRDependencyInjector.Get<SoundEffects>();
+        }
+
         public void ToggleShow()
         {         
             IsOpen = !IsOpen;
             if (IsOpen)
             {
+                effects.PlaySound(SoundEffects.Sound.Open);
                 clearButton.interactable = true;
                 inputBlocker.SetActive(true);
                 OnActivated();
@@ -55,6 +64,7 @@ namespace NotReaper.Notifications
             }
             else
             {
+                effects.PlaySound(SoundEffects.Sound.Close);
                 inputBlocker.SetActive(false);
                 OnDeactivated();
             }

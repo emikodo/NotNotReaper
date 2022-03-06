@@ -17,10 +17,10 @@ namespace NotReaper.Notifications
         private List<NotificationItem> pool = new List<NotificationItem>();
         private List<NotificationItem> activeItems = new List<NotificationItem>();
 
-        public bool RequestPopup(NotificationType type, bool forceShow, out NotificationPopup popup)
+        public NotificationPopup RequestPopup()
         {
-            popup = this.popup;
-            return true;
+            //popup = this.popup;
+            return this.popup;
             /*
             if(forceShow && !this.popup.IsForceShowing)
             {

@@ -27,7 +27,8 @@ namespace NotReaper.UI
         [SerializeField] private View newView;
         [SerializeField] private View browserView;
         [SerializeField] private View settingsView;
-
+        [Space, Header("Startup")]
+        [SerializeField] private AudioSource source;
         private View activeView;
 
         private bool isInStartScreen = true;
@@ -62,7 +63,9 @@ namespace NotReaper.UI
 
         private void Start()
         {
-            nrStartOverlay.DOFade(0f, 1f).SetDelay(.5f).OnComplete(() =>
+            source.volume = NRSettings.config.mainVol;
+            source.Play();
+            nrStartOverlay.DOFade(0f, 1f).OnComplete(() =>
             {
                 nrStartOverlay.gameObject.SetActive(false);
             });

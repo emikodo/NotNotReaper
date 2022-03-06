@@ -7,6 +7,8 @@ using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using DG.Tweening;
+using NotReaper.Audio;
+
 namespace NotReaper.UI.Components
 {
     [ExecuteAlways]
@@ -57,6 +59,8 @@ namespace NotReaper.UI.Components
         private bool isSelected = false;
         private Action<NRButton> onSelectedAction;
 
+        private SoundEffects effects;
+
         public bool interactable
         {
             get { return _interactable;  }
@@ -65,6 +69,8 @@ namespace NotReaper.UI.Components
 
         private void Start()
         {
+            effects = NRDependencyInjector.Get<SoundEffects>();
+
             if (buttonGroup != null)
             {
                 buttonGroup.RegisterButton(this);
@@ -169,7 +175,6 @@ namespace NotReaper.UI.Components
         public void OnPointerEnter(PointerEventData eventData)
         {
             if (!interactable || isSelected) return;
-
             isMouseOver = true;
             DoBackgroundColorTransition(skin.highlightedColor);
             DoIconColorTransition(highlightedColor);
@@ -220,6 +225,7 @@ namespace NotReaper.UI.Components
                 }
                 isSelected = true;
             }
+            effects.PlaySound(SoundEffects.Sound.Click);
             onClick.Invoke();
         }
 
