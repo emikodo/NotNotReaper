@@ -63,8 +63,8 @@ namespace NotReaper.Notifications
             Transform pullerTransform = puller.GetPullerIconTransform();
             var sequence = DOTween.Sequence();
             sequence.OnComplete(() => OnAnimationComplete());
-            sequence.Append(transform.DOMove(new Vector3(transform.position.x + distance, transform.position.y, transform.position.z), slideDuration).SetEase(easing));
-            sequence.Join(puller.transform.DOMoveX(puller.transform.position.x + distance, slideDuration).SetEase(easing));
+            sequence.Append(transform.DOLocalMove(new Vector3(transform.localPosition.x + distance, transform.localPosition.y, transform.localPosition.z), slideDuration).SetEase(easing));
+            sequence.Join(puller.transform.DOLocalMoveX(puller.transform.localPosition.x + distance, slideDuration).SetEase(easing));
             sequence.Join(canvas.DOFade(IsOpen ? 1f : 0f, slideDuration).SetEase(easing));
             if (IsOpen)
             {
