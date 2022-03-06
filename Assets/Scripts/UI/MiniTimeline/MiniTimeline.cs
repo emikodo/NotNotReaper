@@ -31,7 +31,8 @@ namespace NotReaper.UI {
 
 		public GameObject bookmarkPrefab;
 
-		private Camera _mainCamera;
+		private Camera timelineCam;
+		private Camera mainCam;
 
         public BookmarkMenu bookmarkMenu;
 
@@ -43,7 +44,8 @@ namespace NotReaper.UI {
         public Bookmark selectedBookmark = null;
 
         private void Start() {
-			_mainCamera = Camera.main;
+			timelineCam = timeline.timelineCamera.GetComponent<Camera>();
+			mainCam = Camera.main;
             if(Instance is null)
             {
                 Instance = this;
@@ -109,9 +111,9 @@ namespace NotReaper.UI {
 		public void DoDrag()
         {
 			if (EditorState.IsInUI || EditorState.Tool.Current == EditorTool.ChainBuilder || EditorState.Tool.Current == EditorTool.Pathbuilder || EditorState.Tool.Current == EditorTool.DragSelect) return;
-			var x = _mainCamera.ScreenToWorldPoint(Input.mousePosition).x;
+			var x = mainCam.ScreenToWorldPoint(Input.mousePosition).x;
 
-			x -= _mainCamera.transform.position.x;
+			x -= mainCam.transform.position.x;
 
 			if (x == prevX)
 			{
@@ -310,7 +312,7 @@ namespace NotReaper.UI {
 
 		public void SetBookmark()
         {
-			SetBookmark(GetXForTheBookmarkThingy(), 0f, EditorState.Hand.Current, "", BookmarkColorPicker.selectedColor, BookmarkColorPicker.selectedUIColor, false, false).Select();
+			SetBookmark(GetXForTheBookmarkThingy(), timeline.timelineCamera.transform.position.x, EditorState.Hand.Current, "", BookmarkColorPicker.selectedColor, BookmarkColorPicker.selectedUIColor, true, false).Select();
 		}
 
         private void Update() {
@@ -347,7 +349,7 @@ namespace NotReaper.UI {
 
             if (Input.GetMouseButtonDown(0))
             {
-                RaycastHit2D hit = Physics2D.Raycast(_mainCamera.ScreenToWorldPoint(Input.mousePosition), Vector2.zero, 1000000f, 1 << LayerMask.NameToLayer("Bookmark"));
+                RaycastHit2D hit = Physics2D.Raycast(timelineCam.ScreenToWorldPoint(Input.mousePosition), Vector2.zero, 0f, 1 << LayerMask.NameToLayer("Bookmark"));
 
                 if (hit.collider != null)
                 {
