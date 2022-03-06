@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using NotReaper.Managers;
 using NotReaper;
 using UnityEngine.InputSystem;
+using NotReaper.Notifications;
 
 namespace NotReaper.Downmap
 {
@@ -148,11 +149,10 @@ namespace NotReaper.Downmap
         {
             if (show)
             {
-                OnActivated();
-                transform.position = Vector3.zero;
                 switch (DifficultyManager.I.loadedIndex)
                 {
                     case 0:
+                        NotificationCenter.SendNotification("Please load a lower difficulty to use downmapping.", NotificationType.Info);
                         return;
                     case 1:
                         difficultyText.text = $"<color=orange>Advanced";
@@ -164,6 +164,8 @@ namespace NotReaper.Downmap
                         difficultyText.text = $"<color=green>Beginner";
                         break;
                 }
+                transform.position = Vector3.zero;
+                OnActivated();
                 OnLoadCustomClicked();
             }
             else
