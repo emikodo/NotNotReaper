@@ -97,7 +97,7 @@ namespace NotReaper.UI
             if (enabled) menu.canvas.interactable = true;
         }
 
-        public void Show()
+        public override void Show()
         {
             OnActivated();
             gameObject.SetActive(true);
@@ -110,7 +110,7 @@ namespace NotReaper.UI
             canvas.alpha = 1f;
         }
 
-        public void Hide()
+        public override void Hide()
         {
             canvas.alpha = 0f;
             if (isInStartScreen)

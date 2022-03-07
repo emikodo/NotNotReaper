@@ -227,7 +227,10 @@ namespace NotReaper.ReviewSystem
             currentComment.selectedCues = selectedCues.ToArray();
             currentComment.description = commentField.text;
             currentComment.type = (CommentType)commentTypeDrop.value;
-            
+            if(loadedContainer == null)
+            {
+                loadedContainer = new();
+            }
             if(!loadedContainer.comments.Contains(currentComment)) loadedContainer.comments.Add(currentComment);
             if(loadedContainer.comments.Count > 1) loadedContainer.comments.Sort((c1, c2) => c1.selectedCues.First().tick.CompareTo(c2.selectedCues.First().tick));
             string targetPlural = selectedCues.Count == 1 ? "target" : "targets";
@@ -315,7 +318,12 @@ namespace NotReaper.ReviewSystem
             selectCuesPanel.SetActive(selectMode);
             //window.SetActive(!selectMode);
             ShowWindow(!selectMode);
-            foreach (GameObject go in bottomBarButtons) go.SetActive(!selectMode);
+            EnableBottomBarButtons(!selectMode);
+        }
+
+        private void EnableBottomBarButtons(bool enable)
+        {
+            foreach (GameObject go in bottomBarButtons) go.SetActive(enable);
         }
 
         public void ToggleMode()
@@ -405,6 +413,7 @@ namespace NotReaper.ReviewSystem
             isEditingSuggestion = !isEditingSuggestion;
             editSuggestionPanel.SetActive(isEditingSuggestion);
             ShowWindow(!isEditingSuggestion);
+            EnableBottomBarButtons(!isEditingSuggestion);
             if (isEditingSuggestion)
             {
                 if (currentComment.HasSuggestion)
@@ -440,6 +449,7 @@ namespace NotReaper.ReviewSystem
             isShowingSuggestion = !isShowingSuggestion;
             viewSuggestionPanel.SetActive(isShowingSuggestion);
             ShowWindow(!isShowingSuggestion);
+            EnableBottomBarButtons(!isShowingSuggestion);
             if (isShowingSuggestion)
             {
                 SpawnTargets(false);

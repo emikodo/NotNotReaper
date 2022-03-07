@@ -13,12 +13,12 @@ namespace NotReaper.Modifier
     {
         public ModifierHandler modifierCreator;
 
-        public void Show()
+        public override void Show()
         {
             OnActivated();
         }
 
-        public void Hide()
+        public override void Hide()
         {
             OnDeactivated();
         }

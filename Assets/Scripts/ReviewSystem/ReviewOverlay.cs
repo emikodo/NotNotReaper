@@ -9,12 +9,12 @@ namespace NotReaper.ReviewSystem
     public class ReviewOverlay : NROverlay
     {
         [NRInject] ReviewManager manager;
-        public void Show()
+        public override void Show()
         {
             OnActivated();
         }
 
-        public void Hide()
+        public override void Hide()
         {
             OnDeactivated();
         }

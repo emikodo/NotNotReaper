@@ -485,6 +485,14 @@ namespace NotReaper.UI {
             yield break;
         }
 
+        public override void Show()
+        {
+            EditorState.SelectMode(Models.EditorMode.Metadata);
+        }
+        public override void Hide()
+        {
+            EditorState.SelectMode(Models.EditorMode.Compose);
+        }
 
         public IEnumerator FadeIn() {
 

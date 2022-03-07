@@ -102,6 +102,12 @@ namespace NotReaper.Keybinds
             modifier2Path = modifier.effectivePath;
         }
 
+        public void SetKeybind(InputBinding keybind)
+        {
+            keyImage.sprite = icons.GetIcon(keybind.effectivePath, out _);
+            pressAnykeyLabel.SetActive(false);
+        }
+
         public void UpdateUI()
         {
             keyImage.sprite = icons.GetIcon(action.bindings[bindingIndex].effectivePath, out _);

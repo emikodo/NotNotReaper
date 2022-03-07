@@ -54,7 +54,7 @@ namespace NotReaper.Tools.PathBuilder
             boxCollider.enabled = false;*/
         }
 
-        public void Show()
+        public override void Show()
         {
             OnActivated();
             intervalSelector.elements = NRSettings.config.snaps;
@@ -73,7 +73,7 @@ namespace NotReaper.Tools.PathBuilder
             ActivateWindow(true);
         }
 
-        public void Hide()
+        public override void Hide()
         {
             hasLoadedData = false;
             ActivateWindow(false);

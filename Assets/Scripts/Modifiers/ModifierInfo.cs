@@ -33,7 +33,7 @@ public class ModifierInfo : NRMenu
         gameObject.SetActive(false);
     }
 
-    public void Show()
+    public override void Show()
     {
         OnActivated();
         gameObject.SetActive(true);
@@ -49,7 +49,7 @@ public class ModifierInfo : NRMenu
 
 
 
-    public void Hide()
+    public override void Hide()
     {
         isOpened = false;
         OnDeactivated();

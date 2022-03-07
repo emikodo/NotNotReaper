@@ -9,6 +9,7 @@ using NotReaper.UserInput;
 using UnityEngine.EventSystems;
 using NotReaper.Timing;
 using UnityEngine.InputSystem;
+using NotReaper.Notifications;
 
 public class BPMListWindow : NRMenu
 {
@@ -21,7 +22,12 @@ public class BPMListWindow : NRMenu
         gameObject.SetActive(false);
     }
 
-    public void Activate(List<float> bpmList) {
+    public override void Show()
+    {
+        NotificationCenter.SendNotification("No BPM Start point set.", NotificationType.Warning);
+    }
+
+    public void Show(List<float> bpmList) {
         isActive = true;
         OnActivated();
         gameObject.GetComponent<CanvasGroup>().DOFade(1.0f, 0.3f);
@@ -33,7 +39,7 @@ public class BPMListWindow : NRMenu
         }
     }
 
-    public void Deactivate() {
+    public override void Hide() {
         isActive = false;
         OnDeactivated();
         gameObject.GetComponent<CanvasGroup>().DOFade(0.0f, 0.3f);
@@ -42,6 +48,6 @@ public class BPMListWindow : NRMenu
 
     protected override void OnEscPressed(InputAction.CallbackContext context)
     {
-        Deactivate();
+        Hide();
     }
 }

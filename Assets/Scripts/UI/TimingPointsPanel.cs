@@ -21,7 +21,7 @@ public class TimingPointsPanel : NRMenu, IPointerEnterHandler, IPointerExitHandl
         gameObject.SetActive(false);
     }
 
-    public void Show()
+    public override void Show()
     {
         OnActivated();
         transform.position = new Vector3(0f, 0f, 0f);
@@ -31,7 +31,7 @@ public class TimingPointsPanel : NRMenu, IPointerEnterHandler, IPointerExitHandl
         UpdateTimingPointList(timeline.tempoChanges);
     }
 
-    public void Hide()
+    public override void Hide()
     {
         isActive = false;
         isHovering = false;

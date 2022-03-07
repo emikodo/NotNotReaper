@@ -145,37 +145,42 @@ namespace NotReaper.Downmap
 
         #region OnClick Methods
         #region General
+        public override void Show()
+        {
+            switch (DifficultyManager.I.loadedIndex)
+            {
+                case 0:
+                    NotificationCenter.SendNotification("Please load a lower difficulty to use downmapping.", NotificationType.Info);
+                    return;
+                case 1:
+                    difficultyText.text = $"<color=orange>Advanced";
+                    break;
+                case 2:
+                    difficultyText.text = $"<color=lightblue>Standard";
+                    break;
+                case 3:
+                    difficultyText.text = $"<color=green>Beginner";
+                    break;
+            }
+            transform.position = Vector3.zero;
+            OnActivated();
+            OnLoadCustomClicked();
+        }
+        public override void Hide()
+        {
+            transform.position = new Vector3(-3700f, 0f, 0f);
+            OnDeactivated();
+        }
         public void ShowWindow(bool show)
         {
             if (show)
             {
-                switch (DifficultyManager.I.loadedIndex)
-                {
-                    case 0:
-                        NotificationCenter.SendNotification("Please load a lower difficulty to use downmapping.", NotificationType.Info);
-                        return;
-                    case 1:
-                        difficultyText.text = $"<color=orange>Advanced";
-                        break;
-                    case 2:
-                        difficultyText.text = $"<color=lightblue>Standard";
-                        break;
-                    case 3:
-                        difficultyText.text = $"<color=green>Beginner";
-                        break;
-                }
-                transform.position = Vector3.zero;
-                OnActivated();
-                OnLoadCustomClicked();
+                Show();
             }
             else
             {
-                transform.position = new Vector3(-3700f, 0f, 0f);
-                OnDeactivated();
+                Hide();
             }
-            //window.SetActive(show);
-            //window.transform.position = show ? new Vector3(0f, 0f, 0f) : new Vector3(-3700f, 0f, 0f);
-
         }
         public void OnDownmapClicked()
         {

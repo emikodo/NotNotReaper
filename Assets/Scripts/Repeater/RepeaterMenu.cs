@@ -85,7 +85,7 @@ namespace NotReaper.Repeaters
             UpdateState();
         }
 
-        public void Show()
+        public override void Show()
         {
             isActive = true;
             manager.SetRepeatersInteractable(true);
@@ -93,7 +93,7 @@ namespace NotReaper.Repeaters
             OnActivated();
         }
 
-        public void Hide()
+        public override void Hide()
         {
             isActive = false;
             manager.SetRepeatersInteractable(false);

@@ -166,7 +166,7 @@ namespace NotReaper.UI
 		{
             if (bpmListWindow.isActive)
             {
-				bpmListWindow.Deactivate();
+				bpmListWindow.Hide();
             }
 			else if (detectBpmStart == null)
 			{
@@ -175,7 +175,7 @@ namespace NotReaper.UI
 			}
 			else
 			{
-				bpmListWindow.Activate(timeline.DetectBPM(detectBpmStart.Value, Timeline.time));
+				bpmListWindow.Show(timeline.DetectBPM(detectBpmStart.Value, Timeline.time));
 				detectBpmStart = null;
 			}
 		}
@@ -255,8 +255,8 @@ namespace NotReaper.UI
 
 		public void ShowCountinWindow()
 		{
-			if (countin.isActive) countin.Deactivate();
-			else countin.Activate();
+			if (countin.isActive) countin.Hide();
+			else countin.Show();
 		}
 
 		public void ShowRepeaterWindow()
@@ -267,8 +267,8 @@ namespace NotReaper.UI
 
 		public void ShowModifyAudioWindow()
 		{
-			if (audioModify.isActive) audioModify.Deactivate();
-			else audioModify.Activate();
+			if (audioModify.isActive) audioModify.Hide();
+			else audioModify.Show();
 		}
 
 		public void ShowTimingPointsWindow()

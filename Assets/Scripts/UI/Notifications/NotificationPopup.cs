@@ -1,6 +1,5 @@
 ﻿using DG.Tweening;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -62,13 +61,17 @@ namespace NotReaper.Notifications
                 IsActive = true;
             }
         }
-
+        private Sequence fadeMoveSequence;
         private IEnumerator ShowAsFade(NotificationType type, string text, int id)
         {
             //wait for end of frame so the contentRect has time to update it's size.
             yield return new WaitForEndOfFrame();
             StopFadeout();
             canvas.DOKill();
+            if(fadeMoveSequence != null && fadeMoveSequence.IsPlaying())
+            {
+                fadeMoveSequence.Complete();
+            }
             //mask.sizeDelta = new Vector2(mask.sizeDelta.y, mask.sizeDelta.y);
             var sequence = DOTween.Sequence();
             sequence.OnComplete(() => StartCoroutine(OnChangeFadeoutComplete(type, text, id)));
@@ -76,11 +79,12 @@ namespace NotReaper.Notifications
             sequence.Join(iconHolder.DOFade(0f, changeDuration));
             sequence.Join(notificationText.DOFade(0f, changeDuration));
             sequence.Play();
-            var secondSequence = DOTween.Sequence();
+            fadeMoveSequence = DOTween.Sequence();
             Vector3 startPos = transform.localPosition;
             Vector3 amount = new Vector3(5f, 3f, 0f);
-            secondSequence.Append(transform.DOLocalMove(startPos + amount, changeDuration).SetEase(Ease.OutBack));
-            secondSequence.Append(transform.DOLocalMove(startPos, changeDuration));
+            fadeMoveSequence.Append(transform.DOLocalMove(startPos + amount, changeDuration).SetEase(Ease.OutBack));
+            fadeMoveSequence.Append(transform.DOLocalMove(startPos, changeDuration));
+            fadeMoveSequence.Play();
             //transform.DOPunchPosition(new Vector3(transform.position.x + .001f, transform.position.y, transform.position.z), changeDuration * 2f, 0, .001f);
         }
 

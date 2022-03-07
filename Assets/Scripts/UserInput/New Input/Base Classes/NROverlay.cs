@@ -4,6 +4,7 @@ using UnityEngine;
 using DG.Tweening;
 using System;
 using NotReaper.Models;
+using NotReaper.MenuBrowser;
 
 namespace NotReaper.Overlays
 {
@@ -11,6 +12,8 @@ namespace NotReaper.Overlays
     public abstract class NROverlay : MonoBehaviour
     {
         [Header("Overlay Settings")]
+        [SerializeField] private string overlayName = "";
+        [SerializeField] protected bool browsable = true;
         [Header("Dragging")]
         [SerializeField] private bool draggable = true;
         [SerializeField] private bool shouldReturn = false;
@@ -43,8 +46,15 @@ namespace NotReaper.Overlays
             cam = Camera.main;
             canvas.alpha = 0f;
             rect.localPosition = GetCornerLocation(defaultOpeningLocation);
+            if (browsable)
+            {
+                MenuRegistration.RegisterOverlay(overlayName, this);
+            }
             gameObject.SetActive(false);
         }
+
+        public abstract void Show();
+        public abstract void Hide();
 
         protected virtual void OnActivated()
         {

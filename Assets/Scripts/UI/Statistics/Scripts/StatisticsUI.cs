@@ -63,6 +63,14 @@ namespace NotReaper.Statistics
         #endregion
 
         #region UI Events
+        public override void Show()
+        {
+            Open();
+        }
+        public override void Hide()
+        {
+            Close();
+        }
         /// <summary>
         /// Opens this window.
         /// </summary>

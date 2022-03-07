@@ -1,4 +1,5 @@
 ﻿using NotReaper;
+using NotReaper.MenuBrowser;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -25,7 +26,14 @@ namespace NotReaper
         /// Set to true if you want your window to remain active.
         /// </summary>
         [SerializeField] protected bool persistent = false;
-
+        /// <summary>
+        /// The display name for the menu in Menu Browser
+        /// </summary>
+        [SerializeField] protected string menuName = "";
+        /// <summary>
+        /// Set to false if you don't want this menu to show up in the Menu Browser.
+        /// </summary>
+        [SerializeField] protected bool browsable = true;
         private List<string> keybindsToEnable = new List<string>();
         private GameObject inputCatcher;
         private bool hasBeenInitialized = false;
@@ -43,9 +51,16 @@ namespace NotReaper
                 }
                 inputCatcher.SetActive(false);
             }
+            if (browsable)
+            {
+                MenuRegistration.RegisterMenu(menuName, this);
+            }
             keybindsToEnable.Clear();
             foreach (var key in actionsToEnable) keybindsToEnable.Add(key.action.name);
         }
+
+        public abstract void Show();
+        public abstract void Hide();
         /// <summary>
         /// Callback function that gets called when Esc/Start gets pressed. Use this to close your window, or leave it empty if you don't need to do anything.
         /// </summary>

@@ -25,7 +25,6 @@ namespace NotReaper.UI
         // Start is called before the first frame update
         private void Start()
         {
-            base.Awake();
             var t = transform;
             var position = t.localPosition;
             t.localPosition = new Vector3(0, position.y, position.z);
@@ -47,8 +46,9 @@ namespace NotReaper.UI
             isOpened = false;
         }
 
-        public void Show()
+        public override void Show()
         {
+            Debug.Log("showign");
             OnActivated();
             gameObject.SetActive(true);
             gameObject.GetComponent<CanvasGroup>().DOFade(1.0f, 0.3f);
@@ -62,7 +62,7 @@ namespace NotReaper.UI
             keyboard.OnOpen();
         }
 
-        public void Hide()
+        public override void Hide()
         {
             keyboard.OnClose();
             isOpened = false;

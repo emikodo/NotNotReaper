@@ -54,40 +54,52 @@ namespace NotReaper.Notifications
         public void ToggleShow()
         {         
             IsOpen = !IsOpen;
-            if (IsOpen)
-            {
-                effects.PlaySound(SoundEffects.Sound.Open);
-                clearButton.interactable = true;
-                inputBlocker.SetActive(true);
-                OnActivated();
-                EventSystem.current.SetSelectedGameObject(gameObject);
-            }
-            else
-            {
-                effects.PlaySound(SoundEffects.Sound.Close);
-                inputBlocker.SetActive(false);
-                OnDeactivated();
-            }
-            float distance = IsOpen ? -slideDistance : slideDistance;
-            Ease easing = IsOpen ? openEasing : closeEasing;
+            if (IsOpen) Show();
+            else Hide();
+        }
+
+        public override void Show()
+        {                      
+            effects.PlaySound(SoundEffects.Sound.Open);
+            clearButton.interactable = true;
+            inputBlocker.SetActive(true);
+            OnActivated();
+            EventSystem.current.SetSelectedGameObject(gameObject);           
+
+            float distance = -slideDistance;
+            Ease easing = openEasing;
             Transform pullerTransform = puller.GetPullerIconTransform();
             var sequence = DOTween.Sequence();
             sequence.OnComplete(() => OnAnimationComplete());
             sequence.Append(transform.DOLocalMove(new Vector3(transform.localPosition.x + distance, transform.localPosition.y, transform.localPosition.z), slideDuration).SetEase(easing));
             sequence.Join(puller.transform.DOLocalMoveX(puller.transform.localPosition.x + distance, slideDuration).SetEase(easing));
-            sequence.Join(canvas.DOFade(IsOpen ? 1f : 0f, slideDuration).SetEase(easing));
-            if (IsOpen)
-            {
-                sequence.Join(pullerTransform.transform.DORotate(new Vector3(0f, 0f, 180f), .2f, RotateMode.LocalAxisAdd).SetDelay(slideDuration * .5f));
-                sequence.Join(puller.GetBadge().DOFade(0f, .2f));
-            }
-            else
-            {
-                sequence.Append(pullerTransform.transform.DORotate(new Vector3(0f, 0f, 180f), .2f, RotateMode.LocalAxisAdd));
-            }
+            sequence.Join(canvas.DOFade(1f, slideDuration).SetEase(easing));           
+            sequence.Join(pullerTransform.transform.DORotate(new Vector3(0f, 0f, 180f), .2f, RotateMode.LocalAxisAdd).SetDelay(slideDuration * .5f));
+            sequence.Join(puller.GetBadge().DOFade(0f, .2f));           
             sequence.Play();
 
-            puller.UpdateAlpha(IsOpen);
+            puller.UpdateAlpha(true);
+            puller.SetPullerInteractable(false);
+        }
+
+        public override void Hide()
+        {
+            effects.PlaySound(SoundEffects.Sound.Close);
+            inputBlocker.SetActive(false);
+            OnDeactivated();
+            
+            float distance = slideDistance;
+            Ease easing = closeEasing;
+            Transform pullerTransform = puller.GetPullerIconTransform();
+            var sequence = DOTween.Sequence();
+            sequence.OnComplete(() => OnAnimationComplete());
+            sequence.Append(transform.DOLocalMove(new Vector3(transform.localPosition.x + distance, transform.localPosition.y, transform.localPosition.z), slideDuration).SetEase(easing));
+            sequence.Join(puller.transform.DOLocalMoveX(puller.transform.localPosition.x + distance, slideDuration).SetEase(easing));
+            sequence.Join(canvas.DOFade(0f, slideDuration).SetEase(easing));
+            sequence.Append(pullerTransform.transform.DORotate(new Vector3(0f, 0f, 180f), .2f, RotateMode.LocalAxisAdd));          
+            sequence.Play();
+
+            puller.UpdateAlpha(false);
             puller.SetPullerInteractable(false);
         }
 
@@ -96,6 +108,7 @@ namespace NotReaper.Notifications
             var badge = puller.GetBadge();
             badge.DOKill();
             badge.transform.DOKill();
+            badge.transform.localScale = Vector3.one;
             badge.DOBlendableColor(badgeColor, animationDuration);
             if (!playAnimation) return;
             Vector3 target = badge.transform.localScale;

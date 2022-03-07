@@ -36,7 +36,7 @@ namespace NotReaper.BpmAlign
             canvas = GetComponent<CanvasGroup>();
         }
 
-        public void Show()
+        public override void Show()
         {
             OnActivated();
             transform.localPosition = startPosition;
@@ -48,7 +48,7 @@ namespace NotReaper.BpmAlign
             bpmInput.text = bpm.ToString();
         }
 
-        public void Hide()
+        public override void Hide()
         {
             dragAlign.enabled = false;
             canvas.blocksRaycasts = false;

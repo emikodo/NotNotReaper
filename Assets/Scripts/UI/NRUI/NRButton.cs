@@ -122,6 +122,18 @@ namespace NotReaper.UI.Components
             UpdateButton();
         }
 
+        private void OnDisable()
+        {
+            if (!Application.isPlaying) return;
+            if (initialized)
+            {
+                background.transform.localPosition = initialPosition;
+                background.transform.localScale = initialScale;
+                iconDisplay.transform.rotation = Quaternion.Euler(0f, 0f, initialRotation);
+            }
+            
+        }
+
         public void UpdateButton()
         {
             if(buttonGroup != null)

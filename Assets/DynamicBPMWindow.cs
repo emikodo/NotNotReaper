@@ -32,11 +32,11 @@ namespace NotReaper.UI.BPM
         public void ToggleWindow()
         {
             isActive = !isActive;
-            if (isActive) Activate();
-            else Deactivate();
+            if (isActive) Show();
+            else Hide();
         }
 
-        public void Activate()
+        public override void Show()
         {
             OnActivated();
             if (!timeline.paused)
@@ -56,7 +56,7 @@ namespace NotReaper.UI.BPM
             
         }
 
-        public void Deactivate()
+        public override void Hide()
         {
             gameObject.GetComponent<CanvasGroup>().DOFade(0.0f, 0.3f);
             dynamicBpmInput.GetComponent<TMP_InputField>().ReleaseSelection();
@@ -82,13 +82,13 @@ namespace NotReaper.UI.BPM
                 }
 
                 timeline.SetBPM(Timeline.time, Constants.MicrosecondsPerQuarterNoteFromBPM(dynamicBpm), true, timeSignature.Numerator, timeSignature.Denominator);
-                Deactivate();
+                Hide();
             }
         }
 
         protected override void OnEscPressed(InputAction.CallbackContext context)
         {
-            Deactivate();
+            Hide();
         }
     }
 }

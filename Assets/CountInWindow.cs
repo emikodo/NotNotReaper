@@ -30,14 +30,14 @@ public class CountInWindow : NRMenu {
         gameObject.SetActive(false);
     }
 
-    public void Activate() {
+    public override void Show() {
         isActive = true;
         OnActivated();
         canvas.DOFade(1.0f, 0.3f);
         gameObject.SetActive(true);
     }
 
-    public void Deactivate() {
+    public override void Hide() {
         isActive = false;
         OnDeactivated();
         canvas.DOFade(0.0f, 0.3f);
@@ -60,6 +60,6 @@ public class CountInWindow : NRMenu {
 
     protected override void OnEscPressed(InputAction.CallbackContext context)
     {
-        Deactivate();
+        Hide();
     }
 }

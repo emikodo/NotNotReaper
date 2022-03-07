@@ -22,12 +22,12 @@ namespace NotReaper.Tools.ChainBuilder
             chainBuilder.isHovering = false;
         }
 
-        public void Show()
+        public override void Show()
         {
             OnActivated();
         }
 
-        public void Hide()
+        public override void Hide()
         {
             OnDeactivated();
         }

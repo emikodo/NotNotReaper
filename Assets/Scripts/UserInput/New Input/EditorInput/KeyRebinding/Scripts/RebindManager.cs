@@ -7,6 +7,7 @@ using UnityEngine.InputSystem;
 using NotReaper.UserInput;
 using NotReaper.Models;
 using UnityEngine.UI;
+using NotReaper.MenuBrowser;
 
 namespace NotReaper.Keybinds
 {
@@ -26,7 +27,7 @@ namespace NotReaper.Keybinds
         private TargetHandType hand = TargetHandType.Left;
         public bool isRebinding = false;
 
-        public static Dictionary<string, KeybindDisplayData> displayKeybindData = new Dictionary<string, KeybindDisplayData>();
+        public static Dictionary<string, KeybindDisplayData> displayKeybindData { get; set; } = new Dictionary<string, KeybindDisplayData>();
 
         private void Start()
         {
@@ -159,8 +160,11 @@ namespace NotReaper.Keybinds
                             paths.keybind = keybind.bindings[0].effectivePath;
                         }
 
-                        if(!displayKeybindData.ContainsKey(keybind.name)) 
+                        if(!displayKeybindData.ContainsKey(keybind.name))
+                        {
                             displayKeybindData.Add(keybind.name, paths);
+                            MenuRegistration.RegisterKeybind(paths);
+                        }
                         
                     }
                     if (hasRebindableKeys)

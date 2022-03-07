@@ -36,12 +36,22 @@ namespace NotReaper.UI
         }
         public void Activate(bool active)
         {
-            isActive = active;
-            menu.transform.localPosition = active ? activatePosition : new Vector3(-3000f, 13f, 0f);
-            if (active) OnActivated();
-            else OnDeactivated();
-            //activatePosition = menu.transform.localPosition;
-            menu.SetActive(active);
+            if (active) Show();
+            else Hide();
+        }
+        public override void Show()
+        {
+            isActive = true;
+            menu.transform.localPosition = activatePosition;
+            OnActivated();
+            menu.SetActive(true);
+        }
+        public override void Hide()
+        {
+            isActive = false;
+            menu.transform.localPosition = new Vector3(-3000f, 13f, 0f);
+            OnDeactivated();
+            menu.SetActive(false);
         }
         public void SetText(string text)
         {

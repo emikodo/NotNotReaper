@@ -27,7 +27,7 @@ public class AddOrTrimAudioWindow : NRMenu {
         gameObject.SetActive(false);
     }
 
-    public void Activate() {
+    public override void Show() {
         isActive = true;
         OnActivated();
         canvas.DOFade(1.0f, 0.3f);
@@ -36,7 +36,7 @@ public class AddOrTrimAudioWindow : NRMenu {
 
     }
 
-    public void Deactivate() {
+    public override void Hide() {
         isActive = false;
         OnDeactivated();
         canvas.DOFade(0.0f, 0.3f);
@@ -72,7 +72,7 @@ public class AddOrTrimAudioWindow : NRMenu {
         }
 
         timeline.RemoveOrAddTimeToAudio(duration.Value);
-        Deactivate();
+        Hide();
     }
 
     public void TrimAudio() {
@@ -82,11 +82,11 @@ public class AddOrTrimAudioWindow : NRMenu {
         }
 
         timeline.RemoveOrAddTimeToAudio(new Relative_QNT(-duration.Value.tick));
-        Deactivate();
+        Hide();
     }
 
     protected override void OnEscPressed(InputAction.CallbackContext context)
     {
-        Deactivate();
+        Hide();
     }
 }

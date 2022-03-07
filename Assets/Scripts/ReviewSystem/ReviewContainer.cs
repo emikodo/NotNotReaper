@@ -23,6 +23,7 @@ namespace NotReaper.ReviewSystem
         public ReviewContainer()
         {
             //this.songID = Timeline.desc.songID;
+            comments = new();
         }
 
         public static ReviewContainer Read(string path)
