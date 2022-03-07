@@ -183,8 +183,6 @@ namespace NotReaper.UI
 		[NRListener]
 		private void SelectSnappingMode(SnappingMode mode)
 		{
-			if (EditorState.Snapping.Current == mode) return;
-			//state.SetSnapping.Current(mode);
 			bool melee = mode == SnappingMode.Melee;
 			normalGrid.SetActive(!melee);
 			noGrid.SetActive(melee);

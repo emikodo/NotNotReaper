@@ -69,7 +69,10 @@ namespace NotReaper.UI.Components
 
         private void Start()
         {
-            effects = NRDependencyInjector.Get<SoundEffects>();
+            if (Application.isPlaying)
+            {
+                effects = NRDependencyInjector.Get<SoundEffects>();
+            }
 
             if (buttonGroup != null)
             {
