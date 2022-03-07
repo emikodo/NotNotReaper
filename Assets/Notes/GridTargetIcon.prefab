@@ -257,7 +257,7 @@ MonoBehaviour:
   chainStart: {fileID: 21300000, guid: 6c68a0a6e800b7848944784ff461bcc7, type: 3}
   chain: {fileID: 21300000, guid: 2704b01e0a65eac4c9d94bf50c61467e, type: 3}
   melee: {fileID: 21300000, guid: 08ad967b1e97b31458e448a97b921b06, type: 3}
-  mine: {fileID: 21300000, guid: 68ecec8366dbf674db6c58eb23358188, type: 3}
+  mine: {fileID: 21300000, guid: 034556fc56e662340a6a5c08218d4e1c, type: 3}
   pathbuilder: {fileID: 21300000, guid: 681bcad972a67454990acaeadcbc26f5, type: 3}
   none: {fileID: 21300000, guid: 68ecec8366dbf674db6c58eb23358188, type: 3}
   standardRing: {fileID: 21300000, guid: 911a6d218bdf7274e9415d86a5619c2e, type: 3}
@@ -267,7 +267,7 @@ MonoBehaviour:
   chainStartRing: {fileID: 21300000, guid: f882076b166282a47af06a9895e5f288, type: 3}
   chainRing: {fileID: 21300000, guid: f3b5a7ba7308d824fa0ad4e2f615593e, type: 3}
   meleeRing: {fileID: 21300000, guid: 1a5f3bc0e628e634f9caae3b65d9ba9d, type: 3}
-  mineRing: {fileID: 21300000, guid: 1a5f3bc0e628e634f9caae3b65d9ba9d, type: 3}
+  mineRing: {fileID: 21300000, guid: 92187f53f8046cd43bd03a2c571d5275, type: 3}
   noneRing: {fileID: 21300000, guid: 68ecec8366dbf674db6c58eb23358188, type: 3}
   standardTelegraph: {fileID: 21300000, guid: a77a86cf634b3774cad0f44fa60b69a8, type: 3}
   holdTelegraph: {fileID: 21300000, guid: 7ab9f21aa98e8fd458ac7d210f84045e, type: 3}

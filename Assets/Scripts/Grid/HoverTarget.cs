@@ -126,7 +126,7 @@ namespace NotReaper.Grid
         [NRListener]
         private void UpdateUIHandColor(TargetHandType _)
         {
-            var color = NRSettings.GetSelectedColor();
+            var color = (EditorState.Behavior.Current == TargetBehavior.Melee ? Color.gray : NRSettings.GetSelectedColor());
 
             foreach (var behavior in behaviors)
             {

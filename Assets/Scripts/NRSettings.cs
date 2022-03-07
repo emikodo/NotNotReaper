@@ -206,7 +206,7 @@ namespace NotReaper {
         {
             if (EditorState.Hand.Current == TargetHandType.Either)
             {
-                return Color.gray;
+                return (EditorState.Behavior.Current == TargetBehavior.Mine ? Color.red : Color.white);
             }
             else if (EditorState.Hand.Current == TargetHandType.Right)
             {

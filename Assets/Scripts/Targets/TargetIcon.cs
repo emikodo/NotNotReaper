@@ -233,7 +233,7 @@ namespace NotReaper.Targets {
                         r.material.SetColor("_Tint", NRSettings.config.rightColor);
                         break;
                     case TargetHandType.Either:
-                        r.material.SetColor("_Tint", UserPrefsManager.bothColor);
+                        r.material.SetColor("_Tint", (EditorState.Behavior.Current == TargetBehavior.Mine ? Color.red : UserPrefsManager.bothColor));
                         break;
                     default:
                         r.material.SetColor("_Tint", UserPrefsManager.neitherColor);
@@ -519,9 +519,6 @@ namespace NotReaper.Targets {
                     if(prefade != null)prefade.sprite = chainStartTelegraph;
                     if (ring != null)ring.sprite = chainStartRing;
                     selection.sprite = chainStartSelect;
-
-                    if (location == TargetIconLocation.Grid) note.transform.localScale = Vector3.one * 1.7f;
-                    else note.transform.localScale = Vector3.one * 0.7f;
                     break;
                 case TargetBehavior.ChainNode:
                     note.sprite = chain;

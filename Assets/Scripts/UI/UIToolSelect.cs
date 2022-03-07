@@ -186,6 +186,10 @@ namespace NotReaper.UI {
                     DOSliderToNote(6);
                     selected = srmelee;
                     break;
+                case TargetBehavior.Mine:
+                    DOSliderToNote(6);
+                    selected = srmelee;
+                    break;
                 default:
                     break;
             }
