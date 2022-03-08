@@ -37,6 +37,7 @@ namespace NotReaper.Notifications
         private bool isMouseOverPanel = false;
 
         private SoundEffects effects;
+        private bool isAnimating;
 
         protected override void Awake()
         {
@@ -52,19 +53,46 @@ namespace NotReaper.Notifications
         }
 
         public void ToggleShow()
-        {         
+        {
+            if (isAnimating) return;
             IsOpen = !IsOpen;
             if (IsOpen) Show();
             else Hide();
         }
 
+        private IEnumerator SelectGameObject(bool select)
+        {
+            while (EventSystem.current.alreadySelecting)
+            {
+                yield return null;
+            }
+            EventSystem.current.SetSelectedGameObject(select ? gameObject : null);
+        }
+
+        private IEnumerator CheckSelectedGameObject()
+        {
+            while (IsOpen)
+            {
+                if(EventSystem.current.currentSelectedGameObject != gameObject && !EventSystem.current.alreadySelecting)
+                {
+                    EventSystem.current.SetSelectedGameObject(gameObject);
+                }
+                yield return null;
+            }
+        }
+
         public override void Show()
-        {                      
+        {
+            if (isAnimating) return;
+            isAnimating = true;
+            IsOpen = true;
+            StopAllCoroutines();
+            StartCoroutine(SelectGameObject(true));
+            StartCoroutine(CheckSelectedGameObject());
             effects.PlaySound(SoundEffects.Sound.Open);
             clearButton.interactable = true;
             inputBlocker.SetActive(true);
             OnActivated();
-            EventSystem.current.SetSelectedGameObject(gameObject);           
 
             float distance = -slideDistance;
             Ease easing = openEasing;
@@ -84,6 +112,12 @@ namespace NotReaper.Notifications
 
         public override void Hide()
         {
+            if (isAnimating) return;
+
+            isAnimating = true;
+            IsOpen = false;
+            StopAllCoroutines();
+            StartCoroutine(SelectGameObject(false));
             effects.PlaySound(SoundEffects.Sound.Close);
             inputBlocker.SetActive(false);
             OnDeactivated();
@@ -146,6 +180,7 @@ namespace NotReaper.Notifications
             {
                 OnPanelOpened.Invoke();
             }
+            isAnimating = false;
             
         }
 
@@ -165,7 +200,7 @@ namespace NotReaper.Notifications
 
         protected override void OnEscPressed(InputAction.CallbackContext context)
         {
-            ToggleShow();
+            Hide();
         }
     }
 }

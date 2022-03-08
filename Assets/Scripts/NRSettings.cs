@@ -233,10 +233,11 @@ namespace NotReaper {
         public Color rightColor = new Color(0.73f, 0.44f, 1.0f, 1.0f);
         public Color selectedHighlightColor = new Color(1.0f, 1.0f, 1.0f, 1.0f);
         public Color waveformColor = new Color(1f,1f,1f,0.2f);
-
+        public Color sustainWaveformColor = new Color(1f, 0f, 0f, .4f);
         public float mainVol = 0.5f;
         public float noteVol = 0.5f;
         public float sustainVol = 0.5f;
+        public float soundEffectsVol = 0.5f;
         public float EditorSustainVol;
         public int audioDSP = 480;
         public float noteScale = 1.0f;

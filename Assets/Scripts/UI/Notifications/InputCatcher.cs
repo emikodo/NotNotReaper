@@ -10,9 +10,9 @@ public class InputCatcher : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (NotificationPanel.IsOpen)
+        /*if (NotificationPanel.IsOpen)
         {
             panel.ToggleShow();
-        }
+        }*/
     }
 }

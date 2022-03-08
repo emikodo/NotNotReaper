@@ -322,7 +322,8 @@ namespace NotReaper
 
         [SerializeField]
         private AudioWaveformVisualizer waveformVisualizer;
-
+        [SerializeField]
+        private AudioWaveformVisualizer sustainVisualizer;
         public bool areNotesSelected => selectedNotes.Count > 0;
 
         [SerializeField] public LineRenderer leftHandTraceLine;
@@ -1874,6 +1875,7 @@ namespace NotReaper
                     audicaFile.usesLeftSustain = true;
                     AudioClip myClip = DownloadHandlerAudioClip.GetContent(www);
                     songPlayback.LoadAudioClip(myClip, PrecisePlayback.LoadType.LeftSustain);
+                    sustainVisualizer.GenerateWaveform(songPlayback.leftSustain, this);
                 }
             }
         }
@@ -2340,7 +2342,14 @@ namespace NotReaper
             mesh.vertices = vertices.ToArray();
             mesh.triangles = indices.ToArray();
 
-            if (!onlyRegenerateMesh) waveformVisualizer.GenerateWaveform(songPlayback.song, this);
+            if (!onlyRegenerateMesh)
+            {
+                waveformVisualizer.GenerateWaveform(songPlayback.song, this);
+                if(songPlayback.leftSustain != null)
+                {
+                    sustainVisualizer.GenerateWaveform(songPlayback.leftSustain, this);
+                }
+            }
         }
 
         public void BuildIntroZone()

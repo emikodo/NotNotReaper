@@ -10,12 +10,14 @@ using NotReaper;
 public class AudioWaveformVisualizer : MonoBehaviour
 {
     public GameObject waveformSegmentInstance;
+    public int sortingOrder = 0;
+    public bool isSongAudio = true;
 
-    static uint NumQuarterNotesSampled = 4;
+    const uint NumQuarterNotesSampled = 4;
 
-    static UInt64 texturePerTickDuration = NumQuarterNotesSampled;
-    static UInt64 PixelsPerQuarterNote = 128;
-    static UInt64 SecondsPerTexture = 16;
+    const UInt64 texturePerTickDuration = NumQuarterNotesSampled;
+    const UInt64 PixelsPerQuarterNote = 128;
+    const UInt64 SecondsPerTexture = 16;
 
     public bool visible = true;
 
@@ -52,7 +54,7 @@ public class AudioWaveformVisualizer : MonoBehaviour
     }
 
 
-    public void GenerateWaveform(ClipData aud, NotReaper.Timeline timeline)
+    public void GenerateWaveform(ClipData aud, Timeline timeline)
     {
         StopAllCoroutines();
         segments.Clear();
@@ -119,7 +121,7 @@ public class AudioWaveformVisualizer : MonoBehaviour
             UInt64 microsecondsPerQuarterNote = timeline.tempoChanges[timeline.GetCurrentBPMIndex(startTick)].microsecondsPerQuarterNote;
 
             float beatTime = Conversion.ToQNT(gen.end - gen.start, microsecondsPerQuarterNote).ToBeatTime();
-            StartCoroutine(PaintWaveformSpectrum(aud.samples, sampleStart, sampleEnd - sampleStart, (int)(beatTime * PixelsPerQuarterNote), 64, NRSettings.config.waveformColor,
+            StartCoroutine(PaintWaveformSpectrum(aud.samples, sampleStart, sampleEnd - sampleStart, (int)(beatTime * PixelsPerQuarterNote), 64, isSongAudio ? NRSettings.config.waveformColor : NRSettings.config.sustainWaveformColor,
                 delegate (Texture2D tex)
                 {
                     GameObject obj = GameObject.Instantiate(waveformSegmentInstance, new Vector3(0, 0, 0), Quaternion.identity, gameObject.transform);
@@ -131,8 +133,9 @@ public class AudioWaveformVisualizer : MonoBehaviour
                     obj.GetComponent<MeshFilter>().mesh = CreateMesh(start.ToBeatTime(), new QNT_Duration((UInt64)(end.tick - start.tick)).ToBeatTime(), 1);
                     obj.GetComponent<MeshRenderer>().material.SetTexture("_MainTex", tex);
                     obj.GetComponent<MeshRenderer>().enabled = false;
-                    obj.GetComponent<Transform>().localPosition = new Vector3(0, -0.5f, 0);
-                    obj.GetComponent<Transform>().localScale = new Vector3(1.0f, 1, 1);
+                    obj.GetComponent<MeshRenderer>().sortingOrder = sortingOrder;
+                    obj.GetComponent<Transform>().localPosition = new Vector3(0, isSongAudio ? -.5f : -.25f, 0);
+                    obj.GetComponent<Transform>().localScale = new Vector3(1f, isSongAudio ? 1f : .5f, 1f);
                     segments.Add(obj);
                     SetWaveformVisible(visible);
                     activeGenerations -= 1;
