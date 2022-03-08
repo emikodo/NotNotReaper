@@ -27,7 +27,7 @@ namespace NotReaper.Targets {
         public Sprite chain;
         public Sprite melee;
         public Sprite mine;
-        public Sprite pathbuilder;
+        //public Sprite pathbuilder;
         public Sprite none;
 
         [Header("Ring sprites")]
@@ -544,12 +544,6 @@ namespace NotReaper.Targets {
                     if(prefade != null)prefade.sprite = mineTelegraph;
                     if (ring != null)ring.sprite = mineRing;
                     selection.sprite = mineSelect;
-                    break;
-                case TargetBehavior.Legacy_Pathbuilder:
-                    note.sprite = pathbuilder;
-                    if(prefade != null)prefade.sprite = chainTelegraph;
-                    if (ring != null)ring.sprite = chainRing;
-                    selection.sprite = chainSelect;
                     break;
 
                 default:
