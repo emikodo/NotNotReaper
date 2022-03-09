@@ -20,11 +20,27 @@ namespace NotReaper.UI
         public GameObject readme;
         public Image readmeUnderline;
         public bool isOpened = false;
-        [NRInject] private ShortcutKeyboardHandler keyboard;
+        public ShortcutKeyboardHandler keyboard;
+
+        private CanvasGroup canvas;
+
+
+        public static ShortcutInfo Instance { get; private set; } = null;
+        protected override void Awake()
+        {
+            base.Awake();
+            if (Instance != null)
+            {
+                Debug.Log("ShortcutInfo already exists.");
+                return;
+            }
+            Instance = this;
+        }
 
         // Start is called before the first frame update
         private void Start()
         {
+            canvas = GetComponent<CanvasGroup>();
             var t = transform;
             var position = t.localPosition;
             t.localPosition = new Vector3(0, position.y, position.z);
@@ -41,6 +57,7 @@ namespace NotReaper.UI
             {
                 Application.OpenURL("https://github.com/CircuitLord/NotReaper/blob/master/README.md");
             });
+            GetComponent<Canvas>().renderMode = RenderMode.ScreenSpaceOverlay;
             gameObject.SetActive(false);
             keyboard.OnClose();
             isOpened = false;
@@ -48,16 +65,15 @@ namespace NotReaper.UI
 
         public override void Show()
         {
-            Debug.Log("showign");
             OnActivated();
-            gameObject.SetActive(true);
-            gameObject.GetComponent<CanvasGroup>().DOFade(1.0f, 0.3f);
+            transform.position = Vector3.zero;
+            canvas.alpha = 0f;
+            canvas.DOFade(1.0f, 0.3f);
             readmeUnderline.color = NRSettings.config.leftColor;
             Transform camTrans = Camera.main.transform;
 
-            window.transform.position = new Vector3(camTrans.position.x, camTrans.position.y, transform.position.z);
-
-            window.transform.DOMove(new Vector3(transform.position.x, camTrans.position.y + 5.5f, transform.position.z), 1.0f).SetEase(Ease.OutQuint);
+            //window.transform.position = new Vector3(0f, camTrans.position.y, transform.position.z);
+            //window.transform.DOLocalMoveY(camTrans.position.y + 250f, 1.0f).SetEase(Ease.OutQuint);
             isOpened = true;
             keyboard.OnOpen();
         }
@@ -66,8 +82,10 @@ namespace NotReaper.UI
         {
             keyboard.OnClose();
             isOpened = false;
-            OnDeactivated();
-            gameObject.SetActive(false);
+            canvas.DOFade(0f, .3f).OnComplete(() =>
+            {
+                OnDeactivated();
+            });
         }
 
         protected override void OnEscPressed(InputAction.CallbackContext context)

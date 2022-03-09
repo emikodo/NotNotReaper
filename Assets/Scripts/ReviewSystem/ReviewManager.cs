@@ -23,9 +23,6 @@ namespace NotReaper.ReviewSystem
         #region References
         [SerializeField] private ReviewOverlay overlay;
         [SerializeField] private CanvasGroup windowCanvas;
-        [SerializeField] private GameObject selectCuesPanel;
-        [SerializeField] private GameObject editSuggestionPanel;
-        [SerializeField] private GameObject viewSuggestionPanel;
         [SerializeField] private TMP_InputField commentField;
         [SerializeField] private TMP_InputField authorField;
         [SerializeField] private GameObject makeSuggestionButton;
@@ -36,10 +33,9 @@ namespace NotReaper.ReviewSystem
         [SerializeField] private TextMeshProUGUI modeText;
         [SerializeField] private GameObject writeModeButtonsPanel;
         [SerializeField] private GameObject readModeButtonsPanel;
-        [SerializeField] private TextMeshProUGUI checkCommentButtonText;
+        [SerializeField] private UI.Components.NRButton checkCommentButton;
         [SerializeField] private GameObject writeSidePanel;
-        [SerializeField] private List<GameObject> bottomBarButtons;
-        [SerializeField] private TextMeshProUGUI toggleCommentsButtonText;
+        [SerializeField] private UI.Components.NRButton toggleCommentsButton;
         [Space]
         [SerializeField] private GameObject commentListPanel;
         [SerializeField] private CommentEntry commentEntryPrefab;
@@ -47,6 +43,7 @@ namespace NotReaper.ReviewSystem
         [SerializeField] private ScrollRect scroller;
         #endregion
 
+        [NRInject] private ReviewExtraPanels extraPanels;
         private ReviewContainer loadedContainer = new ReviewContainer();
         private ReviewComment currentComment = new ReviewComment();
         public ReviewMode SelectedMode { get; set; } = ReviewMode.Read;
@@ -56,6 +53,11 @@ namespace NotReaper.ReviewSystem
         private float lastScrollPosition = 1f;
 
         [NRInject] private Timeline timeline;
+        [NRInject] private UIModeSelect modeSelect;
+
+        private GameObject editSuggestionPanel;
+        private GameObject selectCuesPanel;
+        private GameObject viewSuggestionPanel;
 
         protected override void Awake()
         {
@@ -72,6 +74,10 @@ namespace NotReaper.ReviewSystem
         bool init = false;
         private void Start()
         {
+            editSuggestionPanel = extraPanels.makeSuggestionPanel;
+            selectCuesPanel = extraPanels.selectCuesPanel;
+            viewSuggestionPanel = extraPanels.viewSuggestionPanel;
+
             SetMode(ReviewMode.Read);
             makeSuggestionButton.SetActive(false);
             showSuggestionButton.SetActive(false);
@@ -103,7 +109,7 @@ namespace NotReaper.ReviewSystem
             //overlay.SetActive(show);
             if (!show)
             {
-                foreach (GameObject go in bottomBarButtons) go.SetActive(true);
+                modeSelect.EnableButtons(true);
                 lastScrollPosition = scroller.verticalNormalizedPosition;
                 overlay.Hide();
                 OnDeactivated();
@@ -158,7 +164,7 @@ namespace NotReaper.ReviewSystem
             FillData();
             foreach (CommentEntry ce in commentEntries) ce.IsSelected = false;
             commentEntries[index].IsSelected = true;
-            checkCommentButtonText.text = currentComment.isChecked ? "Uncheck Comment" : "Check Comment";
+            checkCommentButton.SetText(currentComment.isChecked ? "Uncheck Comment" : "Check Comment");
             currentComment.entry.SetChecked(currentComment.isChecked);
             makeSuggestionButton.SetActive(currentComment.HasSelectedCues);
             showSuggestionButton.SetActive(currentComment.HasSuggestion);
@@ -323,7 +329,7 @@ namespace NotReaper.ReviewSystem
 
         private void EnableBottomBarButtons(bool enable)
         {
-            foreach (GameObject go in bottomBarButtons) go.SetActive(enable);
+            modeSelect.EnableButtons(enable);
         }
 
         public void ToggleMode()
@@ -395,7 +401,7 @@ namespace NotReaper.ReviewSystem
         {
             bool active = !commentListPanel.activeSelf;
             commentListPanel.SetActive(active);
-            toggleCommentsButtonText.text = active ? "Hide Comments" : "Show Comments";
+            toggleCommentsButton.SetText(active ? "Hide Comments" : "Show Comments");
         }
 
         public void ToggleCommentChecked()
@@ -403,7 +409,7 @@ namespace NotReaper.ReviewSystem
             if (!currentComment.HasSelectedCues) return;
             currentComment.isChecked = !currentComment.isChecked;
             currentComment.entry.SetChecked(currentComment.isChecked);
-            checkCommentButtonText.text = currentComment.isChecked ? "Uncheck Comment" : "Check Comment";
+            checkCommentButton.SetText(currentComment.isChecked ? "Uncheck Comment" : "Check Comment");
         }
 
         private bool isEditingSuggestion = false;

@@ -7,6 +7,9 @@ using NotReaper.Repeaters;
 using NotReaper.ReviewSystem;
 using NotReaper.Timing;
 using NotReaper.UI.BPM;
+using NotReaper.UI.Countin;
+using NotReaper.UI.ModifyAudio;
+using NotReaper.UI.Timing;
 using NotReaper.UserInput;
 using System;
 using System.Collections;
@@ -37,23 +40,26 @@ namespace NotReaper.UI
 		[SerializeField] private RawImage background;
 		[Space, Header("Menus")]
 		[NRInject] private DynamicBPMWindow bpmWindow;
-		[SerializeField] private BPMListWindow bpmListWindow;
-		[SerializeField] private ShortcutInfo help;
-		[SerializeField] private CountInWindow countin;
-		[SerializeField] private AddOrTrimAudioWindow audioModify;
-		[SerializeField] private TimingPointsPanel timingPoints;
-		[SerializeField] private RepeaterMenu repeaterMenu;
+		[NRInject] private BPMListWindow bpmListWindow;
+		public ShortcutInfo help;
+		[NRInject] private CountInWindow countin;
+		[NRInject] private AddOrTrimAudioWindow audioModify;
+		[NRInject] private TimingPointsPanel timingPoints;
+		[NRInject] private RepeaterMenu repeaterMenu;
  
 		private QNT_Timestamp? detectBpmStart;
 		[NRInject] private NewPauseMenu pauseMenu;
-		private void Awake()
-		{
-			//EditorState.onEditorModeChanged += SelectMode;
-			//EditorState.onEditorToolChanged += SelectTool;
-			//EditorState.onSnappingModeChanged += SelectSnappingMode;
-			//EditorState.onTargetHandTypeChanged += SelectHand;
-			//EditorState.onVelocityChanged += SelectHitsound;
-		}
+
+        public static UIInput Instance { get; private set; } = null;
+        private void Awake()
+        {
+            if (Instance != null)
+            {
+                Debug.Log("UIInput already exists.");
+                return;
+            }
+            Instance = this;
+        }
 
 		private void Start()
 		{
@@ -243,13 +249,13 @@ namespace NotReaper.UI
 
 		public void ShowHelpWindow()
 		{
-            if (help.isOpened)
+            if (ShortcutInfo.Instance.isOpened)
             {
-				help.Hide();
+				ShortcutInfo.Instance.Hide();
             }
             else
             {
-				help.Show();
+				ShortcutInfo.Instance.Show();
             }
 		}
 

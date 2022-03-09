@@ -263,6 +263,7 @@ namespace NotReaper
         public string playbackSpeedPercentage = "Playback Speed: 100%";
 
         public float musicVolume = 0.5f;
+        public float hitsoundVolume = .5f;
         public float sustainVolume = 1.0f;
         public float previewDuration = 0.1f;
 
@@ -320,8 +321,7 @@ namespace NotReaper
 
         [SerializeField] public PrecisePlayback songPlayback;
 
-        [SerializeField]
-        private AudioWaveformVisualizer waveformVisualizer;
+        public AudioWaveformVisualizer waveformVisualizer;
         [SerializeField]
         private AudioWaveformVisualizer sustainVisualizer;
         public bool areNotesSelected => selectedNotes.Count > 0;
@@ -363,26 +363,10 @@ namespace NotReaper
 
             //ChainBuilder.timeline = this;
 
-            musicVolumeSlider.onValueChanged.AddListener(val =>
-            {
-                musicVolume = val;
-                NRSettings.config.mainVol = musicVolume;
-                NRSettings.SaveSettingsJson();
-            });
-
-            hitSoundVolumeSlider.onValueChanged.AddListener(val =>
-            {
-                //hitSoundVolume = val;
-                NRSettings.config.noteVol = val;
-                NRSettings.SaveSettingsJson();
-            });
-
             NRSettings.OnLoad(() =>
             {
                 //sustainVolume = NRSettings.config.sustainVol;
                 musicVolume = NRSettings.config.mainVol;
-                musicVolumeSlider.value = musicVolume;
-                hitSoundVolumeSlider.value = NRSettings.config.noteVol;
                 songPlayback.volume = NRSettings.config.mainVol;
                 songPlayback.hitSoundVolume = NRSettings.config.noteVol;
                 SetAudioDSP();
@@ -1769,7 +1753,7 @@ namespace NotReaper
             //Load metadata
             if (audicaFile.desc != null)
             {
-                UIMetadata.Instance.UpdateUIValues();
+                //UIMetadata.Instance.UpdateUIValues();
             }
 
             if (audicaFile.modifiers != null)

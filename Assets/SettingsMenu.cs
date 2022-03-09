@@ -1,4 +1,5 @@
 ﻿using NotReaper;
+using NotReaper.Audio;
 using NotReaper.UI;
 using System.Collections;
 using System.Collections.Generic;
@@ -38,9 +39,16 @@ public class SettingsMenu : MonoBehaviour
         });
     }
 
+    public void OnVolumeChanged()
+    {
+        float vol = slider.value;
+        NRSettings.config.soundEffectsVol = vol;
+        SoundEffects.Instance.PreviewVolume(vol);
+    }
+
     public void UpdateUI()
     {
-        slider.value = NRSettings.config.EditorSustainVol;
+        slider.SetValueWithoutNotify(NRSettings.config.soundEffectsVol);
         richPresence.isOn = NRSettings.config.useDiscordRichPresence;
         clearCacheOnStartup.isOn = NRSettings.config.clearCacheOnStartup;
         enableTraceLines.isOn = NRSettings.config.enableTraceLines;
@@ -61,7 +69,7 @@ public class SettingsMenu : MonoBehaviour
 
     public void ApplyValues()
     {
-        NRSettings.config.EditorSustainVol = slider.value;
+        NRSettings.config.soundEffectsVol = slider.value;
         NRSettings.config.useDiscordRichPresence = richPresence.isOn;
         NRSettings.config.clearCacheOnStartup = clearCacheOnStartup.isOn;
         NRSettings.config.enableTraceLines = enableTraceLines.isOn;

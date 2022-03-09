@@ -13,13 +13,17 @@ using UnityEngine.Networking;
 using UnityEngine.InputSystem;
 using DifficultyCalculation;
 using AudicaTools;
+using NotReaper.Tools.ErrorChecker;
+using NotReaper.Downmap;
 
-namespace NotReaper.UI {
+namespace NotReaper.UI
+{
 
-    public class UIMetadata : NRMenu {
+    public class UIMetadata : NRMenu
+    {
 
         public static UIMetadata Instance = null;
-        public DifficultyManager difficultyManager;
+        [NRInject] private DifficultyManager difficultyManager;
 
         public Image BG;
         public CanvasGroup window;
@@ -37,9 +41,9 @@ namespace NotReaper.UI {
 
         public GameObject selectDiffWindow;
 
-        public Button generateDiff;
-        public Button loadThisDiff;
-        public Button deleteDiff;
+        public Components.NRButton generateDiff;
+        public Components.NRButton loadThisDiff;
+        public Components.NRButton deleteDiff;
 
         private int selectedDiff;
         private int diffPotentiallyGoingDelete = -1;
@@ -70,8 +74,11 @@ namespace NotReaper.UI {
         public GameObject advancedDiffGlow;
         public GameObject expertDiffGlow;
 
+        [NRInject] private ErrorChecker errorChecker;
+        [NRInject] private DownmapUIManager downmapper;
 
-        public void Start() {
+        public void Start()
+        {
             if (Instance is null) Instance = this;
             else
             {
@@ -81,9 +88,12 @@ namespace NotReaper.UI {
             var t = transform;
             var position = t.localPosition;
             t.localPosition = new Vector3(0, position.y, position.z);
+            window.alpha = 0f;
+            gameObject.SetActive(false);
         }
-        
-        public void UpdateUIValues() {
+
+        public void UpdateUIValues()
+        {
 
             if (!Timeline.audicaLoaded) return;
 
@@ -160,7 +170,8 @@ namespace NotReaper.UI {
 
         }
 
-        public void ApplyValues() {
+        public void ApplyValues()
+        {
             if (Timeline.desc == null) return;
             if (Timeline.audicaFile == null) return;
             if (String.IsNullOrEmpty(titleField.text)) return;
@@ -175,10 +186,12 @@ namespace NotReaper.UI {
             Timeline.audicaFile.mainMoggSong.SetVolume(moggSongVolume.value, false);
         }
 
-        public void TryCopyCuesToOther() {
+        public void TryCopyCuesToOther()
+        {
             selectDiffWindow.SetActive(true);
 
-            switch (difficultyManager.loadedIndex) {
+            switch (difficultyManager.loadedIndex)
+            {
                 case 0:
                     selectDiffWindow.GetComponent<UIDifficulty>().DifficultyComingFrom("expert");
                     break;
@@ -197,26 +210,33 @@ namespace NotReaper.UI {
             }
         }
         //Called when a user selects a new difficulty on the song info panel
-        public void ChangeSelectedDifficulty(int index) {
+        public void ChangeSelectedDifficulty(int index)
+        {
             if (index == -1) return;
 
             selectedDiff = index;
 
-            if (difficultyManager.loadedIndex == index) {
+            if (difficultyManager.loadedIndex == index)
+            {
                 loadThisDiff.interactable = false;
-            } else {
+            }
+            else
+            {
                 loadThisDiff.interactable = true;
             }
 
-            if (difficultyManager.DifficultyExists(index)) {
+            if (difficultyManager.DifficultyExists(index))
+            {
                 generateDiff.interactable = false;
                 deleteDiff.interactable = true;
-                deleteDiff.GetComponent<Image>().color = new Color(0.8039216f, 0.8039216f, 0.8039216f);
-            } else {
+                //deleteDiff.GetComponent<Image>().color = new Color(0.8039216f, 0.8039216f, 0.8039216f);
+            }
+            else
+            {
                 generateDiff.interactable = true;
                 loadThisDiff.interactable = false;
                 deleteDiff.interactable = false;
-                deleteDiff.GetComponent<Image>().color = new Color(0.8301887f, 0.8301887f, 0.8301887f, 0.2f);
+                //deleteDiff.GetComponent<Image>().color = new Color(0.8301887f, 0.8301887f, 0.8301887f, 0.2f);
 
             }
         }
@@ -226,29 +246,29 @@ namespace NotReaper.UI {
             if (Timeline.desc == null) return;
 
             int difficultyIndex = difficultyManager.loadedIndex;
-            
+
             if (difficultyIndex == -1) return;
-            
-            switch(difficultyIndex)
+
+            switch (difficultyIndex)
             {
                 //expert
                 case 0:
-                    Timeline.desc.customExpert = DifficultyName.text; 
+                    Timeline.desc.customExpert = DifficultyName.text;
                     break;
 
                 //Advanced
                 case 1:
-                    Timeline.desc.customAdvanced = DifficultyName.text; 
+                    Timeline.desc.customAdvanced = DifficultyName.text;
                     break;
 
                 //Moderate
                 case 2:
-                    Timeline.desc.customModerate = DifficultyName.text; 
+                    Timeline.desc.customModerate = DifficultyName.text;
                     break;
 
                 //Beginner
                 case 3:
-                    Timeline.desc.customBeginner = DifficultyName.text; 
+                    Timeline.desc.customBeginner = DifficultyName.text;
                     break;
 
             }
@@ -257,29 +277,29 @@ namespace NotReaper.UI {
         public void LoadCurrentDifficultyName(int difficultyIndex)
         {
             if (Timeline.desc == null) return;
-            
+
             if (difficultyIndex == -1) return;
-            
-            switch(difficultyIndex)
+
+            switch (difficultyIndex)
             {
                 //expert
                 case 0:
-                    DifficultyName.text = Timeline.desc.customExpert; 
+                    DifficultyName.text = Timeline.desc.customExpert;
                     break;
 
                 //Advanced
                 case 1:
-                    DifficultyName.text = Timeline.desc.customAdvanced; 
+                    DifficultyName.text = Timeline.desc.customAdvanced;
                     break;
 
                 //Moderate
                 case 2:
-                    DifficultyName.text = Timeline.desc.customModerate; 
+                    DifficultyName.text = Timeline.desc.customModerate;
                     break;
 
                 //Beginner
                 case 3:
-                    DifficultyName.text = Timeline.desc.customBeginner; 
+                    DifficultyName.text = Timeline.desc.customBeginner;
                     break;
 
             }
@@ -388,7 +408,8 @@ namespace NotReaper.UI {
             }
         }
 
-        public void TryDeleteDifficulty() {
+        public void TryDeleteDifficulty()
+        {
             string diffName = "";
             if (selectedDiff == 0) diffName = "expert";
             if (selectedDiff == 1) diffName = "advanced";
@@ -400,19 +421,22 @@ namespace NotReaper.UI {
         }
 
         //After the confirmation message
-        public void ActuallyDeleteDifficulty() {
+        public void ActuallyDeleteDifficulty()
+        {
             warningDeleteWindow.SetActive(false);
             difficultyManager.RemoveDifficulty(diffPotentiallyGoingDelete);
             UpdateUIValues();
         }
 
-        public void GenerateDifficulty() {
+        public void GenerateDifficulty()
+        {
             difficultyManager.GenerateDifficulty(selectedDiff);
             difficultyManager.LoadDifficulty(selectedDiff, true);
             UpdateUIValues();
         }
 
-        public void LoadThisDiff() {
+        public void LoadThisDiff()
+        {
             difficultyManager.LoadDifficulty(selectedDiff, true);
             UpdateUIValues();
         }
@@ -487,46 +511,82 @@ namespace NotReaper.UI {
 
         public override void Show()
         {
-            EditorState.SelectMode(Models.EditorMode.Metadata);
+            if (!Timeline.audicaLoaded) return;
+            OnActivated();
+
+            //Set colors
+            foreach (Image img in inputBoxLines)
+            {
+                img.color = NRSettings.config.leftColor;
+            }
+
+            foreach (Image img in inputBoxLinesCover)
+            {
+                img.color = NRSettings.config.rightColor;
+            }
+            BG.gameObject.SetActive(true);
+            window.gameObject.SetActive(true);
+            UpdateUIValues();
+            window.DOFade(1f, .3f);
         }
         public override void Hide()
+        {
+            window.DOFade(0f, .3f).OnComplete(() =>
+            {
+                ApplyValues();
+                BG.gameObject.SetActive(false);
+                window.gameObject.SetActive(false);
+                OnDeactivated();
+            });
+        }
+
+        public void OnSetPreviewClicked()
+        {
+            MiniTimeline.Instance.SetPreviewStartPointToCurrent();
+        }
+
+        public void OnErrorCheckClicked()
+        {
+            errorChecker.RunErrorCheck();
+        }
+
+        public void OnDownmapClicked()
+        {
+            downmapper.ShowWindow(true);
+        }
+
+        public void OnLoadAudioClicked()
+        {
+            Timeline.instance.ReplaceSongAudio();
+        }
+
+        public void OnLoadSustainLeftClicked()
+        {
+            UISustainHandler.Instance.UpdateSustainTrackLeft(false);
+        }
+
+        public void OnDeleteSustainLeftClicked()
+        {
+            UISustainHandler.Instance.UpdateSustainTrackLeft(true);
+        }
+
+        public void OnLoadSustainRightClicked()
+        {
+            UISustainHandler.Instance.UpdateSustainTrackRight(false);
+        }
+        public void OnDeleteSustainRightClicked()
+        {
+            UISustainHandler.Instance.UpdateSustainTrackRight(true);
+        }
+
+        public void OnComposeClicked()
         {
             EditorState.SelectMode(Models.EditorMode.Compose);
         }
 
-        public IEnumerator FadeIn() {
-
-            if (!Timeline.audicaLoaded) yield break;
-            OnActivated();
-
-            //Set colors
-            foreach (Image img in inputBoxLines) {
-                img.color = NRSettings.config.leftColor;
-            }
-
-            foreach (Image img in inputBoxLinesCover) {
-                img.color = NRSettings.config.rightColor;
-            }
-
-            UpdateUIValues();
-
-            BG.gameObject.SetActive(true);
-            window.gameObject.SetActive(true);
-        }
-
-        public IEnumerator FadeOut() {
-            OnDeactivated();
-            BG.gameObject.SetActive(false);
-            window.gameObject.SetActive(false);
-            
-            ApplyValues();
-            
-            yield break;
-        }
-
         protected override void OnEscPressed(InputAction.CallbackContext context)
         {
-            StartCoroutine(FadeOut());
+            Hide();
         }
     }
 

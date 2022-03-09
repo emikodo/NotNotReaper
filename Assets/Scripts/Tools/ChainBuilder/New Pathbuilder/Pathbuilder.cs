@@ -20,7 +20,7 @@ namespace NotReaper.Tools.PathBuilder
 	{
         #region Inspector References
         [Space, Header("References")]
-		[SerializeField] private PathbuilderUI ui;
+		[NRInject] private PathbuilderUI ui;
 		[SerializeField] private Transform canvas;
 		[SerializeField] private Transform pathbuilderParent;
 		[SerializeField] private PathbuilderNode nodePrefab;

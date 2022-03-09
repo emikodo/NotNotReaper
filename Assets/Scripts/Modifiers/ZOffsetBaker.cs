@@ -25,6 +25,7 @@ namespace NotReaper.Modifier
                 Debug.LogWarning("Trying to create second ZOffsetBaker instance.");
                 return;
             }
+            zOffsetWindow.GetComponent<Canvas>().renderMode = RenderMode.ScreenSpaceOverlay;
             zOffsetWindow.SetActive(false);
         }
 

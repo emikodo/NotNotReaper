@@ -78,15 +78,8 @@ namespace NotReaper.Tools.ChainBuilder {
 		private bool isMouseDown;
 		public bool snapAngle;
 
-		[SerializeField] private ChainBuilderWindow chainBuilderWindow; 
-		[SerializeField] private GameObject chainBuilderWindowSelectedControls; 
-		[SerializeField] private GameObject chainBuilderWindowUnselectedControls; 
+		[NRInject] private ChainBuilderWindow chainBuilderWindow; 
 
-		[SerializeField] private Michsky.UI.ModernUIPack.HorizontalSelector pathBuilderInterval;
-		[SerializeField] private TextSliderCombo angleIncrement;
-		[SerializeField] private TextSliderCombo angleIncrementIncrement;
-		[SerializeField] private TextSliderCombo stepDistance;
-		[SerializeField] private TextSliderCombo stepIncrement;
 
 		public static ChainBuilder Instance = null;
 		private static Timeline timeline;
@@ -117,14 +110,15 @@ namespace NotReaper.Tools.ChainBuilder {
 			canvas.blocksRaycasts = false;
 			canvas.interactable = false;
 			boxCollider.enabled = false;*/
-			angleIncrement.OnValueChanged += OnAngleVelocityChange;
-			angleIncrementIncrement.OnValueChanged += OnAngleAccelerationChange;
-			stepDistance.OnValueChanged += OnStepDistanceChange;
-			stepIncrement.OnValueChanged += OnStepIncrementChange;
+			
 		}
 
         private void Start()
         {
+			chainBuilderWindow.angleIncrement.OnValueChanged += OnAngleVelocityChange;
+			chainBuilderWindow.angleIncrementIncrement.OnValueChanged += OnAngleAccelerationChange;
+			chainBuilderWindow.stepDistance.OnValueChanged += OnStepDistanceChange;
+			chainBuilderWindow.stepIncrement.OnValueChanged += OnStepIncrementChange;
 			timeline = NRDependencyInjector.Get<Timeline>();
 			timeline.OnSelectedNoteCountChanged.AddListener(OnSelectedNoteCountChanged);
 			OnSelectedNoteCountChanged(0);
@@ -151,7 +145,7 @@ namespace NotReaper.Tools.ChainBuilder {
 
 			startClickNote = null;
 
-			pathBuilderInterval.elements = NRSettings.config.snaps;
+			chainBuilderWindow.pathBuilderInterval.elements = NRSettings.config.snaps;
 			EditorState.SelectTool(EditorTool.ChainBuilder);
 			if (active) 
 			{
@@ -226,20 +220,20 @@ namespace NotReaper.Tools.ChainBuilder {
 				return;
 			}
 
-			string temp = pathBuilderInterval.elements[pathBuilderInterval.index];
+			string temp = chainBuilderWindow.pathBuilderInterval.elements[chainBuilderWindow.pathBuilderInterval.index];
 			int snap = 4;
 			int.TryParse(temp.Substring(2), out snap);
 
-			angleIncrement.value = target.data.legacyPathbuilderData.angle;
-			stepDistance.value = target.data.legacyPathbuilderData.stepDistance;
+			chainBuilderWindow.angleIncrement.value = target.data.legacyPathbuilderData.angle;
+			chainBuilderWindow.stepDistance.value = target.data.legacyPathbuilderData.stepDistance;
 
 			target.data.legacyPathbuilderData.interval = snap;
 		}
 
 		public void ChangeInterval(bool next)
         {
-			if (next) pathBuilderInterval.ForwardClick();
-			else pathBuilderInterval.PreviousClick();
+			if (next) chainBuilderWindow.pathBuilderInterval.ForwardClick();
+			else chainBuilderWindow.pathBuilderInterval.PreviousClick();
         }
 
 
@@ -660,28 +654,28 @@ namespace NotReaper.Tools.ChainBuilder {
         {
 			if (count == 1)
 			{
-				chainBuilderWindowSelectedControls.SetActive(true);
-				chainBuilderWindowUnselectedControls.SetActive(false);
+				chainBuilderWindow.chainBuilderWindowSelectedControls.SetActive(true);
+				chainBuilderWindow.chainBuilderWindowUnselectedControls.SetActive(false);
 			}
 			else
 			{
-				chainBuilderWindowSelectedControls.SetActive(false);
-				chainBuilderWindowUnselectedControls.SetActive(true);
+				chainBuilderWindow.chainBuilderWindowSelectedControls.SetActive(false);
+				chainBuilderWindow.chainBuilderWindowUnselectedControls.SetActive(true);
 			}
 		}
 
 
 		private void SetPathbuilderStateToSelectedNote() {
-			angleIncrement.value = timeline.selectedNotes[0].data.legacyPathbuilderData.angle;
-			angleIncrementIncrement.value = timeline.selectedNotes[0].data.legacyPathbuilderData.angleIncrement;
-			stepDistance.value = timeline.selectedNotes[0].data.legacyPathbuilderData.stepDistance;
-			stepIncrement.value = timeline.selectedNotes[0].data.legacyPathbuilderData.stepIncrement;
+			chainBuilderWindow.angleIncrement.value = timeline.selectedNotes[0].data.legacyPathbuilderData.angle;
+			chainBuilderWindow.angleIncrementIncrement.value = timeline.selectedNotes[0].data.legacyPathbuilderData.angleIncrement;
+			chainBuilderWindow.stepDistance.value = timeline.selectedNotes[0].data.legacyPathbuilderData.stepDistance;
+			chainBuilderWindow.stepIncrement.value = timeline.selectedNotes[0].data.legacyPathbuilderData.stepIncrement;
 
 			var intervalStr = "1/" + timeline.selectedNotes[0].data.legacyPathbuilderData.interval;
-			for(int i = 0; i < pathBuilderInterval.elements.Count; ++i) {
-				if(pathBuilderInterval.elements[i] == intervalStr) {
-					pathBuilderInterval.defaultIndex = i;
-					pathBuilderInterval.UpdateToIndex(i);
+			for(int i = 0; i < chainBuilderWindow.pathBuilderInterval.elements.Count; ++i) {
+				if(chainBuilderWindow.pathBuilderInterval.elements[i] == intervalStr) {
+					chainBuilderWindow.pathBuilderInterval.defaultIndex = i;
+					chainBuilderWindow.pathBuilderInterval.UpdateToIndex(i);
 					break;
 				}
 			}

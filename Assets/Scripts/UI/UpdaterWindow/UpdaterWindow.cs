@@ -1,5 +1,6 @@
 ﻿using System;
 using DG.Tweening;
+using Michsky.UI.ModernUIPack;
 using NotReaper.Managers;
 using TMPro;
 using UnityEngine;
@@ -15,21 +16,26 @@ namespace NotReaper.UI.UpdaterWindow {
 		private AutoUpdaterJSON updateData;
 
 
-		public Button ignoreButton;
-		public Button skipVersionButton;
-		public Button updateButton;
+		public Components.NRButton ignoreButton;
+		public Components.NRButton skipVersionButton;
+		public Components.NRButton updateButton;
 
 		public Image nrGuyHyper;
 		public Image nrGuy;
 
+		public ProgressBar downloadSlider;
 
 		[SerializeField] private TextMeshProUGUI version;
 		[SerializeField] private TextMeshProUGUI changelog;
 
 		private Vector3 nrGuyStartPos;
 
-		private void Start() {
+        private void Awake()
+        {
 			I = this;
+        }
+
+        private void Start() {
 			
 			Vector3 defaultPos;
 			defaultPos.x = 0;

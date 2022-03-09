@@ -10,6 +10,7 @@ using NotReaper.Timing;
 using UnityEngine.UI;
 using NotReaper.Overlays;
 using NotReaper.Models;
+using NotReaper.UI.Components;
 
 namespace NotReaper.Tools.PathBuilder
 {
@@ -23,11 +24,11 @@ namespace NotReaper.Tools.PathBuilder
         [SerializeField] private HorizontalSelector intervalSelector;
         [SerializeField] private TMP_InputField nominatorInput;
         [SerializeField] private TextMeshProUGUI denominatorText;
-        [SerializeField] private TextMeshProUGUI scopeButtonText;
+        [SerializeField] private NRButton scopeButton;
         [Space, Header("Beatlength")]
         [SerializeField] private TextMeshProUGUI beatLengthText;
         [Space, Header("Hand")]
-        [SerializeField] private TextMeshProUGUI handButtonText;
+        [SerializeField] private NRButton handButton;
 
         [NRInject] private Pathbuilder pathbuilder;
 
@@ -164,12 +165,12 @@ namespace NotReaper.Tools.PathBuilder
 
         private void SetHandButtonText(bool alternate)
         {
-            handButtonText.text = alternate ? "alternate" : "same";
+            handButton.SetText(alternate ? "alternate" : "same");
         }
 
         private void SetScopeButtonText(bool isSegmentScope)
         {
-            scopeButtonText.text = isSegmentScope ? "segment" : "path";
+            scopeButton.SetText(isSegmentScope ? "segment" : "path");
         }
 
         private void SetSelectorToDenominator(object denominator)

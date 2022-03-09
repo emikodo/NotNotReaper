@@ -35,8 +35,9 @@ namespace NotReaper.MenuBrowser
 
         private View activeView = View.Menu;
 
-        [NRInject] private InputIcons icons;
+        private InputIcons icons;
         public static MenuPickerUI Instance { get; private set; } = null;
+        private bool initialized;
         protected override void Awake()
         {
             if (Instance != null)
@@ -50,6 +51,7 @@ namespace NotReaper.MenuBrowser
 
         private void Start()
         {
+            icons = NRDependencyInjector.Get<InputIcons>();
             canvas.renderMode = RenderMode.ScreenSpaceOverlay;
             scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
             scaler.screenMatchMode = CanvasScaler.ScreenMatchMode.Shrink;
@@ -61,6 +63,9 @@ namespace NotReaper.MenuBrowser
 
         private void OnAudicaLoaded(AudicaFile _)
         {
+            if (initialized) return;
+
+            initialized = true;
             foreach(var entry in MenuRegistration.menuEntries)
             {
                 CreateMenuEntry(entry.Key, entry.Value);

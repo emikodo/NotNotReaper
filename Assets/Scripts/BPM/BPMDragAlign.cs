@@ -10,15 +10,15 @@ namespace NotReaper.BpmAlign
 {
     public class BPMDragAlign : MonoBehaviour
     {
-        [SerializeField] private Transform waveform;
-        [SerializeField] private Camera cam;
+        private Camera cam;
 
+        private Transform waveform;
         private Vector2 startPosition;
         private Vector3 waveformPosition;
         private Vector3 originalWaveformPosition;
 
         [NRInject] private PrecisePlayback playback;
-
+        [NRInject] private Timeline timeline;
         [SerializeField] private AudioWaveformVisualizer visualizer;
 
         private void Start()
@@ -28,6 +28,8 @@ namespace NotReaper.BpmAlign
 
         private void OnEnable()
         {
+            waveform = timeline.waveformVisualizer.transform;
+            cam = timeline.timelineCamera.GetComponent<Camera>();
             KeybindManager.onMouseDown += MouseDown;
             waveformPosition = waveform.position;
             //originalWaveformPosition = waveformPosition;

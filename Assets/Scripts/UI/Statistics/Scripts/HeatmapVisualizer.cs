@@ -20,12 +20,14 @@ namespace NotReaper.Statistics
         private Grid grid;
         private Mesh mesh;
         private bool updateMesh;
+        private Camera cam;
         #endregion
 
         private void Awake()
         {
             mesh = new Mesh();
             GetComponent<MeshFilter>().mesh = mesh;
+            cam = Camera.main;
         }
         /// <summary>
         /// Generates the heatmap for this map.
@@ -34,10 +36,10 @@ namespace NotReaper.Statistics
         public void GenerateHeatmap(List<Target> targets)
         {
             int matrix = 100;
-            float length = Vector3.Distance(topLeft.position, topRight.position);
-            float height = Vector3.Distance(topLeft.position, bottomLeft.position);
+            float length = Vector3.Distance(cam.ScreenToWorldPoint(topLeft.position), cam.ScreenToWorldPoint(topRight.position));
+            float height = Vector3.Distance(cam.ScreenToWorldPoint(topLeft.position), cam.ScreenToWorldPoint(bottomLeft.position));
             Vector2 cellSize = new Vector2(length, height) / matrix;
-            grid = new Grid(matrix, matrix, cellSize, bottomLeft.position, targets.Count);
+            grid = new Grid(matrix, matrix, cellSize, cam.ScreenToWorldPoint(bottomLeft.position), targets.Count);
             grid.OnGridValueChanged.AddListener(OnGridValueChanged);
             StartCoroutine(AddNotes(targets));
         }

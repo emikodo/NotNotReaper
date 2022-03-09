@@ -1,3 +1,4 @@
+using DG.Tweening;
 using NotReaper.Models;
 using NotReaper.Notifications;
 using NotReaper.Overlays;
@@ -37,7 +38,7 @@ namespace NotReaper.Repeaters
         private State state = State.Disabled;
         private RepeaterIndicator activeSection;
         private Timeline timeline;
-
+        private CanvasGroup canvas;
         public bool isActive;
 
         private void Start()
@@ -45,6 +46,9 @@ namespace NotReaper.Repeaters
             manager = NRDependencyInjector.Get<RepeaterManager>();
             timeline = NRDependencyInjector.Get<Timeline>();
             repeaterListEntries = new();
+            GetComponent<Canvas>().worldCamera = Camera.main;
+            canvas = GetComponent<CanvasGroup>();
+            canvas.alpha = 0f;
             transform.position = Vector3.zero;
             Reset();
             gameObject.SetActive(false);
@@ -91,14 +95,19 @@ namespace NotReaper.Repeaters
             manager.SetRepeatersInteractable(true);
             UpdateState();
             OnActivated();
+            canvas.DOFade(1f, .3f);
         }
 
         public override void Hide()
         {
             isActive = false;
-            manager.SetRepeatersInteractable(false);
-            Reset();
-            OnDeactivated();
+            canvas.DOFade(0f, .3f).OnComplete(() =>
+            {
+                manager.SetRepeatersInteractable(false);
+                Reset();
+                OnDeactivated();
+            });
+            
         }
 
         public void OnRenameClicked()

@@ -9,6 +9,7 @@ using System.IO;
 using System;
 using NotReaper.IO;
 using NotReaper.Targets;
+using NotReaper.UI.Components;
 
 public class UISustainHandler : MonoBehaviour
 {
@@ -19,8 +20,8 @@ public class UISustainHandler : MonoBehaviour
     //public AudioSource SustainL;
     //public AudioSource SustainR;
     public TextMeshProUGUI statusText;
-    public TextMeshProUGUI loadSustainButtonTextLeft;
-    public TextMeshProUGUI loadSustainButtonTextRight;
+    public NRButton loadSustainButtonLeft;
+    public NRButton loadSustainButtonRight;
     public GameObject deleteSustainButtonLeft;
     public GameObject deleteSustainButtonRight;
     public Image leftButtonPanel;
@@ -212,8 +213,8 @@ public class UISustainHandler : MonoBehaviour
         {
             case SustainTrack.None:
                 statusText.text = "No Sustains Loaded";
-                loadSustainButtonTextLeft.text = "Load L";
-                loadSustainButtonTextRight.text = "Load R";
+                loadSustainButtonLeft.SetText("Load L");
+                loadSustainButtonRight.SetText("Load R");
                 volumeSlider.gameObject.SetActive(false);
                 deleteSustainButtonLeft.SetActive(false);
                 deleteSustainButtonRight.SetActive(false);
@@ -223,8 +224,8 @@ public class UISustainHandler : MonoBehaviour
                 break;
             case SustainTrack.Left:
                 statusText.text = "Left Sustain Loaded";
-                loadSustainButtonTextLeft.text = "Replace L";
-                loadSustainButtonTextRight.text = "Load R";
+                loadSustainButtonLeft.SetText("Replace L");
+                loadSustainButtonRight.SetText("Load R");
                 volumeSlider.gameObject.SetActive(true);
                 deleteSustainButtonLeft.SetActive(true);
                 deleteSustainButtonRight.SetActive(false);
@@ -233,8 +234,8 @@ public class UISustainHandler : MonoBehaviour
                 break;
             case SustainTrack.Right:
                 statusText.text = "Right Sustain Loaded";
-                loadSustainButtonTextLeft.text = "Load L";
-                loadSustainButtonTextRight.text = "Replace R";
+                loadSustainButtonLeft.SetText("Load L");
+                loadSustainButtonRight.SetText("Replace R");
                 volumeSlider.gameObject.SetActive(true);
                 deleteSustainButtonLeft.SetActive(false);
                 deleteSustainButtonRight.SetActive(true);
@@ -243,8 +244,8 @@ public class UISustainHandler : MonoBehaviour
                 break;
             case SustainTrack.Both:
                 statusText.text = "Both Sustains Loaded";
-                loadSustainButtonTextLeft.text = "Replace L";
-                loadSustainButtonTextRight.text = "Replace R";
+                loadSustainButtonLeft.SetText("Replace L");
+                loadSustainButtonRight.SetText("Replace R");
                 volumeSlider.gameObject.SetActive(true);
                 deleteSustainButtonLeft.SetActive(true);
                 deleteSustainButtonRight.SetActive(true);

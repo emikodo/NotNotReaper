@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using DG.Tweening;
+using NotReaper.Tools.ChainBuilder;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -17,7 +18,7 @@ namespace NotReaper.Tools.CustomSnapMenu {
         private bool confirmationOfDestructiveActionRequired = true;
         public Button confirmButton;
         public GameObject window;
-
+        [NRInject] private ChainBuilderWindow chainbuilderWindow;
         public Michsky.UI.ModernUIPack.HorizontalSelector HorizontalSnapSelector;
         public Michsky.UI.ModernUIPack.HorizontalSelector ChainbuilderIntervalSelector;
 
@@ -45,7 +46,8 @@ namespace NotReaper.Tools.CustomSnapMenu {
         }
         private void loadSavedSnaps () {
             HorizontalSnapSelector.elements = NRSettings.config.snaps;
-            ChainbuilderIntervalSelector.elements = HorizontalSnapSelector.elements;
+            chainbuilderWindow.pathBuilderInterval.elements = HorizontalSnapSelector.elements;
+            //ChainbuilderIntervalSelector.elements = HorizontalSnapSelector.elements;
         }
         public void OnSnapSet () {
             int snap = 0;

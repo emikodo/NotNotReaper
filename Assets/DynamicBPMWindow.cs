@@ -14,7 +14,7 @@ namespace NotReaper.UI.BPM
         public TMP_InputField timeSignatureNumerator;
         public TMP_InputField timeSignatureDenomerator;
 
-        [SerializeField] private Timeline timeline;
+        [NRInject] private Timeline timeline;
 
         public bool isActive = false;
 
@@ -27,6 +27,7 @@ namespace NotReaper.UI.BPM
             dynamicBpmInput.GetComponent<TMP_InputField>().onSubmit.AddListener(delegate { AddDynamicBPM(); });
             timeSignatureNumerator.GetComponent<TMP_InputField>().onSubmit.AddListener(delegate { AddDynamicBPM(); });
             timeSignatureDenomerator.GetComponent<TMP_InputField>().onSubmit.AddListener(delegate { AddDynamicBPM(); });
+            gameObject.GetComponent<CanvasGroup>().alpha = 0f;
         }
 
         public void ToggleWindow()
@@ -58,10 +59,11 @@ namespace NotReaper.UI.BPM
 
         public override void Hide()
         {
-            gameObject.GetComponent<CanvasGroup>().DOFade(0.0f, 0.3f);
-            dynamicBpmInput.GetComponent<TMP_InputField>().ReleaseSelection();
-            OnDeactivated();
-            gameObject.SetActive(false);
+            gameObject.GetComponent<CanvasGroup>().DOFade(0.0f, 0.3f).OnComplete(() =>
+            {
+                dynamicBpmInput.GetComponent<TMP_InputField>().ReleaseSelection();
+                OnDeactivated();
+            });
         }
 
         public void AddDynamicBPM()

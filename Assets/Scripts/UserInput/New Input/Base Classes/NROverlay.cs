@@ -14,6 +14,8 @@ namespace NotReaper.Overlays
         [Header("Overlay Settings")]
         [SerializeField] private string overlayName = "";
         [SerializeField] protected bool browsable = true;
+        [SerializeField] protected bool isCanvasInOverlayMode = false;
+        [SerializeField] private RectTransform parentCanvas;
         [Header("Dragging")]
         [SerializeField] private bool draggable = true;
         [SerializeField] private bool shouldReturn = false;
@@ -37,6 +39,7 @@ namespace NotReaper.Overlays
             if (draggable)
             {
                 drag = gameObject.AddComponent<DragHandler>();
+                drag.isCanvasInOverlayMode = isCanvasInOverlayMode;
                 drag.minMoveDistanceBeforeDragStart = minMoveDistanceBeforeDragStart;
                 drag.shouldReturn = shouldReturn;
             }
@@ -97,8 +100,16 @@ namespace NotReaper.Overlays
                     {
                         Vector3[] corners = new Vector3[4];
                         rect.GetWorldCorners(corners);
+                        if (isCanvasInOverlayMode)
+                        {
+                            for (int i = 0; i < 4; i++)
+                            {
+                                corners[i] = cam.ScreenToWorldPoint(corners[i]);
+                            }
+                        }                 
                         var bounds = Rect.MinMaxRect(corners[0].x, corners[0].y, corners[2].x, corners[2].y);
-
+                        Debug.Log(bounds.xMin);
+                        Debug.Log(bounds.xMax);
                         if (timeline.selectedNotes[0].IsInsideRectAtTime(Timeline.time, bounds))
                         {
                             if (rect.localPosition.x > 0)
@@ -129,6 +140,13 @@ namespace NotReaper.Overlays
             {
                 rect.pivot = new Vector2(location == Location.BottomLeft ? 0 : 1, 0);
                 position = cam.ViewportToWorldPoint(new Vector3(location == Location.BottomLeft ? 0 : 1, 0, 0));
+                if (isCanvasInOverlayMode)
+                {
+                    var pos = cam.ViewportToScreenPoint(new Vector3(location == Location.BottomLeft ? 0 : 1, 0, 0));
+                    RectTransformUtility.ScreenPointToLocalPointInRectangle(parentCanvas, pos, null, out Vector2 point);
+                    position = point;
+                    //position = new Vector3(location == Location.BottomLeft ? 0 : 1, 0, 0);
+                }
             }
             position.z = 0f;
             return position;

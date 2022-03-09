@@ -6,43 +6,72 @@ using NotReaper.UserInput;
 using UnityEngine;
 using UnityEngine.UI;
 using NotReaper.Models;
-
+using NotReaper.Statistics;
 namespace NotReaper.UI {
 
     public class UIModeSelect : MonoBehaviour {
 
-        public UIInput uiInput;
+        [NRInject] private UIInput uiInput;
+        [NRInject] private MappingInput mappingInput;
+        [NRInject] private StatisticsUI stats;
         public GameObject slider;
         public RectTransform sliderRTrans;
-
-        public UIMetadata uIMetadata;
-        public UITiming uITiming;
+        public List<GameObject> buttons = new();
+        [NRInject] private UIMetadata uIMetadata;
+        [NRInject] private UITiming uITiming;
         public UISettings uISettings;
         public float startOffset = 80f;
-        public float indexOffset = 66.6f;
+        public float indexOffset = 66.6f;      
 
-    
-        public void SelectFromUI(string mode) {
-            switch (mode) {
-                case "compose":
-                    EditorState.SelectMode(EditorMode.Compose);
-                    break;
-                case "metadata":
-                    EditorState.SelectMode(EditorMode.Metadata);
-                    break;
-                case "settings":
-                    EditorState.SelectMode(EditorMode.Settings);
-                    break;
-                case "timing":
-                    EditorState.SelectMode(EditorMode.Timing);
-                    break;
-                
+        public void EnableButtons(bool enable)
+        {
+            foreach(var button in buttons)
+            {
+                button.SetActive(enable);
             }
+        }
 
+        public void OpenSongInfo()
+        {
+            EditorState.SelectMode(EditorMode.Metadata);
+        }
+
+        public void OpenHelp()
+        {
+            uiInput.ShowHelpWindow();
+        }
+
+        public void OpenTiming()
+        {
+            uiInput.ShowTimingPointsWindow();
+        }
+
+        public void OpenModifiers()
+        {
+            mappingInput.ToggleModifiers();
+        }
+
+        public void OpenReviews()
+        {
+            uiInput.ShowReviewWindow();
+        }
+
+        public void OpenStatistics()
+        {
+            stats.Show();
         }
 
 
         public void UpdateUI(EditorMode mode) {
+            if(mode == EditorMode.Metadata)
+            {
+                uIMetadata.Show();
+            }
+            else if(mode == EditorMode.Compose)
+            {
+                uIMetadata.Hide();
+            }
+            /*
             switch (mode) {
                 
                 case EditorMode.Compose:
@@ -56,8 +85,6 @@ namespace NotReaper.UI {
                     uITiming.StopAllCoroutines();
                     StartCoroutine(uITiming.FadeOut());
                     
-                    uISettings.Deactivate();
-                    
 
                     break;
 
@@ -70,8 +97,6 @@ namespace NotReaper.UI {
 
                     uITiming.StopAllCoroutines();
                     StartCoroutine(uITiming.FadeOut());
-                    
-                    uISettings.Deactivate();
                     
 
 
@@ -89,8 +114,6 @@ namespace NotReaper.UI {
 
                     uIMetadata.StopAllCoroutines();
                     StartCoroutine(uIMetadata.FadeOut());
-                    
-                    uISettings.Deactivate();
 
                     break;
 
@@ -104,14 +127,13 @@ namespace NotReaper.UI {
                     uITiming.StopAllCoroutines();
                     StartCoroutine(uITiming.FadeOut());
                     
-                    uISettings.Activate();
-                    
                     
 
                     break;
 
   
             }
+            */
         }
 
 

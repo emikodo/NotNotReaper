@@ -7,6 +7,7 @@ using NotReaper;
 using TMPro;
 using UnityEngine.UI;
 using NotReaper.Maudica;
+using NotReaper.Audio;
 
 namespace NotReaper.UI
 {
@@ -16,6 +17,7 @@ namespace NotReaper.UI
 
         private CanvasGroup canvas;
         [Header("References")]
+        [SerializeField] private Camera cam;
         [SerializeField] private GameObject volumePanel;
         [SerializeField] private GameObject maudicaMenuButton;
         [SerializeField] private Image nrStartOverlay;
@@ -27,8 +29,7 @@ namespace NotReaper.UI
         [SerializeField] private View newView;
         [SerializeField] private View browserView;
         [SerializeField] private View settingsView;
-        [Space, Header("Startup")]
-        [SerializeField] private AudioSource source;
+
         private View activeView;
 
         private bool isInStartScreen = true;
@@ -51,20 +52,13 @@ namespace NotReaper.UI
             c.a = 1f;
             nrStartOverlay.color = c;
 
-            var can = GetComponent<Canvas>();
-            can.renderMode = RenderMode.ScreenSpaceOverlay;
-            var scaler = GetComponent<CanvasScaler>();
-            scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
-            scaler.screenMatchMode = CanvasScaler.ScreenMatchMode.Shrink;
-
-
+            cam.enabled = false;
             Show();
         }
 
         private void Start()
         {
-            source.volume = NRSettings.config.mainVol;
-            source.Play();
+            SoundEffects.Instance.PlaySound(SoundEffects.Sound.Startup);
             nrStartOverlay.DOFade(0f, 1f).OnComplete(() =>
             {
                 nrStartOverlay.gameObject.SetActive(false);
@@ -100,7 +94,7 @@ namespace NotReaper.UI
         public override void Show()
         {
             OnActivated();
-            gameObject.SetActive(true);
+            cam.enabled = true;
             if (!isInStartScreen)
             {
                 volumePanel.SetActive(true);
@@ -112,7 +106,9 @@ namespace NotReaper.UI
 
         public override void Hide()
         {
+
             canvas.alpha = 0f;
+            cam.enabled = false;
             if (isInStartScreen)
             {
                 isInStartScreen = false;

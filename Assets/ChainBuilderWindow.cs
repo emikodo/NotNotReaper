@@ -10,7 +10,15 @@ namespace NotReaper.Tools.ChainBuilder
     public class ChainBuilderWindow : NROverlay, IPointerEnterHandler, IPointerExitHandler
     {
 
-        public ChainBuilder chainBuilder;
+        [NRInject] private ChainBuilder chainBuilder;
+        [SerializeField] internal GameObject chainBuilderWindowSelectedControls;
+        [SerializeField] internal GameObject chainBuilderWindowUnselectedControls;
+
+        [SerializeField] internal Michsky.UI.ModernUIPack.HorizontalSelector pathBuilderInterval;
+        [SerializeField] internal TextSliderCombo angleIncrement;
+        [SerializeField] internal TextSliderCombo angleIncrementIncrement;
+        [SerializeField] internal TextSliderCombo stepDistance;
+        [SerializeField] internal TextSliderCombo stepIncrement;
 
         public void OnPointerEnter(PointerEventData eventData)
         {
@@ -30,6 +38,16 @@ namespace NotReaper.Tools.ChainBuilder
         public override void Hide()
         {
             OnDeactivated();
+        }
+
+        public void OnGeneratePathClicked()
+        {
+            ChainBuilder.Instance.GeneratePathFromSelectedNote();
+        }
+
+        public void OnBakeClicked()
+        {
+            ChainBuilder.Instance.BakePathFromSelectedNote();
         }
 
         [NRListener]

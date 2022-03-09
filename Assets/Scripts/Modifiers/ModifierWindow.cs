@@ -11,7 +11,7 @@ namespace NotReaper.Modifier
 {
     public class ModifierWindow : NROverlay, IPointerEnterHandler, IPointerExitHandler
     {
-        public ModifierHandler modifierCreator;
+        [NRInject] private ModifierHandler modifierCreator;
 
         public override void Show()
         {

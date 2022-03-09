@@ -31,6 +31,7 @@ namespace NotReaper.Notifications
 
             panel = gameObject.GetComponentInChildren<NotificationPanel>();
             spawner = GetComponent<NotificationSpawner>();
+            GetComponent<Canvas>().renderMode = RenderMode.ScreenSpaceOverlay;
             spawner.OnNotificationRemoved.AddListener(OnNotificationRemoved);
         }
         public static int SendNotification(object text, NotificationType type, bool playNotificationSound = true)

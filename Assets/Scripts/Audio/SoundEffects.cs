@@ -1,28 +1,26 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace NotReaper.Audio
 {
+    [RequireComponent(typeof(AudioSource))]
     public class SoundEffects : MonoBehaviour
     {
 
         public static SoundEffects Instance { get; private set; } = null;
 
-        private List<AudioSource> sourcePool;
-        private List<AudioSource> activeSources;
-        [Header("References")]
-        [SerializeField] private Slider volumeSlider;
-        [Space, Header("Settings")]
-        [SerializeField] private int maxSimultaneousSounds = 5;
         [Space, Header("Clips")]
         [SerializeField] private AudioClip click;
         [SerializeField] private AudioClip open;
         [SerializeField] private AudioClip close;
         [SerializeField] private AudioClip save;
         [SerializeField] private AudioClip notification;
+        [SerializeField] private AudioClip startup;
 
+        private AudioSource source;
         private bool isPreviewing;
 
         private void Awake()
@@ -33,14 +31,8 @@ namespace NotReaper.Audio
                 Debug.Log("SoundEffects already exists.");
                 return;
             }
-
-            Instance = this;
-            sourcePool = new();
-            activeSources = new();
-            for(int i = 0; i < maxSimultaneousSounds; i++)
-            {
-                sourcePool.Add(gameObject.AddComponent<AudioSource>());
-            }        
+            source = GetComponent<AudioSource>();
+            Instance = this;      
         }
 
         private void Start()
@@ -56,53 +48,33 @@ namespace NotReaper.Audio
 
         private void SetVolume(float volume)
         {
-            foreach (var source in sourcePool)
-            {
-                source.volume = volume * .5f;
-                volumeSlider.SetValueWithoutNotify(volume);
-                
-            }
-            foreach (var source in activeSources)
-            {
-                source.volume = volume * .5f;
-                volumeSlider.SetValueWithoutNotify(volume);
-            }
+            source.volume = volume * .5f;
         }
 
-        private IEnumerator PreviewVolume()
+        private IEnumerator DoPreviewVolume()
         {
             isPreviewing = true;
-            var source = sourcePool[0];
-            activeSources.Add(source);
-            sourcePool.Remove(source);
             source.clip = notification;
 
-            source.Play();
+            source.PlayOneShot(notification);
             while (source.isPlaying)
             {
                 yield return null;
             }
-            activeSources.Remove(source);
-            sourcePool.Add(source);
             isPreviewing = false;
         }
 
-        public void OnVolumeChanged()
+        public void PreviewVolume(float volume)
         {
-            float vol = volumeSlider.value;
-            NRSettings.config.soundEffectsVol = vol;
-            SetVolume(vol);
-
+            SetVolume(volume);
             if (!isPreviewing)
             {
-                StartCoroutine(PreviewVolume());
+                StartCoroutine(DoPreviewVolume());
             }
         }
 
         public void PlaySound(Sound type)
         {
-            if (sourcePool.Count == 0) return;
-
             AudioClip clip = null;
             switch (type)
             {
@@ -121,31 +93,18 @@ namespace NotReaper.Audio
                 case Sound.Notification:
                     clip = notification;
                     break;
+                case Sound.Startup:
+                    clip = startup;
+                    break;
                 default:
                     break;
             }
-
-            var source = sourcePool[0];
-            activeSources.Add(source);
-            sourcePool.Remove(source);
-            source.clip = clip;
-            StartCoroutine(PlayClip(source));
-        }
-
-        private IEnumerator PlayClip(AudioSource source)
-        {
-            source.Play();
-
-            while (source.isPlaying)
-            {
-                yield return null;
-            }
-            activeSources.Remove(source);
-            sourcePool.Add(source);
+            source.PlayOneShot(clip);
         }
 
         private void OnApplicationFocus(bool focus)
         {
+            if (NRSettings.config == null) return;
             if (focus)
             {
                 SetVolume(NRSettings.config.soundEffectsVol);
@@ -156,7 +115,6 @@ namespace NotReaper.Audio
             }
         }
 
-
         public enum Sound
         {
             Click,
@@ -164,6 +122,7 @@ namespace NotReaper.Audio
             Close,
             Save,
             Notification,
+            Startup,
         }
     }
 }

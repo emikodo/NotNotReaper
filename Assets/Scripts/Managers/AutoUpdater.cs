@@ -20,9 +20,6 @@ namespace NotReaper.Managers {
 		
 		
 		AutoUpdaterJSON updateData = new AutoUpdaterJSON();
-
-
-		public ProgressBar downloadSlider;
 		public TextMeshProUGUI downloadText;
 
 
@@ -35,8 +32,8 @@ namespace NotReaper.Managers {
 			}
 			
 
-			downloadSlider.currentPercent = 0;
-			downloadSlider.gameObject.SetActive(false);
+		 	UpdaterWindow.I.downloadSlider.currentPercent = 0;
+			//downloadSlider.gameObject.SetActive(false);
 
 
 		}
@@ -48,8 +45,8 @@ namespace NotReaper.Managers {
 
 
 		public IEnumerator DoUpdate(AutoUpdaterJSON data) {
-			
-			downloadSlider.gameObject.SetActive(true);
+
+			UpdaterWindow.I.downloadSlider.gameObject.SetActive(true);
 			
 			if (Application.isEditor) {
 				downloadText.SetText("Editor build detected, skipping install process.");
@@ -70,7 +67,7 @@ namespace NotReaper.Managers {
 
 
 			while (!operation.isDone) {
-				downloadSlider.currentPercent = operation.progress * 100f;
+				UpdaterWindow.I.downloadSlider.currentPercent = operation.progress * 100f;
 				yield return null;
 			}
 
@@ -80,7 +77,7 @@ namespace NotReaper.Managers {
 			}
 			else {
 				Debug.Log("File successfully downloaded and saved to " + savePath);
-				downloadSlider.currentPercent = 100;
+				UpdaterWindow.I.downloadSlider.currentPercent = 100;
 				downloadText.SetText("Download complete, installing...");
 
 			}

@@ -10,56 +10,68 @@ using UnityEngine.EventSystems;
 using NotReaper.Timing;
 using UnityEngine.InputSystem;
 
-public class CountInWindow : NRMenu {
-    public TMP_InputField lengthInput;
-    
-    [SerializeField] private Timeline timeline;
-    private CanvasGroup canvas;
-    public bool isActive = false;
-    protected override void Awake()
+namespace NotReaper.UI.Countin
+{
+    public class CountInWindow : NRMenu
     {
-        base.Awake();
-        canvas = GetComponent<CanvasGroup>();
-    }
+        public TMP_InputField lengthInput;
 
-    void Start() {
-        Vector3 defaultPos = Vector3.zero;
-        lengthInput.text = "8";
-        gameObject.GetComponent<RectTransform>().localPosition = defaultPos;
-        canvas.alpha = 0.0f;
-        gameObject.SetActive(false);
-    }
-
-    public override void Show() {
-        isActive = true;
-        OnActivated();
-        canvas.DOFade(1.0f, 0.3f);
-        gameObject.SetActive(true);
-    }
-
-    public override void Hide() {
-        isActive = false;
-        OnDeactivated();
-        canvas.DOFade(0.0f, 0.3f);
-        gameObject.SetActive(false);
-    }
-
-    public void PreviewCountIn() {
-        uint beats = 0;
-        if(uint.TryParse(lengthInput.text, out beats)) {
-            timeline.PreviewCountIn(beats);
+        [NRInject] private Timeline timeline;
+        private CanvasGroup canvas;
+        public bool isActive = false;
+        protected override void Awake()
+        {
+            base.Awake();
+            canvas = GetComponent<CanvasGroup>();
         }
-    }
 
-    public void GenerateCountIn() {
-        uint beats = 0;
-        if(uint.TryParse(lengthInput.text, out beats)) {
-            timeline.GenerateCountIn(beats);
+        void Start()
+        {
+            Vector3 defaultPos = Vector3.zero;
+            lengthInput.text = "8";
+            gameObject.GetComponent<RectTransform>().localPosition = defaultPos;
+            canvas.alpha = 0.0f;
+            gameObject.SetActive(false);
         }
-    }
 
-    protected override void OnEscPressed(InputAction.CallbackContext context)
-    {
-        Hide();
+        public override void Show()
+        {
+            isActive = true;
+            OnActivated();
+            canvas.DOFade(1.0f, 0.3f);
+            gameObject.SetActive(true);
+        }
+
+        public override void Hide()
+        {
+            isActive = false;
+            canvas.DOFade(0.0f, 0.3f).OnComplete(() =>
+            {
+                OnDeactivated();
+            });
+        }
+
+        public void PreviewCountIn()
+        {
+            uint beats = 0;
+            if (uint.TryParse(lengthInput.text, out beats))
+            {
+                timeline.PreviewCountIn(beats);
+            }
+        }
+
+        public void GenerateCountIn()
+        {
+            uint beats = 0;
+            if (uint.TryParse(lengthInput.text, out beats))
+            {
+                timeline.GenerateCountIn(beats);
+            }
+        }
+
+        protected override void OnEscPressed(InputAction.CallbackContext context)
+        {
+            Hide();
+        }
     }
 }

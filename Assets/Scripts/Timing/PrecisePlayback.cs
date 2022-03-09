@@ -218,17 +218,17 @@ namespace NotReaper.Timing {
             sampleRate = AudioSettings.outputSampleRate;
             sustainR.outputAudioMixerGroup = susRvol;
             sustainL.outputAudioMixerGroup = susLvol;
-            //leftSustainVolume = leftSUSslider.value;
-            //rightSustainVolume = rightSUSslider.value;
-            hitSoundVolume = hitSoundSlider.value;
+			//leftSustainVolume = leftSUSslider.value;
+			//rightSustainVolume = rightSUSslider.value;
+			hitSoundVolume = NRSettings.config.noteVol;
             
-            leftSUSslider.onValueChanged.AddListener(val => {
+            /*leftSUSslider.onValueChanged.AddListener(val => {
                 leftSUSslider.value = val;
                 NRSettings.config.EditorSustainVol = leftSUSslider.value;
                 NRSettings.SaveSettingsJson();
-            });
+            });*/
             NRSettings.OnLoad(() => {
-                leftSUSslider.value = NRSettings.config.EditorSustainVol;
+                //leftSUSslider.value = NRSettings.config.EditorSustainVol;
 
                 
 
@@ -903,14 +903,14 @@ namespace NotReaper.Timing {
 
 				ctx.playbackSpeed = speed;
 				if(leftSustain != null) {
-					//ctx.volume = leftSustainVolume;
-                    ctx.volume = (leftSUSslider.value * leftSustainVolume);
+					ctx.volume = leftSustainVolume;
+                    //ctx.volume = (leftSUSslider.value * leftSustainVolume);
 					leftSustain.CopySampleIntoBuffer(ctx);
 				}
 
 				if(rightSustain != null) {
-					//ctx.volume = rightSustainVolume;
-                    ctx.volume = (rightSUSslider.value * rightSustainVolume);
+					ctx.volume = rightSustainVolume;
+                    //ctx.volume = (rightSUSslider.value * rightSustainVolume);
                     rightSustain.CopySampleIntoBuffer(ctx);
 				}
 

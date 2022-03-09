@@ -34,8 +34,14 @@ namespace NotReaper.BpmAlign
         {
             base.Awake();
             canvas = GetComponent<CanvasGroup>();
+            GetComponent<Canvas>().renderMode = RenderMode.ScreenSpaceOverlay;
         }
 
+
+        private void Start()
+        {
+            gameObject.SetActive(false);
+        }
         public override void Show()
         {
             OnActivated();

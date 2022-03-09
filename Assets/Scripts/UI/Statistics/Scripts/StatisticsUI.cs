@@ -13,7 +13,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
-
+using DG.Tweening;
 namespace NotReaper.Statistics
 {
     public class StatisticsUI : NRMenu
@@ -37,7 +37,7 @@ namespace NotReaper.Statistics
         [SerializeField] private Toggle percentageToggle;
 
         public bool IsOpen => gameObject.activeInHierarchy;
-        private GameObject window;
+        private CanvasGroup canvas;
 
         List<StatisticsElement> leftPool = new List<StatisticsElement>();
         List<StatisticsElement> activeLeftElements = new List<StatisticsElement>();
@@ -52,13 +52,14 @@ namespace NotReaper.Statistics
                 return;
             }
             Instance = this;
+            canvas = GetComponent<CanvasGroup>();
+            canvas.alpha = 0f;
             base.Awake();
         }
 
         private void Start()
         {
-            window = gameObject;
-            window.SetActive(false);
+            gameObject.SetActive(false);
         }
         #endregion
 
@@ -77,7 +78,7 @@ namespace NotReaper.Statistics
         public void Open()
         {
             OnActivated();
-            ShowWindow(true);
+            canvas.DOFade(1f, .3f);
             songLabel.text = Timeline.desc.title.ToLowerInvariant();
             artistLabel.text = Timeline.desc.artist.ToLowerInvariant();
             mapperLabel.text = $"by {Timeline.desc.author}".ToLowerInvariant();
@@ -91,19 +92,13 @@ namespace NotReaper.Statistics
         /// </summary>
         public void Close()
         {
-            ClearEntries();
-            ShowWindow(false);
-            OnDeactivated();
+            canvas.DOFade(0f, .3f).OnComplete(() =>
+            {
+                ClearEntries();
+                OnDeactivated();
+            });
         }
-        /// <summary>
-        /// Opens and closes this window.
-        /// </summary>
-        /// <param name="show">True to open.</param>
-        private void ShowWindow(bool show)
-        {
-            window.transform.localPosition = show ? Vector2.zero : new Vector2(6500f, 0f);
-            window.SetActive(show);
-        }
+
         /// <summary>
         /// Shows or hides percentages.
         /// </summary>

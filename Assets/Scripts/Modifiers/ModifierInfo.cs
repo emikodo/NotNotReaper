@@ -11,8 +11,9 @@ using UnityEngine.InputSystem;
 public class ModifierInfo : NRMenu
 {
     public static bool isOpened = false;
-    public static ModifierInfo Instance = null;
+    public static ModifierInfo Instance { get; private set; } = null;
     public CanvasGroup window;
+    private CanvasGroup canvas;
     protected override void Awake()
     {
         base.Awake();
@@ -29,21 +30,17 @@ public class ModifierInfo : NRMenu
         var t = transform;
         var position = t.localPosition;
         t.localPosition = new Vector3(0, position.y, position.z);
-
+        GetComponent<Canvas>().renderMode = RenderMode.ScreenSpaceOverlay;
+        canvas = GetComponent<CanvasGroup>();
+        canvas.alpha = 0f;
         gameObject.SetActive(false);
     }
 
     public override void Show()
     {
         OnActivated();
-        gameObject.SetActive(true);
-        gameObject.GetComponent<CanvasGroup>().DOFade(1.0f, 0.3f);
-
-        Transform camTrans = Camera.main.transform;
-
-        window.transform.position = new Vector3(camTrans.position.x, camTrans.position.y, transform.position.z);
-
-        window.transform.DOMove(new Vector3(transform.position.x, camTrans.position.y + 5.5f, transform.position.z), 1.0f).SetEase(Ease.OutQuint);
+        canvas.DOFade(1f, .3f);
+        transform.position = Vector3.zero;
         isOpened = true;
     }
 
@@ -52,10 +49,11 @@ public class ModifierInfo : NRMenu
     public override void Hide()
     {
         isOpened = false;
-        OnDeactivated();
-        gameObject.SetActive(false);
 
-
+        canvas.DOFade(0f, .3f).OnComplete(() =>
+        {
+            OnDeactivated();
+        });
     }
 
     protected override void OnEscPressed(InputAction.CallbackContext context)

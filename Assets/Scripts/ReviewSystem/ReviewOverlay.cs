@@ -19,6 +19,67 @@ namespace NotReaper.ReviewSystem
             OnDeactivated();
         }
 
+        public void OnDeleteCommentClicked()
+        {
+            manager.RemoveComment();
+        }
+
+        public void OnSelectCuesClicked()
+        {
+            manager.SelectCues(true);
+        }
+        public void OnSaveCommentCLicked()
+        {
+            manager.SaveComment();
+        }
+        public void OnNewCommentClicked()
+        {
+            manager.NewComment();
+        }
+        public void OnShowSuggestionClicked()
+        {
+            manager.ShowSuggestion();
+        }
+
+        public void OnCheckCommentClicked()
+        {
+            manager.ToggleCommentChecked();
+        }
+
+        public void OnMakeSuggestionClicked()
+        {
+            manager.EditSuggestion();
+        }
+
+        public void OnToggleModeClicked()
+        {
+            manager.ToggleMode();
+        }
+        public void OnSaveAndOpenClicked()
+        {
+            manager.Export();
+        }
+        public void OnLoadClicked()
+        {
+            manager.Load();
+        }        
+        public void OnPreviousClicked()
+        {
+            manager.PreviousComment();
+        }
+        public void OnNextClicked()
+        {
+            manager.NextComment();
+        }
+        public void OnHideCommentsClicked()
+        {
+            manager.ToggleComments();
+        }
+        public void OnCloseClicked()
+        {
+            manager.ToggleWindow();
+        }
+
         [NRListener]
         protected override void OnEditorModeChanged(EditorMode mode)
         {

@@ -28,7 +28,7 @@ namespace NotReaper.Modifier
 
         [Header("References")]
         [SerializeField] private ModifierSelectionHandler selectionHandler;
-        [SerializeField] private ModifierWindow modifierWindow;
+        [NRInject] private ModifierWindow modifierWindow;
         [SerializeField] private TMP_Dropdown dropdown;
         [SerializeField] private GameObject amountSlider;
         [SerializeField] private GameObject colorPicker;

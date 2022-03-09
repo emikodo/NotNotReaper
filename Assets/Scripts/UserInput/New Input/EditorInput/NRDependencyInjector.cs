@@ -1,8 +1,10 @@
 ﻿using NotReaper.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace NotReaper
 {
@@ -11,10 +13,53 @@ namespace NotReaper
         private static Dictionary<Type, Dependency> dependencies = new Dictionary<Type, Dependency>();
 
         private List<InjectionContainer> pendingInjections = new List<InjectionContainer>();
+
+        private int sceneCount;
+        private int loadedSceneCount;
         private void Awake()
         {
-            var behaviors = FindObjectsOfType<MonoBehaviour>();
-            RegisterDependencies(behaviors);
+            sceneCount = SceneManager.sceneCountInBuildSettings;
+            SceneManager.sceneLoaded += OnSceneLoaded;
+
+        }
+        private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+        {
+            loadedSceneCount += 1;
+            if (loadedSceneCount == sceneCount)
+            {
+                DoInjection();
+            }
+        }
+
+        private void DoInjection()
+        {
+            List<MonoBehaviour> behaviors = new();
+            for (int i = 0; i < SceneManager.sceneCount; i++)
+            {
+                var objects = SceneManager.GetSceneAt(i).GetRootGameObjects();
+
+                foreach (var obj in objects)
+                {
+                    var mono = obj.GetComponent<MonoBehaviour>();
+                    if (mono != null) behaviors.Add(mono);
+                    var childMonos = obj.GetComponentsInChildren<MonoBehaviour>(true).ToList();
+                    for (int j = childMonos.Count - 1; j >= 0; j--)
+                    {
+                        if (childMonos[j] == null)
+                        {
+                            childMonos.RemoveAt(j);
+                        }
+                    }
+                    if (childMonos != null && childMonos.Count > 0)
+                    {
+                        behaviors.AddRange(childMonos);
+                    }
+                }
+
+
+            }
+            //var behaviors = FindObjectsOfType<MonoBehaviour>(true);
+            RegisterDependencies(behaviors.ToArray());
             InjectDependencies();
         }
 
@@ -151,7 +196,7 @@ namespace NotReaper
                 }
                 else
                 {
-                    throw new KeyNotFoundException($"Can't inject dependency to {container.Field.Name}: No dependency of type {fieldType} registered.");
+                    throw new KeyNotFoundException($"Can't inject dependency to {container.Field.Name} in {container.Instance}: No dependency of type {fieldType} registered.");
                 }
             }
         }

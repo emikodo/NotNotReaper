@@ -18,6 +18,7 @@ public class DragHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     public bool shouldSnap;
     public float minMoveDistanceBeforeDragStart = 0f;
     private Vector2 mouseStartPosScreen;
+    internal bool isCanvasInOverlayMode;
 
     private InputAction mousePosition;
     private void Awake()
@@ -34,7 +35,14 @@ public class DragHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     {
         isMouseDown = true;
         startPosition = transform.position;
-        startMousePosition = cam.ScreenToWorldPoint(Input.mousePosition);
+        if (isCanvasInOverlayMode)
+        {
+            startMousePosition = Input.mousePosition;
+        }
+        else
+        {
+            startMousePosition = cam.ScreenToWorldPoint(Input.mousePosition);
+        }
         mouseStartPosScreen = mousePosition.ReadValue<Vector2>();
     }
 
@@ -57,7 +65,15 @@ public class DragHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
             float moveDistance = Math.Abs(mouseStartPosScreen.magnitude - mousePosition.ReadValue<Vector2>().magnitude);
             if (moveDistance > minMoveDistanceBeforeDragStart)
             {
-                Vector3 mousePos = cam.ScreenToWorldPoint(mousePosition.ReadValue<Vector2>());
+                Vector3 mousePos;
+                if (isCanvasInOverlayMode)
+                {
+                    mousePos = mousePosition.ReadValue<Vector2>();
+                }
+                else
+                {
+                    mousePos = cam.ScreenToWorldPoint(mousePosition.ReadValue<Vector2>());
+                }
 
                 Vector3 currentPosition = mousePos;
 
@@ -70,7 +86,7 @@ public class DragHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
                 {
                     transform.position = pos;
                 }
-                else transform.position = NoteGridSnap.SnapToGrid(new Vector3(pos.x, pos.y, -1f), SnappingMode.Grid);
+                else if(shouldSnap && !isCanvasInOverlayMode) transform.position = NoteGridSnap.SnapToGrid(new Vector3(pos.x, pos.y, -1f), SnappingMode.Grid);
             }          
         }
     }

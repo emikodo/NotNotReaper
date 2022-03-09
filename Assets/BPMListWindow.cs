@@ -11,43 +11,47 @@ using NotReaper.Timing;
 using UnityEngine.InputSystem;
 using NotReaper.Notifications;
 
-public class BPMListWindow : NRMenu
+namespace NotReaper.UI.BPM
 {
-    public TMP_Text bpmTextList;
-    public bool isActive;
-    void Start() {
-        Vector3 defaultPos = Vector3.zero;
-        gameObject.GetComponent<RectTransform>().localPosition = defaultPos;
-        gameObject.GetComponent<CanvasGroup>().alpha = 0.0f;
-        gameObject.SetActive(false);
-    }
-
-    public override void Show()
+    public class BPMListWindow : NRMenu
     {
-        NotificationCenter.SendNotification("No BPM Start point set.", NotificationType.Warning);
-    }
-
-    public void Show(List<float> bpmList) {
-        isActive = true;
-        OnActivated();
-        gameObject.GetComponent<CanvasGroup>().DOFade(1.0f, 0.3f);
-        gameObject.SetActive(true);
-
-        bpmTextList.text = "";
-        foreach(float f in bpmList) {
-            bpmTextList.text += f.ToString() + "\n";
+        public TMP_Text bpmTextList;
+        public bool isActive;
+        void Start() {
+            Vector3 defaultPos = Vector3.zero;
+            gameObject.GetComponent<RectTransform>().localPosition = defaultPos;
+            gameObject.GetComponent<CanvasGroup>().alpha = 0.0f;
+            gameObject.SetActive(false);
         }
-    }
 
-    public override void Hide() {
-        isActive = false;
-        OnDeactivated();
-        gameObject.GetComponent<CanvasGroup>().DOFade(0.0f, 0.3f);
-        gameObject.SetActive(false);
-    }
+        public override void Show()
+        {
+            NotificationCenter.SendNotification("No BPM Start point set.", NotificationType.Warning);
+        }
 
-    protected override void OnEscPressed(InputAction.CallbackContext context)
-    {
-        Hide();
+        public void Show(List<float> bpmList) {
+            isActive = true;
+            OnActivated();
+            gameObject.GetComponent<CanvasGroup>().DOFade(1.0f, 0.3f);
+            gameObject.SetActive(true);
+
+            bpmTextList.text = "";
+            foreach(float f in bpmList) {
+                bpmTextList.text += f.ToString() + "\n";
+            }
+        }
+
+        public override void Hide() {
+            isActive = false;
+            gameObject.GetComponent<CanvasGroup>().DOFade(0.0f, 0.3f).OnComplete(() =>
+            {
+                OnDeactivated();
+            });
+        }
+
+        protected override void OnEscPressed(InputAction.CallbackContext context)
+        {
+            Hide();
+        }
     }
 }

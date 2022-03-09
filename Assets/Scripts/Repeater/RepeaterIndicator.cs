@@ -51,6 +51,7 @@ namespace NotReaper.Repeaters
             raycaster = GetComponent<GraphicRaycaster>();
             overlay = NRDependencyInjector.Get<RepeaterMenu>();
             timeline = NRDependencyInjector.Get<Timeline>();
+            GetComponent<Canvas>().worldCamera = timeline.timelineCamera.GetComponent<Camera>();
             mousePosition = KeybindManager.Global.MousePosition;
             this.miniTimelineParent = miniTimelineParent;
             miniTimelineIndicator = Instantiate(miniTimelineIndicatorPrefab, miniTimelineParent);

@@ -24,7 +24,7 @@ namespace NotReaper.Modifier
         private List<Modifier> selectedEntries = new List<Modifier>();
         private List<ModifierDTO> copiedEntries = new List<ModifierDTO>();
 
-        [SerializeField] private Camera cam;
+        private Camera cam;
         private CopyMode mode = CopyMode.Copy;
         private Vector3 dragStartPos;
         private Renderer rend;
@@ -32,6 +32,7 @@ namespace NotReaper.Modifier
         private bool isCtrlDown;
         private bool dragSelect;
         private bool isMouseDown;
+
         private void Start()
         {
             if (Instance is null) Instance = this;
@@ -40,12 +41,12 @@ namespace NotReaper.Modifier
                 Debug.LogWarning("Trying to create a second ModifierSelectionhandler instance.");
                 return;
             }
-
+            cam = NRDependencyInjector.Get<Timeline>().timelineCamera.GetComponent<Camera>();
             posGetter = GameObject.Instantiate(new GameObject("PosGetter").transform);
             posGetter.SetParent(Timeline.timelineNotesStatic);
             rend = selectionBox.GetComponent<Renderer>();
+            selectionBox.transform.SetParent(Timeline.timelineNotesStatic);
             selectionBox.SetActive(false);
-           
         }
 
         public void CleanUp()
@@ -236,84 +237,6 @@ namespace NotReaper.Modifier
             {
                 UpdateDragSelect();
             }
-            /*
-            if (Input.GetMouseButtonDown(0))
-            {
-                int layerMask = LayerMask.GetMask("Modifier");
-                RaycastHit2D hit = Physics2D.Raycast(main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero, 1000000f, layerMask);
-                if (hit.collider != null)
-                {
-                    Modifier m = hit.transform.GetComponent<ClickNotifier>().GetModifier();
-
-                    if (dragSelect)
-                    {
-                        if (m.isCreated) SelectModifier(m, false);
-                    }
-                    else
-                    {
-                        if (m.isCreated) SelectModifier(m, true);
-                    }
-                                                                                            
-                }
-                else if (dragSelect)
-                {
-                    DeselectAllModifiers();
-                }
-                else
-                {
-                    layerMask = LayerMask.GetMask("Timeline");
-                    hit = Physics2D.Raycast(main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero, 1000000f, layerMask);
-                    if(hit.collider != null)
-                    {
-                        if (hit.transform.gameObject.layer == 14)
-                        {
-                            DeselectAllModifiers();
-                        }
-                    }
-                }
-            }
-            if (Input.GetMouseButtonDown(1))
-            {
-                int layerMask = LayerMask.GetMask("Modifier");
-                RaycastHit2D hit = Physics2D.Raycast(main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero, 1000000f, layerMask);
-                if (hit.collider != null)
-                {
-                    Modifier m = hit.transform.GetComponent<ClickNotifier>().GetModifier();
-                    DeselectAllModifiers();
-                    selectedEntries.Add(m);
-                    DeleteSelectedModifiers();
-                }
-            }
-            if (Input.GetKey(KeyCode.LeftControl))
-            {
-                
-                if (Input.GetMouseButtonDown(0))
-                {
-                    dragStartPos = Timeline.timelineNotesStatic.InverseTransformPoint(main.ScreenToWorldPoint(Input.mousePosition));
-                    selectionBox.transform.SetParent(Timeline.timelineNotesStatic);
-                    Vector3 newPos = selectionBox.transform.localPosition;
-                    newPos.x = dragStartPos.x;
-                    selectionBox.transform.localPosition = newPos;
-                }
-                if (Input.GetMouseButton(0))
-                {
-                    UpdateDragSelect();
-                }
-                if (Input.GetMouseButtonUp(0))
-                {
-                    dragStartPos = Vector3.zero;
-                    selectionBox.SetActive(false);
-                }
-            }
-            if (Input.GetKeyUp(KeyCode.LeftControl) && selectionBox.activeInHierarchy)
-            {
-                selectionBox.SetActive(false);
-            }
-            if (Input.GetKeyDown(KeyCode.Delete))
-            {
-                ModifierHandler.Instance.DeleteModifier();
-            }
-            */
         }
 
         private void UpdateDragSelect()
