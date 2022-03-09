@@ -540,6 +540,7 @@ namespace NotReaper
             data.behavior = EditorState.Behavior.Current;
 
             QNT_Timestamp tempTime = GetClosestBeatSnapped(time, (uint)beatSnap);
+            TempoChange currentTempo = tempoChanges[0];
             int leftHandMeleeCount = 0;
             int rightHandMeleeCount = 0;
             int meleeCount = 0;
@@ -592,7 +593,7 @@ namespace NotReaper
                 if (targetCount == 2) return;
             }
 
-            if (tempTime.tick < 8 * Constants.QuarterNoteDuration.tick) // deny if in intro redzone
+            if (tempTime.tick < (currentTempo.timeSignature.Numerator * 2) * Constants.QuarterNoteDuration.tick) // deny if in intro redzone
             {
                 NotificationCenter.SendNotification("Can't place target in intro zone. Targets before the 2 second mark don't properly work in-game.", NotificationType.Info);
                 return;
