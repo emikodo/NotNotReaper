@@ -174,53 +174,8 @@ namespace NotReaper.UI.Components
             }
         }
 
-        private void CreateUnderline()
-        {
-            GetComponent<VerticalLayoutGroup>().childControlHeight = false;
-            GameObject line = new GameObject();
-            line.transform.SetParent(transform);
-            line.name = "Underline";
-            line.AddComponent<Image>();
-            var scale = new Vector3(.3f, 1f, 1f);
-            line.transform.localScale = scale;
-            line.AddComponent<RectTransform>();
-            var size = line.GetComponent<RectTransform>().sizeDelta;
-            size.y = 2;
-            line.GetComponent<RectTransform>().sizeDelta = size;
-            underline = transform.GetChild(1).GetComponent<Image>();
-        }
-
         public void UpdateButton()
         {
-            /*if(underline == null)
-            {
-                if(transform.childCount == 2)
-                {
-                    underline = transform.GetChild(1).GetComponent<Image>();
-                    Debug.Log("Getting reference");
-                }
-                else if(transform.childCount == 1)
-                {
-                    Debug.Log("Creating underline");
-                    CreateUnderline();
-                }
-            }
-            if(transform.childCount == 3)
-            {
-                Debug.Log("Deleting an extra underline");
-                Destroy(transform.GetChild(2).gameObject);
-                underline = transform.GetChild(1).GetComponent<Image>();
-            }*/
-            if(underline == null)
-            {
-                if(transform.childCount != 2)
-                {
-                    Debug.Log("Im guilty. My name is " + transform.name + ". My scene is " + gameObject.scene.name);
-                    return;
-                }
-                Debug.Log("Getting reference");
-                underline = transform.GetChild(1).GetComponent<Image>();
-            }
             if(buttonGroup != null)
             {
                 skin = buttonGroup.skin;
