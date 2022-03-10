@@ -28,6 +28,9 @@ namespace NotReaper.UI.Components
         [SerializeField] private bool hideBackground;
         [Space, Header("Outline")]
         [SerializeField] private bool useOutline = true;
+        [Space, Header("Underline")]
+        [SerializeField] private bool useUnderline = false;
+        [SerializeField] private Theme underlineTheme = Theme.Default;
         [Space, Header("Icon")]
         [SerializeField] private Sprite icon;
         [SerializeField] private Color defaultColor = Color.white;
@@ -48,6 +51,7 @@ namespace NotReaper.UI.Components
         
         [SerializeField, HideInInspector] private Image background;
         [SerializeField, HideInInspector] private Image outline;
+        [SerializeField, HideInInspector] private Image underline;
         [SerializeField, HideInInspector] private TextMeshProUGUI textContainer;
         [SerializeField, HideInInspector] private GameObject iconHolder;
         [SerializeField, HideInInspector] private Image iconDisplay;
@@ -108,6 +112,7 @@ namespace NotReaper.UI.Components
         {
             initialized = true;
             background = transform.GetChild(0).GetComponent<Image>();
+            underline = transform.GetChild(1).GetComponent<Image>();
             outline = background.transform.GetChild(0).GetComponent<Image>();
             textContainer = outline.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
             iconHolder = outline.transform.GetChild(1).gameObject;
@@ -136,7 +141,11 @@ namespace NotReaper.UI.Components
             if (initialized)
             {
                 background.transform.localPosition = initialPosition;
-                background.transform.localScale = initialScale;
+                background.transform.localScale = initialScale;                
+                background.color = skin.defaultColor;
+                var scale = underline.transform.localScale;
+                scale.x = .3f;
+                underline.transform.localScale = scale;
                 iconDisplay.transform.rotation = Quaternion.Euler(0f, 0f, initialRotation);
             }
             ToolTips.I.SetText("");
@@ -165,8 +174,53 @@ namespace NotReaper.UI.Components
             }
         }
 
+        private void CreateUnderline()
+        {
+            GetComponent<VerticalLayoutGroup>().childControlHeight = false;
+            GameObject line = new GameObject();
+            line.transform.SetParent(transform);
+            line.name = "Underline";
+            line.AddComponent<Image>();
+            var scale = new Vector3(.3f, 1f, 1f);
+            line.transform.localScale = scale;
+            line.AddComponent<RectTransform>();
+            var size = line.GetComponent<RectTransform>().sizeDelta;
+            size.y = 2;
+            line.GetComponent<RectTransform>().sizeDelta = size;
+            underline = transform.GetChild(1).GetComponent<Image>();
+        }
+
         public void UpdateButton()
         {
+            /*if(underline == null)
+            {
+                if(transform.childCount == 2)
+                {
+                    underline = transform.GetChild(1).GetComponent<Image>();
+                    Debug.Log("Getting reference");
+                }
+                else if(transform.childCount == 1)
+                {
+                    Debug.Log("Creating underline");
+                    CreateUnderline();
+                }
+            }
+            if(transform.childCount == 3)
+            {
+                Debug.Log("Deleting an extra underline");
+                Destroy(transform.GetChild(2).gameObject);
+                underline = transform.GetChild(1).GetComponent<Image>();
+            }*/
+            if(underline == null)
+            {
+                if(transform.childCount != 2)
+                {
+                    Debug.Log("Im guilty. My name is " + transform.name + ". My scene is " + gameObject.scene.name);
+                    return;
+                }
+                Debug.Log("Getting reference");
+                underline = transform.GetChild(1).GetComponent<Image>();
+            }
             if(buttonGroup != null)
             {
                 skin = buttonGroup.skin;
@@ -177,6 +231,8 @@ namespace NotReaper.UI.Components
                 moveAmount = buttonGroup.moveAmount;
                 mode = buttonGroup.mode;
                 useOutline = buttonGroup.useOutline;
+                useUnderline = buttonGroup.useUnderline;
+                underlineTheme = buttonGroup.underlineTheme;
                 autoSizeText = buttonGroup.autoSizeText;
                 textSize = buttonGroup.textSize;
                 hideBackground = buttonGroup.hideBackground;
@@ -191,6 +247,9 @@ namespace NotReaper.UI.Components
             
             outline.enabled = useOutline;
             outline.color = skin.outlineColor;
+
+            underline.enabled = useUnderline;
+            underline.color = underlineTheme == Theme.Default ? skin.defaultColor : underlineTheme == Theme.LeftHand ? NRSettings.config.leftColor : underlineTheme == Theme.RightHand ? NRSettings.config.rightColor : NRSettings.config.selectedHighlightColor;
 
             if (icon == null)
             {
@@ -232,6 +291,7 @@ namespace NotReaper.UI.Components
             isMouseOver = true;
             DoBackgroundColorTransition(skin.highlightedColor);
             DoIconColorTransition(highlightedColor);
+            DoUnderlineTransition(.9f);
             DoMove(true);
         }
 
@@ -243,6 +303,7 @@ namespace NotReaper.UI.Components
             isMouseOver = false;
             DoBackgroundColorTransition(skin.defaultColor);
             DoIconColorTransition(defaultColor);
+            DoUnderlineTransition(.3f);
             DoMove(false);
         }
 
@@ -294,6 +355,12 @@ namespace NotReaper.UI.Components
         {
             isSelected = false;
             OnPointerExit(null);
+        }
+
+        private void DoUnderlineTransition(float scale)
+        {
+            underline.transform.DOKill();
+            underline.transform.DOScaleX(scale, animationDuration);
         }
 
         private void DoBackgroundColorTransition(Color newColor)
@@ -364,6 +431,14 @@ namespace NotReaper.UI.Components
         MoveLeft,
         MoveRight,
         Spin
+    }
+
+    public enum Theme
+    {
+        Default,
+        LeftHand,
+        RightHand,
+        Selected
     }
 
     [Serializable]

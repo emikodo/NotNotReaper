@@ -80,6 +80,15 @@ public partial class @GlobalKeybinds : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Scroll"",
+                    ""type"": ""Button"",
+                    ""id"": ""9202bac0-916c-4247-96e2-8e7a3836e78b"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -159,6 +168,17 @@ public partial class @GlobalKeybinds : IInputActionCollection2, IDisposable
                     ""action"": ""MouseDown"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""806f5397-2601-414f-ac79-c9581d602b52"",
+                    ""path"": ""<Mouse>/scroll/y"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Scroll"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -173,6 +193,7 @@ public partial class @GlobalKeybinds : IInputActionCollection2, IDisposable
         m_Global_Shift = m_Global.FindAction("Shift", throwIfNotFound: true);
         m_Global_MousePosition = m_Global.FindAction("MousePosition", throwIfNotFound: true);
         m_Global_MouseDown = m_Global.FindAction("MouseDown", throwIfNotFound: true);
+        m_Global_Scroll = m_Global.FindAction("Scroll", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -238,6 +259,7 @@ public partial class @GlobalKeybinds : IInputActionCollection2, IDisposable
     private readonly InputAction m_Global_Shift;
     private readonly InputAction m_Global_MousePosition;
     private readonly InputAction m_Global_MouseDown;
+    private readonly InputAction m_Global_Scroll;
     public struct GlobalActions
     {
         private @GlobalKeybinds m_Wrapper;
@@ -248,6 +270,7 @@ public partial class @GlobalKeybinds : IInputActionCollection2, IDisposable
         public InputAction @Shift => m_Wrapper.m_Global_Shift;
         public InputAction @MousePosition => m_Wrapper.m_Global_MousePosition;
         public InputAction @MouseDown => m_Wrapper.m_Global_MouseDown;
+        public InputAction @Scroll => m_Wrapper.m_Global_Scroll;
         public InputActionMap Get() { return m_Wrapper.m_Global; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -275,6 +298,9 @@ public partial class @GlobalKeybinds : IInputActionCollection2, IDisposable
                 @MouseDown.started -= m_Wrapper.m_GlobalActionsCallbackInterface.OnMouseDown;
                 @MouseDown.performed -= m_Wrapper.m_GlobalActionsCallbackInterface.OnMouseDown;
                 @MouseDown.canceled -= m_Wrapper.m_GlobalActionsCallbackInterface.OnMouseDown;
+                @Scroll.started -= m_Wrapper.m_GlobalActionsCallbackInterface.OnScroll;
+                @Scroll.performed -= m_Wrapper.m_GlobalActionsCallbackInterface.OnScroll;
+                @Scroll.canceled -= m_Wrapper.m_GlobalActionsCallbackInterface.OnScroll;
             }
             m_Wrapper.m_GlobalActionsCallbackInterface = instance;
             if (instance != null)
@@ -297,6 +323,9 @@ public partial class @GlobalKeybinds : IInputActionCollection2, IDisposable
                 @MouseDown.started += instance.OnMouseDown;
                 @MouseDown.performed += instance.OnMouseDown;
                 @MouseDown.canceled += instance.OnMouseDown;
+                @Scroll.started += instance.OnScroll;
+                @Scroll.performed += instance.OnScroll;
+                @Scroll.canceled += instance.OnScroll;
             }
         }
     }
@@ -309,5 +338,6 @@ public partial class @GlobalKeybinds : IInputActionCollection2, IDisposable
         void OnShift(InputAction.CallbackContext context);
         void OnMousePosition(InputAction.CallbackContext context);
         void OnMouseDown(InputAction.CallbackContext context);
+        void OnScroll(InputAction.CallbackContext context);
     }
 }

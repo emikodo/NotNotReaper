@@ -74,6 +74,7 @@ namespace NotReaper.UI {
 
         public void SelectFromUI(string name) 
         {
+            Debug.Log("click");
             name = char.ToUpper(name[0]) + name.Substring(1);
             Enum.TryParse(name, out TargetBehavior behavior);
             if (KeybindManager.Global.Modifier.IsCtrlDown())

@@ -20,6 +20,9 @@ namespace NotReaper.UI.Components
         public bool hideBackground;
         [Space, Header("Outline")]
         public bool useOutline = true;
+        [Space, Header("Underline")]
+        public bool useUnderline = false;
+        public Theme underlineTheme = Theme.Default;
         [Space, Header("Icon")]
         public Color defaultColor = Color.white;
         public Color highlightedColor = Color.white;

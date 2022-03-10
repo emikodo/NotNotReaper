@@ -8,6 +8,7 @@ using UnityEngine.UI;
 using NotReaper.Models;
 using NotReaper.Statistics;
 using NotReaper.MenuBrowser;
+using NotReaper.UI.Volume;
 
 namespace NotReaper.UI {
 
@@ -21,6 +22,7 @@ namespace NotReaper.UI {
         public List<GameObject> buttons = new();
         [NRInject] private UIMetadata uIMetadata;
         [NRInject] private UITiming uITiming;
+        [NRInject] private VolumeOverlay volume;
         public UISettings uISettings;
         public float startOffset = 80f;
         public float indexOffset = 66.6f;      
@@ -36,6 +38,11 @@ namespace NotReaper.UI {
         public void OpenSongInfo()
         {
             EditorState.SelectMode(EditorMode.Metadata);
+        }
+
+        public void OpenVolumeOverlay()
+        {
+            volume.Show();
         }
 
         public void OpenMenuBrowser()

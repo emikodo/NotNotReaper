@@ -158,7 +158,7 @@ namespace NotReaper.Statistics
                 activeLeftElements.RemoveAt(i);
                 leftPool.Add(element);
                 element.Reset();
-                element.transform.parent = entryHolder;
+                element.transform.SetParent(entryHolder);
                 element.gameObject.SetActive(false);
             }
             firstHighlightSlot.Reset();
@@ -204,7 +204,7 @@ namespace NotReaper.Statistics
                 element = Instantiate(prefabLeft, parentLeft);
             }
             element.gameObject.SetActive(true);
-            element.transform.parent = parentLeft;
+            element.transform.SetParent(parentLeft);
             activeLeftElements.Add(element);
             return element;
         }

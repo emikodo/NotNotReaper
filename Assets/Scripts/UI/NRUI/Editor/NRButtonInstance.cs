@@ -23,7 +23,7 @@ namespace NotReaper.UI.Components
             clickedObject = Selection.activeObject as GameObject;
             if(clickedObject != null)
             {
-                instance.transform.parent = clickedObject.transform;
+                instance.transform.SetParent(clickedObject.transform);
             }
             instance.transform.localScale = Vector3.one;
             instance.Initialize();

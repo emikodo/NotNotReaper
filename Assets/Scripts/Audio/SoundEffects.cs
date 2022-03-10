@@ -46,7 +46,7 @@ namespace NotReaper.Audio
            
         }
 
-        private void SetVolume(float volume)
+        public void SetVolume(float volume)
         {
             source.volume = volume * .5f;
         }

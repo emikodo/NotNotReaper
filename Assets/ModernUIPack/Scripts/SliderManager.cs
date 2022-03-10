@@ -24,7 +24,6 @@ namespace Michsky.UI.ModernUIPack
         {
             mainSlider = this.GetComponent<Slider>();
             sliderAnimator = this.GetComponent<Animator>();
-
             if (showValue == false)
             {
                 valueText.enabled = false;
@@ -42,8 +41,9 @@ namespace Michsky.UI.ModernUIPack
             {
                 if (usePercent == true)
                 {
-                    valueText.text = Mathf.Round(mainSlider.value * 1.0f).ToString() + "%";
-                    popupValueText.text = Mathf.Round(mainSlider.value * 1.0f).ToString() + "%";
+                    var percentage = (mainSlider.value / mainSlider.maxValue) * 100f;
+                    valueText.text = Mathf.Round(percentage).ToString() + "%";
+                    popupValueText.text = Mathf.Round(percentage).ToString() + "%";
                 }
 
                 else
@@ -56,8 +56,9 @@ namespace Michsky.UI.ModernUIPack
             {
                 if (usePercent == true)
                 {
-                    valueText.text = mainSlider.value.ToString("F1") + "%";
-                    popupValueText.text = mainSlider.value.ToString("F1") + "%";
+                    var percentage = (mainSlider.value / mainSlider.maxValue) * 100f;
+                    valueText.text = percentage.ToString("F1") + "%";
+                    popupValueText.text = percentage.ToString("F1") + "%";
                 }
 
                 else

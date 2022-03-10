@@ -35,6 +35,9 @@ public static class KeybindManager
 
     public delegate void OnMouseDown(bool down);
     public static event OnMouseDown onMouseDown;
+
+    public delegate void OnScrolled(bool forward);
+    public static event OnScrolled onScrolled;
     #endregion
 
     #region Initialization
@@ -57,6 +60,8 @@ public static class KeybindManager
 
         globalKeybinds.Global.MouseDown.started += _ => onMouseDown?.Invoke(true);
         globalKeybinds.Global.MouseDown.canceled += _ => onMouseDown?.Invoke(false);
+
+        globalKeybinds.Global.Scroll.performed += ctx => onScrolled?.Invoke(ctx.ReadValue<float>() > 0);
     } 
 
     private static void UpdateCtrl(bool down)
@@ -265,6 +270,30 @@ public static class KeybindManager
         if(editorKeybinds != null)
         {
             editorKeybinds.Disable();
+        }
+    }
+
+    public static void EnableKeybind(string name)
+    {
+        var action = editorKeybinds.FindAction(name);
+        if(action != null)
+        {
+            if (!action.enabled)
+            {
+                action.Enable();
+            }
+        }
+    }
+
+    public static void DisableKeybind(string name)
+    {
+        var action = editorKeybinds.FindAction(name);
+        if(action != null)
+        {
+            if (action.enabled)
+            {
+                action.Disable();
+            }
         }
     }
     #endregion
