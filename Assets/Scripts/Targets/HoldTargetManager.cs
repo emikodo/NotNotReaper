@@ -18,7 +18,7 @@ namespace NotReaper.Targets {
 
         public GameObject sustainButtons;
 
-        private float PlacementBeatTime = 0;
+        //private float PlacementBeatTime = 0;
 
         private TargetIcon parentIcon;
 

@@ -18,7 +18,7 @@ namespace NotReaper.UI.Colors {
 
         public bool useShiftedGradient = false;
 
-        private void Start() {
+        new private void Start() {
 
             if (!useShiftedGradient) {
                 _effectGradient = new UnityEngine.Gradient() { colorKeys = new GradientColorKey[] { new GradientColorKey(UserPrefsManager.leftColor, 0), new GradientColorKey(UserPrefsManager.rightColor, 1) } };

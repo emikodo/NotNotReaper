@@ -169,6 +169,11 @@ namespace NotReaper.Notifications
             IsForceShowing = false;
         }
 
+        private void OnDestroy()
+        {
+            DOTween.KillAll();
+        }
+
         private void RemoveFromNotificationList()
         {
             NotificationCenter.RemoveNotification(ID);

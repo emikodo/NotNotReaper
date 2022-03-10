@@ -63,7 +63,7 @@ namespace NotReaper.Tools
                 scrapeCount++;
                 content = client.DownloadString($@"https://tunebat.com/Search?q={query}");
             }
-            catch (Exception ex)
+            catch
             {
                 return "";
             }

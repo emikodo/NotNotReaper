@@ -59,9 +59,10 @@ namespace NotReaper.Tools.ChainBuilder {
 				Vector3[] smoothedPoints = LineSmoother.SmoothLine(linePositions, lineSegmentSize);
 
 				//set line settings
-				line.SetVertexCount(smoothedPoints.Length);
+				line.positionCount = smoothedPoints.Length;
 				line.SetPositions(smoothedPoints);
-				line.SetWidth(lineWidth, lineWidth);
+				line.startWidth = lineWidth;
+				line.endWidth = lineWidth;
 			}
 		}
 

@@ -71,6 +71,16 @@ namespace NotReaper.Timing {
             this.tick = tick;
         }
 
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+
+        public override bool Equals(object obj)
+        {
+            return base.Equals(obj);
+        }
+
         public override string ToString() {
             return tick.ToString();
         }
@@ -164,6 +174,16 @@ namespace NotReaper.Timing {
             this.tick = tick;
         }
 
+        public override bool Equals(object obj)
+        {
+            return base.Equals(obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+
         public override string ToString() {
             return tick.ToString();
         }
@@ -241,6 +261,16 @@ namespace NotReaper.Timing {
     public struct QNT_Duration {
         public QNT_Duration(UInt64 tick) {
             this.tick = tick;
+        }
+
+        public override bool Equals(object obj)
+        {
+            return base.Equals(obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
         }
 
         public override string ToString() {

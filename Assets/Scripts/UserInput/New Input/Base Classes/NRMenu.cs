@@ -79,7 +79,7 @@ namespace NotReaper
             EditorState.SetIsInUI(true);
             if (useInputCatcher)
             {
-                inputCatcher.transform.parent = null;
+                inputCatcher.transform.SetParent(null);
                 inputCatcher.transform.position = Vector3.zero;
                 inputCatcher.SetActive(true);
             }
@@ -96,7 +96,7 @@ namespace NotReaper
             KeybindManager.DisableUIMenu();
             if (useInputCatcher)
             {
-                inputCatcher.transform.parent = transform;
+                inputCatcher.transform.SetParent(transform);
                 inputCatcher.SetActive(false);
             }
             if(!persistent) gameObject.SetActive(false);

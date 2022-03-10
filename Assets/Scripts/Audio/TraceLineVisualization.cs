@@ -21,8 +21,7 @@ namespace NotReaper.Audio
         private Transform currentPoint;
         private State state;
         private float currentMoveSpeed;
-        private bool extend = true;
-        private float multiplicator = 1f;
+
         protected override void Start()
         {
             base.Start();

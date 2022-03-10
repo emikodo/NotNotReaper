@@ -340,26 +340,7 @@ namespace NotReaper.Timing {
             }
             
 
-	        string path;
-            Difficulty difficulty;
-            switch (Setdifficulty)
-            {
-                case 0:
-                    difficulty = Difficulty.Expert;
-                    break;
-                case 1:
-                    difficulty = Difficulty.Advanced;
-                    break;
-                case 2:
-                    difficulty = Difficulty.Standard;
-                    break;
-                case 3: 
-                    difficulty = Difficulty.Easy;
-                    break;
-                default:
-                    difficulty = Difficulty.Expert;
-                    break;
-            }
+
 	        if (isMp3 || !skipOffset) {
                 trimAudio.SetAudioLength(loadedSong, Path.Combine(Application.streamingAssetsPath, "FFMPEG", "output.ogg"), 0, DefaultBPM, skipOffset);
                 //path = AudicaGenerator.Generate(Path.Combine(Application.streamingAssetsPath, "FFMPEG", "output.ogg"), moggSongVolume, RemoveSpecialCharacters(songName + "-" + mapperName), songName, artistName, DefaultBPM, songEndEvent, mapperName, 0, loadedMidi, loadedArt, difficulty);
@@ -438,7 +419,7 @@ namespace NotReaper.Timing {
             using(UnityWebRequest www = UnityWebRequestMultimedia.GetAudioClip(uri, AudioType.OGGVORBIS)) {
                 yield return www.SendWebRequest();
 
-                if (www.isNetworkError) {
+                if (www.result == UnityWebRequest.Result.ConnectionError) {
                     UnityEngine.Debug.Log(www.error);
                 } else {
                     audioFile = DownloadHandlerAudioClip.GetContent(www);
@@ -454,7 +435,7 @@ namespace NotReaper.Timing {
         {
             UnityWebRequest request = UnityWebRequestTexture.GetTexture(filepath);
             yield return request.SendWebRequest();
-            if (request.isNetworkError || request.isHttpError)
+            if (request.result == UnityWebRequest.Result.ConnectionError)
             {
                 UnityEngine.Debug.Log(request.error);
             }

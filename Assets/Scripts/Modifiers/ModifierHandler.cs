@@ -54,11 +54,9 @@ namespace NotReaper.Modifier
 
 
         private LabelSetter slider;
-        private Vector3 activatePosition = new Vector3(290.6859f, -36.6f, 0f);
         private bool init = false;
         private bool skipRefresh = false;
         private bool isHidden = false;
-        private bool parentSet = false;
 
         private static bool IsPrivateBuild = false;
         [NRInject] private UIToolSelect toolSelect;
@@ -251,10 +249,7 @@ namespace NotReaper.Modifier
                     OnDropdownValueChanged();
                     init = true;
                 }
-                else
-                {
-                    activatePosition = modifierWindow.transform.localPosition;
-                }
+
                 colorPicker.SetActive(false);
                 //modifierWindow.SetActive(false);
                 modifierWindow.Hide();

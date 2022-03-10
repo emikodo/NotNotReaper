@@ -31,7 +31,6 @@ public class ColorSlider : MonoBehaviour
 
     public void UpdateDisplay(float value)
     {
-        Vector3 rgb;
         Color newColor = Color.HSVToRGB(slider.value, 0.55f, 1f);
         SetColor(newColor);
     }

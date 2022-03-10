@@ -84,44 +84,8 @@ namespace NotReaper.UI {
             {
                 EditorState.SelectBehavior(behavior);
             }
-            return;
-            switch (name) 
-            {
-                case "standard":
-                    EditorState.SelectBehavior(TargetBehavior.Standard);      
-                    break;
-                case "hold":
-                    EditorState.SelectBehavior(TargetBehavior.Sustain);
-                    break;
-                case "vertical":
-                    EditorState.SelectBehavior(TargetBehavior.Vertical);
-                    break;
-                case "horizontal":
-                    EditorState.SelectBehavior(TargetBehavior.Horizontal);
-                    break;
-                case "chainstart":
-                    EditorState.SelectBehavior(TargetBehavior.ChainStart);
-                    break;
-                case "chainnode":
-                    EditorState.SelectBehavior(TargetBehavior.ChainNode);
-                    break;
-                case "melee":
-                    EditorState.SelectBehavior(TargetBehavior.Melee);
-                    break;
-                case "dragselect":
-                    EditorState.SelectTool(EditorTool.DragSelect);
-                    break;
-                case "chainbuilder":
-                    if (ChainBuilder.Instance.activated)
-                    {
-                        ChainBuilder.Instance.Activate(false);
-                    }
-                    EditorState.SelectTool(EditorTool.Pathbuilder);
-                    break;
-                default:
-                    break;
-            }
         }
+
         [NRListener]
         private void OnHandUpdated(TargetHandType _)
         {

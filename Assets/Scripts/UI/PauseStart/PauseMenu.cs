@@ -80,7 +80,6 @@ namespace NotReaper.UI {
         }
 
         public void OpenPauseMenu() {
-            return;
             gameObject.SetActive(true);
             OnActivated();
             isOpened = true;

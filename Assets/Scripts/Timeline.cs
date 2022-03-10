@@ -191,6 +191,16 @@ namespace NotReaper
             return lhs.startTime == rhs.startTime;
         }
 
+        public override bool Equals(object obj)
+        {
+            return base.Equals(obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+
         public static bool operator !=(RepeaterSection lhs, RepeaterSection rhs)
         {
             if (ReferenceEquals(lhs, null) && !ReferenceEquals(rhs, null)) { return true; }
@@ -312,7 +322,7 @@ namespace NotReaper
         public bool paused = true;
         private bool scrub = false;
         private ScrubParams scrubParams;
-        private bool animationsNeedStopping;
+        //private bool animationsNeedStopping;
         public Button generateAudicaButton;
         public Button loadAudioFileTiming;
 
@@ -995,7 +1005,7 @@ namespace NotReaper
                     }
                 }
             }
-            if (paused) animationsNeedStopping = false;
+            //if (paused) animationsNeedStopping = false;
         }
 
         public static void AddLoadedNote(Target target)
@@ -1829,7 +1839,7 @@ namespace NotReaper
             {
                 yield return www.SendWebRequest();
 
-                if (www.isNetworkError)
+                if (www.result == UnityWebRequest.Result.ConnectionError)
                 {
                     Debug.Log(www.error);
                 }
@@ -1851,7 +1861,7 @@ namespace NotReaper
             {
                 yield return www.SendWebRequest();
 
-                if (www.isNetworkError)
+                if (www.result == UnityWebRequest.Result.ConnectionError)
                 {
                     Debug.Log(www.error);
                 }
@@ -1870,7 +1880,7 @@ namespace NotReaper
             {
                 yield return www.SendWebRequest();
 
-                if (www.isNetworkError)
+                if (www.result == UnityWebRequest.Result.ConnectionError)
                 {
                     Debug.Log(www.error);
                 }
@@ -1889,7 +1899,7 @@ namespace NotReaper
             {
                 yield return www.SendWebRequest();
 
-                if (www.isNetworkError)
+                if (www.result == UnityWebRequest.Result.ConnectionError)
                 {
                     Debug.Log(www.error);
                 }
@@ -2720,7 +2730,7 @@ namespace NotReaper
                 if (paused)
                 {
                     songPlayback.PlayPreview(time, jumpDuration);
-                    checkForNearSustainsOnThisFrame = true;
+                    //checkForNearSustainsOnThisFrame = true;
                 }
                 else
                 {
@@ -2891,7 +2901,7 @@ namespace NotReaper
         }
 
 
-        bool checkForNearSustainsOnThisFrame = false;
+        //bool checkForNearSustainsOnThisFrame = false;
         public void Update()
         {
             if (paused && !scrub) return;
@@ -3080,7 +3090,7 @@ namespace NotReaper
                 ModifierPreviewer.Instance.Stop();
                 songPlayback.Stop();
                 paused = true;
-                animationsNeedStopping = true;
+                //animationsNeedStopping = true;
 
                 //Snap to the beat snap when we pause
                 time = GetClosestBeatSnapped(time, (uint)beatSnap);

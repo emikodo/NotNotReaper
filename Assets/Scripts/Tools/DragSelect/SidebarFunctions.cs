@@ -32,6 +32,7 @@ namespace NotReaper.Tools {
         private CanvasGroup currentPanel = null;
         private RectTransform rect;
         private CanvasGroup backgroundCanvas;
+        private bool isOpen = false;
 
         private void Start()
         {
@@ -70,7 +71,10 @@ namespace NotReaper.Tools {
 
         private void OnNoteCountChanged(int count)
         {
-            FadePanels(count > 0);           
+            bool open = count > 0;
+            if (open == isOpen) return;
+            isOpen = open;
+            FadePanels(isOpen);           
         }
 
         private void FadePanels(bool fadeIn)

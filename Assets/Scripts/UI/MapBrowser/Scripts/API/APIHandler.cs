@@ -107,7 +107,7 @@ namespace NotReaper.MapBrowser.API
             www.timeout = 30;
             www.downloadHandler = handler;
             yield return www.SendWebRequest();          
-            if (www.isNetworkError || www.isHttpError)
+            if (www.result == UnityWebRequest.Result.ConnectionError)
             {
                 Debug.Log(www.error);
                 success = false;

@@ -541,6 +541,8 @@ MonoBehaviour:
   textSize: 12
   autoSizeText: 0
   text: load album art
+  tooltipText: 
+  keybind: {fileID: 0}
   buttonGroup: {fileID: 353169873}
   onClick:
     m_PersistentCalls:
@@ -805,6 +807,8 @@ MonoBehaviour:
   textSize: 12
   autoSizeText: 0
   text: load
+  tooltipText: 
+  keybind: {fileID: 0}
   buttonGroup: {fileID: 353169873}
   onClick:
     m_PersistentCalls:
@@ -992,6 +996,8 @@ MonoBehaviour:
   textSize: 12
   autoSizeText: 0
   text: delete left
+  tooltipText: 
+  keybind: {fileID: 0}
   buttonGroup: {fileID: 353169873}
   onClick:
     m_PersistentCalls:
@@ -2010,6 +2016,8 @@ MonoBehaviour:
   textSize: 15
   autoSizeText: 0
   text: compose
+  tooltipText: 
+  keybind: {fileID: 0}
   buttonGroup: {fileID: 0}
   onClick:
     m_PersistentCalls:
@@ -2797,6 +2805,8 @@ MonoBehaviour:
   textSize: 15
   autoSizeText: 0
   text: 
+  tooltipText: 
+  keybind: {fileID: 0}
   buttonGroup: {fileID: 0}
   onClick:
     m_PersistentCalls:
@@ -4303,6 +4313,8 @@ MonoBehaviour:
   textSize: 15
   autoSizeText: 0
   text: continue
+  tooltipText: 
+  keybind: {fileID: 0}
   buttonGroup: {fileID: 0}
   onClick:
     m_PersistentCalls:
@@ -4538,6 +4550,8 @@ MonoBehaviour:
   textSize: 15
   autoSizeText: 0
   text: cancel
+  tooltipText: 
+  keybind: {fileID: 0}
   buttonGroup: {fileID: 0}
   onClick:
     m_PersistentCalls:
@@ -5687,7 +5701,6 @@ GameObject:
   - component: {fileID: 490108604}
   - component: {fileID: 490108603}
   - component: {fileID: 490108601}
-  - component: {fileID: 490108602}
   m_Layer: 17
   m_Name: Window
   m_TagString: Untagged
@@ -5707,18 +5720,6 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
---- !u!114 &490108602
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 490108600}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 020eb823bacb90c40b6d2a1882413f50, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &490108603
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7500,6 +7501,8 @@ MonoBehaviour:
   textSize: 12
   autoSizeText: 0
   text: generate
+  tooltipText: 
+  keybind: {fileID: 0}
   buttonGroup: {fileID: 353169873}
   onClick:
     m_PersistentCalls:
@@ -7623,6 +7626,8 @@ MonoBehaviour:
   textSize: 12
   autoSizeText: 0
   text: load left
+  tooltipText: 
+  keybind: {fileID: 0}
   buttonGroup: {fileID: 353169873}
   onClick:
     m_PersistentCalls:
@@ -10683,6 +10688,8 @@ MonoBehaviour:
   textSize: 15
   autoSizeText: 0
   text: cancel
+  tooltipText: 
+  keybind: {fileID: 0}
   buttonGroup: {fileID: 0}
   onClick:
     m_PersistentCalls:
@@ -11078,6 +11085,8 @@ MonoBehaviour:
   textSize: 12
   autoSizeText: 0
   text: set name
+  tooltipText: 
+  keybind: {fileID: 0}
   buttonGroup: {fileID: 353169873}
   onClick:
     m_PersistentCalls:
@@ -11146,6 +11155,8 @@ MonoBehaviour:
   textSize: 15
   autoSizeText: 0
   text: expert
+  tooltipText: 
+  keybind: {fileID: 0}
   buttonGroup: {fileID: 0}
   onClick:
     m_PersistentCalls:
@@ -11462,6 +11473,8 @@ MonoBehaviour:
   textSize: 12
   autoSizeText: 0
   text: set preview
+  tooltipText: 
+  keybind: {fileID: 0}
   buttonGroup: {fileID: 353169873}
   onClick:
     m_PersistentCalls:
@@ -12060,6 +12073,8 @@ MonoBehaviour:
   textSize: 15
   autoSizeText: 0
   text: beginner
+  tooltipText: 
+  keybind: {fileID: 0}
   buttonGroup: {fileID: 0}
   onClick:
     m_PersistentCalls:
@@ -12764,6 +12779,8 @@ MonoBehaviour:
   textSize: 12
   autoSizeText: 0
   text: load new audio
+  tooltipText: 
+  keybind: {fileID: 0}
   buttonGroup: {fileID: 353169873}
   onClick:
     m_PersistentCalls:
@@ -13257,6 +13274,8 @@ MonoBehaviour:
   textSize: 15
   autoSizeText: 0
   text: delete
+  tooltipText: 
+  keybind: {fileID: 0}
   buttonGroup: {fileID: 0}
   onClick:
     m_PersistentCalls:
@@ -13898,6 +13917,8 @@ MonoBehaviour:
   textSize: 15
   autoSizeText: 0
   text: cancel
+  tooltipText: 
+  keybind: {fileID: 0}
   buttonGroup: {fileID: 0}
   onClick:
     m_PersistentCalls:
@@ -16051,6 +16072,8 @@ MonoBehaviour:
   textSize: 12
   autoSizeText: 0
   text: load left
+  tooltipText: 
+  keybind: {fileID: 0}
   buttonGroup: {fileID: 353169873}
   onClick:
     m_PersistentCalls:
@@ -18993,6 +19016,8 @@ MonoBehaviour:
   textSize: 12
   autoSizeText: 0
   text: copy cues
+  tooltipText: 
+  keybind: {fileID: 0}
   buttonGroup: {fileID: 353169873}
   onClick:
     m_PersistentCalls:
@@ -19180,6 +19205,8 @@ MonoBehaviour:
   textSize: 12
   autoSizeText: 0
   text: delete left
+  tooltipText: 
+  keybind: {fileID: 0}
   buttonGroup: {fileID: 353169873}
   onClick:
     m_PersistentCalls:
@@ -20787,6 +20814,8 @@ MonoBehaviour:
   textSize: 15
   autoSizeText: 0
   text: advanced
+  tooltipText: 
+  keybind: {fileID: 0}
   buttonGroup: {fileID: 0}
   onClick:
     m_PersistentCalls:
@@ -22445,7 +22474,6 @@ GameObject:
   - component: {fileID: 1923896900}
   - component: {fileID: 1923896903}
   - component: {fileID: 1923896902}
-  - component: {fileID: 1923896901}
   m_Layer: 17
   m_Name: DifficultyRating
   m_TagString: Untagged
@@ -22474,18 +22502,6 @@ RectTransform:
   m_AnchoredPosition: {x: -0.38926, y: -114.9}
   m_SizeDelta: {x: 178.10089, y: 24.747353}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1923896901
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1923896899}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4a01bf221ed2d0a49a80ab3703a64074, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1923896902
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22879,6 +22895,8 @@ MonoBehaviour:
   textSize: 12
   autoSizeText: 0
   text: downmap
+  tooltipText: 
+  keybind: {fileID: 0}
   buttonGroup: {fileID: 353169873}
   onClick:
     m_PersistentCalls:
@@ -23311,6 +23329,8 @@ MonoBehaviour:
   textSize: 15
   autoSizeText: 0
   text: standard
+  tooltipText: 
+  keybind: {fileID: 0}
   buttonGroup: {fileID: 0}
   onClick:
     m_PersistentCalls:
@@ -23489,6 +23509,8 @@ MonoBehaviour:
   textSize: 12
   autoSizeText: 0
   text: error check
+  tooltipText: 
+  keybind: {fileID: 0}
   buttonGroup: {fileID: 353169873}
   onClick:
     m_PersistentCalls:
@@ -24553,7 +24575,6 @@ GameObject:
   - component: {fileID: 2092640684}
   - component: {fileID: 2092640686}
   - component: {fileID: 2092640687}
-  - component: {fileID: 2092640685}
   m_Layer: 17
   m_Name: Rating
   m_TagString: Untagged
@@ -24581,18 +24602,6 @@ RectTransform:
   m_AnchoredPosition: {x: 47.7, y: 0.000015258789}
   m_SizeDelta: {x: 82.69, y: 24.75}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &2092640685
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2092640683}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4a01bf221ed2d0a49a80ab3703a64074, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!222 &2092640686
 CanvasRenderer:
   m_ObjectHideFlags: 0

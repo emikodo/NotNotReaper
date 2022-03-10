@@ -72,7 +72,7 @@ namespace NotReaper.Managers {
 			}
 
 
-			if(www.isNetworkError || www.isHttpError) {
+			if(www.result == UnityWebRequest.Result.ConnectionError) {
 				Debug.Log(www.error);
 			}
 			else {
@@ -108,7 +108,7 @@ namespace NotReaper.Managers {
 			UnityWebRequest www = UnityWebRequest.Get(url);
 			yield return www.SendWebRequest();
  
-			if(www.isNetworkError || www.isHttpError) {
+			if(www.result == UnityWebRequest.Result.ConnectionError) {
 				Debug.Log(www.error);
 			}
 			else {

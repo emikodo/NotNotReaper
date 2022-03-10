@@ -81,6 +81,7 @@ namespace NotReaper.UI {
         [NRListener]
         private void SelectHitsound(TargetHitsound velocity)
         {
+            if (kick == null) return;
             Color color = NRSettings.GetSelectedColor();
             FadeoutBehaviors();
             SpriteRenderer selected = null;

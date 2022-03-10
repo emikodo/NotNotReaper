@@ -20,7 +20,6 @@ namespace Michsky.UI.ModernUIPack
         public string animationNameIn;
         public string animationNameOut;
 
-        private bool isPlayed = false;
 
         void Start()
         {

@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class SelectionMesh : Graphic
 {
     VertexHelper vh;
-    [SerializeField] Canvas canvas;
+    [SerializeField] new Canvas canvas;
     [SerializeField] Transform centerPoint;
     [SerializeField] Sprite sprite;
     public Mesh m;

@@ -491,7 +491,7 @@ namespace NotReaper.UI
         {
             UnityWebRequest request = UnityWebRequestTexture.GetTexture(filepath);
             yield return request.SendWebRequest();
-            if (request.isNetworkError || request.isHttpError)
+            if (request.result == UnityWebRequest.Result.ConnectionError)
             {
                 AlbumArtImg.GetComponent<Image>().overrideSprite = null;
                 AlbumArtImg.GetComponent<Image>().color = new Color32(0, 0, 0, 0);

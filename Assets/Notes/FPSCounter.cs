@@ -5,15 +5,8 @@ using UnityEngine;
 public class FPSCounter : MonoBehaviour
 {
     public float updateInterval = 0.5F;
-    private double lastInterval;
-    private int frames;
     private float avg = 0f;
     private float fps;
-    void Start()
-    {
-        lastInterval = Time.realtimeSinceStartup;
-        frames = 0;
-    }
 
     void OnGUI()
     {

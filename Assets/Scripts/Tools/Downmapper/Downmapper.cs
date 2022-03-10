@@ -478,7 +478,9 @@ namespace NotReaper.Downmap
                     if (target.data.time != nextTarget.data.time) continue;
                     if (i - 2 >= 0)
                     {
+#pragma warning disable CS0162
                         for (int j = i - 2; j >= 0; j--)
+#pragma warning restore CS0162
                         {
                             var nextNextTarget = targets[j];
                             if (IsRegularNote(nextNextTarget, true))

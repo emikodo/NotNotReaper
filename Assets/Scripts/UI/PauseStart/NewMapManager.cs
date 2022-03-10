@@ -372,7 +372,7 @@ namespace NotReaper.UI
             {
                 yield return www.SendWebRequest();
 
-                if (www.isNetworkError)
+                if (www.result == UnityWebRequest.Result.ConnectionError)
                 {
                     UnityEngine.Debug.Log(www.error);
                 }
@@ -391,7 +391,7 @@ namespace NotReaper.UI
         {
             UnityWebRequest request = UnityWebRequestTexture.GetTexture(filepath);
             yield return request.SendWebRequest();
-            if (request.isNetworkError || request.isHttpError)
+            if (request.result == UnityWebRequest.Result.ProtocolError)
             {
                 UnityEngine.Debug.Log(request.error);
             }
@@ -439,8 +439,6 @@ namespace NotReaper.UI
                 yield break;
             }
 
-
-            string path;
             Difficulty difficulty = (Difficulty)selectedDifficulty;
             ShowOverlay();
             if (isMp3)

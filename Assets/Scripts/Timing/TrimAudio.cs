@@ -40,7 +40,6 @@ namespace NotReaper.Timing {
 
         public IEnumerator SetAudioLength(string path, string output, int offset, double bpm, bool skipRetime = false) {
 
-            string log = "";
             double offsetMs = TicksToMs(offset, bpm);
             double magicOctoberOffsetFix = 25.0f;
             double ms = Math.Abs(GetOffsetMs(offsetMs, bpm)) - magicOctoberOffsetFix;

@@ -169,7 +169,7 @@ namespace NotReaper.Timing {
 
 		private bool playClickTrack = false;
 		private QNT_Timestamp clickTrackEndTime;
-		private float clickTrackNextTick = 0;
+		//private float clickTrackNextTick = 0;
 
 		private bool paused = true;
 		[SerializeField] private AudioSource source;
@@ -407,7 +407,7 @@ namespace NotReaper.Timing {
 		public void PlayClickTrack(QNT_Timestamp endTime) {
 			playClickTrack = true;
 			clickTrackEndTime = endTime;
-			clickTrackNextTick = 0;
+			//clickTrackNextTick = 0;
 		}
 
 		public AudioClip GenerateClickTrack(QNT_Timestamp endTime) {
