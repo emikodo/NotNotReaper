@@ -40,7 +40,7 @@ namespace NotReaper.UserInput
 
 		public void PlaceNote()
 		{
-			if (!EditorState.IsOverGrid || EditorState.IsInUI) return;
+			if (!EditorState.IsOverGrid || EditorState.IsInUI || (EditorState.Tool.Current != EditorTool.None && EditorState.Tool.Current != EditorTool.SpacingSnapper)) return;
 			timeline.AddTarget(ghost.position.x, ghost.position.y);
 			background.OnPlaceNote();
 		}
@@ -232,7 +232,32 @@ namespace NotReaper.UserInput
 			modifiers.ToggleModifiers();
 		}
 
-        public void TogglePathbuilder()
+		private bool useLegacy = false;
+		public void TogglePathbuilder()
+        {
+			if (KeybindManager.Global.Modifier == KeybindManager.Global.Modifiers.Ctrl)
+			{
+				useLegacy = !useLegacy;
+				if (useLegacy && EditorState.IsToolActive(EditorTool.Pathbuilder)) EditorState.SelectTool(EditorTool.Pathbuilder);
+				else if (!useLegacy && EditorState.IsToolActive(EditorTool.ChainBuilder))
+				{
+					ToggleChainbuilder();
+				}
+			}
+			if (KeybindManager.Global.Modifier == KeybindManager.Global.Modifiers.None)
+			{
+				if (useLegacy)
+				{
+					ToggleChainbuilder();
+				}
+				else
+				{
+					EditorState.SelectTool(EditorTool.Pathbuilder);
+				}
+			}
+		}
+
+        /*public void TogglePathbuilder()
         {
 			if(chainbuilder.activated)
             {
@@ -240,23 +265,15 @@ namespace NotReaper.UserInput
 				return;
             }
 			pathbuilder.Activate(!pathbuilder.isActive);
-
-			/*
-			if (EditorState.Tool.Current == EditorTool.Pathbuilder)
-            {
-				pathbuilder.Activate(false);
-				//EditorState.SelectTool(EditorState.Tool.Previous);
-            }
-            else if(EditorState.Tool.Current != EditorTool.ChainBuilder)
-            {
-				pathbuilder.Activate(true);
-				EditorState.SelectTool(EditorTool.Pathbuilder);
-            }
-			*/
-        }
+        }*/
 
         internal void ToggleChainbuilder()
-        {            
+        {
+            if (pathbuilder.isActive)
+            {
+				pathbuilder.Activate(false);
+				return;
+            }
 			chainbuilder.Activate(!chainbuilder.activated);   
         }
 

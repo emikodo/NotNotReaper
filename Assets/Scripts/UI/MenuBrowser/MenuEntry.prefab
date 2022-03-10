@@ -553,6 +553,8 @@ MonoBehaviour:
   textSize: 15
   autoSizeText: 1
   text: menu name
+  tooltipText: 
+  keybind: {fileID: 0}
   buttonGroup: {fileID: 0}
   onClick:
     m_PersistentCalls:

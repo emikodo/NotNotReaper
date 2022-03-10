@@ -15,4 +15,5 @@ MonoBehaviour:
   defaultColor: {r: 0, g: 0, b: 0, a: 0.15686275}
   highlightedColor: {r: 1, g: 1, b: 1, a: 0.078431375}
   pressedColor: {r: 1, g: 1, b: 1, a: 0.23529412}
+  disabledColor: {r: 0.6320754, g: 0.6320754, b: 0.6320754, a: 0.5882353}
   outlineColor: {r: 1, g: 1, b: 1, a: 0.47058824}

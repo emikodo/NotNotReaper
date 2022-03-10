@@ -11,7 +11,8 @@
                     "id": "7ab7d592-97b1-413c-be04-0a02d1ca5bb6",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Copy",
@@ -19,7 +20,8 @@
                     "id": "a63bae77-fc8b-4e19-b2b0-6ef093a0a78b",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Paste",
@@ -27,7 +29,8 @@
                     "id": "0f26395d-2086-4fb1-913f-f5a6eb9dc0d4",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Cut",
@@ -35,7 +38,8 @@
                     "id": "c917ee96-5d91-43d8-8f1e-60763c4ace50",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "DeselectAll",
@@ -43,7 +47,8 @@
                     "id": "30870449-07bc-4d90-b2b8-0f4f082f3222",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "SelectAll",
@@ -51,7 +56,8 @@
                     "id": "c7850dc0-ad20-4209-9751-4a36fcf5e3ea",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Undo",
@@ -59,7 +65,8 @@
                     "id": "d9bc80da-b2d4-437a-ae2a-e58f92eca548",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Redo",
@@ -67,7 +74,8 @@
                     "id": "8d33f850-bee6-4f6a-8d7e-2600af5904d8",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "LeftMouseClick",
@@ -75,7 +83,8 @@
                     "id": "e407caf3-1d1b-4e93-a1be-cab2a0451bb7",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Delete",
@@ -83,7 +92,8 @@
                     "id": "54c91322-18b4-46e9-8ba7-93336fe31df4",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "RemoveModifier",
@@ -91,7 +101,26 @@
                     "id": "46b9ae21-d1b3-43e9-8ade-c1984923d895",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Scrub",
+                    "type": "Button",
+                    "id": "32983fdc-dc3e-4dd5-8156-e4ce87aada6e",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "BakeZOffset",
+                    "type": "Button",
+                    "id": "829cd95d-99f4-4b1d-ac0b-e6f0f5465bdf",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -367,6 +396,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "RemoveModifier",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "150168c6-3b9a-4bfa-b617-989877d280aa",
+                    "path": "<Mouse>/scroll/y",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Scrub",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "88c594bf-23a7-4016-b2c3-a7a36b0bf1d2",
+                    "path": "<Keyboard>/b",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "BakeZOffset",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -340,29 +340,9 @@ namespace NotReaper.UserInput
                 mapping.ToggleModifiers();
         }
 
-        private bool useLegacy = false;
         public void SelectPathbuilder(InputAction.CallbackContext obj)
         {
-            if (KeybindManager.Global.Modifier == KeybindManager.Global.Modifiers.Ctrl)
-            {
-                useLegacy = !useLegacy;
-                if (useLegacy && EditorState.IsToolActive(EditorTool.Pathbuilder)) EditorState.SelectTool(EditorTool.Pathbuilder);
-                else if (!useLegacy && EditorState.IsToolActive(EditorTool.ChainBuilder))
-                {
-                    mapping.ToggleChainbuilder();
-                }
-            }
-            if (KeybindManager.Global.Modifier == KeybindManager.Global.Modifiers.None)
-            {
-                if (useLegacy)
-                {
-                    mapping.ToggleChainbuilder();
-                }
-                else
-                {
-                    EditorState.SelectTool(EditorTool.Pathbuilder);
-                }
-            }
+            mapping.TogglePathbuilder();
         }
 
         public void ActivateModifierPreview(InputAction.CallbackContext obj)

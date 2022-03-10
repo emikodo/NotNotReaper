@@ -10,6 +10,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 using NotReaper.UI;
 using NotReaper.UserInput;
+using UnityEngine.InputSystem;
 
 namespace NotReaper.Modifier
 {
@@ -370,6 +371,12 @@ namespace NotReaper.Modifier
             }
         }
 
+        private void OnScrubPerformed(InputAction.CallbackContext ctx)
+        {
+            if (ModifierHandler.Instance.IsDropdownOpen()) return;
+            Timeline.instance.ScrubTimeline(ctx.ReadValue<float>() < 0, isCtrlDown);
+        }
+
         internal void RegisterCallbacks(ModifierKeybinds actions)
         {
             actions.Modifiers.DragSelect.performed += _ => OnCtrlDown();
@@ -385,6 +392,7 @@ namespace NotReaper.Modifier
             actions.Modifiers.LeftMouseClick.canceled += _ => MouseUp();
             actions.Modifiers.Delete.performed += _ => ModifierHandler.Instance.DeleteModifier();
             actions.Modifiers.RemoveModifier.performed += _ => RemoveModifier();
+            actions.Modifiers.Scrub.performed += OnScrubPerformed;
         }
     }
 }

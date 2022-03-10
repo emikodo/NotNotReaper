@@ -187,6 +187,8 @@ MonoBehaviour:
   textSize: 10
   autoSizeText: 0
   text: chorus
+  tooltipText: 
+  keybind: {fileID: 0}
   buttonGroup: {fileID: 0}
   onClick:
     m_PersistentCalls:

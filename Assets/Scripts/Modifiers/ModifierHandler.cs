@@ -95,6 +95,8 @@ namespace NotReaper.Modifier
             }
         }
 
+        internal bool IsDropdownOpen() => dropdown.IsExpanded;
+
         private void UpdateModifierCount()
         {
             modifierCount.text = $"Modifier Count: {modifiers.Count}";
@@ -368,11 +370,6 @@ namespace NotReaper.Modifier
                 }
             }
             return false;
-        }
-
-        public bool IsDropdownExpanded()
-        {
-            return dropdown.IsExpanded;
         }
 
         public bool fillingData = false;
@@ -1232,7 +1229,7 @@ namespace NotReaper.Modifier
 
         protected override void RegisterCallbacks()
         {
-            //ModifierSelectionHandler.Instance.RegisterCallbacks(actions);
+            actions.Modifiers.BakeZOffset.performed += _ => ZOffsetBaker.Instance.ToggleWindow();
             selectionHandler.RegisterCallbacks(actions);
         }
 
@@ -1245,6 +1242,7 @@ namespace NotReaper.Modifier
         {
             options.SetAssetTitle("Modifiers").SetRebindable(true);
             options.AddHiddenKeybinds(myKeybinds.Modifiers.LeftMouseClick);
+            options.AddHiddenKeybinds(myKeybinds.Modifiers.Scrub);
             options.AddNonRebindableKeybinds(myKeybinds.Modifiers.RemoveModifier);
             options.AddNonRebindableKeybinds(myKeybinds.Modifiers.DragSelect);
             options.AddNonRebindableKeybinds(myKeybinds.Modifiers.Delete);

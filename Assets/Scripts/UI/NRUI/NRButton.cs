@@ -8,6 +8,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using DG.Tweening;
 using NotReaper.Audio;
+using UnityEngine.InputSystem;
 
 namespace NotReaper.UI.Components
 {
@@ -36,6 +37,9 @@ namespace NotReaper.UI.Components
         [SerializeField] private float textSize = 15f;
         [SerializeField] private bool autoSizeText;
         [SerializeField] private string text;
+        [Space, Header("Tooltip")]
+        [SerializeField] private string tooltipText;
+        [SerializeField] private InputActionReference keybind;
         [Space, Header("Group")]
         [SerializeField] private NRButtonGroup buttonGroup;
         [Space]
@@ -64,7 +68,11 @@ namespace NotReaper.UI.Components
         public bool interactable
         {
             get { return _interactable;  }
-            set { _interactable = value; }
+            set 
+            { 
+                _interactable = value;
+                SetInteractable(_interactable);
+            }
         }
 
         private void Start()
@@ -131,7 +139,30 @@ namespace NotReaper.UI.Components
                 background.transform.localScale = initialScale;
                 iconDisplay.transform.rotation = Quaternion.Euler(0f, 0f, initialRotation);
             }
-            
+            ToolTips.I.SetText("");
+        }
+
+        private void SetInteractable(bool interactable)
+        {
+            if (!interactable)
+            {
+                background.color = skin.disabledColor;
+            }
+            else
+            {
+                if (isMouseOver)
+                {
+                    background.color = skin.highlightedColor;
+                }
+                else if (isSelected)
+                {
+                    background.color = skin.pressedColor;
+                }
+                else
+                {
+                    background.color = skin.defaultColor;
+                }
+            }
         }
 
         public void UpdateButton()
@@ -189,6 +220,14 @@ namespace NotReaper.UI.Components
 
         public void OnPointerEnter(PointerEventData eventData)
         {
+            if(keybind != null)
+            {
+                ToolTips.I.SetText(keybind);
+            }
+            else if (!string.IsNullOrEmpty(tooltipText))
+            {
+                ToolTips.I.SetText(tooltipText);
+            }
             if (!interactable || isSelected) return;
             isMouseOver = true;
             DoBackgroundColorTransition(skin.highlightedColor);
@@ -198,6 +237,7 @@ namespace NotReaper.UI.Components
 
         public void OnPointerExit(PointerEventData eventData)
         {
+            ToolTips.I.SetText("");
             if (!interactable || isSelected) return;
 
             isMouseOver = false;

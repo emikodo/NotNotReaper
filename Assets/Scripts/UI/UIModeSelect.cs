@@ -7,6 +7,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using NotReaper.Models;
 using NotReaper.Statistics;
+using NotReaper.MenuBrowser;
+
 namespace NotReaper.UI {
 
     public class UIModeSelect : MonoBehaviour {
@@ -34,6 +36,16 @@ namespace NotReaper.UI {
         public void OpenSongInfo()
         {
             EditorState.SelectMode(EditorMode.Metadata);
+        }
+
+        public void OpenMenuBrowser()
+        {
+            MenuPickerUI.Instance.Show();
+        }
+
+        public void OpenPathbuilder()
+        {
+            mappingInput.TogglePathbuilder();
         }
 
         public void OpenHelp()

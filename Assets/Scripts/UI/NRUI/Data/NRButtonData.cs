@@ -11,6 +11,7 @@ namespace NotReaper.UI.Components
         public Color defaultColor;
         public Color highlightedColor;
         public Color pressedColor;
+        public Color disabledColor;
         [Space, Header("Outline Settings")]
         public Color outlineColor;
     }

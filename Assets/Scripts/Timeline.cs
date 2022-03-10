@@ -1774,7 +1774,7 @@ namespace NotReaper
             NotificationCenter.SendNotification("Press F1 to view shortcuts", NotificationType.Info);
             StopCoroutine(NRSettings.Autosave());
             StartCoroutine(NRSettings.Autosave());
-
+            UpdateState();
            
             onLoaded?.Invoke(true);
             yield return null;

@@ -127,6 +127,24 @@ namespace NotReaper.Modifier
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Scrub"",
+                    ""type"": ""Button"",
+                    ""id"": ""32983fdc-dc3e-4dd5-8156-e4ce87aada6e"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""BakeZOffset"",
+                    ""type"": ""Button"",
+                    ""id"": ""829cd95d-99f4-4b1d-ac0b-e6f0f5465bdf"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -404,6 +422,28 @@ namespace NotReaper.Modifier
                     ""action"": ""RemoveModifier"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""150168c6-3b9a-4bfa-b617-989877d280aa"",
+                    ""path"": ""<Mouse>/scroll/y"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Scrub"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""88c594bf-23a7-4016-b2c3-a7a36b0bf1d2"",
+                    ""path"": ""<Keyboard>/b"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""BakeZOffset"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -423,6 +463,8 @@ namespace NotReaper.Modifier
             m_Modifiers_LeftMouseClick = m_Modifiers.FindAction("LeftMouseClick", throwIfNotFound: true);
             m_Modifiers_Delete = m_Modifiers.FindAction("Delete", throwIfNotFound: true);
             m_Modifiers_RemoveModifier = m_Modifiers.FindAction("RemoveModifier", throwIfNotFound: true);
+            m_Modifiers_Scrub = m_Modifiers.FindAction("Scrub", throwIfNotFound: true);
+            m_Modifiers_BakeZOffset = m_Modifiers.FindAction("BakeZOffset", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -493,6 +535,8 @@ namespace NotReaper.Modifier
         private readonly InputAction m_Modifiers_LeftMouseClick;
         private readonly InputAction m_Modifiers_Delete;
         private readonly InputAction m_Modifiers_RemoveModifier;
+        private readonly InputAction m_Modifiers_Scrub;
+        private readonly InputAction m_Modifiers_BakeZOffset;
         public struct ModifiersActions
         {
             private @ModifierKeybinds m_Wrapper;
@@ -508,6 +552,8 @@ namespace NotReaper.Modifier
             public InputAction @LeftMouseClick => m_Wrapper.m_Modifiers_LeftMouseClick;
             public InputAction @Delete => m_Wrapper.m_Modifiers_Delete;
             public InputAction @RemoveModifier => m_Wrapper.m_Modifiers_RemoveModifier;
+            public InputAction @Scrub => m_Wrapper.m_Modifiers_Scrub;
+            public InputAction @BakeZOffset => m_Wrapper.m_Modifiers_BakeZOffset;
             public InputActionMap Get() { return m_Wrapper.m_Modifiers; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -550,6 +596,12 @@ namespace NotReaper.Modifier
                     @RemoveModifier.started -= m_Wrapper.m_ModifiersActionsCallbackInterface.OnRemoveModifier;
                     @RemoveModifier.performed -= m_Wrapper.m_ModifiersActionsCallbackInterface.OnRemoveModifier;
                     @RemoveModifier.canceled -= m_Wrapper.m_ModifiersActionsCallbackInterface.OnRemoveModifier;
+                    @Scrub.started -= m_Wrapper.m_ModifiersActionsCallbackInterface.OnScrub;
+                    @Scrub.performed -= m_Wrapper.m_ModifiersActionsCallbackInterface.OnScrub;
+                    @Scrub.canceled -= m_Wrapper.m_ModifiersActionsCallbackInterface.OnScrub;
+                    @BakeZOffset.started -= m_Wrapper.m_ModifiersActionsCallbackInterface.OnBakeZOffset;
+                    @BakeZOffset.performed -= m_Wrapper.m_ModifiersActionsCallbackInterface.OnBakeZOffset;
+                    @BakeZOffset.canceled -= m_Wrapper.m_ModifiersActionsCallbackInterface.OnBakeZOffset;
                 }
                 m_Wrapper.m_ModifiersActionsCallbackInterface = instance;
                 if (instance != null)
@@ -587,6 +639,12 @@ namespace NotReaper.Modifier
                     @RemoveModifier.started += instance.OnRemoveModifier;
                     @RemoveModifier.performed += instance.OnRemoveModifier;
                     @RemoveModifier.canceled += instance.OnRemoveModifier;
+                    @Scrub.started += instance.OnScrub;
+                    @Scrub.performed += instance.OnScrub;
+                    @Scrub.canceled += instance.OnScrub;
+                    @BakeZOffset.started += instance.OnBakeZOffset;
+                    @BakeZOffset.performed += instance.OnBakeZOffset;
+                    @BakeZOffset.canceled += instance.OnBakeZOffset;
                 }
             }
         }
@@ -604,6 +662,8 @@ namespace NotReaper.Modifier
             void OnLeftMouseClick(InputAction.CallbackContext context);
             void OnDelete(InputAction.CallbackContext context);
             void OnRemoveModifier(InputAction.CallbackContext context);
+            void OnScrub(InputAction.CallbackContext context);
+            void OnBakeZOffset(InputAction.CallbackContext context);
         }
     }
 }

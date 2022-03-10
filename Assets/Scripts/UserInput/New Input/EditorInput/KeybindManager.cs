@@ -202,8 +202,9 @@ public static class KeybindManager
         activeUIOverrides = null;
         if (activeUiElements == 0)
         {
-            EnableEditorKeybinds();
+            EnableEditorKeybinds();           
             EditorState.SetIsInUI(false);
+            
         }
     }
     /// <summary>

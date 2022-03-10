@@ -65,6 +65,7 @@ namespace NotReaper.UI
 
         public void SetText(string text)
         {
+            if (keybindImage == null) return;
             string txt = text;
             if (!string.IsNullOrEmpty(txt))
             {
