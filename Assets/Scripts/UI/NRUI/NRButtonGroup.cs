@@ -22,7 +22,7 @@ namespace NotReaper.UI.Components
         public bool useOutline = true;
         [Space, Header("Underline")]
         public bool useUnderline = false;
-        public Theme underlineTheme = Theme.Default;
+        public Theme underlineTheme = Theme.OutlineColor;
         [Space, Header("Icon")]
         public Color defaultColor = Color.white;
         public Color highlightedColor = Color.white;

@@ -30,7 +30,7 @@ namespace NotReaper.UI.Components
         [SerializeField] private bool useOutline = true;
         [Space, Header("Underline")]
         [SerializeField] private bool useUnderline = false;
-        [SerializeField] private Theme underlineTheme = Theme.Default;
+        [SerializeField] private Theme underlineTheme = Theme.OutlineColor;
         [Space, Header("Icon")]
         [SerializeField] private Sprite icon;
         [SerializeField] private Color defaultColor = Color.white;
@@ -204,7 +204,7 @@ namespace NotReaper.UI.Components
             outline.color = skin.outlineColor;
 
             underline.enabled = useUnderline;
-            underline.color = underlineTheme == Theme.Default ? skin.defaultColor : underlineTheme == Theme.LeftHand ? NRSettings.config.leftColor : underlineTheme == Theme.RightHand ? NRSettings.config.rightColor : NRSettings.config.selectedHighlightColor;
+            underline.color = underlineTheme == Theme.OutlineColor ? skin.outlineColor : underlineTheme == Theme.LeftHand ? NRSettings.config.leftColor : underlineTheme == Theme.RightHand ? NRSettings.config.rightColor : NRSettings.config.selectedHighlightColor;
 
             if (icon == null)
             {
@@ -390,7 +390,7 @@ namespace NotReaper.UI.Components
 
     public enum Theme
     {
-        Default,
+        OutlineColor,
         LeftHand,
         RightHand,
         Selected
