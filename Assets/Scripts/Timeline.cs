@@ -270,7 +270,7 @@ namespace NotReaper
 
         [Header("Configuration")]
         public float playbackSpeed = 1f;
-        public string playbackSpeedPercentage = "Playback Speed: 100%";
+        public string playbackSpeedPercentage = "Speed: 100%";
 
         public float musicVolume = 0.5f;
         public float hitsoundVolume = .5f;
@@ -1917,7 +1917,7 @@ namespace NotReaper
 
             playbackSpeed = speed;
             songPlayback.speed = speed;
-            string PlaybackText = ("Playback Speed: " + speed.ToString("#%"));
+            string PlaybackText = ("Speed: " + speed.ToString("#%"));
             playbackSpeedText.text = PlaybackText;
         }
 
