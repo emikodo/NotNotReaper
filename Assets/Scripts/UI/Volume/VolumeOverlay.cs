@@ -81,6 +81,7 @@ namespace NotReaper.UI.Volume
 
         public override void Hide()
         {
+            NRSettings.SaveSettingsJson();
             var size = startSize;
             size.x = 0f;
             var sequence = DOTween.Sequence();

@@ -82,6 +82,10 @@ namespace NotReaper.IO {
 			//Load moggsongg, has to be done after desc is loaded
 			if (audicaZip.ContainsEntry(audicaFile.desc.moggSong))
 			{
+                if (File.Exists($"{appPath}/.cache/{audicaFile.desc.moggSong}"))
+                {
+					File.Delete($"{appPath}/.cache/{audicaFile.desc.moggSong}");
+                }
 				MemoryStream ms = new MemoryStream();
 				audicaZip[audicaFile.desc.moggSong].Extract(ms);
 				audicaFile.mainMoggSong = new MoggSong(ms);
