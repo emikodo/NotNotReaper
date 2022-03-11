@@ -32,7 +32,7 @@ namespace NotReaper.Modifier
         [SerializeField] private TMP_Dropdown dropdown;
         [SerializeField] private GameObject amountSlider;
         [SerializeField] private GameObject colorPicker;
-        [SerializeField] private Image sidePanel;
+        [SerializeField] private GameObject sidePanel;
         [SerializeField] private GameObject value1;
         [SerializeField] private GameObject value2;
         [SerializeField] private GameObject value3;
@@ -653,7 +653,7 @@ namespace NotReaper.Modifier
 
         private void DeactivateSidePanel()
         {
-            sidePanel.enabled = false;
+            sidePanel.SetActive(false);
             value3.SetActive(false);
             value4.SetActive(false);
             value5.SetActive(false);
@@ -661,7 +661,7 @@ namespace NotReaper.Modifier
         }
         private void ActivateSidePanel()
         {
-            sidePanel.enabled = true;
+            sidePanel.SetActive(true);
             value3.SetActive(true);
             value4.SetActive(true);
             value5.SetActive(true);

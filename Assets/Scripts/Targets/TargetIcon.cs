@@ -101,8 +101,6 @@ namespace NotReaper.Targets {
         public Transform holdEndTrans;
         [Header("Optimization")]
         [Space, SerializeField] private Transform childComponents;
-        [SerializeField] private Camera timelineCamera;
-        private Transform timelineTargetCollector;
 
         public bool SustainButtonsActive => sustainButtons.activeSelf;
 
@@ -149,9 +147,8 @@ namespace NotReaper.Targets {
             data.BehaviourChangeEvent += OnBehaviorChanged;
             data.BeatLengthChangeEvent += OnSustainLengthChanged;
             data.TickChangeEvent += OnTickChanged;
-            this.timelineTargetCollector = timelineTargetCollector;
             this.target = target;
-            sustainButtons.GetComponent<Canvas>().worldCamera = timelineCamera;
+            sustainButtons.GetComponent<Canvas>().worldCamera = Timeline.instance.timelineCamera.GetComponent<Camera>();
 
             foreach (Renderer r in gameObject.GetComponentsInChildren<Renderer>(true)) {
                 r.material.SetFloat("_FadeThreshold", 1.7f);

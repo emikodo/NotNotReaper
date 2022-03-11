@@ -4145,7 +4145,7 @@ MonoBehaviour:
   growOnClick: 1
   growPercentage: 2
   moveAmount: 0.1
-  mode: 0
+  mode: 5
   hideBackground: 1
   useOutline: 0
   useUnderline: 0

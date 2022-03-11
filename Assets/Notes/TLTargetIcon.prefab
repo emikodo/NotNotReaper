@@ -86,7 +86,6 @@ MonoBehaviour:
   chain: {fileID: 21300000, guid: afa769415d833a540bab3e3414f2debe, type: 3}
   melee: {fileID: 21300000, guid: 29fad586e6c17f0429f6a32b731f1ff8, type: 3}
   mine: {fileID: 21300000, guid: 28b649dbe454ce547a8902b58f021f8a, type: 3}
-  pathbuilder: {fileID: 0}
   none: {fileID: 21300000, guid: 68ecec8366dbf674db6c58eb23358188, type: 3}
   standardRing: {fileID: 21300000, guid: 68ecec8366dbf674db6c58eb23358188, type: 3}
   holdRing: {fileID: 21300000, guid: 68ecec8366dbf674db6c58eb23358188, type: 3}

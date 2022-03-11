@@ -23583,7 +23583,7 @@ MonoBehaviour:
   autoSizeText: 0
   text: +
   tooltipText: 
-  keybind: {fileID: 0}
+  keybind: {fileID: 1367955827280730158, guid: 60f1f43169a6650448f92fc1fd1b8fd6, type: 3}
   buttonGroup: {fileID: 0}
   onClick:
     m_PersistentCalls:
@@ -24086,7 +24086,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 51648.785}
+  m_AnchoredPosition: {x: 0, y: -23.9}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &659295687
@@ -28377,7 +28377,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -1613.4465}
+  m_AnchoredPosition: {x: 0, y: -37.82768}
   m_SizeDelta: {x: 1, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &760415521
@@ -45006,7 +45006,7 @@ MonoBehaviour:
   autoSizeText: 0
   text: _
   tooltipText: 
-  keybind: {fileID: 0}
+  keybind: {fileID: 1464676804620106999, guid: 60f1f43169a6650448f92fc1fd1b8fd6, type: 3}
   buttonGroup: {fileID: 0}
   onClick:
     m_PersistentCalls:
@@ -77924,7 +77924,7 @@ MonoBehaviour:
   textSize: 15
   autoSizeText: 0
   text: 
-  tooltipText: 
+  tooltipText: volume overlay
   keybind: {fileID: 0}
   buttonGroup: {fileID: 0}
   onClick:
