@@ -29,6 +29,9 @@ namespace NotReaper.UI
         [SerializeField] private View newView;
         [SerializeField] private View browserView;
         [SerializeField] private View settingsView;
+        [Space, Header("BG")]
+        [SerializeField] private GameObject bg;
+        [SerializeField] private GameObject pulseBG;
 
         private View activeView;
 
@@ -102,6 +105,8 @@ namespace NotReaper.UI
             }
             // canvas.DOFade(1f, .3f);
             canvas.alpha = 1f;
+            bg.gameObject.SetActive(true);
+            pulseBG.gameObject.SetActive(true);
         }
 
         public override void Hide()
@@ -115,6 +120,8 @@ namespace NotReaper.UI
             }
             Reset();
             OnDeactivated();
+            bg.gameObject.SetActive(false);
+            pulseBG.gameObject.SetActive(false);
             /*
             Sequence animation = DOTween.Sequence();
             animation.Append(canvas.DOFade(0f, .5f));
