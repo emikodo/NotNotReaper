@@ -18,7 +18,7 @@ namespace NotReaper.UI.Volume
         [SerializeField] private Slider effectsVolume;
 
         [NRInject] private Timeline timeline;
-
+        private CanvasGroup volumeButton;
         private CanvasGroup canvas;
         private RectTransform rect;
         private Vector2 startSize;
@@ -27,6 +27,7 @@ namespace NotReaper.UI.Volume
         {
             canvas = GetComponent<CanvasGroup>();
             rect = GetComponent<RectTransform>();
+            volumeButton = NRDependencyInjector.Get<UIModeSelect>().volumeButton;
             startSize = rect.sizeDelta;
 
             var size = startSize;
@@ -73,6 +74,7 @@ namespace NotReaper.UI.Volume
         public override void Show()
         {
             OnActivated();
+            volumeButton.DOFade(0f, .3f);
             var sequence = DOTween.Sequence();
             sequence.Append(canvas.DOFade(1f, .3f));
             sequence.Join(rect.DOSizeDelta(startSize, .3f));
@@ -84,6 +86,7 @@ namespace NotReaper.UI.Volume
             NRSettings.SaveSettingsJson();
             var size = startSize;
             size.x = 0f;
+            volumeButton.DOFade(1f, .3f);
             var sequence = DOTween.Sequence();
             sequence.Append(canvas.DOFade(0f, .3f));
             sequence.Join(rect.DOSizeDelta(size, .3f));

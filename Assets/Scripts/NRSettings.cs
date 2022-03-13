@@ -295,6 +295,8 @@ namespace NotReaper {
         public int downloadDeleteAfterDays = 7;
         public int downloadSaveLocation = 0;
         public string downloadCustomSaveLocation = "";
+        public int themeMode = 1;
+        public string selectedTheme = "Default";
     }
 
 }

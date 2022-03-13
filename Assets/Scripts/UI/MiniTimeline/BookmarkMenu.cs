@@ -27,7 +27,6 @@ namespace NotReaper.UI
             }
             inputField.onSelect.AddListener(OnInputFocused);
             inputField.onDeselect.AddListener(OnInputFocused);
-            menu.GetComponent<Canvas>().renderMode = RenderMode.ScreenSpaceOverlay;
             menu.SetActive(false);
         }
 

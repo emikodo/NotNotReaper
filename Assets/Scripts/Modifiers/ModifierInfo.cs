@@ -30,7 +30,6 @@ public class ModifierInfo : NRMenu
         var t = transform;
         var position = t.localPosition;
         t.localPosition = new Vector3(0, position.y, position.z);
-        GetComponent<Canvas>().renderMode = RenderMode.ScreenSpaceOverlay;
         canvas = GetComponent<CanvasGroup>();
         canvas.alpha = 0f;
         gameObject.SetActive(false);

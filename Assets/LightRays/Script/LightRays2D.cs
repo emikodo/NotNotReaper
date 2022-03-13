@@ -1,40 +1,61 @@
-﻿using System.Collections;
+﻿using NotReaper.Models;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[ExecuteInEditMode, RequireComponent(typeof(MeshFilter)),RequireComponent(typeof(MeshRenderer))]
-public class LightRays2D:LightRays2DAbstract{
+namespace NotReaper.UI
+{
+    [ExecuteAlways, RequireComponent(typeof(MeshFilter)), RequireComponent(typeof(MeshRenderer))]
+    public class LightRays2D : LightRays2DAbstract
+    {
 
-	private MeshRenderer mr;
+        private MeshRenderer mr;
 
-	//For sorting layers
-	[HideInInspector]
-	public int sortingLayer=0;
-	private int _sortingLayer;
-	[HideInInspector]
-	public int orderInLayer=0;
-	private int _orderInLayer;
+        //For sorting layers
+        [HideInInspector]
+        public int sortingLayer = 0;
+        private int _sortingLayer;
+        [HideInInspector]
+        public int orderInLayer = 0;
+        private int _orderInLayer;
 
-	protected override void GetReferences(){
-		mr=GetComponent<MeshRenderer>();
-	}
+        protected override void GetReferences()
+        {
+            mr = GetComponent<MeshRenderer>();
+        }
 
-	protected override Material GetMaterial(){
-		return mr.sharedMaterial;
-	}
+        protected override Material GetMaterial()
+        {
+            return mr.sharedMaterial;
+        }
 
-	protected override void Update(){
-		base.Update();
-		if (sortingLayer!=_sortingLayer || orderInLayer!=_orderInLayer){
-			mr.sortingLayerID=sortingLayer;
-			mr.sortingOrder=orderInLayer;
-			_sortingLayer=sortingLayer;
-			_orderInLayer=orderInLayer;
-		}
-	}
-	
-	protected override void ApplyMaterial(Material material){
-		
-	}
-	
+        protected override void Update()
+        {
+            if(Application.isPlaying) return;
+
+            base.Update();
+            if (sortingLayer != _sortingLayer || orderInLayer != _orderInLayer)
+            {
+                mr.sortingLayerID = sortingLayer;
+                mr.sortingOrder = orderInLayer;
+                _sortingLayer = sortingLayer;
+                _orderInLayer = orderInLayer;
+            }
+        }
+
+        [NRListener]
+        private void OnHandTypeChanged(TargetHandType hand)
+        {
+            var color = hand == TargetHandType.Left ? NRSettings.config.leftColor : NRSettings.config.rightColor;
+            color.a = .2f;
+            color1 = color2 = color;
+            UpdateColors();
+        }
+
+        protected override void ApplyMaterial(Material material)
+        {
+
+        }
+
+    }
 }

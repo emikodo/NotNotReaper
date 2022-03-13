@@ -87,6 +87,15 @@ public abstract class LightRays2DAbstract : MonoBehaviour
 
 	protected abstract void ApplyMaterial(Material material);
 
+	protected void UpdateColors()
+    {
+		_color1 = color1;
+		_color2 = color2;
+		InitializeReferences();
+		mat.SetColor("_Color1", color1);
+		mat.SetColor("_Color2", color2);
+	}
+
 	bool AnythingChanged()
 	{
 		bool changed = false;

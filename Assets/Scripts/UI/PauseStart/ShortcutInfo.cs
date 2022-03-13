@@ -8,6 +8,7 @@ using DG.Tweening;
 using NotReaper.UserInput;
 using UnityEngine.InputSystem;
 using NotReaper.Keyboard;
+using NotReaper.UI.Components;
 
 namespace NotReaper.UI
 {
@@ -22,6 +23,7 @@ namespace NotReaper.UI
         public bool isOpened = false;
         public ShortcutKeyboardHandler keyboard;
 
+        private NRWindow nrWindow;
         private CanvasGroup canvas;
 
 
@@ -29,6 +31,7 @@ namespace NotReaper.UI
         protected override void Awake()
         {
             base.Awake();
+            nrWindow = GetComponent<NRWindow>();
             if (Instance != null)
             {
                 Debug.Log("ShortcutInfo already exists.");
@@ -67,8 +70,9 @@ namespace NotReaper.UI
         {
             OnActivated();
             transform.position = Vector3.zero;
-            canvas.alpha = 0f;
-            canvas.DOFade(1.0f, 0.3f);
+            //canvas.alpha = 0f;
+            //canvas.DOFade(1.0f, 0.3f);
+            nrWindow.FadeIn();
             readmeUnderline.color = NRSettings.config.leftColor;
             Transform camTrans = Camera.main.transform;
 
@@ -82,10 +86,16 @@ namespace NotReaper.UI
         {
             keyboard.OnClose();
             isOpened = false;
-            canvas.DOFade(0f, .3f).OnComplete(() =>
+            var sequence = nrWindow.GetFadeOutAnimationSequence();
+            sequence.OnComplete(() =>
             {
                 OnDeactivated();
             });
+            sequence.Play();
+            /*canvas.DOFade(0f, .3f).OnComplete(() =>
+            {
+                OnDeactivated();
+            });*/
         }
 
         protected override void OnEscPressed(InputAction.CallbackContext context)

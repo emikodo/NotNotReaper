@@ -75,7 +75,7 @@ public class KawaseBlur : ScriptableRendererFeature
             // cmd.GetTemporaryRT(tmpId1, opaqueDesc, FilterMode.Bilinear);
             cmd.SetGlobalFloat("_offset", 1.5f);
             cmd.Blit(source, tmpRT1, blurMaterial);
-
+            
             for (var i=1; i<passes-1; i++) {
                 cmd.SetGlobalFloat("_offset", 0.5f + i);
                 cmd.Blit(tmpRT1, tmpRT2, blurMaterial);

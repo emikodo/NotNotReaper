@@ -20,6 +20,7 @@ namespace NotReaper.UI {
         public GameObject slider;
         public RectTransform sliderRTrans;
         public List<GameObject> buttons = new();
+        public CanvasGroup volumeButton;
         [NRInject] private UIMetadata uIMetadata;
         [NRInject] private UITiming uITiming;
         [NRInject] private VolumeOverlay volume;

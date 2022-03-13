@@ -3,6 +3,7 @@
     Properties
     {
         _MainTex ("Texture", 2D) = "white" {}
+        _Intensity ("Float Intensity", Range(0.0, 1.0)) = 1.0
       //   _offset ("Offset", float) = 0.5
     }
 
@@ -61,7 +62,6 @@
                 col.rgb += tex2D( _MainTex, input.uv + float2( -i, i ) * res ).rgb;
                 col.rgb += tex2D( _MainTex, input.uv + float2( -i, -i ) * res ).rgb;
                 col.rgb /= 5.0f;
-                
                 return col;
             }
             ENDCG

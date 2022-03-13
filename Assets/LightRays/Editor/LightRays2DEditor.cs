@@ -6,6 +6,7 @@ using UnityEditor;
 using UnityEditorInternal;
 using System.Reflection;
 using System;
+using NotReaper.UI;
 
 [CustomEditor(typeof(LightRays2D))]
 public class LightRays2DEditor:Editor{
