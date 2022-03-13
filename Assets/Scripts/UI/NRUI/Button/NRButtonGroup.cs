@@ -27,6 +27,7 @@ namespace NotReaper.UI.Components
         public Color defaultColor = Color.white;
         public Color highlightedColor = Color.white;
         public Color pressedColor = Color.white;
+        public Color disabledColor = Color.gray;
         [Space, Header("Text")]
         public float textSize = 15f;
         public bool autoSizeText;

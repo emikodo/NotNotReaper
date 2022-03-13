@@ -25,7 +25,6 @@ namespace NotReaper.UI
         public static UIMetadata Instance = null;
         [NRInject] private DifficultyManager difficultyManager;
 
-        public Image BG;
         public CanvasGroup window;
 
         public List<Image> inputBoxLines = new List<Image>();
@@ -529,7 +528,6 @@ namespace NotReaper.UI
             {
                 img.color = NRSettings.config.rightColor;
             }
-            BG.gameObject.SetActive(true);
             window.gameObject.SetActive(true);
             UpdateUIValues();
             window.DOFade(1f, .3f);
@@ -539,7 +537,6 @@ namespace NotReaper.UI
             window.DOFade(0f, .3f).OnComplete(() =>
             {
                 ApplyValues();
-                BG.gameObject.SetActive(false);
                 window.gameObject.SetActive(false);
                 OnDeactivated();
             });

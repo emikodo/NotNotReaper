@@ -2384,9 +2384,9 @@ namespace NotReaper
 
             }
 
-            introZone.localPosition = new Vector3(0, 0.03f, 0); // intro red zone
+            introZone.localPosition = new Vector3(0, -0.35f, 0); // intro red zone
 
-            introZone.localScale = new Vector3(endMeasure, 1.1f, 1);
+            introZone.localScale = new Vector3(endMeasure, 0.3f, 1);
 
             Vector2 topLeft = introZone.transform.TransformPoint(0, 0, 0);
             Vector2 size = introZone.transform.TransformVector(1, 1, 1);

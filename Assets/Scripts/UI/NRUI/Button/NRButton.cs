@@ -37,6 +37,7 @@ namespace NotReaper.UI.Components
         [SerializeField] private Color defaultColor = Color.white;
         [SerializeField] private Color highlightedColor = Color.white;
         [SerializeField] private Color pressedColor = Color.white;
+        [SerializeField] private Color disabledColor = Color.gray;
         [Space, Header("Text")]
         [SerializeField] private float textSize = 15f;
         [SerializeField] private bool autoSizeText;
@@ -159,9 +160,11 @@ namespace NotReaper.UI.Components
             if (!interactable)
             {
                 background.color = skin.disabledColor;
+                DoIconColorTransition(disabledColor);
             }
             else
             {
+                DoIconColorTransition(defaultColor);
                 if (isMouseOver)
                 {
                     background.color = skin.highlightedColor;
@@ -209,6 +212,7 @@ namespace NotReaper.UI.Components
                 defaultColor = buttonGroup.defaultColor;
                 highlightedColor = buttonGroup.highlightedColor;
                 pressedColor = buttonGroup.pressedColor;
+                disabledColor = buttonGroup.disabledColor;
                 stayOnSelected = buttonGroup.stayOnSelected;
             }
             
