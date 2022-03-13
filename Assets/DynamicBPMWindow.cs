@@ -26,9 +26,6 @@ namespace NotReaper.UI.BPM
             gameObject.GetComponent<RectTransform>().localPosition = defaultPos;
             gameObject.GetComponent<CanvasGroup>().alpha = 0.0f;
             gameObject.SetActive(false);
-            dynamicBpmInput.GetComponent<TMP_InputField>().onSubmit.AddListener(delegate { AddDynamicBPM(); });
-            timeSignatureNumerator.GetComponent<TMP_InputField>().onSubmit.AddListener(delegate { AddDynamicBPM(); });
-            timeSignatureDenomerator.GetComponent<TMP_InputField>().onSubmit.AddListener(delegate { AddDynamicBPM(); });
             gameObject.GetComponent<CanvasGroup>().alpha = 0f;
         }
 

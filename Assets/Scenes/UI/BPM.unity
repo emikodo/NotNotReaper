@@ -1047,7 +1047,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1358680472}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -2937,6 +2937,7 @@ MonoBehaviour:
   titleText: bpm
   titleSize: 12
   autoSizeTitle: 0
+  useTitle: 1
   placeholderText: 
   textSize: 12
   usePlaceholderText: 1
@@ -5410,7 +5411,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 673685108}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -6918,6 +6919,7 @@ MonoBehaviour:
   titleText: 
   titleSize: 12
   autoSizeTitle: 0
+  useTitle: 1
   placeholderText: 4
   textSize: 12
   usePlaceholderText: 1
@@ -7027,7 +7029,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1336949698}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -7905,8 +7907,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 3372220415
+  m_fontColor: {r: 1, g: 1, b: 1, a: 0.78431374}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -8970,6 +8972,7 @@ MonoBehaviour:
   titleText: 
   titleSize: 12
   autoSizeTitle: 0
+  useTitle: 1
   placeholderText: 4
   textSize: 12
   usePlaceholderText: 1
