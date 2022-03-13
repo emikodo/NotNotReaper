@@ -1937,8 +1937,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 10.95935, y: 0}
+  m_SizeDelta: {x: 21.9187, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &40739511
 MonoBehaviour:
@@ -2510,7 +2510,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 00421c9dfae2ae346b8a50063a84513c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -4528,7 +4528,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.44, g: 0.78, b: 1, a: 1}
+  m_Color: {r: 0.45, g: 0.78392863, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -5722,7 +5722,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.44, g: 0.78, b: 1, a: 1}
+  m_Color: {r: 0.45, g: 0.78392863, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -6771,6 +6771,7 @@ MonoBehaviour:
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
   highlightedColor: {r: 1, g: 1, b: 1, a: 1}
   pressedColor: {r: 1, g: 1, b: 1, a: 1}
+  disabledColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   textSize: 15
   autoSizeText: 0
   text: song info
@@ -8716,7 +8717,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 00421c9dfae2ae346b8a50063a84513c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -10963,6 +10964,7 @@ MonoBehaviour:
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
   highlightedColor: {r: 1, g: 1, b: 1, a: 1}
   pressedColor: {r: 1, g: 1, b: 1, a: 1}
+  disabledColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   textSize: 15
   autoSizeText: 0
   text: 
@@ -13141,7 +13143,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 00421c9dfae2ae346b8a50063a84513c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -14955,6 +14957,7 @@ MonoBehaviour:
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
   highlightedColor: {r: 1, g: 1, b: 1, a: 1}
   pressedColor: {r: 1, g: 1, b: 1, a: 1}
+  disabledColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   textSize: 15
   autoSizeText: 0
   text: 
@@ -15589,7 +15592,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 00421c9dfae2ae346b8a50063a84513c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -15686,7 +15689,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 00421c9dfae2ae346b8a50063a84513c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -16647,6 +16650,7 @@ MonoBehaviour:
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
   highlightedColor: {r: 1, g: 1, b: 1, a: 1}
   pressedColor: {r: 1, g: 1, b: 1, a: 1}
+  disabledColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   textSize: 15
   autoSizeText: 0
   text: '?'
@@ -18821,6 +18825,7 @@ MonoBehaviour:
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
   highlightedColor: {r: 1, g: 1, b: 1, a: 1}
   pressedColor: {r: 1, g: 1, b: 1, a: 1}
+  disabledColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   textSize: 15
   autoSizeText: 0
   text: +
@@ -19089,6 +19094,7 @@ MonoBehaviour:
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
   highlightedColor: {r: 1, g: 1, b: 1, a: 1}
   pressedColor: {r: 1, g: 1, b: 1, a: 1}
+  disabledColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   textSize: 15
   autoSizeText: 0
   independentButtons: []
@@ -19977,7 +19983,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.44, g: 0.78, b: 1, a: 1}
+  m_Color: {r: 0.45, g: 0.78392863, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -22519,6 +22525,7 @@ MonoBehaviour:
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
   highlightedColor: {r: 1, g: 1, b: 1, a: 1}
   pressedColor: {r: 1, g: 1, b: 1, a: 1}
+  disabledColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   textSize: 15
   autoSizeText: 0
   text: 
@@ -22696,7 +22703,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.44, g: 0.78, b: 1, a: 1}
+  m_Color: {r: 0.45, g: 0.78392863, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -23179,6 +23186,7 @@ MonoBehaviour:
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
   highlightedColor: {r: 1, g: 1, b: 1, a: 1}
   pressedColor: {r: 1, g: 1, b: 1, a: 1}
+  disabledColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   textSize: 15
   autoSizeText: 0
   text: _
@@ -24142,6 +24150,7 @@ MonoBehaviour:
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
   highlightedColor: {r: 1, g: 1, b: 1, a: 1}
   pressedColor: {r: 1, g: 1, b: 1, a: 1}
+  disabledColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   textSize: 15
   autoSizeText: 0
   text: +
@@ -26028,6 +26037,7 @@ MonoBehaviour:
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
   highlightedColor: {r: 1, g: 1, b: 1, a: 1}
   pressedColor: {r: 1, g: 1, b: 1, a: 1}
+  disabledColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   textSize: 15
   autoSizeText: 0
   text: _
@@ -26431,6 +26441,7 @@ MonoBehaviour:
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
   highlightedColor: {r: 1, g: 1, b: 1, a: 1}
   pressedColor: {r: 1, g: 1, b: 1, a: 1}
+  disabledColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   textSize: 10
   autoSizeText: 0
   text: rh
@@ -29121,14 +29132,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.44, g: 0.78, b: 1, a: 1}
+  m_Color: {r: 0.45, g: 0.78392863, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 00421c9dfae2ae346b8a50063a84513c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -30907,7 +30918,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.44, g: 0.78, b: 1, a: 1}
+  m_Color: {r: 0.45, g: 0.78392863, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -32946,6 +32957,7 @@ MonoBehaviour:
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
   highlightedColor: {r: 1, g: 1, b: 1, a: 1}
   pressedColor: {r: 1, g: 1, b: 1, a: 1}
+  disabledColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   textSize: 15
   autoSizeText: 0
   text: 
@@ -35057,7 +35069,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 00421c9dfae2ae346b8a50063a84513c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -35878,6 +35890,7 @@ MonoBehaviour:
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
   highlightedColor: {r: 1, g: 1, b: 1, a: 1}
   pressedColor: {r: 1, g: 1, b: 1, a: 1}
+  disabledColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   textSize: 15
   autoSizeText: 0
   independentButtons: []
@@ -36875,7 +36888,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.44, g: 0.78, b: 1, a: 1}
+  m_Color: {r: 0.45, g: 0.78392863, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -37830,6 +37843,7 @@ MonoBehaviour:
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
   highlightedColor: {r: 1, g: 1, b: 1, a: 1}
   pressedColor: {r: 1, g: 1, b: 1, a: 1}
+  disabledColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   textSize: 12
   autoSizeText: 0
   text: done
@@ -40468,7 +40482,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.44, g: 0.78, b: 1, a: 1}
+  m_Color: {r: 0.45, g: 0.78392863, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -40698,6 +40712,7 @@ MonoBehaviour:
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
   highlightedColor: {r: 1, g: 1, b: 1, a: 1}
   pressedColor: {r: 1, g: 1, b: 1, a: 1}
+  disabledColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   textSize: 15
   autoSizeText: 0
   text: +
@@ -44243,6 +44258,7 @@ MonoBehaviour:
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
   highlightedColor: {r: 1, g: 1, b: 1, a: 1}
   pressedColor: {r: 1, g: 1, b: 1, a: 1}
+  disabledColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   textSize: 12
   autoSizeText: 0
   text: position
@@ -46256,6 +46272,7 @@ MonoBehaviour:
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
   highlightedColor: {r: 1, g: 1, b: 1, a: 1}
   pressedColor: {r: 1, g: 1, b: 1, a: 1}
+  disabledColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   textSize: 15
   autoSizeText: 0
   text: _
@@ -48237,6 +48254,7 @@ MonoBehaviour:
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
   highlightedColor: {r: 1, g: 1, b: 1, a: 1}
   pressedColor: {r: 1, g: 1, b: 1, a: 1}
+  disabledColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   textSize: 12
   autoSizeText: 0
   text: deselection
@@ -48344,6 +48362,7 @@ MonoBehaviour:
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
   highlightedColor: {r: 1, g: 1, b: 1, a: 1}
   pressedColor: {r: 1, g: 1, b: 1, a: 1}
+  disabledColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   textSize: 15
   autoSizeText: 0
   text: 
@@ -49564,6 +49583,7 @@ MonoBehaviour:
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
   highlightedColor: {r: 1, g: 1, b: 1, a: 1}
   pressedColor: {r: 1, g: 1, b: 1, a: 1}
+  disabledColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   textSize: 15
   autoSizeText: 0
   text: +
@@ -50321,6 +50341,7 @@ MonoBehaviour:
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
   highlightedColor: {r: 1, g: 1, b: 1, a: 1}
   pressedColor: {r: 1, g: 1, b: 1, a: 1}
+  disabledColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   textSize: 8
   autoSizeText: 0
   text: restore
@@ -53277,6 +53298,7 @@ MonoBehaviour:
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
   highlightedColor: {r: 1, g: 1, b: 1, a: 1}
   pressedColor: {r: 1, g: 1, b: 1, a: 1}
+  disabledColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   textSize: 15
   autoSizeText: 0
   text: +
@@ -53995,7 +54017,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 00421c9dfae2ae346b8a50063a84513c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -54271,6 +54293,7 @@ MonoBehaviour:
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
   highlightedColor: {r: 1, g: 1, b: 1, a: 1}
   pressedColor: {r: 1, g: 1, b: 1, a: 1}
+  disabledColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   textSize: 12
   autoSizeText: 0
   independentButtons: []
@@ -54892,7 +54915,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 00421c9dfae2ae346b8a50063a84513c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -55619,6 +55642,7 @@ MonoBehaviour:
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
   highlightedColor: {r: 1, g: 1, b: 1, a: 1}
   pressedColor: {r: 1, g: 1, b: 1, a: 1}
+  disabledColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   textSize: 15
   autoSizeText: 0
   text: +
@@ -56984,6 +57008,7 @@ MonoBehaviour:
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
   highlightedColor: {r: 1, g: 1, b: 1, a: 1}
   pressedColor: {r: 1, g: 1, b: 1, a: 1}
+  disabledColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   textSize: 15
   autoSizeText: 0
   text: _
@@ -57603,6 +57628,7 @@ MonoBehaviour:
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
   highlightedColor: {r: 1, g: 1, b: 1, a: 1}
   pressedColor: {r: 1, g: 1, b: 1, a: 1}
+  disabledColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   textSize: 15
   autoSizeText: 0
   text: +
@@ -58038,6 +58064,7 @@ MonoBehaviour:
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
   highlightedColor: {r: 1, g: 1, b: 1, a: 1}
   pressedColor: {r: 1, g: 1, b: 1, a: 1}
+  disabledColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   textSize: 15
   autoSizeText: 0
   text: +
@@ -58486,7 +58513,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.44, g: 0.78, b: 1, a: 1}
+  m_Color: {r: 0.45, g: 0.78392863, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -59344,6 +59371,7 @@ MonoBehaviour:
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
   highlightedColor: {r: 1, g: 1, b: 1, a: 1}
   pressedColor: {r: 1, g: 1, b: 1, a: 1}
+  disabledColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   textSize: 15
   autoSizeText: 0
   text: +
@@ -63398,7 +63426,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 00421c9dfae2ae346b8a50063a84513c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -63867,6 +63895,7 @@ MonoBehaviour:
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
   highlightedColor: {r: 1, g: 1, b: 1, a: 1}
   pressedColor: {r: 1, g: 1, b: 1, a: 1}
+  disabledColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   textSize: 15
   autoSizeText: 0
   text: _
@@ -64119,6 +64148,7 @@ MonoBehaviour:
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
   highlightedColor: {r: 1, g: 1, b: 1, a: 1}
   pressedColor: {r: 1, g: 1, b: 1, a: 1}
+  disabledColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   textSize: 15
   autoSizeText: 0
   text: 
@@ -64778,6 +64808,7 @@ MonoBehaviour:
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
   highlightedColor: {r: 1, g: 1, b: 1, a: 1}
   pressedColor: {r: 1, g: 1, b: 1, a: 1}
+  disabledColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   textSize: 12
   autoSizeText: 0
   text: done
@@ -65343,7 +65374,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.44, g: 0.78, b: 1, a: 1}
+  m_Color: {r: 0.45, g: 0.78392863, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -68556,6 +68587,7 @@ MonoBehaviour:
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
   highlightedColor: {r: 1, g: 1, b: 1, a: 1}
   pressedColor: {r: 1, g: 1, b: 1, a: 1}
+  disabledColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   textSize: 15
   autoSizeText: 0
   text: 
@@ -69615,6 +69647,7 @@ MonoBehaviour:
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
   highlightedColor: {r: 1, g: 1, b: 1, a: 1}
   pressedColor: {r: 1, g: 1, b: 1, a: 1}
+  disabledColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   textSize: 15
   autoSizeText: 0
   text: +
@@ -70414,6 +70447,7 @@ MonoBehaviour:
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
   highlightedColor: {r: 1, g: 1, b: 1, a: 1}
   pressedColor: {r: 1, g: 1, b: 1, a: 1}
+  disabledColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   textSize: 15
   autoSizeText: 0
   text: 
@@ -71870,7 +71904,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 00421c9dfae2ae346b8a50063a84513c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -72009,6 +72043,7 @@ MonoBehaviour:
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
   highlightedColor: {r: 1, g: 1, b: 1, a: 1}
   pressedColor: {r: 1, g: 1, b: 1, a: 1}
+  disabledColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   textSize: 15
   autoSizeText: 0
   text: 
@@ -72970,6 +73005,7 @@ MonoBehaviour:
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
   highlightedColor: {r: 1, g: 1, b: 1, a: 1}
   pressedColor: {r: 1, g: 1, b: 1, a: 1}
+  disabledColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   textSize: 8
   autoSizeText: 0
   text: apply
@@ -75248,7 +75284,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 00421c9dfae2ae346b8a50063a84513c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -75849,6 +75885,7 @@ MonoBehaviour:
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
   highlightedColor: {r: 1, g: 1, b: 1, a: 1}
   pressedColor: {r: 1, g: 1, b: 1, a: 1}
+  disabledColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   textSize: 10
   autoSizeText: 0
   text: lh
@@ -77567,7 +77604,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.44, g: 0.78, b: 1, a: 1}
+  m_Color: {r: 0.45, g: 0.78392863, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -79146,6 +79183,7 @@ MonoBehaviour:
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
   highlightedColor: {r: 1, g: 1, b: 1, a: 1}
   pressedColor: {r: 1, g: 1, b: 1, a: 1}
+  disabledColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   textSize: 15
   autoSizeText: 0
   text: 
@@ -79380,6 +79418,7 @@ MonoBehaviour:
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
   highlightedColor: {r: 1, g: 1, b: 1, a: 1}
   pressedColor: {r: 1, g: 1, b: 1, a: 1}
+  disabledColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   textSize: 12
   autoSizeText: 0
   text: Target
@@ -79766,6 +79805,7 @@ MonoBehaviour:
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
   highlightedColor: {r: 1, g: 1, b: 1, a: 1}
   pressedColor: {r: 1, g: 1, b: 1, a: 1}
+  disabledColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   textSize: 15
   autoSizeText: 0
   text: 
@@ -80051,6 +80091,7 @@ MonoBehaviour:
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
   highlightedColor: {r: 1, g: 1, b: 1, a: 1}
   pressedColor: {r: 1, g: 1, b: 1, a: 1}
+  disabledColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   textSize: 15
   autoSizeText: 0
   text: +
@@ -80243,7 +80284,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 00421c9dfae2ae346b8a50063a84513c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

@@ -182,7 +182,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 00421c9dfae2ae346b8a50063a84513c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -653,6 +653,7 @@ MonoBehaviour:
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
   highlightedColor: {r: 1, g: 1, b: 1, a: 1}
   pressedColor: {r: 1, g: 1, b: 1, a: 1}
+  disabledColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   textSize: 12
   autoSizeText: 0
   text: load album art
@@ -859,7 +860,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 00421c9dfae2ae346b8a50063a84513c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1035,6 +1036,7 @@ MonoBehaviour:
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
   highlightedColor: {r: 1, g: 1, b: 1, a: 1}
   pressedColor: {r: 1, g: 1, b: 1, a: 1}
+  disabledColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   textSize: 12
   autoSizeText: 0
   text: load
@@ -1227,6 +1229,7 @@ MonoBehaviour:
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
   highlightedColor: {r: 1, g: 1, b: 1, a: 1}
   pressedColor: {r: 1, g: 1, b: 1, a: 1}
+  disabledColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   textSize: 12
   autoSizeText: 0
   text: delete left
@@ -2449,6 +2452,7 @@ MonoBehaviour:
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
   highlightedColor: {r: 1, g: 1, b: 1, a: 1}
   pressedColor: {r: 1, g: 1, b: 1, a: 1}
+  disabledColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   textSize: 15
   autoSizeText: 0
   text: compose
@@ -3257,6 +3261,7 @@ MonoBehaviour:
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
   highlightedColor: {r: 1, g: 1, b: 1, a: 1}
   pressedColor: {r: 1, g: 1, b: 1, a: 1}
+  disabledColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   textSize: 15
   autoSizeText: 0
   text: 
@@ -3498,7 +3503,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 00421c9dfae2ae346b8a50063a84513c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -4742,6 +4747,7 @@ MonoBehaviour:
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
   highlightedColor: {r: 1, g: 1, b: 1, a: 1}
   pressedColor: {r: 1, g: 1, b: 1, a: 1}
+  disabledColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   textSize: 12
   autoSizeText: 0
   independentButtons: []
@@ -4967,6 +4973,7 @@ MonoBehaviour:
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
   highlightedColor: {r: 1, g: 1, b: 1, a: 1}
   pressedColor: {r: 1, g: 1, b: 1, a: 1}
+  disabledColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   textSize: 15
   autoSizeText: 0
   text: continue
@@ -5165,7 +5172,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 00421c9dfae2ae346b8a50063a84513c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -5304,6 +5311,7 @@ MonoBehaviour:
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
   highlightedColor: {r: 1, g: 1, b: 1, a: 1}
   pressedColor: {r: 1, g: 1, b: 1, a: 1}
+  disabledColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   textSize: 15
   autoSizeText: 0
   text: cancel
@@ -6692,7 +6700,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 00421c9dfae2ae346b8a50063a84513c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -7095,7 +7103,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 00421c9dfae2ae346b8a50063a84513c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -8484,6 +8492,7 @@ MonoBehaviour:
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
   highlightedColor: {r: 1, g: 1, b: 1, a: 1}
   pressedColor: {r: 1, g: 1, b: 1, a: 1}
+  disabledColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   textSize: 12
   autoSizeText: 0
   text: generate
@@ -8612,6 +8621,7 @@ MonoBehaviour:
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
   highlightedColor: {r: 1, g: 1, b: 1, a: 1}
   pressedColor: {r: 1, g: 1, b: 1, a: 1}
+  disabledColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   textSize: 12
   autoSizeText: 0
   text: load left
@@ -10849,7 +10859,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 00421c9dfae2ae346b8a50063a84513c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -11754,7 +11764,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 00421c9dfae2ae346b8a50063a84513c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -12029,6 +12039,7 @@ MonoBehaviour:
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
   highlightedColor: {r: 1, g: 1, b: 1, a: 1}
   pressedColor: {r: 1, g: 1, b: 1, a: 1}
+  disabledColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   textSize: 15
   autoSizeText: 0
   text: cancel
@@ -12429,6 +12440,7 @@ MonoBehaviour:
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
   highlightedColor: {r: 1, g: 1, b: 1, a: 1}
   pressedColor: {r: 1, g: 1, b: 1, a: 1}
+  disabledColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   textSize: 12
   autoSizeText: 0
   text: set name
@@ -12502,6 +12514,7 @@ MonoBehaviour:
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
   highlightedColor: {r: 1, g: 1, b: 1, a: 1}
   pressedColor: {r: 1, g: 1, b: 1, a: 1}
+  disabledColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   textSize: 15
   autoSizeText: 0
   text: expert
@@ -12643,7 +12656,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 00421c9dfae2ae346b8a50063a84513c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -12920,6 +12933,7 @@ MonoBehaviour:
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
   highlightedColor: {r: 1, g: 1, b: 1, a: 1}
   pressedColor: {r: 1, g: 1, b: 1, a: 1}
+  disabledColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   textSize: 12
   autoSizeText: 0
   text: set preview
@@ -13006,7 +13020,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 00421c9dfae2ae346b8a50063a84513c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -13633,7 +13647,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 00421c9dfae2ae346b8a50063a84513c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -13717,6 +13731,7 @@ MonoBehaviour:
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
   highlightedColor: {r: 1, g: 1, b: 1, a: 1}
   pressedColor: {r: 1, g: 1, b: 1, a: 1}
+  disabledColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   textSize: 15
   autoSizeText: 0
   text: beginner
@@ -14458,6 +14473,7 @@ MonoBehaviour:
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
   highlightedColor: {r: 1, g: 1, b: 1, a: 1}
   pressedColor: {r: 1, g: 1, b: 1, a: 1}
+  disabledColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   textSize: 12
   autoSizeText: 0
   text: load new audio
@@ -14956,6 +14972,7 @@ MonoBehaviour:
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
   highlightedColor: {r: 1, g: 1, b: 1, a: 1}
   pressedColor: {r: 1, g: 1, b: 1, a: 1}
+  disabledColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   textSize: 15
   autoSizeText: 0
   text: delete
@@ -15602,6 +15619,7 @@ MonoBehaviour:
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
   highlightedColor: {r: 1, g: 1, b: 1, a: 1}
   pressedColor: {r: 1, g: 1, b: 1, a: 1}
+  disabledColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   textSize: 15
   autoSizeText: 0
   text: cancel
@@ -16287,7 +16305,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 00421c9dfae2ae346b8a50063a84513c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -17873,6 +17891,7 @@ MonoBehaviour:
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
   highlightedColor: {r: 1, g: 1, b: 1, a: 1}
   pressedColor: {r: 1, g: 1, b: 1, a: 1}
+  disabledColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   textSize: 12
   autoSizeText: 0
   text: load left
@@ -19698,7 +19717,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 00421c9dfae2ae346b8a50063a84513c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -19795,7 +19814,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 00421c9dfae2ae346b8a50063a84513c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -20028,7 +20047,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 00421c9dfae2ae346b8a50063a84513c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -20524,7 +20543,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 00421c9dfae2ae346b8a50063a84513c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -20931,7 +20950,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 00421c9dfae2ae346b8a50063a84513c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -21452,6 +21471,7 @@ MonoBehaviour:
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
   highlightedColor: {r: 1, g: 1, b: 1, a: 1}
   pressedColor: {r: 1, g: 1, b: 1, a: 1}
+  disabledColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   textSize: 12
   autoSizeText: 0
   text: copy cues
@@ -21644,6 +21664,7 @@ MonoBehaviour:
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
   highlightedColor: {r: 1, g: 1, b: 1, a: 1}
   pressedColor: {r: 1, g: 1, b: 1, a: 1}
+  disabledColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   textSize: 12
   autoSizeText: 0
   text: delete left
@@ -21791,7 +21812,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 00421c9dfae2ae346b8a50063a84513c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -22717,7 +22738,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 00421c9dfae2ae346b8a50063a84513c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -23488,6 +23509,7 @@ MonoBehaviour:
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
   highlightedColor: {r: 1, g: 1, b: 1, a: 1}
   pressedColor: {r: 1, g: 1, b: 1, a: 1}
+  disabledColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   textSize: 15
   autoSizeText: 0
   text: advanced
@@ -23878,7 +23900,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 00421c9dfae2ae346b8a50063a84513c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -24031,7 +24053,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 00421c9dfae2ae346b8a50063a84513c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -25116,7 +25138,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 00421c9dfae2ae346b8a50063a84513c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -26132,7 +26154,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 00421c9dfae2ae346b8a50063a84513c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -26237,7 +26259,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 00421c9dfae2ae346b8a50063a84513c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -26368,6 +26390,7 @@ MonoBehaviour:
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
   highlightedColor: {r: 1, g: 1, b: 1, a: 1}
   pressedColor: {r: 1, g: 1, b: 1, a: 1}
+  disabledColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   textSize: 12
   autoSizeText: 0
   text: downmap
@@ -26940,6 +26963,7 @@ MonoBehaviour:
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
   highlightedColor: {r: 1, g: 1, b: 1, a: 1}
   pressedColor: {r: 1, g: 1, b: 1, a: 1}
+  disabledColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   textSize: 15
   autoSizeText: 0
   text: standard
@@ -27123,6 +27147,7 @@ MonoBehaviour:
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
   highlightedColor: {r: 1, g: 1, b: 1, a: 1}
   pressedColor: {r: 1, g: 1, b: 1, a: 1}
+  disabledColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   textSize: 12
   autoSizeText: 0
   text: error check
@@ -27642,10 +27667,10 @@ RectTransform:
   m_Father: {fileID: 1962469750}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 40, y: -10}
-  m_SizeDelta: {x: 80, y: 20}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 40, y: 0}
+  m_SizeDelta: {x: 80, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2025160858
 MonoBehaviour:
@@ -27826,6 +27851,7 @@ MonoBehaviour:
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
   highlightedColor: {r: 1, g: 1, b: 1, a: 1}
   pressedColor: {r: 1, g: 1, b: 1, a: 1}
+  disabledColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   textSize: 15
   autoSizeText: 0
   text: 
@@ -28381,7 +28407,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 00421c9dfae2ae346b8a50063a84513c, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1

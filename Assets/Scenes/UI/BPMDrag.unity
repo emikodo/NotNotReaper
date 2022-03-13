@@ -281,8 +281,8 @@ MonoBehaviour:
   m_fontSizeMin: 0.1
   m_fontSizeMax: 12
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
-  m_VerticalAlignment: 2048
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 8192
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -608,7 +608,7 @@ MonoBehaviour:
   m_fontSizeMax: 12
   m_fontStyle: 0
   m_HorizontalAlignment: 2
-  m_VerticalAlignment: 512
+  m_VerticalAlignment: 8192
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -983,8 +983,8 @@ MonoBehaviour:
   m_fontSizeMin: 0.1
   m_fontSizeMax: 12
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
-  m_VerticalAlignment: 2048
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 8192
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -1544,6 +1544,7 @@ MonoBehaviour:
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
   highlightedColor: {r: 1, g: 1, b: 1, a: 1}
   pressedColor: {r: 1, g: 1, b: 1, a: 1}
+  disabledColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   textSize: 15
   autoSizeText: 0
   text: remove silence
@@ -1777,7 +1778,7 @@ MonoBehaviour:
   m_fontSizeMax: 12
   m_fontStyle: 0
   m_HorizontalAlignment: 2
-  m_VerticalAlignment: 512
+  m_VerticalAlignment: 8192
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -2165,8 +2166,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 3372220415
+  m_fontColor: {r: 1, g: 1, b: 1, a: 0.78431374}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -2191,7 +2192,7 @@ MonoBehaviour:
   m_fontSizeMax: 12
   m_fontStyle: 0
   m_HorizontalAlignment: 2
-  m_VerticalAlignment: 512
+  m_VerticalAlignment: 8192
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -2804,7 +2805,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 00421c9dfae2ae346b8a50063a84513c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -3028,12 +3029,13 @@ MonoBehaviour:
   titleText: numerator
   titleSize: 12
   autoSizeTitle: 0
+  useTitle: 1
   placeholderText: 4
   textSize: 12
   usePlaceholderText: 1
   autoSizeInput: 1
   horizontalAlignment: 2
-  verticalAlignment: 512
+  verticalAlignment: 8192
   margin: {x: 0, y: 0, z: 0, w: 0}
   contentType: 0
   animationDuration: 0.3
@@ -3310,8 +3312,8 @@ MonoBehaviour:
   m_fontSizeMin: 0.1
   m_fontSizeMax: 12
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
-  m_VerticalAlignment: 2048
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 8192
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -4126,7 +4128,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 00421c9dfae2ae346b8a50063a84513c, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -4310,7 +4312,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1681241097}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -4871,7 +4873,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 00421c9dfae2ae346b8a50063a84513c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -5874,7 +5876,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 00421c9dfae2ae346b8a50063a84513c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -6095,12 +6097,13 @@ MonoBehaviour:
   titleText: bpm
   titleSize: 15
   autoSizeTitle: 0
+  useTitle: 1
   placeholderText: 
   textSize: 12
   usePlaceholderText: 1
   autoSizeInput: 1
-  horizontalAlignment: 1
-  verticalAlignment: 2048
+  horizontalAlignment: 2
+  verticalAlignment: 8192
   margin: {x: 0, y: 0, z: 0, w: 0}
   contentType: 0
   animationDuration: 0.3
@@ -6206,7 +6209,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 00421c9dfae2ae346b8a50063a84513c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -7759,6 +7762,7 @@ MonoBehaviour:
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
   highlightedColor: {r: 1, g: 1, b: 1, a: 1}
   pressedColor: {r: 1, g: 1, b: 1, a: 1}
+  disabledColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   textSize: 15
   autoSizeText: 0
   text: finish
@@ -8217,6 +8221,7 @@ MonoBehaviour:
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
   highlightedColor: {r: 1, g: 1, b: 1, a: 1}
   pressedColor: {r: 1, g: 1, b: 1, a: 1}
+  disabledColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   textSize: 15
   autoSizeText: 0
   text: add silence
@@ -8765,6 +8770,7 @@ MonoBehaviour:
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
   highlightedColor: {r: 1, g: 1, b: 1, a: 1}
   pressedColor: {r: 1, g: 1, b: 1, a: 1}
+  disabledColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   textSize: 15
   autoSizeText: 0
   text: 
@@ -8990,6 +8996,7 @@ MonoBehaviour:
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
   highlightedColor: {r: 1, g: 1, b: 1, a: 1}
   pressedColor: {r: 1, g: 1, b: 1, a: 1}
+  disabledColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   textSize: 18
   autoSizeText: 0
   text: continue
@@ -9112,7 +9119,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2094055411}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -9787,6 +9794,7 @@ MonoBehaviour:
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
   highlightedColor: {r: 1, g: 1, b: 1, a: 1}
   pressedColor: {r: 1, g: 1, b: 1, a: 1}
+  disabledColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   textSize: 15
   autoSizeText: 0
   independentButtons: []
@@ -9893,12 +9901,13 @@ MonoBehaviour:
   titleText: denominator
   titleSize: 12
   autoSizeTitle: 0
+  useTitle: 1
   placeholderText: 4
   textSize: 12
   usePlaceholderText: 1
   autoSizeInput: 1
   horizontalAlignment: 2
-  verticalAlignment: 512
+  verticalAlignment: 8192
   margin: {x: 0, y: 0, z: 0, w: 0}
   contentType: 0
   animationDuration: 0.3
@@ -10038,8 +10047,8 @@ MonoBehaviour:
   m_fontSizeMin: 0.1
   m_fontSizeMax: 12
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
-  m_VerticalAlignment: 2048
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 8192
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -10486,12 +10495,13 @@ MonoBehaviour:
   titleText: duration in beats
   titleSize: 12
   autoSizeTitle: 0
+  useTitle: 1
   placeholderText: 
   textSize: 12
   usePlaceholderText: 1
   autoSizeInput: 1
-  horizontalAlignment: 1
-  verticalAlignment: 2048
+  horizontalAlignment: 2
+  verticalAlignment: 8192
   margin: {x: 0, y: 0, z: 0, w: 0}
   contentType: 0
   animationDuration: 0.3
@@ -11202,7 +11212,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 21172136}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -12706,6 +12716,7 @@ MonoBehaviour:
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
   highlightedColor: {r: 1, g: 1, b: 1, a: 1}
   pressedColor: {r: 1, g: 1, b: 1, a: 1}
+  disabledColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   textSize: 15
   autoSizeText: 0
   text: back
@@ -13090,6 +13101,7 @@ MonoBehaviour:
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
   highlightedColor: {r: 1, g: 1, b: 1, a: 1}
   pressedColor: {r: 1, g: 1, b: 1, a: 1}
+  disabledColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   textSize: 18
   autoSizeText: 0
   text: apply
@@ -13441,7 +13453,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 00421c9dfae2ae346b8a50063a84513c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -13629,7 +13641,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1221385730}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -14105,7 +14117,7 @@ MonoBehaviour:
   m_fontSizeMax: 12
   m_fontStyle: 0
   m_HorizontalAlignment: 2
-  m_VerticalAlignment: 512
+  m_VerticalAlignment: 8192
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -14272,7 +14284,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 00421c9dfae2ae346b8a50063a84513c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

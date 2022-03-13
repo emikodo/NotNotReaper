@@ -136,6 +136,7 @@ namespace NotReaper.UI.Components
             {
                 buttonGroup.RegisterButton(this);
             }
+
             UpdateVisuals();
         }
 
@@ -161,10 +162,12 @@ namespace NotReaper.UI.Components
             {
                 background.color = skin.disabledColor;
                 DoIconColorTransition(disabledColor);
+                DoTextColorTransition(disabledColor);
             }
             else
             {
                 DoIconColorTransition(defaultColor);
+                DoTextColorTransition(skin.textColor);
                 if (isMouseOver)
                 {
                     background.color = skin.highlightedColor;
@@ -346,6 +349,12 @@ namespace NotReaper.UI.Components
         {
             background.DOKill();
             background.DOColor(newColor, animationDuration);
+        }
+
+        private void DoTextColorTransition(Color color)
+        {
+            textContainer.DOKill();
+            textContainer.DOColor(color, animationDuration);
         }
 
         private void DoIconColorTransition(Color newColor)

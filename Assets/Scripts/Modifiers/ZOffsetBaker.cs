@@ -26,6 +26,7 @@ namespace NotReaper.Modifier
                 return;
             }
             zOffsetWindow.GetComponent<Canvas>().renderMode = RenderMode.ScreenSpaceOverlay;
+            zOffsetWindow.transform.localPosition = Vector3.zero;
             zOffsetWindow.SetActive(false);
         }
 
@@ -90,17 +91,12 @@ namespace NotReaper.Modifier
         public void ToggleWindow()
         {
             active = !active;
-            zOffsetWindow.transform.localPosition = active ? activatePosition : new Vector3(-3000f, 13f, 0f);
             zOffsetWindow.SetActive(active);
         }
 
         private void Update()
         {
             if (!ModifierHandler.activated) return;
-            if (Input.GetKeyDown(KeyCode.B) && !ModifierHandler.inputFocused)
-            {
-                ToggleWindow();
-            }
         }
     }
 

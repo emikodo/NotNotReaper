@@ -731,7 +731,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 00421c9dfae2ae346b8a50063a84513c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1654,6 +1654,7 @@ MonoBehaviour:
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
   highlightedColor: {r: 1, g: 1, b: 1, a: 1}
   pressedColor: {r: 1, g: 1, b: 1, a: 1}
+  disabledColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   textSize: 10
   autoSizeText: 0
   text: clear all
@@ -2754,8 +2755,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4291677645
-  m_fontColor: {r: 0.8039216, g: 0.8039216, b: 0.8039216, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -3142,6 +3143,7 @@ MonoBehaviour:
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
   highlightedColor: {r: 1, g: 1, b: 1, a: 1}
   pressedColor: {r: 1, g: 1, b: 1, a: 1}
+  disabledColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   textSize: 15
   autoSizeText: 0
   text: 
@@ -3655,7 +3657,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 00421c9dfae2ae346b8a50063a84513c, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1

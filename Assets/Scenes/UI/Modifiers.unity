@@ -429,7 +429,7 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1288364400}
         m_TargetAssemblyTypeName: NotReaper.Modifier.ModifierHandler, Assembly-CSharp
         m_MethodName: OnIndependantBoolChanged
         m_Mode: 1
@@ -1536,6 +1536,7 @@ MonoBehaviour:
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
   highlightedColor: {r: 1, g: 1, b: 1, a: 1}
   pressedColor: {r: 1, g: 1, b: 1, a: 1}
+  disabledColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   textSize: 10
   autoSizeText: 0
   text: set end tick 0
@@ -2352,6 +2353,7 @@ MonoBehaviour:
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
   highlightedColor: {r: 1, g: 1, b: 1, a: 1}
   pressedColor: {r: 1, g: 1, b: 1, a: 1}
+  disabledColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   textSize: 12
   autoSizeText: 0
   text: cancel
@@ -2361,7 +2363,7 @@ MonoBehaviour:
   onClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1609432854}
+      - m_Target: {fileID: 1288364402}
         m_TargetAssemblyTypeName: NotReaper.Modifier.ZOffsetBaker, Assembly-CSharp
         m_MethodName: ToggleWindow
         m_Mode: 1
@@ -4333,6 +4335,7 @@ MonoBehaviour:
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
   highlightedColor: {r: 1, g: 1, b: 1, a: 1}
   pressedColor: {r: 1, g: 1, b: 1, a: 1}
+  disabledColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   textSize: 15
   autoSizeText: 0
   text: 
@@ -5050,7 +5053,7 @@ PrefabInstance:
     - target: {fileID: 4373510378632668492, guid: 65f89434f54737048b049c0aec83c405,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 4
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4373510378632668492, guid: 65f89434f54737048b049c0aec83c405,
         type: 3}
@@ -5060,7 +5063,7 @@ PrefabInstance:
     - target: {fileID: 4373510378632668492, guid: 65f89434f54737048b049c0aec83c405,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SetEndTick
+      value: OnEndTickButtonClicked
       objectReference: {fileID: 0}
     - target: {fileID: 4373510378632668492, guid: 65f89434f54737048b049c0aec83c405,
         type: 3}
@@ -8316,7 +8319,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1288364400}
         m_TargetAssemblyTypeName: NotReaper.Modifier.ModifierHandler, Assembly-CSharp
         m_MethodName: OnValue5Changed
         m_Mode: 1
@@ -8559,6 +8562,7 @@ GameObject:
   - component: {fileID: 1288364400}
   - component: {fileID: 1288364401}
   - component: {fileID: 1288364399}
+  - component: {fileID: 1288364402}
   m_Layer: 0
   m_Name: ModifierCreator
   m_TagString: Untagged
@@ -8652,6 +8656,19 @@ MonoBehaviour:
   posGetter: {fileID: 0}
   selectionBox: {fileID: 971804788}
   tempCopiedModifiers: []
+--- !u!114 &1288364402
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1288364397}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aaf25bd194b6c854588481f77a0c2931, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  zOffsetWindow: {fileID: 1609432847}
 --- !u!1 &1350709997
 GameObject:
   m_ObjectHideFlags: 0
@@ -9754,7 +9771,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1288364400}
         m_TargetAssemblyTypeName: NotReaper.Modifier.ModifierHandler, Assembly-CSharp
         m_MethodName: OnValue4Changed
         m_Mode: 1
@@ -10293,6 +10310,7 @@ MonoBehaviour:
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
   highlightedColor: {r: 1, g: 1, b: 1, a: 1}
   pressedColor: {r: 1, g: 1, b: 1, a: 1}
+  disabledColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   textSize: 10
   autoSizeText: 0
   text: create
@@ -10421,6 +10439,7 @@ MonoBehaviour:
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
   highlightedColor: {r: 1, g: 1, b: 1, a: 1}
   pressedColor: {r: 1, g: 1, b: 1, a: 1}
+  disabledColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   textSize: 12
   autoSizeText: 0
   text: unbake
@@ -10430,7 +10449,7 @@ MonoBehaviour:
   onClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1609432854}
+      - m_Target: {fileID: 1288364402}
         m_TargetAssemblyTypeName: NotReaper.Modifier.ZOffsetBaker, Assembly-CSharp
         m_MethodName: OnUnbakeButtonPressed
         m_Mode: 1
@@ -10654,7 +10673,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1288364400}
         m_TargetAssemblyTypeName: NotReaper.Modifier.ModifierHandler, Assembly-CSharp
         m_MethodName: OnValue3Changed
         m_Mode: 1
@@ -11346,7 +11365,6 @@ GameObject:
   - component: {fileID: 1609432850}
   - component: {fileID: 1609432849}
   - component: {fileID: 1609432853}
-  - component: {fileID: 1609432854}
   m_Layer: 17
   m_Name: ZOffsetBaking Window
   m_TagString: Untagged
@@ -11456,19 +11474,6 @@ MonoBehaviour:
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
   m_PresetInfoIsWorld: 0
---- !u!114 &1609432854
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1609432847}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aaf25bd194b6c854588481f77a0c2931, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  zOffsetWindow: {fileID: 1609432847}
 --- !u!1 &1615110095
 GameObject:
   m_ObjectHideFlags: 0
@@ -12374,6 +12379,7 @@ MonoBehaviour:
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
   highlightedColor: {r: 1, g: 1, b: 1, a: 1}
   pressedColor: {r: 1, g: 1, b: 1, a: 1}
+  disabledColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   textSize: 10
   autoSizeText: 0
   text: delete
@@ -12611,6 +12617,7 @@ MonoBehaviour:
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
   highlightedColor: {r: 1, g: 1, b: 1, a: 1}
   pressedColor: {r: 1, g: 1, b: 1, a: 1}
+  disabledColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   textSize: 12
   autoSizeText: 0
   text: bake
@@ -12620,7 +12627,7 @@ MonoBehaviour:
   onClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1609432854}
+      - m_Target: {fileID: 1288364402}
         m_TargetAssemblyTypeName: NotReaper.Modifier.ZOffsetBaker, Assembly-CSharp
         m_MethodName: OnBakeButtonPressed
         m_Mode: 1
@@ -12876,6 +12883,7 @@ MonoBehaviour:
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
   highlightedColor: {r: 1, g: 1, b: 1, a: 1}
   pressedColor: {r: 1, g: 1, b: 1, a: 1}
+  disabledColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   textSize: 10
   autoSizeText: 0
   text: set start tick 0
@@ -14084,8 +14092,8 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: ModifierUI, Assembly-CSharp
+      - m_Target: {fileID: 1288364400}
+        m_TargetAssemblyTypeName: NotReaper.Modifier.ModifierHandler, Assembly-CSharp
         m_MethodName: OnAmountChanged
         m_Mode: 1
         m_Arguments:
@@ -15041,8 +15049,8 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: ModifierUI, Assembly-CSharp
+      - m_Target: {fileID: 1288364400}
+        m_TargetAssemblyTypeName: NotReaper.Modifier.ModifierHandler, Assembly-CSharp
         m_MethodName: OnValue1Changed
         m_Mode: 1
         m_Arguments:
@@ -21742,8 +21750,8 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: ModifierUI, Assembly-CSharp
+      - m_Target: {fileID: 1288364400}
+        m_TargetAssemblyTypeName: NotReaper.Modifier.ModifierHandler, Assembly-CSharp
         m_MethodName: OnValue2Changed
         m_Mode: 1
         m_Arguments:
@@ -22973,8 +22981,8 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: ModifierUI, Assembly-CSharp
+      - m_Target: {fileID: 1288364400}
+        m_TargetAssemblyTypeName: NotReaper.Modifier.ModifierHandler, Assembly-CSharp
         m_MethodName: OnOption2Changed
         m_Mode: 1
         m_Arguments:
@@ -23033,8 +23041,8 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: ModifierUI, Assembly-CSharp
+      - m_Target: {fileID: 1288364400}
+        m_TargetAssemblyTypeName: NotReaper.Modifier.ModifierHandler, Assembly-CSharp
         m_MethodName: OnOption1Changed
         m_Mode: 1
         m_Arguments:

@@ -12,7 +12,7 @@ namespace NotReaper.UI.BPM
 {
     public class DynamicBPMWindow : NRMenu
     {
-        public TMP_InputField dynamicBpmInput;
+        public NRInputField dynamicBpmInput;
         public NRInputField timeSignatureNumerator;
         public NRInputField timeSignatureDenomerator;
 
@@ -48,19 +48,13 @@ namespace NotReaper.UI.BPM
             gameObject.SetActive(true);
 
             TempoChange tempo = timeline.GetTempoForTime(Timeline.time);
-            dynamicBpmInput.GetComponent<TMP_InputField>().text = Constants.DisplayBPMFromMicrosecondsPerQuaterNote(tempo.microsecondsPerQuarterNote);
-            timeSignatureNumerator.GetComponent<TMP_InputField>().text = tempo.timeSignature.Numerator.ToString();
-            timeSignatureDenomerator.GetComponent<TMP_InputField>().text = tempo.timeSignature.Denominator.ToString();
-
-            dynamicBpmInput.ActivateInputField();
-            
+            dynamicBpmInput.text = Constants.DisplayBPMFromMicrosecondsPerQuaterNote(tempo.microsecondsPerQuarterNote);
         }
 
         public override void Hide()
         {
             gameObject.GetComponent<CanvasGroup>().DOFade(0.0f, 0.3f).OnComplete(() =>
             {
-                dynamicBpmInput.GetComponent<TMP_InputField>().ReleaseSelection();
                 OnDeactivated();
             });
         }
