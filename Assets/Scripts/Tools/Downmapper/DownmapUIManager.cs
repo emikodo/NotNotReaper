@@ -7,6 +7,7 @@ using NotReaper.Managers;
 using NotReaper;
 using UnityEngine.InputSystem;
 using NotReaper.Notifications;
+using NotReaper.UI.Components;
 
 namespace NotReaper.Downmap
 {
@@ -26,53 +27,53 @@ namespace NotReaper.Downmap
         [Space, Header("Streams")]
         [SerializeField] private Toggle toggleStreamEnable;
         [SerializeField] private Toggle toggleStream2Chain;
-        [SerializeField] private TMP_InputField inputStreamSpeed;
-        [SerializeField] private TMP_InputField inputStreamMaxTargets;
+        [SerializeField] private NRInputField inputStreamSpeed;
+        [SerializeField] private NRInputField inputStreamMaxTargets;
         #endregion
         #region Slots
         [Space, Header("Slots")]
         [SerializeField] private Toggle toggleSlotEnable;
         [SerializeField] private Toggle toggleSlotConvert;
-        [SerializeField] private TMP_InputField inputSlotLeadinHorizontal;
-        [SerializeField] private TMP_InputField inputSlotLeadinVertical;
+        [SerializeField] private NRInputField inputSlotLeadinHorizontal;
+        [SerializeField] private NRInputField inputSlotLeadinVertical;
         #endregion
         #region Sustains
         [Space, Header("Sustains")]
         [SerializeField] private Toggle toggleSustainEnable;
-        [SerializeField] private TMP_InputField inputSustainLeadinTime;
-        [SerializeField] private TMP_InputField inputSustainPauseSameHand;
+        [SerializeField] private NRInputField inputSustainLeadinTime;
+        [SerializeField] private NRInputField inputSustainPauseSameHand;
         #endregion
         #region Chains
         [Space, Header("Chains")]
         [SerializeField] private Toggle toggleChainEnable;
         [SerializeField] private Toggle toggleChainRemoveTargets;
         [SerializeField] private Toggle toggleChainConvert;
-        [SerializeField] private TMP_InputField inputChainLeadinTime;
-        [SerializeField] private TMP_InputField inputChainPauseSameHand;
-        [SerializeField] private TMP_InputField inputChainPauseOtherHand;
+        [SerializeField] private NRInputField inputChainLeadinTime;
+        [SerializeField] private NRInputField inputChainPauseSameHand;
+        [SerializeField] private NRInputField inputChainPauseOtherHand;
         #endregion
         #region Melees
         [Space, Header("Melees")]
         [SerializeField] private Toggle toggleMeleeEnable;
         [SerializeField] private Toggle toggleMeleeDelete;
-        [SerializeField] private TMP_InputField inputMeleeLeadin;
-        [SerializeField] private TMP_InputField inputMeleePause;
+        [SerializeField] private NRInputField inputMeleeLeadin;
+        [SerializeField] private NRInputField inputMeleePause;
         #endregion
         #region Single Target Spacing
         [Space, Header("Single Target Spacing")]
         [SerializeField] private Toggle toggleSingleEnable;
-        [SerializeField] private TMP_InputField inputSingleHalfNote;
-        [SerializeField] private TMP_InputField inputSingleQuarterNote;
-        [SerializeField] private TMP_InputField inputSingleEigthNote;
-        [SerializeField] private TMP_InputField inputSingleSixteenthNote;
+        [SerializeField] private NRInputField inputSingleHalfNote;
+        [SerializeField] private NRInputField inputSingleQuarterNote;
+        [SerializeField] private NRInputField inputSingleEigthNote;
+        [SerializeField] private NRInputField inputSingleSixteenthNote;
         #endregion
         #region Doubles
         [Space, Header("Doubles")]
         [SerializeField] private Toggle toggleDoubleEnable;
         [SerializeField] private Toggle toggleDoubleUncross;
         [SerializeField] private Toggle toggleHitsoundsOverBeat;
-        [SerializeField] private TMP_InputField inputDoubleDistance;
-        [SerializeField] private TMP_InputField inputDoubleLeadinTime;
+        [SerializeField] private NRInputField inputDoubleDistance;
+        [SerializeField] private NRInputField inputDoubleLeadinTime;
         #endregion
         #endregion
 

@@ -6,13 +6,15 @@ using UnityEngine;
 using NotReaper.Timing;
 using NotReaper.Models;
 using UnityEngine.InputSystem;
+using NotReaper.UI.Components;
+
 namespace NotReaper.UI.BPM
 {
     public class DynamicBPMWindow : NRMenu
     {
         public TMP_InputField dynamicBpmInput;
-        public TMP_InputField timeSignatureNumerator;
-        public TMP_InputField timeSignatureDenomerator;
+        public NRInputField timeSignatureNumerator;
+        public NRInputField timeSignatureDenomerator;
 
         [NRInject] private Timeline timeline;
 

@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 1676892834533821557}
   - component: {fileID: 1676892834533821562}
   - component: {fileID: 8196478751749237461}
+  - component: {fileID: 572282175186503541}
   m_Layer: 5
   m_Name: Start_Handle
   m_TagString: Untagged
@@ -229,6 +230,21 @@ LineRenderer:
     generateLightingData: 0
   m_UseWorldSpace: 1
   m_Loop: 0
+--- !u!114 &572282175186503541
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1676892834533821560}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 1}
+  m_EffectDistance: {x: 1, y: -1}
+  m_UseGraphicAlpha: 1
 --- !u!1 &1676892835336994117
 GameObject:
   m_ObjectHideFlags: 0
@@ -244,6 +260,7 @@ GameObject:
   - component: {fileID: 1676892835336994118}
   - component: {fileID: 1676892835336994119}
   - component: {fileID: 4837690858008184043}
+  - component: {fileID: 4621099433294150832}
   m_Layer: 5
   m_Name: End_Handle
   m_TagString: Untagged
@@ -458,6 +475,21 @@ LineRenderer:
     generateLightingData: 0
   m_UseWorldSpace: 1
   m_Loop: 0
+--- !u!114 &4621099433294150832
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1676892835336994117}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 1}
+  m_EffectDistance: {x: 1, y: -1}
+  m_UseGraphicAlpha: 1
 --- !u!1 &1676892835347023676
 GameObject:
   m_ObjectHideFlags: 0
@@ -473,6 +505,7 @@ GameObject:
   - component: {fileID: 2042643613460785411}
   - component: {fileID: 8088807269828896597}
   - component: {fileID: 3465750677413591079}
+  - component: {fileID: 2030765380517243147}
   m_Layer: 5
   m_Name: EndPoint
   m_TagString: Untagged
@@ -687,6 +720,21 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 130871
+--- !u!114 &2030765380517243147
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1676892835347023676}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 1}
+  m_EffectDistance: {x: 1, y: -1}
+  m_UseGraphicAlpha: 1
 --- !u!1 &1676892836118364757
 GameObject:
   m_ObjectHideFlags: 0

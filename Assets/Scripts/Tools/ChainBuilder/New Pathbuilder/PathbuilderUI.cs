@@ -22,7 +22,7 @@ namespace NotReaper.Tools.PathBuilder
         [SerializeField] private GameObject noSelectionControls;
         [Space, Header("Interval")]
         [SerializeField] private HorizontalSelector intervalSelector;
-        [SerializeField] private TMP_InputField nominatorInput;
+        [SerializeField] private NRInputField nominatorInput;
         [SerializeField] private TextMeshProUGUI denominatorText;
         [SerializeField] private NRButton scopeButton;
         [Space, Header("Beatlength")]

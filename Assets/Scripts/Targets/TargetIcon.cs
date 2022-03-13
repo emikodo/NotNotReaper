@@ -141,6 +141,24 @@ namespace NotReaper.Targets {
             TryDeselectEvent();
         }
 
+        public void SetTransparency(float transparency)
+        {
+            Color color = prefade.material.GetColor("_Tint");
+            color.a = transparency;
+            prefade.material.SetColor("_Tint", color);
+            prefade.color = color;
+
+            color = ring.material.GetColor("_Tint");
+            color.a = transparency;
+            ring.material.SetColor("_Tint", color);
+            ring.color = color;
+
+            color = note.material.GetColor("_Tint");
+            color.a = transparency;
+            note.material.SetColor("_Tint", color);
+            note.color = color;
+        }
+
         public void Init(Target target, TargetData targetData, Transform timelineTargetCollector = null) {
             data = targetData;
             data.HandTypeChangeEvent += OnHandTypeChanged;

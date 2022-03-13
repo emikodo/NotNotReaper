@@ -9,12 +9,13 @@ using NotReaper.UserInput;
 using UnityEngine.EventSystems;
 using NotReaper.Timing;
 using UnityEngine.InputSystem;
+using NotReaper.UI.Components;
 
 namespace NotReaper.UI.Countin
 {
     public class CountInWindow : NRMenu
     {
-        public TMP_InputField lengthInput;
+        public NRInputField lengthInput;
 
         [NRInject] private Timeline timeline;
         private CanvasGroup canvas;

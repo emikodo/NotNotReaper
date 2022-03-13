@@ -9,13 +9,14 @@ using NotReaper.UserInput;
 using UnityEngine.EventSystems;
 using NotReaper.Timing;
 using UnityEngine.InputSystem;
+using NotReaper.UI.Components;
 
 namespace NotReaper.UI.ModifyAudio
 {
     public class AddOrTrimAudioWindow : NRMenu
     {
-        public TMP_InputField timeLengthInput;
-        public TMP_InputField beatLengthInput;
+        public NRInputField timeLengthInput;
+        public NRInputField beatLengthInput;
 
         [NRInject] private Timeline timeline;
         private CanvasGroup canvas;

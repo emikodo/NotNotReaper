@@ -90,6 +90,10 @@ namespace NotReaper.Tools.PathBuilder
         {
             return handType == TargetHandType.Right ? NRSettings.config.rightColor : NRSettings.config.leftColor;
         }
+        private Color GetMixedColor()
+        {
+            return Color.Lerp(NRSettings.config.leftColor, NRSettings.config.rightColor, .5f);
+        }
         private Color GetNeutralColor()
         {
             return Color.white;

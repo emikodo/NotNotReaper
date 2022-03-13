@@ -5,6 +5,7 @@ using TMPro;
 using NotReaper.Notifications;
 using UnityEngine.InputSystem;
 using NotReaper.Downmap;
+using NotReaper.UI.Components;
 
 namespace NotReaper.UI
 {
@@ -13,7 +14,7 @@ namespace NotReaper.UI
         public static BookmarkMenu Instance = null;
         public static bool isActive = false;
         public static bool inputFocused = false;
-        public TMP_InputField inputField;
+        public NRInputField inputField;
         public GameObject menu;
         private Vector3 activatePosition = new Vector3(0f, 0f, 0f);
 
@@ -25,15 +26,9 @@ namespace NotReaper.UI
                 Debug.LogWarning("Trying to create a second BookmarkMenu instance.");
                 return;
             }
-            inputField.onSelect.AddListener(OnInputFocused);
-            inputField.onDeselect.AddListener(OnInputFocused);
             menu.SetActive(false);
         }
 
-        private void OnInputFocused(string _)
-        {
-            inputFocused = !inputFocused;
-        }
         public void Activate(bool active)
         {
             if (active) Show();

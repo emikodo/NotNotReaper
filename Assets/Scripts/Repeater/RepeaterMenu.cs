@@ -16,7 +16,7 @@ namespace NotReaper.Repeaters
     public class RepeaterMenu : NRMenu
     {
         [Header("References")]
-        [SerializeField] private TMP_InputField inputID;
+        [SerializeField] private NRInputField inputID;
         [SerializeField] private NRButton buttonInsertCreateRepeater;
         [SerializeField] private NRButton buttonRenameRepeater;
         [SerializeField] private NRButton buttonMakeUnique;
@@ -27,7 +27,7 @@ namespace NotReaper.Repeaters
         [SerializeField] private Toggle toggleFlipTargetColors;
         [SerializeField] private Toggle toggleMirrorHorizontally;
         [SerializeField] private Toggle toggleMirrorVertically;
-        [SerializeField] private TMP_InputField inputRename;
+        [SerializeField] private NRInputField inputRename;
         [SerializeField] private RepeaterListEntry repeaterListEntryPrefab;
         [SerializeField] private GameObject hint;
         [SerializeField] private Transform contentParent;
@@ -80,7 +80,7 @@ namespace NotReaper.Repeaters
 
         internal void SelectRepeater(string id)
         {
-            inputID.SetTextWithoutNotify(id);
+            inputID.text = id;
             UpdateState();
         }
 
@@ -289,7 +289,7 @@ namespace NotReaper.Repeaters
             if (activeSection != null) activeSection.SetSectionActive(false);
             section.SetSectionActive(true);
             activeSection = section;
-            inputID.SetTextWithoutNotify(activeSection.GetSection().ID);
+            inputID.text = activeSection.GetSection().ID;
             toggleFlipTargetColors.SetIsOnWithoutNotify(activeSection.GetSection().flipTargetColors);
             toggleMirrorVertically.SetIsOnWithoutNotify(activeSection.GetSection().mirrorVertically);
             toggleMirrorHorizontally.SetIsOnWithoutNotify(activeSection.GetSection().mirrorHorizontally);

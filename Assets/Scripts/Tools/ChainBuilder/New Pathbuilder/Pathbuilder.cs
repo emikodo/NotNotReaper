@@ -143,6 +143,28 @@ namespace NotReaper.Tools.PathBuilder
             }
         }
 
+		private void SetTargetTransparency(float transparency)
+        {
+            if (activeTarget.data.isPathbuilderTarget)
+            {
+				//NoteEnumerator notes = new(activeTarget.data.time, new QNT_Timestamp(activeTarget.data.pathbuilderData.BeatLength.tick + activeTarget.data.time.tick));
+				var foundNotes = new List<Target>();
+				foundNotes.Add(activeTarget);
+				foreach(var segment in activeTarget.data.pathbuilderData.Segments)
+                {
+					foreach(var node in segment.generatedNodes)
+                    {
+						var found = timeline.FindNote(node);
+						if (found != null) foundNotes.Add(found);
+                    }
+                }
+				foreach(var note in foundNotes)
+                {                   
+					note.gridTargetIcon.SetTransparency(transparency);   
+                }
+            }
+        }
+
 		private void RemoveAllSegments()
         {
 			for (int i = segments.Count - 1; i >= 0; i--)
@@ -304,6 +326,7 @@ namespace NotReaper.Tools.PathBuilder
 				startPoint = segment.GetSegmentEndPoint();
             }
 			SetActiveSegment(segments[data.ActiveSegment]);
+			SetTargetTransparency(.5f);
 		}
 
         public void HandleRootNoteDelete(TargetData targetData)
@@ -485,6 +508,7 @@ namespace NotReaper.Tools.PathBuilder
 				activeTarget = null;
 				SwitchData(target);
             }
+			SetTargetTransparency(.5f);
 		}
 
 		public void UpdatePathbuilderRepeaterTargetFromAction(TargetData targetData, PathbuilderData data)
@@ -682,6 +706,7 @@ namespace NotReaper.Tools.PathBuilder
 			if(activeTarget != null)
             {
 				UpdateSegmentIndicator(activeTarget, false);
+				SetTargetTransparency(1f);
 			}
 			activeTarget = null;
 			activePoint = null;

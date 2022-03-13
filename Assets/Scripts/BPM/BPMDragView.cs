@@ -6,6 +6,7 @@ using TMPro;
 using UnityEngine.InputSystem;
 using NotReaper.Timing;
 using System;
+using NotReaper.UI.Components;
 
 namespace NotReaper.BpmAlign
 {
@@ -14,10 +15,10 @@ namespace NotReaper.BpmAlign
         [Header("References")]
         [SerializeField] private BPMDragAlign dragAlign;
         [Space, Header("UI Elements")]
-        [SerializeField] private TMP_InputField bpmInput;
-        [SerializeField] private TMP_InputField nominatorInput;
-        [SerializeField] private TMP_InputField denominatorInput;
-        [SerializeField] private TMP_InputField beatLengthInput;
+        [SerializeField] private NRInputField bpmInput;
+        [SerializeField] private NRInputField nominatorInput;
+        [SerializeField] private NRInputField denominatorInput;
+        [SerializeField] private NRInputField beatLengthInput;
         [Space, Header("Views")]
         [SerializeField] private CanvasGroup bpmView;
         [SerializeField] private CanvasGroup trimView;
