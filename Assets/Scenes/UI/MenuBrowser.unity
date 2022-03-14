@@ -3028,6 +3028,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skin: {fileID: 11400000, guid: bbebec8b76e13a749a8037dbf7a83ef5, type: 2}
+  allowMultipleSelected: 0
   animationDuration: 0.25
   growOnHover: 1
   growOnClick: 1

@@ -81,6 +81,18 @@ namespace NotReaper.UI.Components
             }
         }
 
+        private void Awake()
+        {
+            if (Application.isPlaying)
+            {
+                underline.color = underlineTheme == Theme.OutlineColor ? skin.outlineColor : underlineTheme == Theme.LeftHand ? NRSettings.config.leftColor : underlineTheme == Theme.RightHand ? NRSettings.config.rightColor : NRSettings.config.selectedHighlightColor;
+                if (underlineTheme == Theme.CurrentHandColor || underlineTheme == Theme.OppositeHandColor)
+                {
+                    underline.color = GetHandColorForUnderline();
+                }
+            }         
+        }
+
         protected override void Start()
         {
             base.Start();

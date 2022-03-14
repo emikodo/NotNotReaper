@@ -59,7 +59,11 @@ namespace NotReaper.UI.Components
             if (Application.isPlaying)
             {
                 selected = isOn;
+                var color = GetFillColor();
+                color.a = selected ? 1f : 0f;
+                fill.color = color;
             }
+            
         }
 
         protected override void Start()
