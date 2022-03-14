@@ -1,6 +1,7 @@
 ﻿using NotReaper;
 using NotReaper.Audio;
 using NotReaper.UI;
+using NotReaper.UI.Components;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -10,17 +11,16 @@ using UnityEngine.UI;
 public class SettingsMenu : MonoBehaviour
 {
 
-    [SerializeField] Toggle richPresence;
-    [SerializeField] Toggle clearCacheOnStartup;
-    [SerializeField] Toggle enableTraceLines;
-    [SerializeField] Toggle enableDualines;
-    [SerializeField] Toggle useAutoZOffsetWith360;
-    [SerializeField] Toggle useBouncyAnimations;
-    [SerializeField] Toggle playNoteSoundsWhileScrolling;
-    [SerializeField] Toggle autoSongVolume;
-    [SerializeField] Toggle playEndEvent;
-    [SerializeField] Toggle optimizeInvisibleTargets;
-    [SerializeField] Toggle autoSave;
+    [SerializeField] NRToggle richPresence;
+    [SerializeField] NRToggle clearCacheOnStartup;
+    [SerializeField] NRToggle enableTraceLines;
+    [SerializeField] NRToggle enableDualines;
+    [SerializeField] NRToggle useAutoZOffsetWith360;
+    [SerializeField] NRToggle useBouncyAnimations;
+    [SerializeField] NRToggle playNoteSoundsWhileScrolling;
+    [SerializeField] NRToggle autoSongVolume;
+    [SerializeField] NRToggle playEndEvent;
+    [SerializeField] NRToggle autoSave;
 
     [SerializeField] TMP_InputField savedMapperField;
     [SerializeField] TMP_InputField maudicaAccountToken;
@@ -49,17 +49,16 @@ public class SettingsMenu : MonoBehaviour
     public void UpdateUI()
     {
         slider.SetValueWithoutNotify(NRSettings.config.soundEffectsVol);
-        richPresence.isOn = NRSettings.config.useDiscordRichPresence;
-        clearCacheOnStartup.isOn = NRSettings.config.clearCacheOnStartup;
-        enableTraceLines.isOn = NRSettings.config.enableTraceLines;
-        enableDualines.isOn = NRSettings.config.enableDualines;
-        useAutoZOffsetWith360.isOn = NRSettings.config.useAutoZOffsetWith360;
-        useBouncyAnimations.isOn = NRSettings.config.useBouncyAnimations;
-        playNoteSoundsWhileScrolling.isOn = NRSettings.config.playNoteSoundsWhileScrolling;
-        optimizeInvisibleTargets.isOn = NRSettings.config.optimizeInvisibleTargets;
-        autoSave.isOn = NRSettings.config.backups;
-        autoSongVolume.isOn = NRSettings.config.autoSongVolume;
-        playEndEvent.isOn = NRSettings.config.playEndEvent;
+        richPresence.selected = NRSettings.config.useDiscordRichPresence;
+        clearCacheOnStartup.selected = NRSettings.config.clearCacheOnStartup;
+        enableTraceLines.selected = NRSettings.config.enableTraceLines;
+        enableDualines.selected = NRSettings.config.enableDualines;
+        useAutoZOffsetWith360.selected = NRSettings.config.useAutoZOffsetWith360;
+        useBouncyAnimations.selected = NRSettings.config.useBouncyAnimations;
+        playNoteSoundsWhileScrolling.selected = NRSettings.config.playNoteSoundsWhileScrolling;
+        autoSave.selected = NRSettings.config.backups;
+        autoSongVolume.selected = NRSettings.config.autoSongVolume;
+        playEndEvent.selected = NRSettings.config.playEndEvent;
         LeftHand.SetColor(NRSettings.config.leftColor);
         RightHand.SetColor(NRSettings.config.rightColor);
         savedMapperField.text = NRSettings.config.savedMapperName;
@@ -70,21 +69,20 @@ public class SettingsMenu : MonoBehaviour
     public void ApplyValues()
     {
         NRSettings.config.soundEffectsVol = slider.value;
-        NRSettings.config.useDiscordRichPresence = richPresence.isOn;
-        NRSettings.config.clearCacheOnStartup = clearCacheOnStartup.isOn;
-        NRSettings.config.enableTraceLines = enableTraceLines.isOn;
-        NRSettings.config.enableDualines = enableDualines.isOn;
-        NRSettings.config.useAutoZOffsetWith360 = useAutoZOffsetWith360.isOn;
-        NRSettings.config.useBouncyAnimations = useBouncyAnimations.isOn;
-        NRSettings.config.playNoteSoundsWhileScrolling = playNoteSoundsWhileScrolling.isOn;
-        NRSettings.config.autoSongVolume = autoSongVolume.isOn;
-        NRSettings.config.playEndEvent = playEndEvent.isOn;
+        NRSettings.config.useDiscordRichPresence = richPresence.selected;
+        NRSettings.config.clearCacheOnStartup = clearCacheOnStartup.selected;
+        NRSettings.config.enableTraceLines = enableTraceLines.selected;
+        NRSettings.config.enableDualines = enableDualines.selected;
+        NRSettings.config.useAutoZOffsetWith360 = useAutoZOffsetWith360.selected;
+        NRSettings.config.useBouncyAnimations = useBouncyAnimations.selected;
+        NRSettings.config.playNoteSoundsWhileScrolling = playNoteSoundsWhileScrolling.selected;
+        NRSettings.config.autoSongVolume = autoSongVolume.selected;
+        NRSettings.config.playEndEvent = playEndEvent.selected;
         NRSettings.config.leftColor = LeftHand.color;
         NRSettings.config.rightColor = RightHand.color;
         NRSettings.config.savedMapperName = savedMapperField.text;
         NRSettings.config.maudicaToken = maudicaAccountToken.text;
-        NRSettings.config.optimizeInvisibleTargets = optimizeInvisibleTargets.isOn;
-        NRSettings.config.backups = autoSave.isOn;
+        NRSettings.config.backups = autoSave.selected;
         WarningText.SetActive(true);
         NRSettings.SaveSettingsJson();
         ThemeableManager.UpdateColors();

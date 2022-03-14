@@ -184,19 +184,7 @@ namespace NotReaper.UI.Components
         }
 
         public override void UpdateVisuals()
-        {
-            /*if(background.gameObject.GetComponent<ContentSizeFitter>() == null)
-            {
-                GetComponent<VerticalLayoutGroup>().childControlHeight = true;
-                background.gameObject.AddComponent<ContentSizeFitter>();
-                underline.transform.SetParent(background.transform);
-                underline.transform.SetAsLastSibling();
-                underline.gameObject.AddComponent<LayoutElement>();
-                underline.GetComponent<LayoutElement>().preferredHeight = 2f;
-                underline.GetComponent<LayoutElement>().minHeight = 2f;
-                background.gameObject.GetComponent<VerticalLayoutGroup>().childForceExpandHeight = false;
-            }*/
-            
+        {            
             if(buttonGroup != null)
             {
                 skin = buttonGroup.skin;

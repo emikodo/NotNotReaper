@@ -8,6 +8,8 @@ namespace NotReaper.UI.Components
     {
         [Header("Skin")]
         public NRButtonSkin skin;
+        [Space, Header("Group")]
+        public bool allowMultipleSelected = false;
         [Space, Header("Animation")]
         [Range(.01f, 1f)] public float animationDuration = .25f;
         public bool growOnHover;
@@ -80,6 +82,7 @@ namespace NotReaper.UI.Components
 
         public void SetSelectedButton(NRButton button)
         {
+            if (allowMultipleSelected) return;
             if(selectedButton != null)
             {
                 selectedButton.Deselect();

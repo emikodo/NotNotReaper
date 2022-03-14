@@ -2,26 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.UI;
-using TMPro;
+
 namespace NotReaper.UI.Components
 {
-    public class NRButtonInstance : Editor
+    public class NRToggleInstance : Editor
     {
         private static GameObject clickedObject;
-        [MenuItem("GameObject/NotReaper UI/NRButton", priority = 0)]
+        [MenuItem("GameObject/NotReaper UI/NRToggle", priority = 0)]
         public static void AddButton()
         {
-            Create("NRButton");
+            Create("NRToggle");
         }
 
         private static GameObject Create(string objectName)
         {
-            var instance = Instantiate(Resources.Load<NRButton>(objectName));
+            var instance = Instantiate(Resources.Load<NRToggle>(objectName));
             instance.name = objectName;
 
             clickedObject = Selection.activeObject as GameObject;
-            if(clickedObject != null)
+            if (clickedObject != null)
             {
                 instance.transform.SetParent(clickedObject.transform);
             }
@@ -31,5 +30,5 @@ namespace NotReaper.UI.Components
             return instance.gameObject;
         }
     }
-}
 
+}
