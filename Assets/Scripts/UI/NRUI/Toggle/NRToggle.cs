@@ -95,12 +95,26 @@ namespace NotReaper.UI.Components
 
         public override void ApplyDarkTheme(ThemeData theme)
         {
-            skin = theme.toggle.dark;
+            if (toggleGroup != null)
+            {
+                toggleGroup.skin = theme.toggle.dark;
+            }
+            else
+            {
+                skin = theme.toggle.dark;
+            }
         }
 
         public override void ApplyLightTheme(ThemeData theme)
         {
-            skin = theme.toggle.light;
+            if(toggleGroup != null)
+            {
+                toggleGroup.skin = theme.toggle.light;
+            }
+            else
+            {
+                skin = theme.toggle.light;
+            }
         }
 
         public override void Initialize()
