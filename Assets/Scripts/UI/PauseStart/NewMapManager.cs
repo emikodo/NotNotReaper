@@ -16,6 +16,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
+using NotReaper.UI.Components;
 
 namespace NotReaper.UI
 {
@@ -29,9 +30,9 @@ namespace NotReaper.UI
         [SerializeField] private Button loadTempoButton;
         [SerializeField] private TextMeshProUGUI loadTempoText;
         [Space]
-        [SerializeField] private TMP_InputField songNameInput;
-        [SerializeField] private TMP_InputField artistNameInput;
-        [SerializeField] private TMP_InputField mapperNameInput;
+        [SerializeField] private NRIconInputField songNameInput;
+        [SerializeField] private NRIconInputField artistNameInput;
+        [SerializeField] private NRIconInputField mapperNameInput;
         #endregion
 
         #region Difficulty
