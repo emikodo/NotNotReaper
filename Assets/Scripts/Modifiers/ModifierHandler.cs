@@ -14,6 +14,7 @@ using NotReaper.UserInput;
 using System.Linq;
 using NotReaper.Models;
 using UnityEngine.InputSystem;
+using NotReaper.UI.Components;
 
 namespace NotReaper.Modifier
 {
@@ -692,27 +693,29 @@ namespace NotReaper.Modifier
                     break;
                 case ModifierType.ArenaBrightness:
                     amountSlider.SetActive(true);
+                    endTickButton.GetComponent<LabelSetter>().SetLabelText("");
                     endTickButton.SetActive(false);
                     value1.SetActive(false);
                     value2.SetActive(false);
                     colorPicker.SetActive(false);
-                    option1.GetComponentInChildren<LabelSetter>().SetLabelText("Continuous");
-                    option2.GetComponentInChildren<LabelSetter>().SetLabelText("Strobo");
                     option1.SetActive(true);
                     option2.SetActive(true);
+                    option1.GetComponent<LabelSetter>().SetLabelText("Continuous");
+                    option2.GetComponent<LabelSetter>().SetLabelText("Strobo");
                     DeactivateSidePanel();
                     break;
                 case ModifierType.ArenaRotation:
                     amountSlider.SetActive(true);
+                    endTickButton.GetComponent<LabelSetter>().SetLabelText("");
                     endTickButton.SetActive(false);
                     value1.SetActive(false);
                     value2.SetActive(false);
                     option2.SetActive(false);
                     colorPicker.SetActive(false);
-                    option1.GetComponentInChildren<LabelSetter>().SetLabelText("Continuous");
-                    option2.GetComponentInChildren<LabelSetter>().SetLabelText("Incremental");
                     option1.SetActive(true);
                     option2.SetActive(true);
+                    option1.GetComponent<LabelSetter>().SetLabelText("Continuous");
+                    option2.GetComponent<LabelSetter>().SetLabelText("Incremental");
                     DeactivateSidePanel();
                     break;
                 case ModifierType.ColorChange:
@@ -728,6 +731,7 @@ namespace NotReaper.Modifier
                     break;
                 case ModifierType.ColorUpdate:
                     amountSlider.SetActive(false);
+                    endTickButton.GetComponent<LabelSetter>().SetLabelText("");
                     endTickButton.SetActive(false);
                     option1.SetActive(false);
                     option2.SetActive(false);
@@ -751,6 +755,7 @@ namespace NotReaper.Modifier
                     break;
                 case ModifierType.SkyboxLimiter:
                     amountSlider.SetActive(true);
+                    endTickButton.GetComponent<LabelSetter>().SetLabelText("");
                     endTickButton.SetActive(false);
                     value1.SetActive(false);
                     value2.SetActive(false);
@@ -761,6 +766,7 @@ namespace NotReaper.Modifier
                     break;
                 case ModifierType.PsychedeliaUpdate:
                     amountSlider.SetActive(true);
+                    endTickButton.GetComponent<LabelSetter>().SetLabelText("");
                     endTickButton.SetActive(false);
                     value1.SetActive(false);
                     value2.SetActive(false);
@@ -773,6 +779,7 @@ namespace NotReaper.Modifier
                 case ModifierType.HiddenTelegraphs:
                 case ModifierType.InvisibleGuns:
                     endTickButton.SetActive(true);
+                    endTickButton.GetComponent<LabelSetter>().SetLabelText("");
                     amountSlider.SetActive(false);
                     value1.SetActive(false);
                     value2.SetActive(false);
@@ -789,31 +796,33 @@ namespace NotReaper.Modifier
                     value2.SetActive(false);
                     option1.SetActive(false);
                     option2.SetActive(false);
-                    value1.GetComponent<LabelSetter>().SetLabelText("Transition Target Amount");
                     value1.SetActive(true);
+                    value1.GetComponent<LabelSetter>().SetLabelText("Transition Target Amount");
                     colorPicker.SetActive(false);
                     DeactivateSidePanel();
                     break;
                 case ModifierType.ArenaChange:
                     amountSlider.SetActive(false);
+                    endTickButton.GetComponent<LabelSetter>().SetLabelText("");
                     endTickButton.SetActive(false);
-                    value1.GetComponent<LabelSetter>().SetLabelText("Arena Option 1");
-                    value2.GetComponent<LabelSetter>().SetLabelText("Arena Option 2");
-                    option1.GetComponent<LabelSetter>().SetLabelText("Preload");
                     value1.SetActive(true);
                     value2.SetActive(true);
                     option1.SetActive(true);
+                    value1.GetComponent<LabelSetter>().SetLabelText("Arena Option 1");
+                    value2.GetComponent<LabelSetter>().SetLabelText("Arena Option 2");
+                    option1.GetComponent<LabelSetter>().SetLabelText("Preload");
                     option2.SetActive(false);
                     colorPicker.SetActive(false);
                     DeactivateSidePanel();
                     break;
                 case ModifierType.OverlaySetter:
                     amountSlider.SetActive(false);
+                    endTickButton.GetComponent<LabelSetter>().SetLabelText("");
                     endTickButton.SetActive(false);
-                    value1.GetComponent<LabelSetter>().SetLabelText("Song Info");
-                    value2.GetComponent<LabelSetter>().SetLabelText("Mapper");
                     value1.SetActive(true);
                     value2.SetActive(true);
+                    value1.GetComponent<LabelSetter>().SetLabelText("Song Info");
+                    value2.GetComponent<LabelSetter>().SetLabelText("Mapper");
                     option1.SetActive(false);
                     option2.SetActive(false);
                     colorPicker.SetActive(false);
@@ -822,6 +831,11 @@ namespace NotReaper.Modifier
                 case ModifierType.TextPopup:
                     amountSlider.SetActive(false);
                     endTickButton.SetActive(true);
+                    value1.SetActive(true);
+                    value2.SetActive(true);                   
+                    option1.SetActive(true);
+                    option2.SetActive(false);
+                    independantBool.SetActive(true);
                     value1.GetComponent<LabelSetter>().SetLabelText("Text");
                     value2.GetComponent<LabelSetter>().SetLabelText("Size");
                     value3.GetComponent<LabelSetter>().SetLabelText("X offset");
@@ -829,11 +843,6 @@ namespace NotReaper.Modifier
                     value5.GetComponent<LabelSetter>().SetLabelText("Z offset");
                     option1.GetComponent<LabelSetter>().SetLabelText("Glow");
                     independantBool.GetComponent<LabelSetter>().SetLabelText("Face Forward");
-                    value1.SetActive(true);
-                    value2.SetActive(true);                   
-                    option1.SetActive(true);
-                    option2.SetActive(false);
-                    independantBool.SetActive(true);
                     colorPicker.SetActive(false);
                     ActivateSidePanel();
                     break;
@@ -842,8 +851,8 @@ namespace NotReaper.Modifier
                     amountSlider.SetActive(true);
                     value1.SetActive(false);
                     value2.SetActive(false);
-                    option1.GetComponent<LabelSetter>().SetLabelText("Alternative");
                     option1.SetActive(true);
+                    option1.GetComponent<LabelSetter>().SetLabelText("Alternative");
                     option2.SetActive(false);
                     colorPicker.SetActive(false);
                     DeactivateSidePanel();
@@ -854,20 +863,20 @@ namespace NotReaper.Modifier
                     endTickButton.SetActive(true);
                     amountSlider.SetActive(false);
                     value1.SetActive(false);
+                    option1.SetActive(true);
+                    option2.SetActive(true);
+                    colorPicker.SetActive(false);
+                    trackerText.SetActive(true);
                     value2.SetActive(false);
                     value3.GetComponent<LabelSetter>().SetLabelText("X");
                     value4.GetComponent<LabelSetter>().SetLabelText("Y");
                     value5.GetComponent<LabelSetter>().SetLabelText("Z");
                     option1.GetComponent<LabelSetter>().SetLabelText("Reset");
                     option2.GetComponent<LabelSetter>().SetLabelText("Preload");
-                    option1.SetActive(true);
-                    option2.SetActive(true);
-                    colorPicker.SetActive(false);
-                    trackerText.SetActive(true);
                     if (type == ModifierType.ArenaSpin)
                     {
-                        independantBool.GetComponent<LabelSetter>().SetLabelText("Shortest way");
                         independantBool.SetActive(true);
+                        independantBool.GetComponent<LabelSetter>().SetLabelText("Shortest way");
                     }
                     else
                     {
@@ -953,8 +962,8 @@ namespace NotReaper.Modifier
         private void SetHintText(ModifierType type)
         {
             string text;
-            value1.GetComponent<TMP_InputField>().contentType = TMP_InputField.ContentType.Standard;
-            value2.GetComponent<TMP_InputField>().contentType = TMP_InputField.ContentType.Standard;
+            value1.GetComponent<NRInputField>().contentType = TMP_InputField.ContentType.Standard;
+            value2.GetComponent<NRInputField>().contentType = TMP_InputField.ContentType.Standard;
             switch (type)
             {
                 case ModifierType.AimAssist:
@@ -976,8 +985,8 @@ namespace NotReaper.Modifier
                             LabelSetter ls2 = value2.GetComponent<LabelSetter>();
                             ls1.SetLabelText("OFF Brightness");
                             ls2.SetLabelText("ON Brightness");
-                            value1.GetComponent<TMP_InputField>().contentType = TMP_InputField.ContentType.IntegerNumber;
-                            value2.GetComponent<TMP_InputField>().contentType = TMP_InputField.ContentType.IntegerNumber;
+                            value1.GetComponent<NRInputField>().contentType = TMP_InputField.ContentType.IntegerNumber;
+                            value2.GetComponent<NRInputField>().contentType = TMP_InputField.ContentType.IntegerNumber;
                             value1.SetActive(true);
                             value2.SetActive(true);
                             //float amnt = currentModifier.amount >= 1f && currentModifier.amount <= 128f ? currentModifier.amount : 1f;

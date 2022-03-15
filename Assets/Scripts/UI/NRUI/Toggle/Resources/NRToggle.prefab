@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 2500302077913365442}
   - component: {fileID: 2500302077913365454}
   - component: {fileID: 2500302077913365452}
-  - component: {fileID: 2500302077913365453}
   m_Layer: 17
   m_Name: NRToggle
   m_TagString: Untagged
@@ -38,8 +37,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 399.99997, y: 224.92996}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 399.41647, y: 224.92996}
+  m_SizeDelta: {x: 65.75, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2500302077913365454
 MonoBehaviour:
@@ -59,6 +58,7 @@ MonoBehaviour:
   text: text
   textSize: 20
   autoSize: 0
+  iconScale: 1
   toggleGroup: {fileID: 0}
   onSelected:
     m_PersistentCalls:
@@ -92,20 +92,6 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
---- !u!114 &2500302077913365453
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2500302077913365443}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_HorizontalFit: 2
-  m_VerticalFit: 2
 --- !u!1 &2500302078222729577
 GameObject:
   m_ObjectHideFlags: 0

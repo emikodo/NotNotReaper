@@ -23,7 +23,7 @@ namespace NotReaper.Modifier
         public GameObject inputFieldSaturation;
         public GameObject hueSlider;
         public GameObject saturationSlider;
-        public SpriteRenderer colorField;
+        public Image colorField;
         public LabelSetter labelSetter;
         public event Action<float> OnValueChanged = delegate { };
 

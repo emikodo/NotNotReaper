@@ -1,6 +1,7 @@
 ﻿using NotReaper.Models;
 using NotReaper.Overlays;
 using NotReaper.Tools.ChainBuilder;
+using NotReaper.UI.Components;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,10 +16,10 @@ namespace NotReaper.Tools.ChainBuilder
         [SerializeField] internal GameObject chainBuilderWindowUnselectedControls;
 
         [SerializeField] internal Michsky.UI.ModernUIPack.HorizontalSelector pathBuilderInterval;
-        [SerializeField] internal TextSliderCombo angleIncrement;
-        [SerializeField] internal TextSliderCombo angleIncrementIncrement;
-        [SerializeField] internal TextSliderCombo stepDistance;
-        [SerializeField] internal TextSliderCombo stepIncrement;
+        [SerializeField] internal NRInputSliderCombo angleIncrement;
+        [SerializeField] internal NRInputSliderCombo angleIncrementIncrement;
+        [SerializeField] internal NRInputSliderCombo stepDistance;
+        [SerializeField] internal NRInputSliderCombo stepIncrement;
 
         public void OnPointerEnter(PointerEventData eventData)
         {

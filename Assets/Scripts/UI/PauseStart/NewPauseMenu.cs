@@ -87,6 +87,11 @@ namespace NotReaper.UI
             volumePanel.SetActive(false);
         }
 
+        public Camera GetMainMenuCamera()
+        {
+            return cam;
+        }
+
         private void SetViewEnabled(View menu, bool enabled)
         {
             menu.canvas.blocksRaycasts = enabled;

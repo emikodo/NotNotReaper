@@ -19,6 +19,7 @@ namespace NotReaper.UI.Components
         [SerializeField] private float titleSize = 12f;
         [SerializeField] private bool autoSizeTitle = false;
         [SerializeField] private bool useTitle = true;
+        [SerializeField] private bool allowOverflow = true;
         [Space, Header("Input")]
         [SerializeField] private string placeholderText = "";
         [SerializeField] private float textSize = 12f;
@@ -28,11 +29,12 @@ namespace NotReaper.UI.Components
         [SerializeField] private VerticalAlignmentOptions verticalAlignment = VerticalAlignmentOptions.Capline;
         [SerializeField] private Vector4 margin = new Vector4(5f, 0f, 0f, 0f);
         [Space, Header("Input Method")]
-        [SerializeField] private TMP_InputField.ContentType contentType = TMP_InputField.ContentType.Standard;
+        [SerializeField] public TMP_InputField.ContentType contentType = TMP_InputField.ContentType.Standard;
         [Space, Header("Animation")]
         [SerializeField] private float animationDuration = .3f;
         [Space, Header("Callbacks")]
-        [SerializeField] private OnValueChanged onValueChanged;
+        public OnValueChanged onValueChanged;
+
         [HideInInspector, SerializeField] public TextMeshProUGUI title;
         [HideInInspector, SerializeField] public TMP_InputField inputField;
         [HideInInspector, SerializeField] public TextMeshProUGUI placeholder;
@@ -135,12 +137,15 @@ namespace NotReaper.UI.Components
 
         public override void UpdateVisuals()
         {
+
             title.text = titleText.ToLower();
             title.color = skin.textColor;
             title.enableAutoSizing = autoSizeTitle;
             title.fontSize = titleSize;
             title.fontSizeMin = .1f;
             title.fontSizeMax = titleSize;
+            title.overflowMode = allowOverflow ? TextOverflowModes.Overflow : TextOverflowModes.Truncate;
+            title.enableWordWrapping = !allowOverflow;
             title.transform.parent.gameObject.SetActive(useTitle);
             background.color = skin.backgroundColor;
             outline.color = skin.outlineColor;

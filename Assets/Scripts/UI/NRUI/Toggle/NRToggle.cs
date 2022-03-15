@@ -17,7 +17,7 @@ namespace NotReaper.UI.Components
         [Header("Skin")]
         [SerializeField] private NRToggleSkin skin;
         [Space, Header("Toggle")]
-        [SerializeField] private bool isOn = false;
+        [SerializeField] public bool isOn = false;
         [Header("Animation")]
         [SerializeField] private float animationDuration = .3f;
         [Space, Header("Text")]
@@ -34,7 +34,7 @@ namespace NotReaper.UI.Components
         [HideInInspector, SerializeField] public TextMeshProUGUI textContainer;
         [HideInInspector, SerializeField] public Image background;
         [HideInInspector, SerializeField] public Image fill;
- 
+        private Camera cam;
         private bool _selected;
         [SerializeField] public bool selected
         {
@@ -62,6 +62,16 @@ namespace NotReaper.UI.Components
                 var color = GetFillColor();
                 color.a = selected ? 1f : 0f;
                 fill.color = color;
+
+
+                if (toggleGroup != null)
+                {
+                    toggleGroup.RegisterToggle(this);
+                }
+                if (Application.isPlaying)
+                {
+                    UpdateVisuals();
+                }
             }
             
         }
@@ -72,28 +82,25 @@ namespace NotReaper.UI.Components
             if (Application.isPlaying)
             {
                 effects = NRDependencyInjector.Get<SoundEffects>();
+                cam = NRDependencyInjector.Get<NewPauseMenu>().GetMainMenuCamera();
             }
 
-            if (toggleGroup != null)
-            {
-                toggleGroup.RegisterToggle(this);
-            }
 
-            if (Application.isPlaying)
-            {
-                UpdateVisuals();
-            }
         }
 
         private void SetSelected(bool selected)
         {
+            isOn = selected;
             var color = fill.color;
             color.a = selected ? 1f : 0f;
             fill.color = color;
+
+
         }
 
         public void Deselect()
         {
+            isOn = false;
             selected = false;
         }
 
@@ -146,6 +153,7 @@ namespace NotReaper.UI.Components
                 else
                 {
                     selected = false;
+                    toggleGroup.DeselectToggle(this);
                 }
             }
             else
@@ -219,8 +227,24 @@ namespace NotReaper.UI.Components
 
         private void DoSpinAnimation(bool hover)
         {
+            int direction = 1;
+            if (hover)
+            {
+                var iconPos = background.transform.position;
+                var mousePos = cam.ScreenToWorldPoint(KeybindManager.Global.MousePosition.ReadValue<Vector2>());
+                if (mousePos.y < iconPos.y && mousePos.x > iconPos.x)
+                {
+                    direction = -1;
+                }
+                else if(mousePos.y > iconPos.y && mousePos.x < iconPos.x)
+                {
+                    direction = -1;
+                }
+            }
+            
+
             background.transform.DOKill();
-            background.transform.DORotate(new Vector3(0f, 0f, hover ? 90f : initialRotation), animationDuration, RotateMode.Fast);
+            background.transform.DORotate(new Vector3(0f, 0f, hover ? -90f * direction : initialRotation), animationDuration, RotateMode.Fast);
         }
 
         private void DoFillAnimation()
@@ -235,7 +259,6 @@ namespace NotReaper.UI.Components
                 initializedPosition = true;
                 initialRotation = background.transform.rotation.z;
             }
-
             DoSpinAnimation(true);
         }
         public void OnPointerDown(PointerEventData eventData)

@@ -74,6 +74,7 @@ namespace NotReaper.UI.Components
 
         private void OnValidate()
         {
+            if (Application.isPlaying) return;
             foreach(var button in buttons)
             {
                 button.UpdateVisuals();

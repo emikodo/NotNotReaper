@@ -24,10 +24,12 @@ namespace NotReaper.UI.Components
 
         private bool initialized = false;
         private VerticalLayoutGroup layout;
+        private ContentSizeFitter fitter;
 
         private void Awake()
         {
             layout = GetComponent<VerticalLayoutGroup>();
+            fitter = GetComponent<ContentSizeFitter>();
         }
         protected override void Start()
         {
@@ -40,15 +42,17 @@ namespace NotReaper.UI.Components
 
         private void OnEnable()
         {
-            underline.transform.DOScaleX(1f, animationDuration).SetEase(Ease.OutBack);
+            underline.transform.DOScaleX(1f, animationDuration).SetEase(Ease.OutBack).SetDelay(.5f);
             StartCoroutine(UpdateLayout());
         }
 
         private IEnumerator UpdateLayout()
         {
             layout.enabled = false;
+            fitter.enabled = false;
             yield return new WaitForEndOfFrame();
             layout.enabled = true;
+            fitter.enabled = true;
         }
 
         private void OnDisable()

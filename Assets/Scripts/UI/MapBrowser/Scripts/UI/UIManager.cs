@@ -22,7 +22,6 @@ namespace NotReaper.MapBrowser.UI
         [SerializeField] private DownloadOverlay overlay;
         [SerializeField] private SettingsPanel settings;
         [Space, Header("Buttons")]
-        [SerializeField] private GameObject buttonClose;
         [SerializeField] private GameObject buttonSettings;
         #endregion
 
@@ -173,7 +172,6 @@ namespace NotReaper.MapBrowser.UI
             navigation.Show(!show);
             download.SetScrollbarInteractable(!show);
             EnableSelectedEntriesInteraction(!show);
-            buttonClose.SetActive(!show);
             buttonSettings.SetActive(!show);
             overlay.ShowCancelButton(show);
         }

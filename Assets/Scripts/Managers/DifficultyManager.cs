@@ -8,11 +8,14 @@ using TMPro;
 using UnityEngine;
 using NotReaper.Grid;
 using NotReaper.Tools.PathBuilder;
+using NotReaper.UI;
 
-namespace NotReaper.Managers {
+namespace NotReaper.Managers
+{
 
 
-    public class DifficultyManager : MonoBehaviour {
+    public class DifficultyManager : MonoBehaviour
+    {
 
         public static DifficultyManager I;
 
@@ -25,8 +28,9 @@ namespace NotReaper.Managers {
         //[SerializeField] private TextMeshProUGUI curTargetAmount;
 
         [NRInject] private Pathbuilder pathbuilder;
-
-        private void Awake() {
+        [NRInject] private UIModeSelect modeSelect;
+        private void Awake()
+        {
             I = this;
         }
 
@@ -52,29 +56,34 @@ namespace NotReaper.Managers {
         }
 
         //Use this when starting up, load highest diff in audica file
-        public int LoadHighestDifficulty(bool save = false) {
+        public int LoadHighestDifficulty(bool save = false)
+        {
 
             if (!Timeline.audicaLoaded) return -1;
 
-            if (Timeline.audicaFile.diffs.expert.cues != null) {
+            if (Timeline.audicaFile.diffs.expert.cues != null)
+            {
                 LoadDifficulty(0, save);
-                
-                return 0;  
+
+                return 0;
             }
 
-            else if (Timeline.audicaFile.diffs.advanced.cues != null) {
+            else if (Timeline.audicaFile.diffs.advanced.cues != null)
+            {
                 LoadDifficulty(1, save);
-                return 1;  
+                return 1;
             }
 
-            else if (Timeline.audicaFile.diffs.moderate.cues != null) {
+            else if (Timeline.audicaFile.diffs.moderate.cues != null)
+            {
                 LoadDifficulty(2, save);
-                return 2;  
+                return 2;
             }
 
-            else if (Timeline.audicaFile.diffs.beginner.cues != null) {
+            else if (Timeline.audicaFile.diffs.beginner.cues != null)
+            {
                 LoadDifficulty(3, save);
-                return 3;  
+                return 3;
             }
 
             //If no difficulties exist gen a new one
@@ -89,11 +98,13 @@ namespace NotReaper.Managers {
         /// </summary>
         /// <param name="index">The index of the difficulty to clear/generate.0-expert, 3-easy</param>
         /// <returns>True if succeeded</returns>
-        public bool GenerateDifficulty(int index) {
+        public bool GenerateDifficulty(int index)
+        {
 
             if (DifficultyExists(index)) return false;
 
-            switch (index) {
+            switch (index)
+            {
                 case 0:
                     Timeline.audicaFile.diffs.expert.cues = new List<Cue>();
                     break;
@@ -106,14 +117,16 @@ namespace NotReaper.Managers {
                 case 3:
                     Timeline.audicaFile.diffs.beginner.cues = new List<Cue>();
                     break;
-                
+
             }
             return true;
         }
 
-        public void RemoveDifficulty(int index) {
+        public void RemoveDifficulty(int index)
+        {
             if (loadedIndex == index) timeline.DeleteAllTargets();
-            switch (index) {
+            switch (index)
+            {
                 case 0:
                     Timeline.audicaFile.diffs.expert.cues = null;
                     break;
@@ -126,31 +139,37 @@ namespace NotReaper.Managers {
                 case 3:
                     Timeline.audicaFile.diffs.beginner.cues = null;
                     break;
-                
+
             }
 
         }
 
-        public bool DifficultyExists(int index) {
+        public bool DifficultyExists(int index)
+        {
             DiffsList diffs = Timeline.audicaFile.diffs;
-            switch (index) {
+            switch (index)
+            {
                 case 0:
-                    if (diffs.expert.cues != null) {
+                    if (diffs.expert.cues != null)
+                    {
                         return true;
                     }
                     break;
                 case 1:
-                    if (diffs.advanced.cues != null) {
+                    if (diffs.advanced.cues != null)
+                    {
                         return true;
                     }
                     break;
                 case 2:
-                    if (diffs.moderate.cues != null) {
+                    if (diffs.moderate.cues != null)
+                    {
                         return true;
                     }
                     break;
                 case 3:
-                    if (diffs.beginner.cues != null) {
+                    if (diffs.beginner.cues != null)
+                    {
                         return true;
                     }
                     break;
@@ -159,7 +178,8 @@ namespace NotReaper.Managers {
             return false;
         }
 
-        public bool CopyToOtherDifficulty(int origin, int dest) {
+        public bool CopyToOtherDifficulty(int origin, int dest)
+        {
 
             if (!DifficultyExists(origin)) return false;
 
@@ -168,7 +188,8 @@ namespace NotReaper.Managers {
 
             DiffsList diffs = Timeline.audicaFile.diffs;
 
-            switch (origin) {
+            switch (origin)
+            {
                 case 0:
                     ActuallyCopyToOtherDifficulty(diffs.expert.cues, dest);
                     break;
@@ -188,8 +209,10 @@ namespace NotReaper.Managers {
 
         }
 
-        private void ActuallyCopyToOtherDifficulty(List<Cue> cues, int dest) {
-            switch (dest) {
+        private void ActuallyCopyToOtherDifficulty(List<Cue> cues, int dest)
+        {
+            switch (dest)
+            {
                 case 0:
                     Timeline.audicaFile.diffs.expert.cues = cues;
                     break;
@@ -207,7 +230,8 @@ namespace NotReaper.Managers {
         }
 
 
-        public bool LoadDifficulty(int index, bool save = true) {
+        public bool LoadDifficulty(int index, bool save = true)
+        {
 
 
             if (!Timeline.audicaLoaded) return false;
@@ -215,9 +239,11 @@ namespace NotReaper.Managers {
             DiffsList diffs = Timeline.audicaFile.diffs;
             curSongName.text = Timeline.desc.title;
             ReviewSystem.ReviewManager.Instance.ClearContainer();
-            switch (index) {
+            switch (index)
+            {
                 case 0:
-                    if (diffs.expert.cues != null) {
+                    if (diffs.expert.cues != null)
+                    {
                         curSongDiff.text = "Expert";
                         curSongDiff.color = new Color(0.74118f, 0.15686f, 1.00000f);
                         LoadTimelineDiff(diffs.expert, save);
@@ -228,7 +254,8 @@ namespace NotReaper.Managers {
                     }
                     break;
                 case 1:
-                    if (diffs.advanced.cues != null) {
+                    if (diffs.advanced.cues != null)
+                    {
                         curSongDiff.text = "Advanced";
                         curSongDiff.color = new Color(0.91765f, 0.65098f, 0.05490f);
                         LoadTimelineDiff(diffs.advanced, save);
@@ -239,7 +266,8 @@ namespace NotReaper.Managers {
                     }
                     break;
                 case 2:
-                    if (diffs.moderate.cues != null) {
+                    if (diffs.moderate.cues != null)
+                    {
                         curSongDiff.text = "Standard";
                         curSongDiff.color = new Color(0.16078f, 0.86275f, 0.93725f);
                         LoadTimelineDiff(diffs.moderate, save);
@@ -250,7 +278,8 @@ namespace NotReaper.Managers {
                     }
                     break;
                 case 3:
-                    if (diffs.beginner.cues != null) {
+                    if (diffs.beginner.cues != null)
+                    {
                         curSongDiff.text = "Beginner";
                         curSongDiff.color = new Color(0.28235f, 0.87059f, 0.10980f);
                         LoadTimelineDiff(diffs.beginner, save);
@@ -269,29 +298,36 @@ namespace NotReaper.Managers {
 
         }
 
-        private bool LoadTimelineDiff(CueFile cueFile, bool save = true) {
+        private bool LoadTimelineDiff(CueFile cueFile, bool save = true)
+        {
 
             if (save) timeline.Export();
 
             timeline.DeleteAllTargets();
             timeline.RemoveAllRepeaters();
             timeline.repeaterManager.RemoveAllRepeaters();
-            foreach (Cue cue in cueFile.cues) {
+            foreach (Cue cue in cueFile.cues)
+            {
                 timeline.AddTargetFromAction(timeline.GetTargetDataForCue(cue));
             }
 
-            if(cueFile.NRCueData != null) {
-                if (cueFile.NRCueData.pathBuilderNoteData.Count == cueFile.NRCueData.pathBuilderNoteCues.Count) {
-                    for (int i = 0; i < cueFile.NRCueData.pathBuilderNoteCues.Count; ++i) {
+            if (cueFile.NRCueData != null)
+            {
+                if (cueFile.NRCueData.pathBuilderNoteData.Count == cueFile.NRCueData.pathBuilderNoteCues.Count)
+                {
+                    for (int i = 0; i < cueFile.NRCueData.pathBuilderNoteCues.Count; ++i)
+                    {
                         var data = timeline.GetTargetDataForCue(cueFile.NRCueData.pathBuilderNoteCues[i]);
                         data.legacyPathbuilderData = cueFile.NRCueData.pathBuilderNoteData[i];
                         data.legacyPathbuilderData.parentNotes.Add(data);
 
                         //Recalculate the notes, and remove any identical enties that would have been loaded through the cues
                         ChainBuilder.CalculateChainNotes(data);
-                        foreach (TargetData genData in data.legacyPathbuilderData.generatedNotes) {
+                        foreach (TargetData genData in data.legacyPathbuilderData.generatedNotes)
+                        {
                             var foundData = timeline.FindTargetData(genData.time, genData.behavior, genData.handType);
-                            if (foundData != null) {
+                            if (foundData != null)
+                            {
                                 timeline.DeleteTargetFromAction(foundData);
                             }
                         }
@@ -302,23 +338,23 @@ namespace NotReaper.Managers {
                         ChainBuilder.GenerateChainNotes(data);
                     }
                 }
-                if(cueFile.NRCueData.newPathbuilderData.Count > 0)
+                if (cueFile.NRCueData.newPathbuilderData.Count > 0)
                 {
-                    for(int i = 0; i < cueFile.NRCueData.newPathbuilderCues.Count; i++)
+                    for (int i = 0; i < cueFile.NRCueData.newPathbuilderCues.Count; i++)
                     {
                         var data = timeline.GetTargetDataForCue(cueFile.NRCueData.newPathbuilderCues[i]);
                         var foundData = timeline.FindTargetData(data.time, data.behavior, data.handType);
-                        if(foundData != null)
+                        if (foundData != null)
                         {
                             foundData.isPathbuilderTarget = true;
                             foundData.pathbuilderData = cueFile.NRCueData.newPathbuilderData[i];
                             pathbuilder.CalculateNodesOnLoad(foundData);
                             foreach (var segment in foundData.pathbuilderData.Segments)
                             {
-                                foreach(var genNode in segment.generatedNodes)
+                                foreach (var genNode in segment.generatedNodes)
                                 {
                                     var foundNode = timeline.FindTargetData(genNode.time, genNode.behavior, genNode.handType);
-                                    if(foundNode != null)
+                                    if (foundNode != null)
                                     {
                                         timeline.DeleteTargetFromAction(foundNode);
                                     }
@@ -326,27 +362,33 @@ namespace NotReaper.Managers {
                             }
                             pathbuilder.GenerateNodesOnLoad(foundData);
                         }
-                        
-                        
+
+
                     }
                 }
-                if(cueFile.NRCueData.newRepeaterSections.Count > 0)
+                if (cueFile.NRCueData.newRepeaterSections.Count > 0)
                 {
-                    foreach(var section in cueFile.NRCueData.newRepeaterSections)
+                    foreach (var section in cueFile.NRCueData.newRepeaterSections)
                     {
                         timeline.repeaterManager.LoadRepeater(section);
                     }
                 }
 
-                if (Timeline.audioLoaded) {
-                    foreach (var section in cueFile.NRCueData.repeaterSections) {
+                if (Timeline.audioLoaded)
+                {
+                    foreach (var section in cueFile.NRCueData.repeaterSections)
+                    {
                         timeline.AddRepeaterSectionFromAction(section);
                     }
                 }
-                else {
+                else
+                {
                     timeline.loadRepeaterSectionAfterAudio = cueFile.NRCueData.repeaterSections;
                 }
             }
+
+            EditorState.SelectMode(EditorMode.Compose);
+
             return true;
         }
 

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace NotReaper.UI.Components
@@ -10,6 +11,7 @@ namespace NotReaper.UI.Components
         public NRToggleSkin skin;
         [Space, Header("Group")]
         public bool allowMultipleSelected = false;
+        public bool allowNoneSelected = true;
         [Header("Animation")]
         public float animationDuration = .3f;
         [Space, Header("Text")]
@@ -18,7 +20,7 @@ namespace NotReaper.UI.Components
         [Space, Header("Icon")]
         public float iconScale = 1f;
 
-        private List<NRToggle> toggles = new();
+        [HideInInspector, SerializeField] private List<NRToggle> toggles = new();
         private NRToggle selectedToggle;
 
         public void RegisterToggle(NRToggle toggle)
@@ -26,6 +28,18 @@ namespace NotReaper.UI.Components
             if (!toggles.Contains(toggle))
             {
                 toggles.Add(toggle);
+                if (toggle.selected)
+                {
+                    SetSelectedToggle(toggle);
+                }
+            }
+
+            if (!allowNoneSelected && selectedToggle == null)
+            {
+                if(toggles.Count > 0)
+                {
+                    SetSelectedToggle(toggle);
+                }
             }
         }
 
@@ -37,22 +51,50 @@ namespace NotReaper.UI.Components
             }
         }
 
-        public void SetSelectedToggle(NRToggle button)
+        public void SetSelectedToggle(NRToggle toggle)
         {
-            if (allowMultipleSelected) return;
+            if (allowMultipleSelected || toggle == selectedToggle) return;
 
             if (selectedToggle != null)
             {
                 selectedToggle.Deselect();
             }
-            selectedToggle = button;
+            selectedToggle = toggle;
+        }
+
+        public void DeselectToggle(NRToggle toggle)
+        {
+            if (allowMultipleSelected) return;
+            if(!allowNoneSelected && toggles.Where(t => t.isOn).Count() == 0)
+            {
+                toggle.selected = true;
+                return;
+            }
+            toggle.Deselect();
+            if(toggle == selectedToggle)
+            {
+                selectedToggle = null;
+            }
         }
 
         private void OnValidate()
         {
+            if (Application.isPlaying) return;
+
+            bool hasSelectedToggle = false;
             foreach (var toggle in toggles)
             {
                 toggle.UpdateVisuals();
+                if (toggle.isOn) hasSelectedToggle = true;
+            }
+            if(!allowNoneSelected && !hasSelectedToggle && toggles.Count > 0)
+            {
+                foreach(var toggle in toggles)
+                {
+                    toggle.isOn = false;
+                }
+                toggles.First().isOn = true;
+                toggles.First().UpdateVisuals();
             }
         }
 

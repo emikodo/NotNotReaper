@@ -4,6 +4,8 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using UnityEngine.Events;
+using NotReaper.UI.Components;
+
 namespace NotReaper.Modifier
 {
     public class LabelSetter : MonoBehaviour
@@ -11,15 +13,15 @@ namespace NotReaper.Modifier
         [SerializeField] private TextMeshProUGUI label;
         [SerializeField] private TMP_InputField inputField;
         [SerializeField] private Slider slider;
-        [SerializeField] private Toggle toggle;
+        [SerializeField] private NRToggle toggle;
         [SerializeField] private TextMeshProUGUI hint;
         [Header("Color")]
         [SerializeField] private Slider colorSliderHueLeft;
         [SerializeField] private Slider colorSliderHueRight;
         [SerializeField] private Slider colorSliderSaturationLeft;
         [SerializeField] private Slider colorSliderSaturationRight;
-        [SerializeField] private SpriteRenderer colorFieldLeft;
-        [SerializeField] private SpriteRenderer colorFieldRight;
+        [SerializeField] private Image colorFieldLeft;
+        [SerializeField] private Image colorFieldRight;
 
         [SerializeField] private TextMeshProUGUI colorHueLeftLabel;
         [SerializeField] private TextMeshProUGUI colorSaturationLeftLabel;
@@ -30,7 +32,7 @@ namespace NotReaper.Modifier
         [SerializeField] private TextMeshProUGUI rightColorLabel;
         [SerializeField] private bool isColorPicker = false;
 
-        [SerializeField] private ToggleGroup toggleGroup;
+        [SerializeField] private NRToggleGroup toggleGroup;
 
         [SerializeField] private ColorPicker colorPickerLeft;
         [SerializeField] private ColorPicker colorPickerRight;
@@ -131,12 +133,12 @@ namespace NotReaper.Modifier
 
         public void SetToggleState(bool on)
         {
-            toggle.isOn = on;
+            toggle.selected = on;
         }
 
         public bool GetToggleState()
         {
-            return toggle.isOn;
+            return toggle.selected;
         }
 
         public void SetHintText(string text)
@@ -248,7 +250,7 @@ namespace NotReaper.Modifier
 
         public void EnableToggleGroup(bool enable)
         {
-            toggleGroup.enabled = enable;
+            toggleGroup.allowMultipleSelected = !enable;
         }
 
         public bool IsColorPicker()
