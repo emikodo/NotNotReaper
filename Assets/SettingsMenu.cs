@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using NotReaper.UI.Components;
 
 public class SettingsMenu : MonoBehaviour
 {
@@ -22,8 +23,8 @@ public class SettingsMenu : MonoBehaviour
     [SerializeField] NRToggle playEndEvent;
     [SerializeField] NRToggle autoSave;
 
-    [SerializeField] TMP_InputField savedMapperField;
-    [SerializeField] TMP_InputField maudicaAccountToken;
+    [SerializeField] NRIconInputField savedMapperField;
+    [SerializeField] NRIconInputField maudicaAccountToken;
 
     [SerializeField] ColorSlider LeftHand;
     [SerializeField] ColorSlider RightHand;
