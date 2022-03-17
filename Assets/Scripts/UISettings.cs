@@ -19,8 +19,8 @@ using NotReaper.Modifier;
 using NotReaper.Notifications;
 public class UISettings : MonoBehaviour
 {
-   public GameObject bg;
-   public GameObject window;
+   //public GameObject bg;
+   //public GameObject window;
 
    public void Start() {
      // var t = transform;

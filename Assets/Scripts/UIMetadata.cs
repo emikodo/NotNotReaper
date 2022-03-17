@@ -15,6 +15,7 @@ using DifficultyCalculation;
 using AudicaTools;
 using NotReaper.Tools.ErrorChecker;
 using NotReaper.Downmap;
+using NotReaper.UI.Components;
 
 namespace NotReaper.UI
 {
@@ -31,9 +32,9 @@ namespace NotReaper.UI
         public List<Image> inputBoxLinesCover = new List<Image>();
 
 
-        public TMP_InputField titleField;
-        public TMP_InputField artistField;
-        public TMP_InputField mapperField;
+        public NRIconInputField titleField;
+        public NRIconInputField artistField;
+        public NRIconInputField mapperField;
         public TextMeshProUGUI difficultyRating;
         public Slider moggSongVolume;
 
@@ -53,7 +54,7 @@ namespace NotReaper.UI
 
         public Image AlbumArtImg;
         public TextMeshProUGUI artText;
-        public TMP_InputField DifficultyName;
+        public NRInputField DifficultyName;
         [Space]
         [Header("Icons")]
         public Image beginnerDiffDisplay;
