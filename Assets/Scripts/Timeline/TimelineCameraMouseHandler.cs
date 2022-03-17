@@ -24,7 +24,7 @@ namespace NotReaper
         {
             timeline = NRDependencyInjector.Get<Timeline>();
             miniTimeline = NRDependencyInjector.Get<MiniTimeline>();
-            cam = Camera.main;
+            cam = CameraProvider.menu;
             mousePosition = KeybindManager.Global.MousePosition;
             KeybindManager.onMouseDown += MouseDown;
             StartCoroutine(Raycast());

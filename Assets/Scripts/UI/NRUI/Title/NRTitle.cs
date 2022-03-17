@@ -16,8 +16,8 @@ namespace NotReaper.UI.Components
         [SerializeField] private float fontSize = 20f;
         [Space, Header("Underline")]
         [SerializeField] private bool useUnderline = true;
-        [Space, Header("Animation")]
-        [SerializeField] private float animationDuration = .3f;
+        //[Space, Header("Animation")]
+        //[SerializeField] private float animationDuration = .3f;
 
         [HideInInspector, SerializeField] public TextMeshProUGUI textContainer;
         [HideInInspector, SerializeField] public Image underline;

@@ -204,6 +204,7 @@ namespace NotReaper.Tools.PathBuilder
 		public void BakeActiveTarget()
         {
 			if (activeTarget == null) return;
+			SetTargetTransparency(1f);
 			NRActionBakePathbuilderTarget action = new NRActionBakePathbuilderTarget(activeTarget.data, this);
 			timeline.Tools.undoRedoManager.AddAction(action);
         }

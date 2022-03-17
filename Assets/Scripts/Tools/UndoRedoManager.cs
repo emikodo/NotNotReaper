@@ -1252,7 +1252,7 @@ namespace NotReaper.Tools
             }
             pathbuilder.UpdatePathbuilderTargetFromAction(targetData, oldState);
 
-            if (targetData.isPathbuilderTarget)
+            if (targetData.isRepeaterTarget)
             {
                 foreach (var target in timeline.repeaterManager.GetMatchingRepeaterTargets(targetData))
                 {

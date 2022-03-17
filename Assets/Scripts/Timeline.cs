@@ -318,7 +318,7 @@ namespace NotReaper
         /// </summary>
         private bool animatingTimeline = false;
 
-        [HideInInspector] public bool hover = false;
+        [HideInInspector] public bool hover { get; set; } = false;
         public bool paused = true;
         private bool scrub = false;
         private ScrubParams scrubParams;

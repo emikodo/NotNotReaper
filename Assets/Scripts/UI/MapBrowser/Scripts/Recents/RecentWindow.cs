@@ -44,6 +44,7 @@ namespace NotReaper.MapBrowser.Recents
                 return;
             }
             if(clearButton != null) clearButton.SetActive(true);
+            
             for(int i = 0; i < recents.Length; i++)
             {
                 if (i >= recents.Length || i >= fileNames.Count) break;

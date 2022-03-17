@@ -16,6 +16,8 @@ TagManager:
   - MiniTimeline
   - ModifierSelectionBox
   - MainMenuCamera
+  - MenuCamera
+  - TimelineCamera
   layers:
   - Default
   - TransparentFX

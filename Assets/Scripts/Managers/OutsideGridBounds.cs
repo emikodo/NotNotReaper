@@ -27,7 +27,6 @@ namespace NotReaper.Managers
 		private float yModifier = 3.6f;
 
 		private List<MeshRenderer> gridOutlineLines = new List<MeshRenderer>();
-
 		
 		private void Start()
 		{

@@ -36,7 +36,6 @@ namespace NotReaper.MapBrowser.Recents
         private void Start()
         {
             LoadRecents();
-            
             window.UpdateRecentDownloads(downloadsFolder, recentDownloads);
         }
         #endregion
@@ -88,6 +87,7 @@ namespace NotReaper.MapBrowser.Recents
             callback?.Invoke();
             if (success)
             {
+                AddRecent(map);
                 LoadMap(map.Filename);
             }
         }

@@ -22,7 +22,6 @@ namespace NotReaper.UI {
         private BookmarkUIColor myUIColor;
 
         private Vector3 originalScale = new Vector3(0.05f, 0.03f, 1f);
-        private bool needsScaling = true;
 
         private int timelineTextId;
         private string text = "";
@@ -95,7 +94,6 @@ namespace NotReaper.UI {
 
         public void FixScaling()
         {
-            needsScaling = false;
             //transform.localScale = originalScale;
             //transform.localScale = new 
             //rend.size = new Vector2(0.1f, 22f);

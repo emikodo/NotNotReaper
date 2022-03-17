@@ -7,7 +7,6 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using NotReaper.UI.Components;
 using NotReaper.Notifications;
 
 public class SettingsMenu : MonoBehaviour
