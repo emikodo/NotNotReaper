@@ -37,12 +37,20 @@ namespace NotReaper.UI.Components
             if (Application.isPlaying)
             {
                 //fitter.enabled = false;
-                UpdateVisuals();
-                //StartCoroutine(UpdateLayout());
+                //UpdateVisuals();
+                StartCoroutine(UpdateLayout());
             }
         }
 
-        private void OnEnable()
+        private IEnumerator UpdateLayout()
+        {
+            layout.enabled = false;
+            yield return new WaitForEndOfFrame();
+            layout.enabled = true;
+            //fitter.enabled = false;
+        }
+
+        /*private void OnEnable()
         {
             underline.transform.DOScaleX(1f, animationDuration).SetEase(Ease.OutBack).SetDelay(.5f);
             
@@ -53,7 +61,7 @@ namespace NotReaper.UI.Components
             var scale = underline.transform.localScale;
             scale.x = 0f;
             underline.transform.localScale = scale;
-        }
+        }*/
 
         public override void ApplyDarkTheme(ThemeData theme)
         {

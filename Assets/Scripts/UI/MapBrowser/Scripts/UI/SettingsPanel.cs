@@ -5,6 +5,8 @@ using UnityEngine.UI;
 using TMPro;
 using SFB;
 using NotReaper.MapBrowser.API;
+using NotReaper.UI.Components;
+
 namespace NotReaper.MapBrowser.UI
 {
     /// <summary>
@@ -14,14 +16,14 @@ namespace NotReaper.MapBrowser.UI
     {
         #region References
         [Header("Toggles")]
-        [SerializeField] private Toggle toggleDefault;
-        [SerializeField] private Toggle toggleCustom;
+        [SerializeField] private NRToggle toggleDefault;
+        [SerializeField] private NRToggle toggleCustom;
         [Space, Header("Buttons")]
-        [SerializeField] private Button buttonSelectFolder;
+        [SerializeField] private NRButton buttonSelectFolder;
         [Space, Header("Text")]
-        [SerializeField] private TextMeshProUGUI textLocation;
         [SerializeField] private TextMeshProUGUI textDeleteAfterDays;
-        [SerializeField] private TMP_InputField inputDays;
+        [SerializeField] private TextMeshProUGUI textLocation;
+        [SerializeField] private NRInputField inputDays;
         #endregion
 
         internal bool isOpen = false;
@@ -52,10 +54,10 @@ namespace NotReaper.MapBrowser.UI
         private void LoadUI()
         {
             bool isDefault = NRSettings.config.downloadSaveLocation == 0;
-            toggleDefault.SetIsOnWithoutNotify(isDefault);
-            toggleCustom.SetIsOnWithoutNotify(!isDefault);
+            toggleDefault.selected = isDefault;
+            toggleCustom.selected = !isDefault;
             UpdateSaveLocation();
-            inputDays.SetTextWithoutNotify(NRSettings.config.downloadDeleteAfterDays.ToString());
+            inputDays.text = NRSettings.config.downloadDeleteAfterDays.ToString();
             UpdateDaysText();
         }
         /// <summary>
@@ -107,7 +109,7 @@ namespace NotReaper.MapBrowser.UI
         {            
             if(!int.TryParse(inputDays.text, out int days))
             {
-                inputDays.SetTextWithoutNotify("0");
+                inputDays.text = "0";
             }
             NRSettings.config.downloadDeleteAfterDays = days;
             UpdateDaysText();
