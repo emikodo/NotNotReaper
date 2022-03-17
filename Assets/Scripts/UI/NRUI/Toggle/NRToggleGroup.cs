@@ -60,6 +60,7 @@ namespace NotReaper.UI.Components
                 selectedToggle.Deselect();
             }
             selectedToggle = toggle;
+            selectedToggle.selected = true;
         }
 
         public void DeselectToggle(NRToggle toggle)

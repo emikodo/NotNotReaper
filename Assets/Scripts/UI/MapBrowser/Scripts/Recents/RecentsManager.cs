@@ -50,7 +50,7 @@ namespace NotReaper.MapBrowser.Recents
         {
             if (recentDownloads.Contains(data.Filename)) recentDownloads.Remove(data.Filename);
             recentDownloads.Insert(0, data.Filename);
-            if (recentDownloads.Count > 5) recentDownloads = recentDownloads.GetRange(0, 5);
+            if (recentDownloads.Count > 8) recentDownloads = recentDownloads.GetRange(0, 8);
             SaveRecents();
             window.UpdateRecentDownloads(downloadsFolder, recentDownloads);
         }
@@ -122,6 +122,15 @@ namespace NotReaper.MapBrowser.Recents
                 {
                     string text = File.ReadAllText(recentDownloadsPath);
                     recentDownloads = JsonConvert.DeserializeObject<List<string>>(text);
+                    for (int i = recentDownloads.Count - 1; i >= 0; i--)
+                    {
+                        var path = Path.Combine(downloadsFolder, recentDownloads[i]);
+                        if (!File.Exists(path))
+                        {
+                            recentDownloads.RemoveAt(i);
+                        }
+                    }
+                    SaveRecents();
                 }
                 catch (Exception e)
                 {

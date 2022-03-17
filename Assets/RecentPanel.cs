@@ -49,6 +49,8 @@ namespace NotReaper.UI
                 {
                     if (i >= (RecentAudicaFiles.audicaPaths.Count - 1)) return;
                     string path = RecentAudicaFiles.audicaPaths[i];
+                    if (!File.Exists(path)) continue;
+
                     nrButtons[i].onClick.AddListener(new UnityAction(() =>
                     {
                         loadingOverlay.SetActive(true);

@@ -95,8 +95,8 @@ namespace NotReaper.MapBrowser.API
                     //Play a little animation, celebrating our successful download.
                     data.SelectedEntry.OnDownloaded(success);
                 }
-                if (success) RecentsManager.AddRecent(data);
             }
+            if (success) RecentsManager.AddRecent(data);
             downloadedMapsCount++;
             UIManager.Instance.UpdateDownloadProgress(downloadedMapsCount + 1, totalMapsDownloading, data.SelectedEntry.GetComponent<RectTransform>());
         }

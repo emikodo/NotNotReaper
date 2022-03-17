@@ -51,8 +51,7 @@ namespace NotReaper.MapBrowser.Recents
                 var path = Path.Combine(downloadsFolder, fileNames[i]);
                 if (File.Exists(path))
                 {
-                    Audica audica = new(Path.Combine(downloadsFolder, fileNames[i]));
-                    recents[i].SetFilename(audica);
+                    recents[i].SetFilename(new Audica(path));
                 }
                 else
                 {

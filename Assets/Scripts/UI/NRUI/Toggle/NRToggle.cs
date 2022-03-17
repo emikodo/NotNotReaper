@@ -276,7 +276,7 @@ namespace NotReaper.UI.Components
         }
         public void OnPointerDown(PointerEventData eventData)
         {
-            _selected = !_selected;
+            selected = !selected;
             effects.PlaySound(SoundEffects.Sound.Click);
             DoFillAnimation();
             onSelected?.Invoke(selected);

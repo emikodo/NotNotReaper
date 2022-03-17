@@ -100,6 +100,7 @@ namespace NotReaper.MapBrowser.UI
         {
             bool isDefault = toggleDefault.isOn;
             NRSettings.config.downloadSaveLocation = isDefault ? 0 : 1;
+            NRSettings.SaveSettingsJson();
             UpdateSaveLocation();
         }
         /// <summary>
