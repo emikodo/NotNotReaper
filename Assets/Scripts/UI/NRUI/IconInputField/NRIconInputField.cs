@@ -64,7 +64,7 @@ namespace NotReaper.UI.Components
 
             if (Application.isPlaying)
             {
-                UpdateVisuals();
+                //UpdateVisuals();
                 inputField.onValueChanged.AddListener(ValueChanged);
                 inputField.onSelect.AddListener(OnSelected);
                 inputField.onDeselect.AddListener(OnDeselected);

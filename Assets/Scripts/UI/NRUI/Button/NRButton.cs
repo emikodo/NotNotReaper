@@ -91,6 +91,7 @@ namespace NotReaper.UI.Components
                 {
                     underline.color = GetHandColorForUnderline();
                 }
+                initialScale = transform.localScale;
             }         
         }
 
@@ -105,12 +106,6 @@ namespace NotReaper.UI.Components
             if (buttonGroup != null)
             {
                 buttonGroup.RegisterButton(this);
-            }
-
-            if (Application.isPlaying)
-            {
-                initialScale = transform.localScale;
-                //UpdateVisuals();
             }
         }
 
