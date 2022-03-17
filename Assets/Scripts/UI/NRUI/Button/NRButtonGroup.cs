@@ -45,6 +45,10 @@ namespace NotReaper.UI.Components
             {
                 button.OverrideStayOnSelected(stayOnSelected, SetSelectedButton);
             }
+            foreach(var button in buttons)
+            {
+                button.UpdateVisuals();
+            }
         }
 
         private void OnDisable()
