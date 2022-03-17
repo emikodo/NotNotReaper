@@ -9,6 +9,7 @@ using NotReaper.Models;
 using NotReaper.Statistics;
 using NotReaper.MenuBrowser;
 using NotReaper.UI.Volume;
+using NotReaper.Tools.Presets;
 
 namespace NotReaper.UI {
 
@@ -21,9 +22,11 @@ namespace NotReaper.UI {
         public RectTransform sliderRTrans;
         public List<GameObject> buttons = new();
         public CanvasGroup volumeButton;
+        public GameObject menuBrowserButton;
         [NRInject] private UIMetadata uIMetadata;
         [NRInject] private UITiming uITiming;
         [NRInject] private VolumeOverlay volume;
+        [NRInject] private PresetUI presets;
         public UISettings uISettings;
         public float startOffset = 80f;
         public float indexOffset = 66.6f;      
@@ -81,6 +84,10 @@ namespace NotReaper.UI {
             stats.Show();
         }
 
+        public void OpenPresets()
+        {
+            presets.Show();
+        }
 
         public void UpdateUI(EditorMode mode) {
             if(mode == EditorMode.Metadata)

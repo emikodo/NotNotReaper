@@ -7,6 +7,7 @@ using UnityEngine.InputSystem;
 using NotReaper.Timing;
 using System;
 using NotReaper.UI.Components;
+using NotReaper.UI;
 
 namespace NotReaper.BpmAlign
 {
@@ -27,6 +28,7 @@ namespace NotReaper.BpmAlign
         private float bpm;
         private uint numerator;
         private uint denominator;
+        [NRInject] private UIModeSelect modeSelect;
         [NRInject] private Timeline timeline;
 
         private Vector3 startPosition = new Vector3(0, -0.28f, 0);
@@ -46,6 +48,7 @@ namespace NotReaper.BpmAlign
         public override void Show()
         {
             OnActivated();
+            modeSelect.menuBrowserButton.SetActive(false);
             transform.localPosition = startPosition;
             canvas.DOFade(1f, .3f);
             dragAlign.enabled = true;
@@ -59,8 +62,11 @@ namespace NotReaper.BpmAlign
         {
             dragAlign.enabled = false;
             canvas.blocksRaycasts = false;
-            canvas.DOFade(0f, .5f).OnComplete(() =>
+            canvas.DOFade(0f, .3f).OnComplete(() =>
             {
+                bpmView.alpha = 1f;
+                trimView.alpha = 0f;
+                modeSelect.menuBrowserButton.SetActive(true);
                 OnDeactivated();
             });
         }
@@ -114,7 +120,7 @@ namespace NotReaper.BpmAlign
                 return;
             }
 
-            if (duration.Value.tick < 0)
+            if (duration.Value.tick <= 0)
             {
                 return;
             }
@@ -126,6 +132,10 @@ namespace NotReaper.BpmAlign
         {
             var duration = GetTimeFromLabels();
             if (duration == null)
+            {
+                return;
+            }
+            if(duration.Value.tick <= 0)
             {
                 return;
             }

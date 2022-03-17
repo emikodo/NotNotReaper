@@ -45,6 +45,8 @@ namespace NotReaper.Repeaters
         private Image topBarBackground;
         private Image bottomBarBackground;
 
+        private int textId = -1;
+
         public void Initialize(Transform miniTimelineParent, bool isParent)
         {
             miniTimeline = NRDependencyInjector.Get<MiniTimeline>();
@@ -83,7 +85,15 @@ namespace NotReaper.Repeaters
 
         public void SetText(string text)
         {
-            textContainer.text = text;
+            if(textId == -1)
+            {
+                textId = TimelineTextManager.Instance.AddText(text, section.activeStartTime);
+            }
+            else
+            {
+                TimelineTextManager.Instance.UpdateText(text, textId);
+            }
+            //textContainer.text = text;
         }
 
         public void SetWidth(float width)
@@ -198,6 +208,8 @@ namespace NotReaper.Repeaters
                             {
                                 section.SetActiveStartTime(newTime);
                                 transform.localPosition = new Vector3(newTime.ToBeatTime(), 0f, 0f);
+                                TimelineTextManager.Instance.RemoveText(textId);
+                                textId = TimelineTextManager.Instance.AddText(section.ID, newTime);
                             }
                             else
                             {

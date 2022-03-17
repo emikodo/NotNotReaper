@@ -16,7 +16,7 @@ namespace NotReaper.BpmAlign
         private Vector2 startPosition;
         private Vector3 waveformPosition;
         private Vector3 originalWaveformPosition;
-
+        private Vector3 startWaveformPosition;
         [NRInject] private PrecisePlayback playback;
         [NRInject] private Timeline timeline;
         [SerializeField] private AudioWaveformVisualizer visualizer;
@@ -32,6 +32,7 @@ namespace NotReaper.BpmAlign
             cam = timeline.timelineCamera.GetComponent<Camera>();
             KeybindManager.onMouseDown += MouseDown;
             waveformPosition = waveform.position;
+            startWaveformPosition = waveformPosition;
             //originalWaveformPosition = waveformPosition;
         }
 
@@ -63,6 +64,7 @@ namespace NotReaper.BpmAlign
         public void ModifyAudio()
         {
             if (!Timeline.instance.paused) Timeline.instance.TogglePlayback();
+            if (startWaveformPosition == waveform.position) return;
             var shiftBy = QNT_Duration.FromBeatTime(Mathf.Abs(waveform.localPosition.x) * (Timeline.scale / 20f));
             Relative_QNT time = new Relative_QNT((long)shiftBy.tick * -1);
             waveform.localPosition = originalWaveformPosition;

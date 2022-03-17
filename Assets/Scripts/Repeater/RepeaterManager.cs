@@ -109,13 +109,13 @@ namespace NotReaper.Repeaters
             var indicator = Instantiate(repeaterIndicatorPrefab, timelineParent);
             indicator.transform.localScale = new Vector3(1f * (Timeline.scale / 20f), 1f, 1f);
             indicator.transform.localPosition = new Vector3(startTime.ToBeatTime(), 0f, 0f);
-            indicator.SetText(id);
             bool isParent = !RepeaterExists(id);
             var section = new RepeaterSection(id, isParent, flipColors, mirrorHorizontally, mirrorVertically, startTime, activeStartTime, endTime, activeEndTime, indicator, targets, timeline);
             indicator.Initialize(miniTimelineParent, isParent);
             indicator.SetSection(section);
             indicator.SetWidth((activeEndTime - startTime).ToBeatTime());
             indicator.SetInteractable(overlay.isActive);
+            indicator.SetText(id);
             if (repeaters.ContainsKey(id))
             {
                 repeaters[id].Add(section);
@@ -165,11 +165,11 @@ namespace NotReaper.Repeaters
             var indicator = Instantiate(repeaterIndicatorPrefab, timelineParent);
             indicator.transform.localScale = new Vector3(1f * (Timeline.scale / 20f), 1f, 1f);
             indicator.transform.localPosition = new Vector3(section.activeStartTime.ToBeatTime(), 0f, 0f);
-            indicator.SetText(section.ID);
             indicator.Initialize(miniTimelineParent, section.isParent);
             indicator.SetSection(section);
             indicator.SetWidth((section.activeEndTime - section.activeStartTime).ToBeatTime());
             indicator.SetInteractable(overlay.isActive);
+            indicator.SetText(section.ID);
             foreach (var target in section.targets)
             {
                 target.repeaterData = new();
@@ -185,11 +185,11 @@ namespace NotReaper.Repeaters
             var indicator = Instantiate(repeaterIndicatorPrefab, timelineParent);
             indicator.transform.localScale = new Vector3(1f * (Timeline.scale / 20f), 1f, 1f);
             indicator.transform.localPosition = new Vector3(section.activeStartTime.ToBeatTime(), 0f, 0f);
-            indicator.SetText(section.ID);
             indicator.Initialize(miniTimelineParent, section.isParent);
             indicator.SetSection(section);
             indicator.SetWidth((section.activeEndTime - section.activeStartTime).ToBeatTime());
             indicator.SetInteractable(overlay.isActive);
+            indicator.SetText(section.ID);
             foreach (var target in section.targets)
             {
                 target.repeaterData = new();
@@ -218,7 +218,6 @@ namespace NotReaper.Repeaters
             var indicator = Instantiate(repeaterIndicatorPrefab, timelineParent);
             indicator.transform.localScale = new Vector3(1f * (Timeline.scale / 20f), 1f, 1f);
             indicator.transform.localPosition = new Vector3(section.activeStartTime.ToBeatTime(), 0f, 0f);
-            indicator.SetText(section.ID);
             List<TargetData> foundTargets = new();
             foreach (var time in section.targetTimes)
             {
@@ -236,6 +235,7 @@ namespace NotReaper.Repeaters
             indicator.Initialize(miniTimelineParent, loadedSection.isParent);
             indicator.SetSection(loadedSection);
             indicator.SetWidth((loadedSection.activeEndTime - loadedSection.activeStartTime).ToBeatTime());
+            indicator.SetText(section.ID);
             indicator.SetInteractable(false);
             if (repeaters.ContainsKey(loadedSection.ID))
             {

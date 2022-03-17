@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using NotReaper.Models;
+using UnityEngine.UI;
 
 namespace NotReaper.UI {
 
@@ -10,10 +11,10 @@ namespace NotReaper.UI {
 
         public int index = 0;
 
-        public TextMeshProUGUI text;
+        //public TextMeshProUGUI text;
         public bool isSelected = false;
         private Bookmark mini;
-        public SpriteRenderer rend;
+        public Image image;
         public BoxCollider2D boxCollider;
         public TargetHandType handType;
         public float xPosMini;
@@ -22,6 +23,9 @@ namespace NotReaper.UI {
 
         private Vector3 originalScale = new Vector3(0.05f, 0.03f, 1f);
         private bool needsScaling = true;
+
+        private int timelineTextId;
+        private string text = "";
         private void Start()
         {
             originalScale = transform.localScale;
@@ -29,18 +33,20 @@ namespace NotReaper.UI {
 
         public void SetIndex(int i) {
             index = i;
-            text.text = index.ToString();
+            //text.text = index.ToString();
         }
 
         public void SetText(string _text)
         {
-            text.text = _text;
+            this.text = _text;
+            //text.text = _text;
+            TimelineTextManager.Instance.UpdateText(_text, timelineTextId);
             UpdateColor();
         }
 
         public void UpdateColor()
         {
-            rend.color = BookmarkColorPicker.selectedColor;
+            image.color = BookmarkColorPicker.selectedColor;
         }
 
         public void Select()
@@ -62,13 +68,15 @@ namespace NotReaper.UI {
 
         public string GetText()
         {
-            return text.text;
+            return text;
         }
 
-        public void Initialize(Bookmark b, string _text, TargetHandType _handType, float _xPosMini)
+        public void Initialize(Bookmark b, string text, int id, TargetHandType _handType, float _xPosMini)
         {
+            
+            timelineTextId = id;
+            this.text = text;
             mini = b;
-            text.text = _text;
             handType = _handType;
             xPosMini = _xPosMini;
             originalScale = transform.localScale;
@@ -77,6 +85,7 @@ namespace NotReaper.UI {
         public void DeleteBookmark()
         {
             //MiniTimeline.Instance.bookmarks.Remove(mini);
+            TimelineTextManager.Instance.RemoveText(timelineTextId);
             MiniTimeline.Instance.bookmarks.Remove(this);
             MiniTimeline.Instance.selectedBookmark = null;
             MiniTimeline.Instance.OpenBookmarksMenu();
@@ -87,23 +96,25 @@ namespace NotReaper.UI {
         public void FixScaling()
         {
             needsScaling = false;
-            rend.size = new Vector2(0.1f, 22f);
-            boxCollider.size = new Vector2(.1f, 22f);
-            text.rectTransform.localPosition = new Vector3(26, -730, 0);
-            text.rectTransform.localScale = new Vector3(1.3f, .1f, 1f);
+            //transform.localScale = originalScale;
+            //transform.localScale = new 
+            //rend.size = new Vector2(0.1f, 22f);
+            //boxCollider.size = new Vector2(.1f, 22f);
+            //text.rectTransform.localPosition = new Vector3(26, -730, 0);
+            //text.rectTransform.localScale = new Vector3(1.3f, .1f, 1f);
         }
 
         public void Scale()
         {
-            if (needsScaling)
+            transform.localScale = originalScale;
+            /*if (needsScaling)
             {
-                transform.localScale = originalScale;
-            }
+            }*/
         }
 
         public Color GetColor()
         {
-            return rend.color;
+            return image.color;
         }
 
         public BookmarkUIColor GetUIColor()
@@ -113,8 +124,8 @@ namespace NotReaper.UI {
 
         public void SetColor(Color col, BookmarkUIColor uiCol)
         {
-            rend.color = col;
-            mini.GetComponent<SpriteRenderer>().color = col;
+            image.color = col;
+            mini.GetComponent<Image>().color = col;
             myUIColor = uiCol;
         }
 

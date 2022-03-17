@@ -108,8 +108,6 @@ namespace NotReaper.Overlays
                             }
                         }                 
                         var bounds = Rect.MinMaxRect(corners[0].x, corners[0].y, corners[2].x, corners[2].y);
-                        Debug.Log(bounds.xMin);
-                        Debug.Log(bounds.xMax);
                         if (timeline.selectedNotes[0].IsInsideRectAtTime(Timeline.time, bounds))
                         {
                             if (rect.localPosition.x > 0)

@@ -193,7 +193,7 @@ namespace NotReaper.UI {
         }
 
 
-        public Bookmark SetBookmark(float miniXPos, float topXPos,  TargetHandType newType, string text, Color myColor, BookmarkUIColor uiCol, bool useTopXPos, bool fromLoad = false) {
+        public Bookmark SetBookmark(float miniXPos, float topXPos, QNT_Timestamp time, TargetHandType newType, string text, Color myColor, BookmarkUIColor uiCol, bool useTopXPos, bool fromLoad = false) {
 			Bookmark bookmarkMini = Instantiate(bookmarkPrefab, new Vector3(0, 0, 0), Quaternion.identity, bookmarksParent).GetComponent<Bookmark>();		
 			Bookmark bookmarkTop = Instantiate(bookmarkPrefab, Timeline.timelineNotesStatic).GetComponent<Bookmark>();
             bookmarkMini.gameObject.layer = 0;
@@ -207,21 +207,21 @@ namespace NotReaper.UI {
             if (!useTopXPos) {
 				
 				if (newType == TargetHandType.Left) {
-					bookmarkTop.transform.position = new Vector3(0, bookmarkTop.transform.position.y - .85f, 0);
+					bookmarkTop.transform.position = new Vector3(0, bookmarkTop.transform.position.y - .62f, 0);
 					//background = Color.green;
 				}
 				else {
-					bookmarkTop.transform.position = new Vector3(0, bookmarkTop.transform.position.y - .85f, 0);
+					bookmarkTop.transform.position = new Vector3(0, bookmarkTop.transform.position.y - .62f, 0);
 					//background = Color.red;
 				}
 			}
 			else {
 				if (newType == TargetHandType.Left) {
-					bookmarkTop.transform.localPosition = new Vector3(topXPos, bookmarkTop.transform.localPosition.y - .85f, 0);
+					bookmarkTop.transform.localPosition = new Vector3(topXPos, bookmarkTop.transform.localPosition.y - .62f, 0);
 					//background = Color.green;
 				}
 				else {
-					bookmarkTop.transform.localPosition = new Vector3(topXPos, bookmarkTop.transform.localPosition.y - .85f, 0);
+					bookmarkTop.transform.localPosition = new Vector3(topXPos, bookmarkTop.transform.localPosition.y - .62f, 0);
 					//background = Color.red;
 				}
 			}
@@ -242,7 +242,12 @@ namespace NotReaper.UI {
             //bookmarkTop.transform.localScale = new Vector3(.05f, .03f, 1f);
 
             //bookmarkTop.glow.transform.localPosition = new Vector3(0f, -.35f, 0f);
-            bookmarkTop.Initialize(bookmarkMini, text, newType, miniXPos);
+            if (fromLoad)
+            {
+				time = new QNT_Timestamp((ulong)topXPos * Constants.PulsesPerQuarterNote);
+            }
+			int id = TimelineTextManager.Instance.AddText(text, time);
+            bookmarkTop.Initialize(bookmarkMini, text, id, newType, miniXPos);
             bookmarkTop.SetColor(background, fromLoad ? uiCol : BookmarkColorPicker.selectedUIColor);
             //bookmarks.Add(bookmarkMini);
             bookmarks.Add(bookmarkTop);
@@ -312,7 +317,7 @@ namespace NotReaper.UI {
 
 		public void SetBookmark()
         {
-			SetBookmark(GetXForTheBookmarkThingy(), timeline.timelineCamera.transform.position.x, EditorState.Hand.Current, "", BookmarkColorPicker.selectedColor, BookmarkColorPicker.selectedUIColor, true, false).Select();
+			SetBookmark(GetXForTheBookmarkThingy(), timeline.timelineCamera.transform.position.x, Timeline.time, EditorState.Hand.Current, "", BookmarkColorPicker.selectedColor, BookmarkColorPicker.selectedUIColor, true, false).Select();
 		}
 
         private void Update() {

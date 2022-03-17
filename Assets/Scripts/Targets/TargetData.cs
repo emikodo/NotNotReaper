@@ -8,6 +8,7 @@ using NotReaper.Tools.ChainBuilder;
 using UnityEngine.Events;
 using UnityEngine.Serialization;
 using NotReaper.Timing;
+using Newtonsoft.Json;
 
 namespace NotReaper.Targets {
 
@@ -183,6 +184,7 @@ namespace NotReaper.Targets {
             public int nominator;
             public int denominator;
 
+            [JsonConstructor]
             public Interval(int nominator, int denominator)
             {
                 this.nominator = nominator;
@@ -207,6 +209,7 @@ namespace NotReaper.Targets {
             public QNT_Duration beatLength;
             public bool alternateHands;
             public List<TargetData> generatedNodes;
+            [JsonConstructor]
             public Segment(Vector2 startPoint, Vector2 startPointHandle, Vector2 endPoint, Vector2 endPointHandle, Interval interval, QNT_Duration beatLength, List<TargetData> generatedNodes)
             {
                 this.startPoint = startPoint;

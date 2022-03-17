@@ -36,23 +36,16 @@ namespace NotReaper.UI.Components
             base.Start();
             if (Application.isPlaying)
             {
+                //fitter.enabled = false;
                 UpdateVisuals();
+                //StartCoroutine(UpdateLayout());
             }
         }
 
         private void OnEnable()
         {
             underline.transform.DOScaleX(1f, animationDuration).SetEase(Ease.OutBack).SetDelay(.5f);
-            StartCoroutine(UpdateLayout());
-        }
-
-        private IEnumerator UpdateLayout()
-        {
-            layout.enabled = false;
-            fitter.enabled = false;
-            yield return new WaitForEndOfFrame();
-            layout.enabled = true;
-            fitter.enabled = true;
+            
         }
 
         private void OnDisable()
@@ -117,16 +110,6 @@ namespace NotReaper.UI.Components
                 default:
                     return skin.underlineColor;
             }
-        }
-
-        public void CalculateLayoutInputHorizontal()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void CalculateLayoutInputVertical()
-        {
-            throw new System.NotImplementedException();
         }
     }
 }

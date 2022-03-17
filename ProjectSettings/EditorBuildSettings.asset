@@ -80,6 +80,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/UI/VolumeFlyout.unity
     guid: 2d0a89b67dab4e84a9a5b1d8d2d8dbb7
+  - enabled: 1
+    path: Assets/Scenes/UI/Presets.unity
+    guid: 3beb35d6ca676e24fac09c987bbff26d
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: ab11a012358d93e4cb5071d406d2fd28,
       type: 2}

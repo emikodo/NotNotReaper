@@ -122,7 +122,7 @@ namespace NotReaper.Tools.PathBuilder
         public void OnCloseClicked()
         {
             Hide();
-            EditorState.SelectTool(EditorState.Tool.Previous);
+            EditorState.SelectTool(EditorTool.Pathbuilder);
         }
 
         internal void LoadData(PathbuilderData.Interval interval, QNT_Duration beatLength, bool isSegmentScope, bool alternateHands)

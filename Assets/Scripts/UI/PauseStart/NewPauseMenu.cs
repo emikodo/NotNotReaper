@@ -193,10 +193,18 @@ namespace NotReaper.UI
         private void ChangeView(View newView) 
         {
             if (newView == activeView) return;
-            if (fadeInAnimation != null) fadeInAnimation.Complete();
-            if (fadeOutAnimation != null) fadeOutAnimation.Complete();
+            if (fadeInAnimation != null)
+            {
+                fadeInAnimation.Complete();
+            }
+            if (fadeOutAnimation != null)
+            {
+                fadeOutAnimation.Complete();
+            }
+            var currentView = activeView;
+            activeView = newView;
             Sequence animation = DOTween.Sequence();
-            animation.Append(activeView.canvas.DOFade(0f, .3f));
+            animation.Append(currentView.canvas.DOFade(0f, .3f));
             animation.OnComplete(() =>
             {
                 newView.Show();
@@ -204,10 +212,10 @@ namespace NotReaper.UI
                 fadeInAnimation.Append(newView.canvas.DOFade(1f, .3f));
                 fadeInAnimation.OnComplete(() =>
                 {
-                    SetViewEnabled(activeView, false);
+                    SetViewEnabled(currentView, false);
                     SetViewEnabled(newView, true);
-                    activeView.Hide();
-                    activeView = newView;
+                    currentView.Hide();
+                    //activeView = newView;
                 });
                 fadeInAnimation.Play();
                 this.fadeInAnimation = fadeInAnimation;

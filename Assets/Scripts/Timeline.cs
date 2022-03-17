@@ -495,7 +495,7 @@ namespace NotReaper
             BinarySearchResult res = BinarySearchOrderedNotes(data.time);
             if (res.found == false)
             {
-                Debug.LogWarning("Couldn't find note with time " + data.time);
+                //Debug.LogWarning("Couldn't find note with time " + data.time);
                 return null;
             }
 
@@ -1421,6 +1421,7 @@ namespace NotReaper
             Tools.undoRedoManager.ClearActions();
             tempoChanges.Clear();
             RemoveAllRepeaters();
+            TimelineTextManager.Instance.ClearTimelineTexts();
             ModifierHandler.Instance.CleanUp();
         }
 
@@ -1753,10 +1754,10 @@ namespace NotReaper
                         data.r = c.r;
                         data.g = c.g;
                         data.b = c.b;
-                        miniTimeline.SetBookmark(data.xPosMini, data.xPosTop, data.type, data.text, c, (BookmarkUIColor)data.uiColor, true, true);
+                        miniTimeline.SetBookmark(data.xPosMini, data.xPosTop, new QNT_Timestamp(0), data.type, data.text, c, (BookmarkUIColor)data.uiColor, true, true);
                     }
 
-                    miniTimeline.SetBookmark(data.xPosMini, data.xPosTop, data.type, data.text, new Color(data.r, data.g, data.b), (BookmarkUIColor)data.uiColor, true, true);
+                    miniTimeline.SetBookmark(data.xPosMini, data.xPosTop, new QNT_Timestamp(0), data.type, data.text, new Color(data.r, data.g, data.b), (BookmarkUIColor)data.uiColor, true, true);
 
                 }
             }
@@ -2230,6 +2231,7 @@ namespace NotReaper
 
             foreach (var bpm in bpmMarkerObjects)
             {
+                TimelineTextManager.Instance.RemoveText(bpm.GetComponent<BPMMarker>().id);
                 Destroy(bpm);
             }
             bpmMarkerObjects.Clear();
@@ -2244,7 +2246,9 @@ namespace NotReaper
                 string bpm = Constants.DisplayBPMFromMicrosecondsPerQuaterNote(tempo.microsecondsPerQuarterNote);
                 string timeSignature = tempo.timeSignature.ToString();
 
-                timelineBPM.GetComponentInChildren<TextMesh>().text = bpm + "\n" + timeSignature;
+                //timelineBPM.GetComponentInChildren<TextMesh>().text = bpm + "\n" + timeSignature;
+                int id = TimelineTextManager.Instance.AddText($"{bpm} {timeSignature}", tempo.time);
+                timelineBPM.GetComponent<BPMMarker>().id = id;
                 bpmMarkerObjects.Add(timelineBPM);
             }
 
@@ -2622,6 +2626,7 @@ namespace NotReaper
             }
             ModifierHandler.Instance.Scale((float)newScale / scale);
             BookmarkMenu.Instance.Scale();
+            TimelineTextManager.Instance.Scale();
             scale = newScale;
             repeaterManager.UpdateRepeaterScale();
 

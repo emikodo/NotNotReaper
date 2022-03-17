@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace NotReaper.UI.Components
 {
@@ -32,12 +33,37 @@ namespace NotReaper.UI.Components
             base.Start();
             if (Application.isPlaying)
             {
-                foreach(var blur in blurs)
+                foreach (var blur in blurs)
                 {
                     blur.SetBlurOpactiy(0f);
                 }
                 UpdateVisuals();
+                StartCoroutine(UpdateLayout());
             }
+        }
+
+        private IEnumerator UpdateLayout()
+        {
+            yield return new WaitForEndOfFrame();
+            var layouts = GetComponentsInChildren<LayoutGroup>();
+            var fitters = GetComponentsInChildren<ContentSizeFitter>();
+            foreach (var layout in layouts)
+            {
+                layout.enabled = false;
+                layout.enabled = true;
+                layout.SetLayoutVertical();
+                layout.SetLayoutHorizontal();
+                LayoutRebuilder.ForceRebuildLayoutImmediate(layout.GetComponent<RectTransform>());
+            }
+            foreach(var fitter in fitters)
+            {
+                fitter.enabled = false;
+                fitter.enabled = true;
+                fitter.SetLayoutVertical();
+                fitter.SetLayoutHorizontal();
+                LayoutRebuilder.ForceRebuildLayoutImmediate(fitter.GetComponent<RectTransform>());
+            }
+            //LayoutRebuilder.ForceRebuildLayoutImmediate(GetComponent<RectTransform>());
         }
 
         public void RegisterBlur(NRBlur blur)
@@ -147,7 +173,7 @@ namespace NotReaper.UI.Components
 
         public override void ApplyLightTheme(ThemeData theme)
         {
-            skin = theme.window.dark;           
+            skin = theme.window.dark;
         }
 
         private void UpdateTextColor()
@@ -155,13 +181,13 @@ namespace NotReaper.UI.Components
             var components = transform.GetComponentsInChildren<TextMeshProUGUI>();
             foreach (var text in components)
             {
-                if(text.transform.parent != null)
+                if (text.transform.parent != null)
                 {
-                    if(text.transform.parent.parent != null)
+                    if (text.transform.parent.parent != null)
                     {
-                        if(text.transform.parent.parent.parent != null)
+                        if (text.transform.parent.parent.parent != null)
                         {
-                            if(text.transform.parent.parent.parent.GetComponent<NRThemeable>() != null)
+                            if (text.transform.parent.parent.parent.GetComponent<NRThemeable>() != null)
                             {
                                 continue;
                             }

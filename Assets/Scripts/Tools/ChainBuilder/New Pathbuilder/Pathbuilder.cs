@@ -99,12 +99,10 @@ namespace NotReaper.Tools.PathBuilder
         {
 			if(tool == EditorTool.Pathbuilder && !isActive)
             {
-				isActive = true;
 				Activate(true);
             }
 			else if(tool == EditorTool.None && isActive)
             {
-				isActive = false;
 				Activate(false);
             }
         }
@@ -120,9 +118,9 @@ namespace NotReaper.Tools.PathBuilder
 
         public void Activate(bool activate)
         {
-			isActive = activate;
 			if (activate)
             {
+				isActive = true;
 				ShowUI();
 				OnActivated();
 				EditorState.SelectSnappingMode(SnappingMode.None);
@@ -139,12 +137,14 @@ namespace NotReaper.Tools.PathBuilder
 				EditorState.SelectSnappingMode(EditorState.Snapping.Previous);
 				HideUI();
 				ClearData();
+				isActive = false;
 				OnDeactivated();
             }
         }
 
 		private void SetTargetTransparency(float transparency)
         {
+			if (!isActive) return;
             if (activeTarget.data.isPathbuilderTarget)
             {
 				//NoteEnumerator notes = new(activeTarget.data.time, new QNT_Timestamp(activeTarget.data.pathbuilderData.BeatLength.tick + activeTarget.data.time.tick));
@@ -898,7 +898,7 @@ namespace NotReaper.Tools.PathBuilder
 
 		protected override void OnEscPressed(InputAction.CallbackContext context)
 		{
-			Activate(false);
+			EditorState.SelectTool(EditorTool.Pathbuilder);
 		}
 
         protected override void SetRebindConfiguration(ref RebindConfiguration options, PathbuilderKeybinds myKeybinds)

@@ -144,6 +144,11 @@ namespace NotReaper.UserInput
             }
 		}
 
+		public void CopyTargets(List<TargetData> targets)
+        {
+			clipboard = targets;
+        }
+
 		public void CutSelectedTargets()
 		{
 			CopySelectedTargets(false);
