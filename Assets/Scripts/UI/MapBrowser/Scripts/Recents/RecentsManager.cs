@@ -17,7 +17,7 @@ namespace NotReaper.MapBrowser.Recents
     {
         [SerializeField] private GameObject loadingOverlay;
         #region Fields
-        private string downloadsFolder;
+        private static string downloadsFolder;
         private static string recentDownloadsPath;
         private static List<string> recentDownloads = null;
         private static RecentWindow window = null;
@@ -37,7 +37,7 @@ namespace NotReaper.MapBrowser.Recents
         {
             LoadRecents();
             
-            window.UpdateRecentDownloads(recentDownloads);
+            window.UpdateRecentDownloads(downloadsFolder, recentDownloads);
         }
         #endregion
 
@@ -46,13 +46,13 @@ namespace NotReaper.MapBrowser.Recents
         /// Adds a file to the recents panel.
         /// </summary>
         /// <param name="fileName">The file to add.</param>
-        public static void AddRecent(string fileName)
+        public static void AddRecent(MapData data)
         {
-            if (recentDownloads.Contains(fileName)) recentDownloads.Remove(fileName);
-            recentDownloads.Insert(0, fileName);
+            if (recentDownloads.Contains(data.Filename)) recentDownloads.Remove(data.Filename);
+            recentDownloads.Insert(0, data.Filename);
             if (recentDownloads.Count > 5) recentDownloads = recentDownloads.GetRange(0, 5);
             SaveRecents();
-            window.UpdateRecentDownloads(recentDownloads);
+            window.UpdateRecentDownloads(downloadsFolder, recentDownloads);
         }
         /// <summary>
         /// Loads a map in the editor.

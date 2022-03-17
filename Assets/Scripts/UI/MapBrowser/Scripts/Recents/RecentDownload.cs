@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using NotReaper.UI.Components;
+using AudicaTools;
 
 namespace NotReaper.MapBrowser.Recents
 {
@@ -11,14 +13,14 @@ namespace NotReaper.MapBrowser.Recents
     public class RecentDownload : MonoBehaviour
     {
         private RecentType type = RecentType.Download;
-        private TextMeshProUGUI label;
+        private NRButton button;
         private RecentsManager manager;
-        private string fileName;
+        private Audica audicaFile;
         private MapData data;
 
         private void Awake()
         {
-            label = GetComponentInChildren<TextMeshProUGUI>();
+            button = GetComponent<NRButton>();
         }
 
         /// <summary>
@@ -34,10 +36,16 @@ namespace NotReaper.MapBrowser.Recents
         /// Set the filename for this recent download.
         /// </summary>
         /// <param name="fileName">The filename of the recent download.</param>
-        public void SetFilename(string fileName)
+        public void SetFilename(Audica audica)
         {
-            this.fileName = fileName;
-            label.text = this.fileName.Substring(0, this.fileName.Length - 7).ToLower();
+            this.audicaFile = audica;
+            var color = NRSettings.config.rightColor;
+            button.SetText($"{audica.desc.title} - {audica.desc.artist}\n<color=#{ColorUtility.ToHtmlStringRGBA(color)}>{audica.desc.author}");//this.fileName.Substring(0, this.fileName.Length - 7).ToLower();
+        }
+        public void SetFilename(MapData data)
+        {
+            var color = NRSettings.config.rightColor;
+            button.SetText($"{data.SongName} - {data.Artist}\n<color=#{ColorUtility.ToHtmlStringRGBA(color)}>{data.Mapper}");
         }
         /// <summary>
         /// Set the MapData of this recent release.
@@ -46,7 +54,7 @@ namespace NotReaper.MapBrowser.Recents
         public void SetMapData(MapData map)
         {
             data = map;
-            SetFilename(map.Filename);
+            SetFilename(data);
         }
 
         /// <summary>
@@ -61,18 +69,18 @@ namespace NotReaper.MapBrowser.Recents
             }
             if(type == RecentType.Download)
             {
-                manager.LoadMap(fileName);
+                manager.LoadMap(audicaFile.fileName);
             }
             else
             {
-                label.text = "downloading..";
+                button.SetText("downloading..");
                 manager.DownloadAndOpenMap(data, OnDownloadDone);
             }
         }
 
         private void OnDownloadDone()
         {
-            SetFilename(fileName);
+            SetFilename(data);
         }
     }
 

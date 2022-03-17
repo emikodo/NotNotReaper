@@ -1,6 +1,8 @@
-﻿using NotReaper.MapBrowser.API;
+﻿using AudicaTools;
+using NotReaper.MapBrowser.API;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 namespace NotReaper.MapBrowser.Recents
@@ -31,8 +33,10 @@ namespace NotReaper.MapBrowser.Recents
         /// Updates the recent buttons on the UI.
         /// </summary>
         /// <param name="fileNames">The list of recent files.</param>
-        public void UpdateRecentDownloads(List<string> fileNames)
+        public void UpdateRecentDownloads(string downloadsFolder, List<string> fileNames)
         {
+            if (type == RecentType.Release) return;
+
             if (fileNames is null || fileNames.Count == 0)
             {
                 foreach (var recent in recents) recent.gameObject.SetActive(false);
@@ -44,7 +48,16 @@ namespace NotReaper.MapBrowser.Recents
             {
                 if (i >= recents.Length || i >= fileNames.Count) break;
                 recents[i].gameObject.SetActive(true);
-                recents[i].SetFilename(fileNames[i]);
+                var path = Path.Combine(downloadsFolder, fileNames[i]);
+                if (File.Exists(path))
+                {
+                    Audica audica = new(Path.Combine(downloadsFolder, fileNames[i]));
+                    recents[i].SetFilename(audica);
+                }
+                else
+                {
+                    recents[i].gameObject.SetActive(false);
+                }
             }
         }
         /// <summary>
@@ -70,7 +83,7 @@ namespace NotReaper.MapBrowser.Recents
         /// </summary>
         public void OnClearClicked()
         {
-            UpdateRecentDownloads(null);
+            UpdateRecentDownloads("", null);
             manager.ClearRecents();
         }
     }

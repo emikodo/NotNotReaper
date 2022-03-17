@@ -166,7 +166,14 @@ namespace NotReaper.Targets {
             data.BeatLengthChangeEvent += OnSustainLengthChanged;
             data.TickChangeEvent += OnTickChanged;
             this.target = target;
-            sustainButtons.GetComponent<Canvas>().worldCamera = Timeline.instance.timelineCamera.GetComponent<Camera>();
+            if(location == TargetIconLocation.Timeline)
+            {
+                sustainButtons.GetComponent<Canvas>().worldCamera = Timeline.instance.timelineCamera.GetComponent<Camera>();
+            }
+            else
+            {
+                sustainButtons.GetComponent<Canvas>().worldCamera = Camera.main;
+            }
 
             foreach (Renderer r in gameObject.GetComponentsInChildren<Renderer>(true)) {
                 r.material.SetFloat("_FadeThreshold", 1.7f);

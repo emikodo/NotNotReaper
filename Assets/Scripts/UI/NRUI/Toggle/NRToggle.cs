@@ -54,10 +54,14 @@ namespace NotReaper.UI.Components
         private float initialRotation;
         private bool initializedPosition;
 
+        private LayoutGroup layout;
+
         private void Awake()
         {
             if (Application.isPlaying)
             {
+                layout = GetComponent<LayoutGroup>();
+
                 selected = isOn;
                 var color = GetFillColor();
                 color.a = selected ? 1f : 0f;
@@ -70,10 +74,19 @@ namespace NotReaper.UI.Components
                 }
                 if (Application.isPlaying)
                 {
-                    UpdateVisuals();
+                    //UpdateVisuals();
+                    StartCoroutine(UpdateLayout());
                 }
             }
             
+        }
+
+        private IEnumerator UpdateLayout()
+        {
+            layout.enabled = false;
+            yield return new WaitForEndOfFrame();
+            layout.enabled = true;
+            //fitter.enabled = false;
         }
 
         protected override void Start()

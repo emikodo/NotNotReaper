@@ -178,6 +178,7 @@ public class UISettings : MonoBehaviour
         Timeline.instance.SortOrderedList();
         foreach(Target t in Timeline.orderedNotes)
         {
+            if (t.data.behavior == TargetBehavior.Legacy_Pathbuilder) continue;
             cues.Add(t.ToCue());
         }
 

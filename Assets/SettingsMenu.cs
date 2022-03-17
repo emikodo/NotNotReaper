@@ -8,6 +8,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using NotReaper.UI.Components;
+using NotReaper.Notifications;
 
 public class SettingsMenu : MonoBehaviour
 {
@@ -84,7 +85,7 @@ public class SettingsMenu : MonoBehaviour
         NRSettings.config.savedMapperName = savedMapperField.text;
         NRSettings.config.maudicaToken = maudicaAccountToken.text;
         NRSettings.config.backups = autoSave.selected;
-        WarningText.SetActive(true);
+        NotificationCenter.SendNotification("Config saved. Restart NR to apply changes.", NotificationType.Success);
         NRSettings.SaveSettingsJson();
         ThemeableManager.UpdateColors();
     }

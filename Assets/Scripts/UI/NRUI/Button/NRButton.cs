@@ -109,7 +109,7 @@ namespace NotReaper.UI.Components
             if (Application.isPlaying)
             {
                 initialScale = transform.localScale;
-                UpdateVisuals();
+                //UpdateVisuals();
             }
         }
 
