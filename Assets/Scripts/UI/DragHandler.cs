@@ -10,7 +10,7 @@ using UnityEngine.InputSystem;
 
 public class DragHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
-    private bool isMouseDown = false;
+    internal bool isMouseDown = false;
     private Vector3 startMousePosition;
     private Vector3 startPosition;
     public bool shouldReturn;
@@ -19,7 +19,7 @@ public class DragHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     public float minMoveDistanceBeforeDragStart = 0f;
     private Vector2 mouseStartPosScreen;
     internal bool isCanvasInOverlayMode;
-
+    private bool threshholdMet = false;
     private InputAction mousePosition;
     private void Awake()
     {
@@ -48,9 +48,8 @@ public class DragHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 
     public void OnPointerUp(PointerEventData dt)
     {
-
         isMouseDown = false;
-
+        threshholdMet = false;
         if (shouldReturn)
         {
             transform.position = startPosition;
@@ -63,8 +62,9 @@ public class DragHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         if (isMouseDown)
         {
             float moveDistance = Math.Abs(mouseStartPosScreen.magnitude - mousePosition.ReadValue<Vector2>().magnitude);
-            if (moveDistance > minMoveDistanceBeforeDragStart)
+            if (moveDistance > minMoveDistanceBeforeDragStart || threshholdMet)
             {
+                threshholdMet = true;
                 Vector3 mousePos;
                 if (isCanvasInOverlayMode)
                 {

@@ -85,6 +85,7 @@ namespace NotReaper.UI.Components
         {
             if (Application.isPlaying)
             {
+                initialized = true;
                 underline.color = underlineTheme == Theme.OutlineColor ? skin.outlineColor : underlineTheme == Theme.LeftHand ? NRSettings.config.leftColor : underlineTheme == Theme.RightHand ? NRSettings.config.rightColor : NRSettings.config.selectedHighlightColor;
                 if (underlineTheme == Theme.CurrentHandColor || underlineTheme == Theme.OppositeHandColor)
                 {
@@ -157,6 +158,13 @@ namespace NotReaper.UI.Components
             if (!Application.isPlaying) return;
             if (initialized)
             {
+                if (!stayOnSelected)
+                {
+                    background.transform.DOKill();
+                    background.DOKill();
+                    isMouseOver = false;
+                    isSelected = false;
+                }
                 background.transform.localPosition = initialPosition;
                 background.transform.localScale = initialScale;                
                 background.color = skin.defaultColor;

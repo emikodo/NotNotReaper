@@ -28,7 +28,7 @@ namespace NotReaper.Overlays
         [SerializeField] private bool rememberPosition = true;
         [SerializeField] private Location defaultOpeningLocation = Location.BottomRight;
         [Space]
-        private DragHandler drag;
+        protected DragHandler drag;
         protected Timeline timeline;
         protected RectTransform rect;
         protected CanvasGroup canvas;
@@ -148,6 +148,11 @@ namespace NotReaper.Overlays
             }
             position.z = 0f;
             return position;
+        }
+
+        internal string GetMenuName()
+        {
+            return overlayName;
         }
     }
 }

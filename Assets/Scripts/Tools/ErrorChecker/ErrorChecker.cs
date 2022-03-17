@@ -27,16 +27,10 @@ namespace NotReaper.Tools.ErrorChecker
 
         public Timeline timeline;
 
-        public GameObject errorCheckUI;
-        public TextMeshProUGUI errorCountText;
-        public TextMeshProUGUI errorBodyText;
-
         private QNT_Duration chainLeadTime = new QNT_Duration(360);
         private QNT_Duration sustainLeadTime = new QNT_Duration(360);
+        [NRInject] private ErrorCheckerUI ui;
 
-        private void Start() {
-	        errorCheckUI.SetActive(false);
-        }
 
         public void RunErrorCheck()
         {
@@ -85,17 +79,17 @@ namespace NotReaper.Tools.ErrorChecker
             UpdateErrorCount();
 
             currentErrorIndex = -1;
-            if (currentErrors.Count == 0) errorBodyText.text = "Everything is looking good: No Errors found!";
+            if (currentErrors.Count == 0) ui.SetErrorBody("Everything is looking good: No Errors found!");
             NextError();
         }
 
 
         public void EnableErrorCheckingUI() {
-	        errorCheckUI.SetActive(true);
+            ui.Show();
         }
 
         public void DisableErrorCheckingUI() {
-	        errorCheckUI.SetActive(false);
+            ui.Hide();
         }
 
         public void NextError() {
@@ -118,7 +112,7 @@ namespace NotReaper.Tools.ErrorChecker
 
 	        if (currentError == null) return;
 	        
-	        errorBodyText.SetText(currentError.errorDesc);
+	        ui.SetErrorBody(currentError.errorDesc);
 	        
 	        if (!timeline.paused) timeline.TogglePlayback();
 	        //timeline.JumpToX(currentError.beatTime);
@@ -148,8 +142,8 @@ namespace NotReaper.Tools.ErrorChecker
 	        currentError = currentErrors[currentErrorIndex];
 
 	        if (currentError == null) return;
-	        
-	        errorBodyText.SetText(currentError.errorDesc);
+
+            ui.SetErrorBody(currentError.errorDesc);
 	        
 	        if (!timeline.paused) timeline.TogglePlayback();
 
@@ -166,7 +160,7 @@ namespace NotReaper.Tools.ErrorChecker
         }
 
         public void UpdateErrorCount() {
-	        errorCountText.SetText("Errors: " + currentErrors.Count);
+	        ui.SetErrorCount(currentErrors.Count);
         }
         
         

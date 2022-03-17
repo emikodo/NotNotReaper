@@ -53,7 +53,7 @@ namespace NotReaper.Notifications
                 sequence.OnComplete(() => OnFadeoutComplete());
                 //sequence.Append(transform.DOMoveX(transform.position.x - .2f, .1f));
                 //sequence.Append(transform.DOMoveX(transform.position.x + 10f, .5f).SetEase(Ease.InExpo));
-                sequence.Append(transform.DOMoveX(transform.position.x + 10f, fadeOutSpeed).SetEase(Ease.InBack));
+                sequence.Append(transform.DOMoveX(transform.position.x + 400f, fadeOutSpeed * .75f).SetEase(Ease.InBack));
                 sequence.Join(canvas.DOFade(0f, fadeOutSpeed));
                 sequence.Play();
             }

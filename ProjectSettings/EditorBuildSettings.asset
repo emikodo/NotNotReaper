@@ -83,6 +83,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/UI/Presets.unity
     guid: 3beb35d6ca676e24fac09c987bbff26d
+  - enabled: 1
+    path: Assets/Scenes/UI/ErrorChecker.unity
+    guid: a5a65aaaa2b7f2a47a06f78315f6c9d6
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: ab11a012358d93e4cb5071d406d2fd28,
       type: 2}

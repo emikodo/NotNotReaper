@@ -66,14 +66,34 @@ namespace NotReaper.MenuBrowser
             if (initialized) return;
 
             initialized = true;
-            foreach(var entry in MenuRegistration.menuEntries)
+            var entries = new Dictionary<string, MonoBehaviour>();
+            foreach(var menu in MenuRegistration.menuEntries)
+            {
+                entries.Add(menu.Key, menu.Value);
+            }
+            foreach(var overlay in MenuRegistration.overlayEntries)
+            {
+                entries.Add(overlay.Key, overlay.Value);
+            }
+            foreach(var entry in entries.OrderBy(entry => entry.Key))
+            {
+                if (entry.Value.GetType().BaseType == typeof(NROverlay))
+                {
+                    CreateOverlayEntry(entry.Key, entry.Value as NROverlay);
+                }
+                else
+                {
+                    CreateMenuEntry(entry.Key, entry.Value as NRMenu);
+                } 
+            }
+            /*foreach(var entry in MenuRegistration.menuEntries)
             {
                 CreateMenuEntry(entry.Key, entry.Value);
             }
             foreach(var entry in MenuRegistration.overlayEntries)
             {
                 CreateOverlayEntry(entry.Key, entry.Value);
-            }
+            }*/
             foreach(var entry in MenuRegistration.keybindEntries)
             {
                 CreateKeybindEntry(entry);
