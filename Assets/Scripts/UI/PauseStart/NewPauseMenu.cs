@@ -8,6 +8,7 @@ using TMPro;
 using UnityEngine.UI;
 using NotReaper.Maudica;
 using NotReaper.Audio;
+using NotReaper.UI.Components;
 
 namespace NotReaper.UI
 {
@@ -32,9 +33,12 @@ namespace NotReaper.UI
         [Space, Header("BG")]
         [SerializeField] private GameObject bg;
         [SerializeField] private GameObject pulseBG;
+        [Space, Header("Groups")]
+        [SerializeField] private NRButtonGroup menuGroup;
+
 
         private View activeView;
-
+        private View previousView;
         private bool isInStartScreen = true;
 
         protected override void Awake()
@@ -54,7 +58,6 @@ namespace NotReaper.UI
             Color c = nrStartOverlay.color;
             c.a = 1f;
             nrStartOverlay.color = c;
-
             cam.enabled = false;
             Show();
         }
@@ -85,11 +88,6 @@ namespace NotReaper.UI
             browserView.gameObject.SetActive(true);
             settingsView.gameObject.SetActive(true);
             volumePanel.SetActive(false);
-        }
-
-        public Camera GetMainMenuCamera()
-        {
-            return cam;
         }
 
         private void SetViewEnabled(View menu, bool enabled)
@@ -127,27 +125,11 @@ namespace NotReaper.UI
             OnDeactivated();
             bg.gameObject.SetActive(false);
             pulseBG.gameObject.SetActive(false);
-            /*
-            Sequence animation = DOTween.Sequence();
-            animation.Append(canvas.DOFade(0f, .5f));
-            animation.OnComplete(() =>
-            {
-                gameObject.SetActive(false);
-                if (isInStartScreen)
-                {
-                    isInStartScreen = false;
-                }
-                Reset();
-                OnDeactivated();
-            });
-            animation.Play();
-            */
         }
 
         public void OnOpenFile()
         {
             StartCoroutine(timeline.LoadAudicaFile(false, null, -1, OnLoaded));
-            //editorInput.FigureOutIsInUI();
         }
 
         private void OnLoaded(bool success)
@@ -185,7 +167,15 @@ namespace NotReaper.UI
 
         public void OnSettingsPressed()
         {
-            ChangeView(settingsView);
+            if(activeView == settingsView)
+            {
+                ChangeView(previousView);
+            }
+            else
+            {
+                menuGroup.DeselectActiveButton();
+                ChangeView(settingsView);
+            }
         }
 
         private Sequence fadeOutAnimation;
@@ -193,17 +183,30 @@ namespace NotReaper.UI
         private void ChangeView(View newView) 
         {
             if (newView == activeView) return;
-            if (fadeInAnimation != null)
-            {
-                fadeInAnimation.Complete();
-            }
+            previousView = activeView;
             if (fadeOutAnimation != null)
             {
-                fadeOutAnimation.Complete();
+                fadeOutAnimation.Kill(true);
+            }
+            if (fadeInAnimation != null)
+            {
+                fadeInAnimation.Kill(true);
             }
             var currentView = activeView;
             activeView = newView;
             Sequence animation = DOTween.Sequence();
+            animation.Append(currentView.canvas.DOFade(0f, .3f));
+            animation.Join(newView.canvas.DOFade(1f, .3f));
+            animation.OnComplete(() =>
+            {
+                currentView.Hide();
+                newView.Show();
+                SetViewEnabled(currentView, false);
+                SetViewEnabled(newView, true);
+            });
+            animation.Play();
+            fadeInAnimation = animation;
+            /*
             animation.Append(currentView.canvas.DOFade(0f, .3f));
             animation.OnComplete(() =>
             {
@@ -222,6 +225,7 @@ namespace NotReaper.UI
             });
             this.fadeOutAnimation = animation;
             animation.Play();
+            */
         }
 
         protected override void OnEscPressed(InputAction.CallbackContext context)

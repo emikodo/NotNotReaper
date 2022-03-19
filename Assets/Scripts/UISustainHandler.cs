@@ -26,8 +26,8 @@ public class UISustainHandler : MonoBehaviour
     public GameObject deleteSustainButtonRight;
     public Image leftButtonPanel;
     public Image rightButtonPanel;
-    public MoggSong sustainSongLeft { get; set; }
-    public MoggSong sustainSongRight { get; set; }
+    public MoggSong sustainSongLeft { get; set; } = new();
+    public MoggSong sustainSongRight { get; set; } = new();
 
     //public bool isPlayingSustains = false;
 

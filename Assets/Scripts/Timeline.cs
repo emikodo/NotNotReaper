@@ -348,6 +348,15 @@ namespace NotReaper
         public delegate void OnAudicaLoaded(AudicaFile file);
         public static event OnAudicaLoaded onAudicaLoaded;
 
+        private GridTargetPool gridPool;
+        private TimelineTargetPool timelinePool;
+
+        private void Awake()
+        {
+            gridPool = GetComponent<GridTargetPool>();
+            timelinePool = GetComponent<TimelineTargetPool>();
+        }
+
         //Tools
         private void Start()
         {
@@ -673,7 +682,8 @@ namespace NotReaper
         public Target AddTargetFromAction(TargetData targetData, bool transient = false)
         {
 
-            var timelineTargetIcon = Instantiate(timelineTargetIconPrefab, timelineTransformParent);
+            //var timelineTargetIcon = Instantiate(timelineTargetIconPrefab, timelineTransformParent);
+            var timelineTargetIcon = timelinePool.Spawn();
             timelineTargetIcon.location = TargetIconLocation.Timeline;
             var transform1 = timelineTargetIcon.transform;
             transform1.localPosition = new Vector3(targetData.time.ToBeatTime(), 0, 0);
@@ -682,7 +692,8 @@ namespace NotReaper
             noteScale.x = targetScale; // + (1f - NRSettings.config);
             transform1.localScale = noteScale;
 
-            var gridTargetIcon = Instantiate(gridTargetIconPrefab, gridTransformParent);
+            //var gridTargetIcon = Instantiate(gridTargetIconPrefab, gridTransformParent);
+            var gridTargetIcon = gridPool.Spawn();
             gridTargetIcon.transform.localPosition = new Vector3(targetData.x, targetData.y, targetData.time.ToBeatTime());
 
             gridTargetIcon.transform.localScale = new Vector3(NRSettings.config.noteScale, NRSettings.config.noteScale, 1f);
@@ -1389,6 +1400,8 @@ namespace NotReaper
             selectedNotes.Remove(target);
 
             target.Destroy(this);
+            timelinePool.Return(target.timelineTargetIcon);
+            gridPool.Return(target.gridTargetIcon);
             target = null;
             UpdateLoadedNotes();
         }
@@ -1407,6 +1420,8 @@ namespace NotReaper
             foreach (Target target in notesTemp)
             {
                 target.Destroy(this);
+                timelinePool.Return(target.timelineTargetIcon);
+                gridPool.Return(target.gridTargetIcon);
             }
 
             notes = new List<Target>();
@@ -1730,8 +1745,7 @@ namespace NotReaper
             yield return StartCoroutine(GetAudioClip($"file://{Application.dataPath}/.cache/{audicaFile.desc.cachedMainSong}.ogg"));
             if (audicaFile.desc.sustainSongLeft != "") StartCoroutine(LoadLeftSustain($"file://{Application.dataPath}/.cache/{audicaFile.desc.cachedSustainSongLeft}.ogg"));
             if (audicaFile.desc.sustainSongRight != "") StartCoroutine(LoadRightSustain($"file://{Application.dataPath}/.cache/{audicaFile.desc.cachedSustainSongRight}.ogg"));
-            StartCoroutine(LoadExtraAudio($"file://{Application.dataPath}/.cache/{audicaFile.desc.cachedFxSong}.ogg"));
-
+            yield return StartCoroutine(LoadExtraAudio($"file://{Application.dataPath}/.cache/{audicaFile.desc.cachedFxSong}.ogg"));
             //foreach (Cue cue in audicaFile.diffs.expert.cues) {
             //AddTarget(cue);
             //}
@@ -1900,7 +1914,7 @@ namespace NotReaper
             {
                 yield return www.SendWebRequest();
 
-                if (www.result == UnityWebRequest.Result.ConnectionError)
+                if ( www.result != UnityWebRequest.Result.Success)
                 {
                     Debug.Log(www.error);
                 }
@@ -2570,6 +2584,7 @@ namespace NotReaper
 
             //OptimizeInvisibleTargets ();
         }
+
         private QNT_Timestamp bpmDragOffset;
 
         public void SetBPMDragOffset(QNT_Timestamp offset)
@@ -3508,7 +3523,8 @@ namespace NotReaper
                     if (type == LoadType.Song) StartCoroutine(GetAudioClip(filePath));
                 }
             }
-
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
             File.Delete(mainSongPath);
             File.Copy(filePath, mainSongPath);
             if (type == LoadType.Sustain)

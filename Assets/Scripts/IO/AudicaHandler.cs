@@ -139,7 +139,6 @@ namespace NotReaper.IO {
             {
                 audicaFile.modifiers = JsonUtility.FromJson<ModifierList>(File.ReadAllText($"{appPath}/.cache/modifiers.json"));
             }
-
 			MemoryStream temp = new MemoryStream();
 
 			//Load the names of the moggs

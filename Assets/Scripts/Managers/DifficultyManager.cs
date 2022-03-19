@@ -310,7 +310,6 @@ namespace NotReaper.Managers
             {
                 timeline.AddTargetFromAction(timeline.GetTargetDataForCue(cue));
             }
-
             if (cueFile.NRCueData != null)
             {
                 if (cueFile.NRCueData.pathBuilderNoteData.Count == cueFile.NRCueData.pathBuilderNoteCues.Count)
@@ -386,7 +385,6 @@ namespace NotReaper.Managers
                     timeline.loadRepeaterSectionAfterAudio = cueFile.NRCueData.repeaterSections;
                 }
             }
-
             EditorState.SelectMode(EditorMode.Compose);
 
             return true;

@@ -314,7 +314,7 @@ namespace NotReaper.Tools.PathBuilder
 			intervalOverride = data.IntervalOverride;
 			for(int i = 0; i < segmentData.Count; i++)
             {
-				var segment = segmentPool.Spawn(pathbuilderParent);
+				var segment = segmentPool.Spawn();
 				segment.Initialize(this, actions);
 				if(i != 0)
                 {
@@ -447,7 +447,7 @@ namespace NotReaper.Tools.PathBuilder
 			beatLengthOverride = Constants.QuarterNoteDuration;
 			timeline.DeselectAllTargets();
 			timeline.SelectTarget(activeTarget);
-			var segment = segmentPool.Spawn(pathbuilderParent);
+			var segment = segmentPool.Spawn();
 			segment.Initialize(this, actions);
 			segment.StartNewSegment(actions, activeTarget.gridTargetIcon.transform, activeTarget, this, segments.Count);
 			//segments.Add(segment);
@@ -467,7 +467,7 @@ namespace NotReaper.Tools.PathBuilder
 					return;
                 }
             }
-			var segment = segmentPool.Spawn(pathbuilderParent);
+			var segment = segmentPool.Spawn();
 			lastSegment.childSegment = segment;
 			segment.parentSegment = lastSegment;
 			segment.StartNewSegment(actions, lastSegment.GetSegmentEndPoint(), activeTarget, this, segments.Count);

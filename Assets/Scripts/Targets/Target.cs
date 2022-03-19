@@ -136,12 +136,12 @@ namespace NotReaper.Targets {
 		}
 
 		public void Destroy(Timeline timeline) {
-			if(gridTargetIcon) {
+			/*if(gridTargetIcon) {
 				UnityEngine.Object.Destroy(gridTargetIcon.gameObject);
 			}
 			if(timelineTargetIcon) {
 				UnityEngine.Object.Destroy(timelineTargetIcon.gameObject);
-			}
+			}*/
 
 			data.PositionChangeEvent -= OnGridPositionChanged;
 			data.HandTypeChangeEvent -= OnHandTypeChanged;

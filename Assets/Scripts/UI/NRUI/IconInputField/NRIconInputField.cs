@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace NotReaper.UI.Components
@@ -57,6 +58,8 @@ namespace NotReaper.UI.Components
         }
 
         private bool initialized;
+        internal int index;
+        internal bool isFocused;
 
         protected override void Start()
         {
@@ -84,6 +87,11 @@ namespace NotReaper.UI.Components
             iconDisplay = circle.transform.GetChild(0).GetComponent<Image>();
         }
 
+        internal void Select()
+        {
+            inputField.Select();
+        }
+
         private void SetText(string text)
         {
             inputField.SetTextWithoutNotify(text);
@@ -96,6 +104,7 @@ namespace NotReaper.UI.Components
 
         private void OnSelected(string _)
         {
+            isFocused = true;
             var color = GetOutlineColor();
             outline.DOColor(color, animationDuration);
             circle.DOColor(color, animationDuration);
@@ -104,6 +113,7 @@ namespace NotReaper.UI.Components
 
         private void OnDeselected(string _)
         {
+            isFocused = false;
             outline.DOColor(skin.outlineColor, animationDuration);
             circle.DOColor(skin.outlineColor, animationDuration);
             title.DOColor(skin.textColor, animationDuration);

@@ -23,6 +23,7 @@ namespace NotReaper.Models
                 if (line.Contains("(pans")) this.volume = GetMoggVolFromLine(line, isSustain);
             }
         }
+        public MoggSong() { }
         public MoggVol GetMoggVolFromLine(string line, bool isSustain)
         {
             try
@@ -51,6 +52,8 @@ namespace NotReaper.Models
 
         public string ExportToText(bool isSustain)
         {
+            if (moggString == null) return "";
+
             string[] exportString = moggString;
             int volIndex = 0;
             int panIndex = 0;

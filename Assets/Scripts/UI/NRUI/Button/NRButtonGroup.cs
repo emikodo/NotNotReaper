@@ -9,6 +9,7 @@ namespace NotReaper.UI.Components
         [Header("Skin")]
         public NRButtonSkin skin;
         [Space, Header("Group")]
+        public NRButton defaultSelectedButton;
         public bool allowMultipleSelected = false;
         [Space, Header("Animation")]
         [Range(.01f, 1f)] public float animationDuration = .25f;
@@ -40,7 +41,7 @@ namespace NotReaper.UI.Components
         private NRButton selectedButton;
 
         private void Start()
-        {
+        {            
             foreach(var button in independentButtons)
             {
                 button.OverrideStayOnSelected(stayOnSelected, SetSelectedButton);
@@ -48,6 +49,22 @@ namespace NotReaper.UI.Components
             foreach(var button in buttons)
             {
                 button.UpdateVisuals();
+            }
+            if (Application.isPlaying)
+            {
+                if (defaultSelectedButton != null)
+                {
+                    defaultSelectedButton.SetDefaultSelected();
+                }
+            }
+        }
+
+        public void DeselectActiveButton()
+        {
+            if(selectedButton != null)
+            {
+                selectedButton.Deselect();
+                selectedButton = null;
             }
         }
 
@@ -87,7 +104,7 @@ namespace NotReaper.UI.Components
 
         public void SetSelectedButton(NRButton button)
         {
-            if (allowMultipleSelected) return;
+            if (allowMultipleSelected || selectedButton == button) return;
             if(selectedButton != null)
             {
                 selectedButton.Deselect();

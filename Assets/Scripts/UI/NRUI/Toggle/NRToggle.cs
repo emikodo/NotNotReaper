@@ -95,7 +95,7 @@ namespace NotReaper.UI.Components
             if (Application.isPlaying)
             {
                 effects = NRDependencyInjector.Get<SoundEffects>();
-                cam = NRDependencyInjector.Get<NewPauseMenu>().GetMainMenuCamera();
+                cam = CameraProvider.menu;
             }
 
 

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using NotReaper.UI.Components;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,20 +7,21 @@ namespace NotReaper.UI
 {
     public class SettingsView : View
     {
-        [SerializeField] private GameObject keybinds;
+        [SerializeField] private NRIconInputGroup inputGroup;
 
-        public override void Hide() { }
-
-        public override void Show() { }
-
-        public void OpenKeybinds()
+        private void Awake()
         {
-            keybinds.SetActive(true);
+            inputGroup.enabled = false;
         }
 
-        public void CloseKeybinds()
+        public override void Hide() 
         {
-            keybinds.SetActive(false);
+            inputGroup.enabled = false;
+        }
+
+        public override void Show() 
+        {
+            inputGroup.enabled = true;
         }
     }
 }

@@ -5,6 +5,7 @@ using DG.Tweening;
 using NotReaper.BpmAlign;
 using TMPro;
 using NotReaper.Notifications;
+using NotReaper.UI.Components;
 
 namespace NotReaper.UI
 {
@@ -16,6 +17,8 @@ namespace NotReaper.UI
         [Space, Header("Views")]
         [SerializeField] private CanvasGroup metadataView;
         [SerializeField] private CanvasGroup genreView;
+        [Space, Header("Input Group")]
+        [SerializeField] private NRIconInputGroup inputGroup;
 
         [NRInject] private NewPauseMenu pauseMenu;
         private CanvasGroup activeView, previousView;
@@ -23,6 +26,7 @@ namespace NotReaper.UI
         private bool skipAlignment;
         private void Start()
         {
+            inputGroup.enabled = false;
             activeView = metadataView;
             genreView.blocksRaycasts = false;
             skipAlignmentButton.SetActive(false);
@@ -31,11 +35,12 @@ namespace NotReaper.UI
         }
         public override void Hide()
         {
-
+            inputGroup.enabled = false;
         }
 
         public override void Show()
         {
+            inputGroup.enabled = true;
             manager.UpdateUIVales();
         }
 

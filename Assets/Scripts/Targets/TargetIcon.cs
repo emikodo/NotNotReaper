@@ -168,11 +168,11 @@ namespace NotReaper.Targets {
             this.target = target;
             if(location == TargetIconLocation.Timeline)
             {
-                sustainButtons.GetComponent<Canvas>().worldCamera = Timeline.instance.timelineCamera.GetComponent<Camera>();
+                sustainButtons.GetComponent<Canvas>().worldCamera = CameraProvider.timeline;
             }
             else
             {
-                sustainButtons.GetComponent<Canvas>().worldCamera = Camera.main;
+                sustainButtons.GetComponent<Canvas>().worldCamera = CameraProvider.main;
             }
 
             foreach (Renderer r in gameObject.GetComponentsInChildren<Renderer>(true)) {
@@ -185,6 +185,11 @@ namespace NotReaper.Targets {
         }
 
         public void OnDestroy() {
+            if (location == TargetIconLocation.Timeline)
+            {
+                Destroy(childComponents.gameObject);
+            }
+            /*
             data.HandTypeChangeEvent -= OnHandTypeChanged;
             data.BehaviourChangeEvent -= OnBehaviorChanged;
             data.BeatLengthChangeEvent -= OnSustainLengthChanged;
@@ -193,6 +198,7 @@ namespace NotReaper.Targets {
             {
                 Destroy(childComponents.gameObject);
             }
+            */
         }
 
         public void ReplaceData(TargetData newData) {
@@ -603,7 +609,6 @@ namespace NotReaper.Targets {
             if(data.behavior == TargetBehavior.ChainNode) {
                 NoteEnumerator iter = new NoteEnumerator(new QNT_Timestamp(0), data.time);
                 iter.reverse = true;
-                
                 foreach(Target t in iter) {
                     if(t.data.behavior == TargetBehavior.ChainStart && t.data.handType == data.handType) {
                         foreach (Renderer r in gameObject.GetComponentsInChildren<Renderer>(true)) {

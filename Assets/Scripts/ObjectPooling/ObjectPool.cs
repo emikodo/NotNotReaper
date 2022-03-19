@@ -42,7 +42,7 @@ namespace NotReaper.ObjectPooling
         /// Gets an object from the pool.
         /// </summary>
         /// <returns>A pooled object.</returns>
-        public T Spawn(Transform parent)
+        public T Spawn()
         {
             T obj;
 

@@ -89,6 +89,15 @@ public partial class @GlobalKeybinds : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Tab"",
+                    ""type"": ""Button"",
+                    ""id"": ""69dfd8ec-9ce2-4ad1-ba63-638ad9fb932f"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -179,6 +188,17 @@ public partial class @GlobalKeybinds : IInputActionCollection2, IDisposable
                     ""action"": ""Scroll"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b3a09c90-1442-4a2f-81f2-f2e88157667a"",
+                    ""path"": ""<Keyboard>/tab"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Tab"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -194,6 +214,7 @@ public partial class @GlobalKeybinds : IInputActionCollection2, IDisposable
         m_Global_MousePosition = m_Global.FindAction("MousePosition", throwIfNotFound: true);
         m_Global_MouseDown = m_Global.FindAction("MouseDown", throwIfNotFound: true);
         m_Global_Scroll = m_Global.FindAction("Scroll", throwIfNotFound: true);
+        m_Global_Tab = m_Global.FindAction("Tab", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -260,6 +281,7 @@ public partial class @GlobalKeybinds : IInputActionCollection2, IDisposable
     private readonly InputAction m_Global_MousePosition;
     private readonly InputAction m_Global_MouseDown;
     private readonly InputAction m_Global_Scroll;
+    private readonly InputAction m_Global_Tab;
     public struct GlobalActions
     {
         private @GlobalKeybinds m_Wrapper;
@@ -271,6 +293,7 @@ public partial class @GlobalKeybinds : IInputActionCollection2, IDisposable
         public InputAction @MousePosition => m_Wrapper.m_Global_MousePosition;
         public InputAction @MouseDown => m_Wrapper.m_Global_MouseDown;
         public InputAction @Scroll => m_Wrapper.m_Global_Scroll;
+        public InputAction @Tab => m_Wrapper.m_Global_Tab;
         public InputActionMap Get() { return m_Wrapper.m_Global; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -301,6 +324,9 @@ public partial class @GlobalKeybinds : IInputActionCollection2, IDisposable
                 @Scroll.started -= m_Wrapper.m_GlobalActionsCallbackInterface.OnScroll;
                 @Scroll.performed -= m_Wrapper.m_GlobalActionsCallbackInterface.OnScroll;
                 @Scroll.canceled -= m_Wrapper.m_GlobalActionsCallbackInterface.OnScroll;
+                @Tab.started -= m_Wrapper.m_GlobalActionsCallbackInterface.OnTab;
+                @Tab.performed -= m_Wrapper.m_GlobalActionsCallbackInterface.OnTab;
+                @Tab.canceled -= m_Wrapper.m_GlobalActionsCallbackInterface.OnTab;
             }
             m_Wrapper.m_GlobalActionsCallbackInterface = instance;
             if (instance != null)
@@ -326,6 +352,9 @@ public partial class @GlobalKeybinds : IInputActionCollection2, IDisposable
                 @Scroll.started += instance.OnScroll;
                 @Scroll.performed += instance.OnScroll;
                 @Scroll.canceled += instance.OnScroll;
+                @Tab.started += instance.OnTab;
+                @Tab.performed += instance.OnTab;
+                @Tab.canceled += instance.OnTab;
             }
         }
     }
@@ -339,5 +368,6 @@ public partial class @GlobalKeybinds : IInputActionCollection2, IDisposable
         void OnMousePosition(InputAction.CallbackContext context);
         void OnMouseDown(InputAction.CallbackContext context);
         void OnScroll(InputAction.CallbackContext context);
+        void OnTab(InputAction.CallbackContext context);
     }
 }

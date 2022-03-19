@@ -1235,7 +1235,6 @@ MonoBehaviour:
   title: new audica
   fontSize: 30
   useUnderline: 1
-  animationDuration: 0.5
   textContainer: {fileID: 1400471937}
   underline: {fileID: 1927484262}
 --- !u!114 &17980975
@@ -2994,7 +2993,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.45, b: 0.45, a: 1}
+  m_Color: {r: 0.73, g: 0.44, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -3915,7 +3914,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.45, g: 0.78392863, b: 1, a: 1}
+  m_Color: {r: 0.44, g: 0.78, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -4448,7 +4447,6 @@ MonoBehaviour:
   title: browser
   fontSize: 30
   useUnderline: 1
-  animationDuration: 0.5
   textContainer: {fileID: 1155343940}
   underline: {fileID: 1079907403}
 --- !u!114 &76383706
@@ -4826,7 +4824,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.45, b: 0.45, a: 1}
+  m_Color: {r: 0.73, g: 0.44, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -5796,10 +5794,10 @@ RectTransform:
   m_Father: {fileID: 1422296850}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 55.254997, y: 0}
-  m_SizeDelta: {x: 0, y: 19.89}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 55.254997, y: -9.945}
+  m_SizeDelta: {x: 60.51, y: 19.89}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &97258851
 MonoBehaviour:
@@ -10382,7 +10380,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.45, g: 0.78392863, b: 1, a: 1}
+  m_Color: {r: 0.44, g: 0.78, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -12025,7 +12023,6 @@ MonoBehaviour:
   title: <color=purple>not</color>reaper
   fontSize: 30
   useUnderline: 1
-  animationDuration: 0.5
   textContainer: {fileID: 1108234824}
   underline: {fileID: 1475062129}
 --- !u!114 &206074798
@@ -12287,7 +12284,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.45, g: 0.78392863, b: 1, a: 1}
+  m_Color: {r: 0.44, g: 0.78, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -14415,7 +14412,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.45, b: 0.45, a: 1}
+  m_Color: {r: 0.73, g: 0.44, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -15427,7 +15424,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.45, b: 0.45, a: 0}
+  m_Color: {r: 0.73, g: 0.44, b: 1, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -17496,6 +17493,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skin: {fileID: 11400000, guid: bbebec8b76e13a749a8037dbf7a83ef5, type: 2}
+  defaultSelectedButton: {fileID: 0}
   allowMultipleSelected: 1
   animationDuration: 0.25
   growOnHover: 1
@@ -17549,10 +17547,10 @@ RectTransform:
   m_Father: {fileID: 1008422720}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 55.58, y: 0}
-  m_SizeDelta: {x: 0, y: 19.89}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 55.58, y: -9.945}
+  m_SizeDelta: {x: 61.16, y: 19.89}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &288693112
 MonoBehaviour:
@@ -18538,9 +18536,9 @@ RectTransform:
   m_Father: {fileID: 1697667917}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 10, y: -10}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &298941726
@@ -19046,7 +19044,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.45, g: 0.78392863, b: 1, a: 1}
+  m_Color: {r: 0.44, g: 0.78, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -19854,6 +19852,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skin: {fileID: 11400000, guid: bbebec8b76e13a749a8037dbf7a83ef5, type: 2}
+  defaultSelectedButton: {fileID: 0}
   allowMultipleSelected: 0
   animationDuration: 0.25
   growOnHover: 1
@@ -19885,7 +19884,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0a9fae5cb49dc64abba4f2d21f08235, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  keybinds: {fileID: 0}
+  inputGroup: {fileID: 1679582882}
 --- !u!225 &340329459
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -19894,7 +19893,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 340329455}
   m_Enabled: 1
-  m_Alpha: 1
+  m_Alpha: 0
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
@@ -22986,7 +22985,6 @@ MonoBehaviour:
   title: Genre
   fontSize: 30
   useUnderline: 1
-  animationDuration: 0.5
   textContainer: {fileID: 1053956786}
   underline: {fileID: 729954030}
 --- !u!114 &381072383
@@ -23998,7 +23996,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 58.865, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &400815115
@@ -24926,7 +24924,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 407924624}
   m_Enabled: 1
-  m_Alpha: 0
+  m_Alpha: 1
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
@@ -25007,7 +25005,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.45, b: 0.45, a: 1}
+  m_Color: {r: 0.73, g: 0.44, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -25693,9 +25691,9 @@ RectTransform:
   m_Father: {fileID: 802908636}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 10, y: -10}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &430240938
@@ -26687,9 +26685,9 @@ RectTransform:
   m_Father: {fileID: 910898455}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 10, y: -10}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &452194844
@@ -29626,7 +29624,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.45, b: 0.45, a: 1}
+  m_Color: {r: 0.73, g: 0.44, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -30451,10 +30449,10 @@ RectTransform:
   m_Father: {fileID: 910898455}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 47.235, y: 0}
-  m_SizeDelta: {x: 0, y: 19.89}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 47.235, y: -9.945}
+  m_SizeDelta: {x: 44.47, y: 19.89}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &509026762
 MonoBehaviour:
@@ -39678,6 +39676,7 @@ MonoBehaviour:
   skipAlignmentButton: {fileID: 2015539448}
   metadataView: {fileID: 1197786372}
   genreView: {fileID: 1244504087}
+  inputGroup: {fileID: 1649986676}
 --- !u!114 &687441295
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -39732,6 +39731,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skin: {fileID: 11400000, guid: bbebec8b76e13a749a8037dbf7a83ef5, type: 2}
+  defaultSelectedButton: {fileID: 0}
   allowMultipleSelected: 0
   animationDuration: 0.25
   growOnHover: 1
@@ -41308,7 +41308,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.45, b: 0.45, a: 1}
+  m_Color: {r: 0.73, g: 0.44, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -42995,7 +42995,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.45, g: 0.78392863, b: 1, a: 1}
+  m_Color: {r: 0.44, g: 0.78, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -44601,7 +44601,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.45, g: 0.78392863, b: 1, a: 1}
+  m_Color: {r: 0.44, g: 0.78, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -46218,7 +46218,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.45, b: 0.45, a: 0}
+  m_Color: {r: 0.73, g: 0.44, b: 1, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -47349,10 +47349,10 @@ RectTransform:
   m_Father: {fileID: 629226076}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 54.175, y: 0}
-  m_SizeDelta: {x: 0, y: 19.89}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 54.175, y: -9.945}
+  m_SizeDelta: {x: 58.35, y: 19.89}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &822362095
 MonoBehaviour:
@@ -48570,9 +48570,9 @@ RectTransform:
   m_Father: {fileID: 1422296850}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 10, y: -10}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &843207891
@@ -50318,10 +50318,10 @@ RectTransform:
   m_Father: {fileID: 1697667917}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 44.695, y: 0}
-  m_SizeDelta: {x: 0, y: 19.89}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 44.695, y: -9.945}
+  m_SizeDelta: {x: 39.39, y: 19.89}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &865974397
 MonoBehaviour:
@@ -50810,9 +50810,9 @@ RectTransform:
   m_Father: {fileID: 410371969}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 10, y: -10}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &873095354
@@ -51420,7 +51420,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.45, b: 0.45, a: 1}
+  m_Color: {r: 0.73, g: 0.44, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -51599,6 +51599,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skin: {fileID: 11400000, guid: bbebec8b76e13a749a8037dbf7a83ef5, type: 2}
+  defaultSelectedButton: {fileID: 0}
   allowMultipleSelected: 0
   animationDuration: 0.25
   growOnHover: 1
@@ -53345,6 +53346,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skin: {fileID: 11400000, guid: bbebec8b76e13a749a8037dbf7a83ef5, type: 2}
+  defaultSelectedButton: {fileID: 0}
   allowMultipleSelected: 0
   animationDuration: 0.25
   growOnHover: 1
@@ -53567,10 +53569,10 @@ RectTransform:
   m_Father: {fileID: 410371969}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 51.545, y: 0}
-  m_SizeDelta: {x: 0, y: 19.89}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 51.545, y: -9.945}
+  m_SizeDelta: {x: 53.09, y: 19.89}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &904565331
 MonoBehaviour:
@@ -54437,7 +54439,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.45, b: 0.45, a: 1}
+  m_Color: {r: 0.73, g: 0.44, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -54900,7 +54902,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.45, b: 0.45, a: 1}
+  m_Color: {r: 0.73, g: 0.44, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -55517,7 +55519,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.45, g: 0.78392863, b: 1, a: 1}
+  m_Color: {r: 0.44, g: 0.78, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -56181,7 +56183,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.45, b: 0.45, a: 1}
+  m_Color: {r: 0.73, g: 0.44, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -56257,7 +56259,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.45, b: 0.45, a: 1}
+  m_Color: {r: 0.73, g: 0.44, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -57760,7 +57762,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.45, b: 0.45, a: 1}
+  m_Color: {r: 0.73, g: 0.44, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -58331,10 +58333,10 @@ RectTransform:
   m_Father: {fileID: 533085294}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 41.475, y: 0}
-  m_SizeDelta: {x: 0, y: 19.89}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 41.475, y: -9.945}
+  m_SizeDelta: {x: 32.95, y: 19.89}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &993028595
 MonoBehaviour:
@@ -59424,6 +59426,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skin: {fileID: 11400000, guid: bbebec8b76e13a749a8037dbf7a83ef5, type: 2}
+  defaultSelectedButton: {fileID: 0}
   allowMultipleSelected: 1
   animationDuration: 0.25
   growOnHover: 1
@@ -63445,7 +63448,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.45, g: 0.78392863, b: 1, a: 1}
+  m_Color: {r: 0.44, g: 0.78, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -63656,7 +63659,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.45, b: 0.45, a: 1}
+  m_Color: {r: 0.73, g: 0.44, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -64207,7 +64210,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.45, g: 0.78392863, b: 1, a: 1}
+  m_Color: {r: 0.44, g: 0.78, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -66264,7 +66267,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.45, b: 0.45, a: 1}
+  m_Color: {r: 0.73, g: 0.44, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -68827,7 +68830,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 64.865, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1155343939
@@ -69111,7 +69114,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.45, g: 0.78392863, b: 1, a: 1}
+  m_Color: {r: 0.44, g: 0.78, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -69465,9 +69468,9 @@ RectTransform:
   m_Father: {fileID: 629226076}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 10, y: -10}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1168102392
@@ -70110,7 +70113,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.45, g: 0.78392863, b: 1, a: 1}
+  m_Color: {r: 0.44, g: 0.78, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -70364,7 +70367,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.45, b: 0.45, a: 1}
+  m_Color: {r: 0.73, g: 0.44, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -71493,7 +71496,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.45, g: 0.78392863, b: 1, a: 1}
+  m_Color: {r: 0.44, g: 0.78, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -71890,7 +71893,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.45, b: 0.45, a: 1}
+  m_Color: {r: 0.73, g: 0.44, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -72414,6 +72417,7 @@ MonoBehaviour:
   settingsView: {fileID: 340329458}
   bg: {fileID: 1802821801}
   pulseBG: {fileID: 2124602539}
+  menuGroup: {fileID: 1969120502}
 --- !u!114 &1235549787
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -74070,6 +74074,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skin: {fileID: 11400000, guid: bbebec8b76e13a749a8037dbf7a83ef5, type: 2}
+  defaultSelectedButton: {fileID: 0}
   allowMultipleSelected: 1
   animationDuration: 0.25
   growOnHover: 1
@@ -74381,7 +74386,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.45, b: 0.45, a: 1}
+  m_Color: {r: 0.73, g: 0.44, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -76583,7 +76588,6 @@ MonoBehaviour:
   title: settings
   fontSize: 30
   useUnderline: 1
-  animationDuration: 0.5
   textContainer: {fileID: 400815116}
   underline: {fileID: 1416852904}
 --- !u!114 &1282269163
@@ -76780,7 +76784,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.45, b: 0.45, a: 1}
+  m_Color: {r: 0.73, g: 0.44, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -77785,8 +77789,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3eef6c7ecda590448d3132c3f0b2f5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  color1: {r: 0.45, g: 0.78392863, b: 1, a: 0.2}
-  color2: {r: 0.45, g: 0.78392863, b: 1, a: 0.2}
+  color1: {r: 0.44, g: 0.78, b: 1, a: 0.2}
+  color2: {r: 0.44, g: 0.78, b: 1, a: 0.2}
   speed: 0.15
   size: 1.4
   skew: -1
@@ -79463,7 +79467,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.45, b: 0.45, a: 1}
+  m_Color: {r: 0.73, g: 0.44, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -82819,7 +82823,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.45, g: 0.78392863, b: 1, a: 1}
+  m_Color: {r: 0.44, g: 0.78, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -84388,9 +84392,9 @@ RectTransform:
   m_Father: {fileID: 1008422720}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 10, y: -10}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1394029520
@@ -86434,7 +86438,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.45, g: 0.78392863, b: 1, a: 1}
+  m_Color: {r: 0.44, g: 0.78, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -88121,7 +88125,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.45, b: 0.45, a: 0}
+  m_Color: {r: 0.73, g: 0.44, b: 1, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -88239,7 +88243,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.45, b: 0.45, a: 1}
+  m_Color: {r: 0.73, g: 0.44, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -89936,7 +89940,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.45, g: 0.78392863, b: 1, a: 1}
+  m_Color: {r: 0.44, g: 0.78, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -90250,7 +90254,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.45, g: 0.78392863, b: 1, a: 1}
+  m_Color: {r: 0.44, g: 0.78, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -90538,7 +90542,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.45, b: 0.45, a: 0}
+  m_Color: {r: 0.73, g: 0.44, b: 1, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -91076,6 +91080,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skin: {fileID: 11400000, guid: bbebec8b76e13a749a8037dbf7a83ef5, type: 2}
+  defaultSelectedButton: {fileID: 0}
   allowMultipleSelected: 0
   animationDuration: 0.25
   growOnHover: 1
@@ -92641,7 +92646,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.45, g: 0.78392863, b: 1, a: 1}
+  m_Color: {r: 0.44, g: 0.78, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -94378,7 +94383,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.45, b: 0.45, a: 1}
+  m_Color: {r: 0.73, g: 0.44, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -95423,7 +95428,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.45, b: 0.45, a: 0}
+  m_Color: {r: 0.73, g: 0.44, b: 1, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -96227,8 +96232,8 @@ Material:
     - _Skew: -1
     - _Speed: 0.15
     m_Colors:
-    - _Color1: {r: 0.45, g: 0.78392863, b: 1, a: 0.2}
-    - _Color2: {r: 0.45, g: 0.78392863, b: 1, a: 0.2}
+    - _Color1: {r: 0.44, g: 0.78, b: 1, a: 0.2}
+    - _Color2: {r: 0.44, g: 0.78, b: 1, a: 0.2}
   m_BuildTextureStacks: []
 --- !u!1 &1608369927
 GameObject:
@@ -98030,7 +98035,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.45, b: 0.45, a: 1}
+  m_Color: {r: 0.73, g: 0.44, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -98435,6 +98440,7 @@ GameObject:
   - component: {fileID: 1649986674}
   - component: {fileID: 1649986673}
   - component: {fileID: 1649986672}
+  - component: {fileID: 1649986676}
   m_Layer: 17
   m_Name: Window
   m_TagString: Untagged
@@ -98547,6 +98553,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1649986670}
   m_CullTransparentMesh: 0
+--- !u!114 &1649986676
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1649986670}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3649d1d5a6dea03418cb215da8cd9c28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fields:
+  - {fileID: 351140065}
+  - {fileID: 119488624}
+  - {fileID: 1045989146}
 --- !u!1 &1651006159
 GameObject:
   m_ObjectHideFlags: 0
@@ -98598,7 +98620,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.45, b: 0.45, a: 0}
+  m_Color: {r: 0.73, g: 0.44, b: 1, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -99207,7 +99229,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.45, b: 0.45, a: 0}
+  m_Color: {r: 0.73, g: 0.44, b: 1, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -99425,6 +99447,7 @@ GameObject:
   - component: {fileID: 1679582881}
   - component: {fileID: 1679582880}
   - component: {fileID: 1679582879}
+  - component: {fileID: 1679582882}
   m_Layer: 17
   m_Name: Customization Panel
   m_TagString: Untagged
@@ -99522,6 +99545,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1679582877}
   m_CullTransparentMesh: 0
+--- !u!114 &1679582882
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1679582877}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3649d1d5a6dea03418cb215da8cd9c28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fields:
+  - {fileID: 833540669}
+  - {fileID: 1604149809}
 --- !u!1 &1679871521
 GameObject:
   m_ObjectHideFlags: 0
@@ -99736,7 +99774,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.45, b: 0.45, a: 1}
+  m_Color: {r: 0.73, g: 0.44, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -100462,7 +100500,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.45, b: 0.45, a: 0}
+  m_Color: {r: 0.73, g: 0.44, b: 1, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -101899,7 +101937,6 @@ MonoBehaviour:
   title: recents
   fontSize: 30
   useUnderline: 1
-  animationDuration: 0.5
   textContainer: {fileID: 749964878}
   underline: {fileID: 938320921}
 --- !u!114 &1725779998
@@ -102655,7 +102692,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.45, g: 0.78392863, b: 1, a: 1}
+  m_Color: {r: 0.44, g: 0.78, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -104417,7 +104454,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.45, b: 0.45, a: 1}
+  m_Color: {r: 0.73, g: 0.44, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -107460,7 +107497,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.45, g: 0.78392863, b: 1, a: 1}
+  m_Color: {r: 0.44, g: 0.78, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -111117,7 +111154,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.45, g: 0.78392863, b: 1, a: 1}
+  m_Color: {r: 0.44, g: 0.78, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -112276,7 +112313,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.45, g: 0.78392863, b: 1, a: 1}
+  m_Color: {r: 0.44, g: 0.78, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -113706,7 +113743,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.45, b: 0.45, a: 1}
+  m_Color: {r: 0.73, g: 0.44, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -113824,7 +113861,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.45, b: 0.45, a: 1}
+  m_Color: {r: 0.73, g: 0.44, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -114224,6 +114261,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skin: {fileID: 11400000, guid: bbebec8b76e13a749a8037dbf7a83ef5, type: 2}
+  defaultSelectedButton: {fileID: 1313271753}
   allowMultipleSelected: 0
   animationDuration: 0.2
   growOnHover: 1
@@ -114242,8 +114280,7 @@ MonoBehaviour:
   disabledColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   textSize: 18
   autoSizeText: 0
-  independentButtons:
-  - {fileID: 1386218266}
+  independentButtons: []
 --- !u!224 &1969120503
 RectTransform:
   m_ObjectHideFlags: 0
@@ -114913,7 +114950,6 @@ MonoBehaviour:
   title: keybinds
   fontSize: 30
   useUnderline: 1
-  animationDuration: 0.5
   textContainer: {fileID: 535300664}
   underline: {fileID: 1214632144}
 --- !u!114 &1984727652
@@ -115814,7 +115850,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.45, b: 0.45, a: 1}
+  m_Color: {r: 0.73, g: 0.44, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -118016,9 +118052,9 @@ RectTransform:
   m_Father: {fileID: 533085294}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 10, y: -10}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2026627589
@@ -119593,10 +119629,10 @@ RectTransform:
   m_Father: {fileID: 802908636}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 48.510002, y: 0}
-  m_SizeDelta: {x: 0, y: 19.89}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 48.510002, y: -9.945}
+  m_SizeDelta: {x: 47.02, y: 19.89}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2045556423
 MonoBehaviour:
@@ -120093,7 +120129,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.45, b: 0.45, a: 1}
+  m_Color: {r: 0.73, g: 0.44, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -120669,7 +120705,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.45, b: 0.45, a: 1}
+  m_Color: {r: 0.73, g: 0.44, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -121319,7 +121355,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.45, g: 0.78392863, b: 1, a: 1}
+  m_Color: {r: 0.44, g: 0.78, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -122723,7 +122759,6 @@ MonoBehaviour:
   title: maudica
   fontSize: 30
   useUnderline: 1
-  animationDuration: 0.5
   textContainer: {fileID: 792470652}
   underline: {fileID: 1479257793}
 --- !u!114 &2102318058
@@ -124374,7 +124409,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.45, b: 0.45, a: 0}
+  m_Color: {r: 0.73, g: 0.44, b: 1, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -124912,6 +124947,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skin: {fileID: 11400000, guid: bbebec8b76e13a749a8037dbf7a83ef5, type: 2}
+  defaultSelectedButton: {fileID: 0}
   allowMultipleSelected: 1
   animationDuration: 0.25
   growOnHover: 1

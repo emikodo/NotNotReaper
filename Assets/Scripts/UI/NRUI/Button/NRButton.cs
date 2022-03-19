@@ -102,7 +102,6 @@ namespace NotReaper.UI.Components
             {
                 effects = NRDependencyInjector.Get<SoundEffects>();
             }
-
             if (buttonGroup != null)
             {
                 buttonGroup.RegisterButton(this);
@@ -306,6 +305,11 @@ namespace NotReaper.UI.Components
 
         public void OnPointerDown(PointerEventData eventData)
         {
+            Select();
+        }
+
+        public void Select(bool playSound = true)
+        {
             if (!interactable || isSelected) return;
 
             DoBackgroundColorTransition(skin.pressedColor);
@@ -316,7 +320,7 @@ namespace NotReaper.UI.Components
             }
             if (stayOnSelected)
             {
-                if(buttonGroup != null)
+                if (buttonGroup != null)
                 {
                     buttonGroup.SetSelectedButton(this);
                 }
@@ -326,7 +330,10 @@ namespace NotReaper.UI.Components
                 }
                 isSelected = true;
             }
-            effects.PlaySound(SoundEffects.Sound.Click);
+            if (playSound)
+            {
+                effects.PlaySound(SoundEffects.Sound.Click);
+            }
             onClick.Invoke();
         }
 
@@ -334,6 +341,11 @@ namespace NotReaper.UI.Components
         {
             stayOnSelected = stay;
             this.onSelectedAction = onSelectedAction;
+        }
+
+        public void SetDefaultSelected()
+        {
+            Select(false);
         }
 
         public void Deselect()
