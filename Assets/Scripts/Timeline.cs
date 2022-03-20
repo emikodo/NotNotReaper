@@ -386,6 +386,8 @@ namespace NotReaper
             {
                 //sustainVolume = NRSettings.config.sustainVol;
                 musicVolume = NRSettings.config.mainVol;
+                hitsoundVolume = NRSettings.config.noteVol;
+                sustainVolume = NRSettings.config.sustainVol;
                 songPlayback.volume = NRSettings.config.mainVol;
                 songPlayback.hitSoundVolume = NRSettings.config.noteVol;
                 SetAudioDSP();
@@ -1824,7 +1826,7 @@ namespace NotReaper
             {
                 yield return www.SendWebRequest();
 
-                if (www.result == UnityWebRequest.Result.ConnectionError)
+                if (www.result != UnityWebRequest.Result.Success)
                 {
                     Debug.Log(www.error);
                 }
@@ -1854,7 +1856,7 @@ namespace NotReaper
             {
                 yield return www.SendWebRequest();
 
-                if (www.result == UnityWebRequest.Result.ConnectionError)
+                if (www.result != UnityWebRequest.Result.Success)
                 {
                     Debug.Log(www.error);
                 }
@@ -1876,7 +1878,7 @@ namespace NotReaper
             {
                 yield return www.SendWebRequest();
 
-                if (www.result == UnityWebRequest.Result.ConnectionError)
+                if (www.result != UnityWebRequest.Result.Success)
                 {
                     Debug.Log(www.error);
                 }
@@ -1895,7 +1897,7 @@ namespace NotReaper
             {
                 yield return www.SendWebRequest();
 
-                if (www.result == UnityWebRequest.Result.ConnectionError)
+                if (www.result != UnityWebRequest.Result.Success)
                 {
                     Debug.Log(www.error);
                 }
@@ -3078,6 +3080,7 @@ namespace NotReaper
         public void ToggleWaveform()
         {
             waveformVisualizer.ToggleWaveform();
+            sustainVisualizer.ToggleWaveform();
         }
 
         public void TogglePlayback()

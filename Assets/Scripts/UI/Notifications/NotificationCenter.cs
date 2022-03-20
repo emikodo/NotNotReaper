@@ -34,7 +34,7 @@ namespace NotReaper.Notifications
             GetComponent<Canvas>().renderMode = RenderMode.ScreenSpaceOverlay;
             spawner.OnNotificationRemoved.AddListener(OnNotificationRemoved);
         }
-        public static int SendNotification(object text, NotificationType type, bool playNotificationSound = true)
+        public static int SendNotification(object text, NotificationType type = NotificationType.Info, bool playNotificationSound = true)
         {
             if (!NotificationPanel.IsOpen)
             {

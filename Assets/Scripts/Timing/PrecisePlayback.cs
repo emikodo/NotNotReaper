@@ -246,15 +246,6 @@ namespace NotReaper.Timing {
         {
 			return source;
         }
-        
-
-
-
-		private void Update() {
-			//mainCameraX = mainCameraTrans.position.x;
-            
-
-        }
 
         IEnumerator LoadAudioSamples() {
 			while (KickClip.loadState != AudioDataLoadState.Loaded) yield return null;

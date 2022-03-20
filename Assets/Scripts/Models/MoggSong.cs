@@ -55,6 +55,7 @@ namespace NotReaper.Models
             if (moggString == null) return "";
 
             string[] exportString = moggString;
+            if (exportString.Length == 0) return "";
             int volIndex = 0;
             int panIndex = 0;
             for (int i = 0; i < exportString.Length; i++)

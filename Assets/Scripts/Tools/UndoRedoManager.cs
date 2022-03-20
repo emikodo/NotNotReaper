@@ -681,6 +681,11 @@ namespace NotReaper.Tools
                         targetData.y *= scale.y;
                         targetData.x *= scale.x;
                     }
+                    else
+                    {
+                        targetData.pathbuilderData.Scale(targetData, scale, true);
+                        timeline.pathbuilder.UpdatePathbuilderTargetFromAction(targetData, targetData.pathbuilderData);
+                    }
 
                     if (targetData.behavior == TargetBehavior.Legacy_Pathbuilder)
                     {
@@ -711,7 +716,11 @@ namespace NotReaper.Tools
                         targetData.y /= scale.y;
                         targetData.x /= scale.x;
                     }
-
+                    else
+                    {
+                        targetData.pathbuilderData.Scale(targetData, scale, false);
+                        timeline.pathbuilder.UpdatePathbuilderTargetFromAction(targetData, targetData.pathbuilderData);
+                    }
                     if (targetData.behavior == TargetBehavior.Legacy_Pathbuilder)
                     {
                         targetData.legacyPathbuilderData.stepDistance /= scale.x;
@@ -734,9 +743,16 @@ namespace NotReaper.Tools
 
         public void NRRotate(TargetData data, Vector2 center, float angle)
         {
+            if (data.isPathbuilderTarget)
+            {
+                data.pathbuilderData.Rotate(data, center, angle);
+                return;
+            }
+           
             data.x -= center.x;
             data.y -= center.y;
             angle = -angle;
+            
 
             Vector2 rotate;
 
@@ -745,8 +761,12 @@ namespace NotReaper.Tools
             rotate.x += center.x;
             rotate.y += center.y;
 
+            
             data.x = rotate.x;
             data.y = rotate.y;
+            
+            
+
         }
         public override void DoAction(Timeline timeline)
         {
@@ -755,6 +775,10 @@ namespace NotReaper.Tools
                 if (targetData.behavior != TargetBehavior.Melee)
                 {
                     NRRotate(targetData, rotateCenter, rotateAngle);
+                    if (targetData.isPathbuilderTarget)
+                    {
+                        timeline.pathbuilder.UpdatePathbuilderTargetFromAction(targetData, targetData.pathbuilderData);
+                    }
                     if (targetData.behavior == TargetBehavior.Legacy_Pathbuilder)
                     {
                         targetData.legacyPathbuilderData.initialAngle -= rotateAngle;
@@ -779,6 +803,10 @@ namespace NotReaper.Tools
                 if (targetData.behavior != TargetBehavior.Melee)
                 {
                     NRRotate(targetData, rotateCenter, -rotateAngle);
+                    if (targetData.isPathbuilderTarget)
+                    {
+                        timeline.pathbuilder.UpdatePathbuilderTargetFromAction(targetData, targetData.pathbuilderData);
+                    }
                     if (targetData.behavior == TargetBehavior.Legacy_Pathbuilder)
                     {
                         targetData.legacyPathbuilderData.initialAngle += rotateAngle;

@@ -77,7 +77,7 @@ namespace NotReaper.Tools
 		protected override void Awake()
         {
 			base.Awake();
-			cam = Camera.main;
+			cam = CameraProvider.menu;
 		}
 
 		public void Update()

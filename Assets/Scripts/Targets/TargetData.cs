@@ -142,6 +142,88 @@ namespace NotReaper.Targets {
             }
         }
 
+        public void Rotate(TargetData data, Vector2 center, float angle)
+        {
+            
+            data.x -= center.x;
+            data.y -= center.y;
+            angle = -angle;
+
+            Vector2 rotate;
+
+            rotate.x = (float)(data.x * Math.Cos(angle / 180f * Math.PI) + data.y * Math.Sin(angle / 180f * Math.PI));
+            rotate.y = (float)(data.x * -Math.Sin(angle / 180f * Math.PI) + data.y * Math.Cos(angle / 180f * Math.PI));
+            rotate.x += center.x;
+            rotate.y += center.y;
+
+
+            data.x = rotate.x;
+            data.y = rotate.y;
+
+            foreach(var segment in Segments)
+            {
+                segment.startPoint = RotatePoint(segment.startPoint, center, angle);
+                segment.startPointHandle = RotatePoint(segment.startPointHandle, center, angle);
+                segment.endPoint = RotatePoint(segment.endPoint, center, angle);
+                segment.endPointHandle = RotatePoint(segment.endPointHandle, center, angle);
+            }
+        }
+        private Vector2 RotatePoint(Vector2 point, Vector2 center, float angle)
+        {
+            point.x -= center.x;
+            point.y -= center.y;
+
+            Vector2 rotate;
+
+            rotate.x = (float)(point.x * Math.Cos(angle / 180f * Math.PI) + point.y * Math.Sin(angle / 180f * Math.PI));
+            rotate.y = (float)(point.x * -Math.Sin(angle / 180f * Math.PI) + point.y * Math.Cos(angle / 180f * Math.PI));
+            rotate.x += center.x;
+            rotate.y += center.y;
+
+
+            point.x = rotate.x;
+            point.y = rotate.y;
+
+            return point;
+        }
+
+        public void Scale(TargetData data, Vector2 scale, bool scaleUp)
+        {
+            if (scaleUp)
+            {
+                data.y *= scale.y;
+                data.x *= scale.x;
+            }
+            else
+            {
+                data.y /= scale.y;
+                data.x /= scale.x;
+            }
+
+            foreach(var segment in Segments)
+            {
+                segment.startPoint = ScalePoint(segment.startPoint, scale, scaleUp);
+                segment.startPointHandle = ScalePoint(segment.startPointHandle, scale, scaleUp);
+                segment.endPoint = ScalePoint(segment.endPoint, scale, scaleUp);
+                segment.endPointHandle = ScalePoint(segment.endPointHandle, scale, scaleUp);
+            }
+        }
+
+        private Vector2 ScalePoint(Vector2 point, Vector2 scale, bool scaleUp)
+        {
+            if (scaleUp)
+            {
+                point.x *= scale.x;
+                point.y *= scale.y;
+            }
+            else
+            {
+                point.x /= scale.x;
+                point.y /= scale.y;
+            }
+            return point;
+        }
+
         public void UpdateNodeHandType(TargetHandType newType)
         {
             var hand = newType;

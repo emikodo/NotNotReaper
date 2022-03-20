@@ -510,16 +510,20 @@ namespace NotReaper.Tools.ChainBuilder {
                     {						
 						if(time > action.data.repeaterData.Section.activeEndTime)
                         {
-							NotificationCenter.SendNotification("Can't create pathbuilder target: Target would be out of bounds of repeater zone.", NotificationType.Warning);
+							NotificationCenter.SendNotification("Can't create legacy pathbuilder target: Target would be out of bounds of repeater zone.", NotificationType.Warning);
 							return;
 						}
                     }
 					else if(timeline.repeaterManager.IsTargetInRepeaterZone(time))
                     {
-						NotificationCenter.SendNotification("Can't create pathbuilder target: Target would cross into repeater zone.", NotificationType.Warning);
+						NotificationCenter.SendNotification("Can't create legacy pathbuilder target: Target would cross into repeater zone.", NotificationType.Warning);
 						return;
                     }
-
+                    if (action.data.isPathbuilderTarget)
+                    {
+						NotificationCenter.SendNotification("Can't create legacy pathbuilder target out of a new pathbuilder target.", NotificationType.Warning);
+						return;
+                    }
 					timeline.Tools.undoRedoManager.AddAction(action);
 				}
 

@@ -154,6 +154,15 @@ namespace NotReaper.Tools.ChainBuilder
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Bake"",
+                    ""type"": ""Button"",
+                    ""id"": ""8abee22e-e403-4ee5-8213-4f6993c4f721"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -332,6 +341,17 @@ namespace NotReaper.Tools.ChainBuilder
                     ""action"": ""IncreaseLength"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f302828a-f66a-4a5f-af3d-2dd9c789d3a7"",
+                    ""path"": ""<Keyboard>/b"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Bake"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -354,6 +374,7 @@ namespace NotReaper.Tools.ChainBuilder
             m_Pathbuilder_ChangeScope = m_Pathbuilder.FindAction("ChangeScope", throwIfNotFound: true);
             m_Pathbuilder_AlternateHands = m_Pathbuilder.FindAction("AlternateHands", throwIfNotFound: true);
             m_Pathbuilder_ChangeTargetHand = m_Pathbuilder.FindAction("ChangeTargetHand", throwIfNotFound: true);
+            m_Pathbuilder_Bake = m_Pathbuilder.FindAction("Bake", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -427,6 +448,7 @@ namespace NotReaper.Tools.ChainBuilder
         private readonly InputAction m_Pathbuilder_ChangeScope;
         private readonly InputAction m_Pathbuilder_AlternateHands;
         private readonly InputAction m_Pathbuilder_ChangeTargetHand;
+        private readonly InputAction m_Pathbuilder_Bake;
         public struct PathbuilderActions
         {
             private @PathbuilderKeybinds m_Wrapper;
@@ -445,6 +467,7 @@ namespace NotReaper.Tools.ChainBuilder
             public InputAction @ChangeScope => m_Wrapper.m_Pathbuilder_ChangeScope;
             public InputAction @AlternateHands => m_Wrapper.m_Pathbuilder_AlternateHands;
             public InputAction @ChangeTargetHand => m_Wrapper.m_Pathbuilder_ChangeTargetHand;
+            public InputAction @Bake => m_Wrapper.m_Pathbuilder_Bake;
             public InputActionMap Get() { return m_Wrapper.m_Pathbuilder; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -496,6 +519,9 @@ namespace NotReaper.Tools.ChainBuilder
                     @ChangeTargetHand.started -= m_Wrapper.m_PathbuilderActionsCallbackInterface.OnChangeTargetHand;
                     @ChangeTargetHand.performed -= m_Wrapper.m_PathbuilderActionsCallbackInterface.OnChangeTargetHand;
                     @ChangeTargetHand.canceled -= m_Wrapper.m_PathbuilderActionsCallbackInterface.OnChangeTargetHand;
+                    @Bake.started -= m_Wrapper.m_PathbuilderActionsCallbackInterface.OnBake;
+                    @Bake.performed -= m_Wrapper.m_PathbuilderActionsCallbackInterface.OnBake;
+                    @Bake.canceled -= m_Wrapper.m_PathbuilderActionsCallbackInterface.OnBake;
                 }
                 m_Wrapper.m_PathbuilderActionsCallbackInterface = instance;
                 if (instance != null)
@@ -542,6 +568,9 @@ namespace NotReaper.Tools.ChainBuilder
                     @ChangeTargetHand.started += instance.OnChangeTargetHand;
                     @ChangeTargetHand.performed += instance.OnChangeTargetHand;
                     @ChangeTargetHand.canceled += instance.OnChangeTargetHand;
+                    @Bake.started += instance.OnBake;
+                    @Bake.performed += instance.OnBake;
+                    @Bake.canceled += instance.OnBake;
                 }
             }
         }
@@ -562,6 +591,7 @@ namespace NotReaper.Tools.ChainBuilder
             void OnChangeScope(InputAction.CallbackContext context);
             void OnAlternateHands(InputAction.CallbackContext context);
             void OnChangeTargetHand(InputAction.CallbackContext context);
+            void OnBake(InputAction.CallbackContext context);
         }
     }
 }

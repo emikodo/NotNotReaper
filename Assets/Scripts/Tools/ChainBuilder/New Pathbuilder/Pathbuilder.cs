@@ -752,7 +752,11 @@ namespace NotReaper.Tools.PathBuilder
 				NotificationCenter.SendNotification("Can't make pathbuilder target: Target would cross into repeater section.", NotificationType.Warning);
 				return false;
             }
-
+			if(target.data.behavior == TargetBehavior.Legacy_Pathbuilder)
+            {
+				NotificationCenter.SendNotification("Can't make pathbuilder target out of a legacy pathbuilder target.", NotificationType.Warning);
+				return false;
+            }
 			int index = (int)target.data.behavior;
 			return index < 6 && !target.transient && !target.data.isPathbuilderTarget;
         }
@@ -774,7 +778,9 @@ namespace NotReaper.Tools.PathBuilder
 			actions.Pathbuilder.IncreaseInterval.performed += _ => OnChangeInterval(true);
 			actions.Pathbuilder.DecreaseInterval.performed += _ => OnChangeInterval(false);
 			actions.Pathbuilder.IncreaseLength.performed += _ => OnChangeLength(true);
-			actions.Pathbuilder.DecreaseLength.performed += _ => OnChangeLength(false);		
+			actions.Pathbuilder.DecreaseLength.performed += _ => OnChangeLength(false);
+
+			actions.Pathbuilder.Bake.started += _ => BakeActiveTarget();
 		}
 
 		private void OnMouseClick()

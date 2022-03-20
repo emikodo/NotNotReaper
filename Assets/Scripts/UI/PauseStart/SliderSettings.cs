@@ -21,6 +21,7 @@ namespace NotReaper.UI.Settings
                 hitsoundVolume.SetValueWithoutNotify(NRSettings.config.noteVol);
                 sustainVolume.SetValueWithoutNotify(NRSettings.config.sustainVol);
                 soundEffectVolume.SetValueWithoutNotify(NRSettings.config.soundEffectsVol);
+
             });
         }
 
