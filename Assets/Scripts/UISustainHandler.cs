@@ -175,34 +175,9 @@ public class UISustainHandler : MonoBehaviour
         PendingDelete = false;
     }
 
+    // TODO remove
     private void FillSustainDescData(SustainTrack track, bool clear = false)
     {
-        if (clear)
-        {
-            if(track == SustainTrack.Left)
-            {
-                Timeline.audicaFile.desc.sustainSongLeft = "";
-                Timeline.audicaFile.desc.moggSustainSongLeft = "";
-            }
-            else if(track == SustainTrack.Right)
-            {
-                Timeline.audicaFile.desc.sustainSongRight = "";
-                Timeline.audicaFile.desc.moggSustainSongRight = "";
-            }
-        }
-        else
-        {
-            if(track == SustainTrack.Left)
-            {
-                Timeline.audicaFile.desc.sustainSongLeft = "song_sustain_l.moggsong";
-                Timeline.audicaFile.desc.moggSustainSongLeft = "song_sustain_l.mogg";
-            }
-            else if(track == SustainTrack.Right)
-            {
-                Timeline.audicaFile.desc.sustainSongRight = "song_sustain_r.moggsong";
-                Timeline.audicaFile.desc.moggSustainSongRight = "song_sustain_r.mogg";
-            }
-        }
         
     }
 

@@ -13,9 +13,9 @@ using UnityEngine;
 
 namespace NotReaper.IO {
 
-	public class AudicaGenerator {
+	public class SynthGenerator {
 
-		public static IEnumerator Generate(string oggPath, float moggSongVol, string songID, string songName, string artist, double bpm, string songEndEvent, string author, int offset, string midiPath, string artPath, Difficulty difficulty, Action<string> onGenerationDone) {
+		public static IEnumerator Generate(string oggPath, float moggSongVol, string songID, string name, string artist, string duration, string coverImage, string audioFile, double bpm, string mapper, Difficulty difficulty, Action<string> onGenerationDone) {
 
 
 			HandleCache.CheckSaveFolderValid();
@@ -48,15 +48,15 @@ namespace NotReaper.IO {
 
 			//Album art
 			File.Delete(Path.Combine(workFolder, "song.png"));
-			if (!string.IsNullOrEmpty(artPath))
+			if (!string.IsNullOrEmpty(coverImage))
 			{
 				UnityEngine.Debug.Log("Album art found");
-				File.Copy(artPath, Path.Combine(workFolder, "song.png"));
+				File.Copy(coverImage, Path.Combine(workFolder, "song.png"));
 			}
 
 			//We need to modify the BPM of the song.mid contained in the template audica to match whatever this is.
 			File.Delete(Path.Combine(workFolder, "song.mid"));
-			File.Copy(midiPath, Path.Combine(workFolder, "song.mid"));
+			File.Copy(audioFile, Path.Combine(workFolder, "song.mid"));
 
 			//Generates the mogg into song.mogg, which is moved to the AudicaTemplate
 			File.Delete(Path.Combine(workFolder, "song.mogg"));
@@ -100,16 +100,14 @@ namespace NotReaper.IO {
 			File.Delete(Path.Combine(workFolder, "song.desc"));
 			SongDesc songDesc = JsonUtility.FromJson<SongDesc>(File.ReadAllText(Path.Combine(workFolder, "songtemplate.desc")));
 			songDesc.songID = songID;
-			songDesc.title = songName;
+			songDesc.title = name;
 			songDesc.artist = artist;
-			if (!string.IsNullOrEmpty(artPath))
+			if (!string.IsNullOrEmpty(coverImage))
 			{
 				songDesc.albumArt = "song.png";
 			}
-			songDesc.tempo = (float)bpm;
-			songDesc.songEndEvent = songEndEvent;
-			songDesc.author = author;
-			songDesc.offset = offset;
+			songDesc.bpm = (float)bpm;
+			songDesc.mapper = mapper;
 			File.WriteAllText(Path.Combine(workFolder, "song.desc"), Newtonsoft.Json.JsonConvert.SerializeObject(songDesc, Newtonsoft.Json.Formatting.Indented));
 
             /*File.Delete(Path.Combine(workFolder, "modifiers.json"));
@@ -125,7 +123,7 @@ namespace NotReaper.IO {
 				archive.AddEntry("song.mid", Path.Combine(workFolder, "song.mid"));
 				archive.AddEntry("song.mogg", Path.Combine(workFolder, "song.mogg"));
 				archive.AddEntry("song.moggsong", Path.Combine(workFolder, "song.moggsong"));
-				if (!string.IsNullOrEmpty(artPath))
+				if (!string.IsNullOrEmpty(coverImage))
 				{
 					archive.AddEntry("song.png", Path.Combine(workFolder, "song.png"));
 				}

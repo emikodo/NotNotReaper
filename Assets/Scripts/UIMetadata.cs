@@ -86,68 +86,13 @@ namespace NotReaper.UI {
 
             if (Timeline.desc.title != null) titleField.text = Timeline.desc.title;
             if (Timeline.desc.artist != null) artistField.text = Timeline.desc.artist;
-            if (Timeline.desc.author != null) mapperField.text = Timeline.desc.author;
-            if (Timeline.desc.moggSong != null) moggSongVolume.value = Timeline.audicaFile.mainMoggSong.volume.l;
+            if (Timeline.desc.mapper != null) mapperField.text = Timeline.desc.mapper;
+            if (Timeline.desc.audioFile != null) moggSongVolume.value = Timeline.audicaFile.mainMoggSong.volume.l;
 
 
             ChangeSelectedDifficulty(difficultyManager.loadedIndex);
             LoadCurrentDifficultyName(difficultyManager.loadedIndex);
             SetDifficultyIcons(difficultyManager.loadedIndex);
-            // Song end pitch event
-            switch (Timeline.desc.songEndEvent)
-            {
-                case "event:/song_end/song_end_C":
-                    pitchDropdown.value = 0;
-                    break;
-
-                case "event:/song_end/song_end_C#":
-                    pitchDropdown.value = 1;
-                    break;
-
-                case "event:/song_end/song_end_D":
-                    pitchDropdown.value = 2;
-                    break;
-
-                case "event:/song_end/song_end_D#":
-                    pitchDropdown.value = 3;
-                    break;
-
-                case "event:/song_end/song_end_E":
-                    pitchDropdown.value = 4;
-                    break;
-
-                case "event:/song_end/song_end_F":
-                    pitchDropdown.value = 5;
-                    break;
-
-                case "event:/song_end/song_end_F#":
-                    pitchDropdown.value = 6;
-                    break;
-
-                case "event:/song_end/song_end_G":
-                    pitchDropdown.value = 7;
-                    break;
-
-                case "event:/song_end/song_end_G#":
-                    pitchDropdown.value = 8;
-                    break;
-
-                case "event:/song_end/song_end_A":
-                    pitchDropdown.value = 9;
-                    break;
-
-                case "event:/song_end/song_end_A#":
-                    pitchDropdown.value = 10;
-                    break;
-
-                case "event:/song_end/song_end_B":
-                    pitchDropdown.value = 11;
-                    break;
-
-                case "event:/song_end/song_end_nopitch":
-                    pitchDropdown.value = 12;
-                    break;
-            }
             StartCoroutine(
                     GetAlbumArt($"file://" + Path.Combine(Application.dataPath, ".cache", "song.png")));
 
@@ -160,7 +105,7 @@ namespace NotReaper.UI {
 
             Timeline.desc.title = titleField.text;
             Timeline.desc.artist = artistField.text;
-            Timeline.desc.author = mapperField.text;
+            Timeline.desc.mapper = mapperField.text;
             if (String.IsNullOrEmpty(artText.text))
             {
                 Timeline.desc.albumArt = "song.png";
@@ -214,45 +159,14 @@ namespace NotReaper.UI {
             }
         }
 
-        public void SetDifficultyName()
-        {
-            if (Timeline.desc == null) return;
-
-            int difficultyIndex = difficultyManager.loadedIndex;
-            
-            if (difficultyIndex == -1) return;
-            
-            switch(difficultyIndex)
-            {
-                //expert
-                case 0:
-                    Timeline.desc.customExpert = DifficultyName.text; 
-                    break;
-
-                //Advanced
-                case 1:
-                    Timeline.desc.customAdvanced = DifficultyName.text; 
-                    break;
-
-                //Moderate
-                case 2:
-                    Timeline.desc.customModerate = DifficultyName.text; 
-                    break;
-
-                //Beginner
-                case 3:
-                    Timeline.desc.customBeginner = DifficultyName.text; 
-                    break;
-
-            }
-        }
-
         public void LoadCurrentDifficultyName(int difficultyIndex)
         {
             if (Timeline.desc == null) return;
             
             if (difficultyIndex == -1) return;
             
+            // TODO evaluate applicability
+            /*
             switch(difficultyIndex)
             {
                 //expert
@@ -276,6 +190,7 @@ namespace NotReaper.UI {
                     break;
 
             }
+            */
         }
 
         public void SetDifficultyIcons(int difficultyIndex)
@@ -321,64 +236,6 @@ namespace NotReaper.UI {
 
             }
 
-        }
-
-        public void ChangeEndPitch()
-        {
-            switch (pitchDropdown.value)
-            {
-                case 0:
-                    Timeline.desc.songEndEvent = "event:/song_end/song_C";
-                    break;
-
-                case 1:
-                    Timeline.desc.songEndEvent = "event:/song_end/song_end_C#";
-                    break;
-
-                case 2:
-                    Timeline.desc.songEndEvent = "event:/song_end/song_end_D";
-                    break;
-
-                case 3:
-                    Timeline.desc.songEndEvent = "event:/song_end/song_end_D#";
-                    break;
-
-                case 4:
-                    Timeline.desc.songEndEvent = "event:/song_end/song_end_E";
-                    break;
-
-                case 5:
-                    Timeline.desc.songEndEvent = "event:/song_end/song_end_F";
-                    break;
-
-                case 6:
-                    Timeline.desc.songEndEvent = "event:/song_end/song_end_F#";
-                    break;
-
-                case 7:
-                    Timeline.desc.songEndEvent = "event:/song_end/song_end_G";
-                    break;
-
-                case 8:
-                    Timeline.desc.songEndEvent = "event:/song_end/song_end_G#";
-                    break;
-
-                case 9:
-                    Timeline.desc.songEndEvent = "event:/song_end/song_end_A";
-                    break;
-
-                case 10:
-                    Timeline.desc.songEndEvent = "event:/song_end/song_end_A#";
-                    break;
-
-                case 11:
-                    Timeline.desc.songEndEvent = "event:/song_end/song_end_B";
-                    break;
-
-                case 12:
-                    Timeline.desc.songEndEvent = "event:/song_end/song_end_nopitch";
-                    break;
-            }
         }
 
         public void TryDeleteDifficulty() {

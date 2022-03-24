@@ -65,9 +65,7 @@ namespace NotReaper.IO {
 						File.WriteAllText($"{Application.dataPath}/.cache/modifiers-new.json", ModifiersToJson2(audicaFile.modifiers));
 						modifiers = true;
 					}
-					File.WriteAllText($"{Application.dataPath}/.cache/{audicaFile.desc.moggSong}", audicaFile.mainMoggSong.ExportToText(false));
-					File.WriteAllText($"{Application.dataPath}/.cache/song_sustain_l.moggsong", UISustainHandler.Instance.sustainSongLeft.ExportToText(true));
-					File.WriteAllText($"{Application.dataPath}/.cache/song_sustain_r.moggsong", UISustainHandler.Instance.sustainSongRight.ExportToText(true));
+					File.WriteAllText($"{Application.dataPath}/.cache/{audicaFile.desc.audioFile}", audicaFile.mainMoggSong.ExportToText(false));
 					File.WriteAllText($"{Application.dataPath}/.cache/song-new.desc", Newtonsoft.Json.JsonConvert.SerializeObject(audicaFile.desc, Formatting.Indented));
 
 					var workFolder = Path.Combine(Application.streamingAssetsPath, "Ogg2Audica");
@@ -91,7 +89,7 @@ namespace NotReaper.IO {
 						} else if (entry.ToString() == "song.desc") {
 							archive.RemoveEntry(entry);
 						}
-						else if (entry.ToString() == audicaFile.desc.moggSong)
+						else if (entry.ToString() == audicaFile.desc.audioFile)
 						{ archive.RemoveEntry(entry);
 						} else if (entry.ToString() == "song.mid") {
 							archive.RemoveEntry(entry);
@@ -151,7 +149,7 @@ namespace NotReaper.IO {
 						if (!Directory.Exists($"{Application.dataPath}/autosaves/")) Directory.CreateDirectory($"{Application.dataPath}/autosaves/");
 						if (!Directory.Exists($"{Application.dataPath}/autosaves/{shortName}/")) Directory.CreateDirectory($"{Application.dataPath}/autosaves/{shortName}/");
 					}
-					archive.AddEntry($"{audicaFile.desc.moggSong}", $"{Application.dataPath}/.cache/{audicaFile.desc.moggSong}");
+					archive.AddEntry($"{audicaFile.desc.audioFile}", $"{Application.dataPath}/.cache/{audicaFile.desc.audioFile}");
 					archive.AddEntry($"song_sustain_l.moggsong", $"{Application.dataPath}/.cache/song_sustain_l.moggsong");
 					archive.AddEntry($"song_sustain_r.moggsong", $"{Application.dataPath}/.cache/song_sustain_r.moggsong");
 					archive.AddEntry("song.desc", $"{Application.dataPath}/.cache/song-new.desc");
@@ -166,7 +164,7 @@ namespace NotReaper.IO {
 
 
 				}
-				File.Delete($"{Application.dataPath}/.cache/{audicaFile.desc.moggSong}");
+				File.Delete($"{Application.dataPath}/.cache/{audicaFile.desc.audioFile}");
 
 				if (!autoSave)
 					File.Delete(audicaFile.filepath);

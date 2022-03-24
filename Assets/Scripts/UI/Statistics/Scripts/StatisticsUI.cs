@@ -64,7 +64,7 @@ namespace NotReaper.Statistics
             OnActivated();
             ShowWindow(true);
             songArtistLabel.text = $"{Timeline.desc.title} - {Timeline.desc.artist}".ToLowerInvariant();
-            mapperLabel.text = $"by {Timeline.desc.author}".ToLowerInvariant();
+            mapperLabel.text = $"by {Timeline.desc.mapper}".ToLowerInvariant();
             StatisticsManager.Instance.GatherStatistics();
         }
         /// <summary>

@@ -60,7 +60,7 @@ namespace NotReaper.Modifier
         public void DeleteSelectedModifiers()
         {
             bool couldAdd = false;
-            if(!ZOffsetBaker.baking) couldAdd = ModifierUndoRedo.Instance.AddAction(selectedEntries.ToList(), Action.Delete);
+            couldAdd = ModifierUndoRedo.Instance.AddAction(selectedEntries.ToList(), Action.Delete);
             for (int i = 0; i < selectedEntries.Count; i++)
             {
                 selectedEntries[i].Delete();

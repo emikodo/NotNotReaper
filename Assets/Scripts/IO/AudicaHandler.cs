@@ -80,12 +80,12 @@ namespace NotReaper.IO {
 			}
 
 			//Load moggsongg, has to be done after desc is loaded
-			if (audicaZip.ContainsEntry(audicaFile.desc.moggSong))
+			if (audicaZip.ContainsEntry(audicaFile.desc.audioFile))
 			{
 				MemoryStream ms = new MemoryStream();
-				audicaZip[audicaFile.desc.moggSong].Extract(ms);
+				audicaZip[audicaFile.desc.audioFile].Extract(ms);
 				audicaFile.mainMoggSong = new MoggSong(ms);
-				audicaZip[audicaFile.desc.moggSong].Extract($"{appPath}/.cache");
+				audicaZip[audicaFile.desc.audioFile].Extract($"{appPath}/.cache");
 			}
 			else Debug.Log("Moggsong not found");
 			string l = "song_sustain_l.moggsong";
@@ -141,50 +141,11 @@ namespace NotReaper.IO {
 			//Load the names of the moggs
 			foreach (ZipEntry entry in audicaZip.Entries) {
 
-				if (entry.FileName == audicaFile.desc.moggSong)
+				if (entry.FileName == audicaFile.desc.audioFile)
 				{
 					entry.Extract(temp);
-					audicaFile.desc.moggMainSong = MoggSongParser.parse_metadata(Encoding.UTF8.GetString(temp.ToArray()))[0];
+					audicaFile.desc.audioFile = MoggSongParser.parse_metadata(Encoding.UTF8.GetString(temp.ToArray()))[0];
 
-				}
-				else if (entry.FileName == audicaFile.desc.sustainSongLeft)
-				{
-					//entry.Extract(temp);
-					//audicaFile.desc.moggSustainSongLeft = MoggSongParser.parse_metadata(Encoding.UTF8.GetString(temp.ToArray()))[0];
-
-					//UISustainHandler.Instance.moggSustainLeft = new MoggSong(temp);
-				}
-				else if (entry.FileName == audicaFile.desc.sustainSongRight)
-				{
-					//entry.Extract(temp);
-					//audicaFile.desc.moggSustainSongRight = MoggSongParser.parse_metadata(Encoding.UTF8.GetString(temp.ToArray()))[0];
-
-					//UISustainHandler.Instance.moggSustainRight = new MoggSong(temp);
-				}
-				else if (entry.FileName == audicaFile.desc.fxSong)
-				{
-					entry.Extract(temp);
-					audicaFile.desc.moggFxSong = MoggSongParser.parse_metadata(Encoding.UTF8.GetString(temp.ToArray()))[0];
-
-				}
-				else if (entry.FileName == "song.mid" || entry.FileName == audicaFile.desc.midiFile)
-				{
-					string midiFiileName = $"{appPath}/.cache/song.mid";
-
-					entry.Extract($"{appPath}/.cache", ExtractExistingFileAction.OverwriteSilently);
-
-					if (entry.FileName != "song.mid")
-					{
-						File.Delete(midiFiileName);
-						File.Move($"{appPath}/.cache/" + audicaFile.desc.midiFile, midiFiileName);
-
-						//Sometimes these midi files get marked with strange attributes. Reset them to normal so we don't have problems deleting them
-						File.SetAttributes(midiFiileName, FileAttributes.Normal);
-					}
-
-					audicaFile.song_mid = new MidiFile(midiFiileName);
-
-					//Album art, just gonna shove it here
 				}
 				else if (entry.FileName == "song.png" || entry.FileName == audicaFile.desc.albumArt)
 				{
@@ -202,23 +163,13 @@ namespace NotReaper.IO {
                 temp.SetLength(0);
 			}
 
-			bool mainSongCached = false, sustainRightCached = false, sustainLeftCached = false, extraSongCached = false;
+			bool mainSongCached = false;
 
-			if (File.Exists($"{appPath}/.cache/{audicaFile.desc.cachedMainSong}.ogg"))
+			if (File.Exists($"{appPath}/.cache/{audicaFile.desc.audioFile}.ogg"))
 				mainSongCached = true;
 
-			if (File.Exists($"{appPath}/.cache/{audicaFile.desc.cachedSustainSongRight}.ogg"))
-				sustainRightCached = true;
-
-			if (File.Exists($"{appPath}/.cache/{audicaFile.desc.cachedSustainSongLeft}.ogg"))
-				sustainLeftCached = true;
-
-			if (File.Exists($"{appPath}/.cache/{audicaFile.desc.cachedFxSong}.ogg"))
-				extraSongCached = true;
-
-
-			//If all the songs were already cached, skip this and go to the finish.
-			if (mainSongCached && sustainRightCached && sustainLeftCached) {
+			//If the song was already cached, skip this and go to the finish.
+			if (mainSongCached) {
 				Debug.Log("Audio files were already cached and will be loaded.");
 				goto Finish;
 			}
@@ -227,22 +178,10 @@ namespace NotReaper.IO {
 
 			foreach (ZipEntry entry in audicaZip.Entries) {
 
-				if (!mainSongCached && entry.FileName == audicaFile.desc.moggMainSong) {
+				if (!mainSongCached && entry.FileName == audicaFile.desc.audioFile) {
 					entry.Extract(tempMogg);
 					MoggToOgg(tempMogg.ToArray(), audicaFile.desc.cachedMainSong);
 
-				} else if (!sustainRightCached && entry.FileName == audicaFile.desc.moggSustainSongRight) {
-					entry.Extract(tempMogg);
-					MoggToOgg(tempMogg.ToArray(), audicaFile.desc.cachedSustainSongRight);
-
-				} else if (!sustainLeftCached && entry.FileName == audicaFile.desc.moggSustainSongLeft) {
-					entry.Extract(tempMogg);
-					MoggToOgg(tempMogg.ToArray(), audicaFile.desc.cachedSustainSongLeft);
-
-				}
-				else if (!extraSongCached && entry.FileName == audicaFile.desc.moggFxSong) {
-					entry.Extract(tempMogg);
-					MoggToOgg(tempMogg.ToArray(), audicaFile.desc.cachedFxSong);
 				}
 
 				tempMogg.SetLength(0);

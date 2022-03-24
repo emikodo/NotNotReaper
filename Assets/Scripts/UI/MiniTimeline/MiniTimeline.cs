@@ -245,19 +245,23 @@ namespace NotReaper.UI {
 
         public void SaveSelectedBookmark()
         {
-            Timeline.audicaFile.desc.bookmarks.Clear();
+			// TODO bookmarks saved in beatmap.meta.bin
+//            Timeline.audicaFile.desc.bookmarks.Clear();
             foreach (Bookmark b in bookmarks) SaveBookmark(b);        
         }
 
         public void SaveBookmark(Bookmark b)
-        {            
-            Timeline.audicaFile.desc.bookmarks.Add(new BookmarkData() { type = b.handType, xPosMini = b.xPosMini, xPosTop = b.transform.localPosition.x, text = b.GetText(), r = b.GetColor().r, g = b.GetColor().g, b = b.GetColor().b, uiColor = (int)b.GetUIColor()});
+        {   
+			// TODO bookmarks saved in beatmap.meta.bin
+//            Timeline.audicaFile.desc.bookmarks.Add(new BookmarkData() { type = b.handType, xPosMini = b.xPosMini, xPosTop = b.transform.localPosition.x, text = b.GetText(), r = b.GetColor().r, g = b.GetColor().g, b = b.GetColor().b, uiColor = (int)b.GetUIColor()});
         }
 
         public void DeleteBookmark()
         {
             selectedBookmark.DeleteBookmark();
-            Timeline.audicaFile.desc.bookmarks.Clear();
+
+			// TODO bookmarks saved in beatmap.meta.bin
+//            Timeline.audicaFile.desc.bookmarks.Clear();
             foreach (Bookmark b in bookmarks) SaveBookmark(b);
         }
 
@@ -271,7 +275,8 @@ namespace NotReaper.UI {
 			
 			bookmarks.Clear();
 
-			if (deleteInAudica) Timeline.audicaFile.desc.bookmarks.Clear();
+			// TODO bookmarks saved in beatmap.meta.bin
+//			if (deleteInAudica) Timeline.audicaFile.desc.bookmarks.Clear();
 		}
 
         public float GetXForTheBookmarkThingy()

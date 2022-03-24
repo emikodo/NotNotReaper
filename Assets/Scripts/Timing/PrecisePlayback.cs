@@ -627,10 +627,6 @@ namespace NotReaper.Timing {
 						{
 							continue;
 						}
-						if (Timeline.desc.songEndEvent == "event:/song_end/song_end_nopitch")
-						{
-							continue;
-						}
 						ev.ID = data.ID;
 						ev.currentSample = 0;
 						ev.waitSamples = (UInt64)((timeline.TimestampToSeconds(data.time) - startTime) * sampleRate) << ClipData.PrecisionShift;
@@ -640,63 +636,6 @@ namespace NotReaper.Timing {
 						ev.volume = 1.0f;
 						ev.xPos = data.x;
 
-						switch (Timeline.desc.songEndEvent)
-						{
-							case "event:/song_end/song_end_C":
-								ev.sound = songend_C;
-								break;
-
-							case "event:/song_end/song_end_C#":
-								ev.sound = songend_Csharp;
-								break;
-
-							case "event:/song_end/song_end_D":
-								ev.sound = songend_D;
-								break;
-
-							case "event:/song_end/song_end_D#":
-								ev.sound = songend_Dsharp;
-								break;
-
-							case "event:/song_end/song_end_E":
-								ev.sound = songend_E;
-								break;
-
-							case "event:/song_end/song_end_F":
-								ev.sound = songend_F;
-								break;
-
-							case "event:/song_end/song_end_F#":
-								ev.sound = songend_Fsharp;
-								break;
-
-							case "event:/song_end/song_end_G":
-								ev.sound = songend_G;
-								break;
-
-							case "event:/song_end/song_end_G#":
-								ev.sound = songend_Gsharp;
-								break;
-
-							case "event:/song_end/song_end_A":
-								ev.sound = songend_A;
-								break;
-
-							case "event:/song_end/song_end_A#":
-								ev.sound = songend_Asharp;
-								break;
-
-							case "event:/song_end/song_end_B":
-								ev.sound = songend_B;
-								break;
-
-							case "event:/song_end/song_end_nopitch":
-								ev.sound = null;
-								break;
-
-							default:
-								continue;
-						}
 						for (int j = events.Count - 1; j >= 0; j--)
 						{
 							if (events[j].sound == ev.sound)

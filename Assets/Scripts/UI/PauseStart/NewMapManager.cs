@@ -443,17 +443,19 @@ namespace NotReaper.UI
             string path;
             Difficulty difficulty = (Difficulty)selectedDifficulty;
             FadeOverlayIn();
+            string duration = ""; // TODO add duration
+
+            // Convert to .ogg
             if (isMp3)
             {
                 yield return StartCoroutine(trimAudio.SetAudioLength(loadedSong, Path.Combine(Application.streamingAssetsPath, "FFMPEG", "output.ogg"), 0, defaultBpm, true));
-                StartCoroutine(AudicaGenerator.Generate(Path.Combine(Application.streamingAssetsPath, "FFMPEG", "output.ogg"), moggSongVolume,
-                     RemoveSpecialCharacters(songName + "-" + mapperName), songName, artistName, defaultBpm, songEndEvent, mapperName, 0, loadedMidi,
-                     loadedArt, difficulty, OnGenerationDone));
+                StartCoroutine(SynthGenerator.Generate(Path.Combine(Application.streamingAssetsPath, "FFMPEG", "output.ogg"), moggSongVolume,
+                     RemoveSpecialCharacters(songName + "-" + mapperName), songName, artistName, duration, loadedArt, loadedMidi, defaultBpm, mapperName, difficulty, OnGenerationDone));
             }
             else
             {
-                StartCoroutine(AudicaGenerator.Generate(loadedSong, moggSongVolume, RemoveSpecialCharacters(songName + "-" + mapperName),
-                    songName, artistName, defaultBpm, songEndEvent, mapperName, 0, loadedMidi, loadedArt, difficulty, OnGenerationDone));
+                StartCoroutine(SynthGenerator.Generate(loadedSong, moggSongVolume, RemoveSpecialCharacters(songName + "-" + mapperName),
+                    songName, artistName, duration, loadedArt, loadedMidi, defaultBpm, mapperName, difficulty, OnGenerationDone));
             }
 
            

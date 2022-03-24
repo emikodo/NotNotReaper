@@ -17,115 +17,33 @@ namespace NotReaper.Models {
 		public float secondsFromStart;
 	}
 
-	//KEEP IN MIND, almost all the song references are to the moggsong, not the mogg.
-	// moggSusatinSongRight references the name of the mogg, the actual file is stored on the AudicaFile object.
+	// Song info that goes into track.data.json
 	[Serializable]
-	public class SongDesc {
-		public string songID;
+	public class SongDesc
+	{
 
-		public string moggSong = "";
-		public string moggMainSong = "";
-		
+		public string songID = "";
+		public string title = "";
+		public string artist = "";
+		public string duration = "";
+		public string albumArt = "";
+		public string audioFile = "";
+		List<Difficulty> supportedDifficulties = new List<Difficulty>();
+		public float bpm = 120.0f;
+		public string mapper = "";
+
 		[JsonIgnore]
-		public string cachedMainSong {
-			get {
+		public string cachedMainSong
+		{
+			get
+			{
 				return $"{this.songID}";
 			}
 		}
 
-		public string title = "";
-		public string artist = "";
-
-		public string midiFile = "";
-
-		public string albumArt = "";
-
-		public string fusionSpatialized = "fusion/guns/default/drums_default_spatial.fusion";
-		public string fusionUnspatialized = "fusion/guns/default/drums_default_sub.fusion";
-
-		public string targetDrums = "";
-
-		public string sustainSongRight = "";
-		public string moggSustainSongRight = "";
-		
-		[JsonIgnore]
-		public string cachedSustainSongRight {
-			get {
-				return $"{this.songID}_sustain_r";
-			}
-
-		}
-
-		public string sustainSongLeft = "";
-		public string moggSustainSongLeft = "";
-		
-		[JsonIgnore]
-		public string cachedSustainSongLeft {
-			get {
-				return $"{this.songID}_sustain_l";
-			}
-		}
-
-		public string fxSong = "";
-		public string moggFxSong = "";
-		
-		[JsonIgnore]
-		public string cachedFxSong {
-			get {
-				return $"{this.songID}_extra";
-			}
-		}
-
-		public float tempo = 120.0f;
-		public string songEndEvent = "";
-		public float prerollSeconds = 0;
-		public bool useMidiForCues = false;
-		public bool hidden = false;
-		public string author = "";
-		public int offset = 0;
-		public double previewStartSeconds = 0.0d;
-		[JsonIgnore]
+		// Unimplemented
 		public List<TempoChange> tempoList;
-		[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-		public List<BookmarkData> bookmarks = new List<BookmarkData>();
-        
-		public bool bakedzOffset = false;
-		
-		[JsonProperty( NullValueHandling = NullValueHandling.Ignore)]
-		[System.ComponentModel.DefaultValue("")]
-		public string customExpert;
-		[JsonProperty( NullValueHandling = NullValueHandling.Ignore)]
-		[System.ComponentModel.DefaultValue("")]
-		public string customAdvanced;
-		[JsonProperty( NullValueHandling = NullValueHandling.Ignore)]
-		[System.ComponentModel.DefaultValue("")]
-		public string customModerate;
-		[JsonProperty( NullValueHandling = NullValueHandling.Ignore)]
-		[System.ComponentModel.DefaultValue("")]
-		public string customBeginner;
-	}
-
-	public class SafeDesc {
-
-		public string songID;
-		public string moggSong = "song.moggsong";
-		public string title;
-		public string artist;
-		public string midiFile = "song.mid";
-		public string albumArt = "song.png";
-		public string fusionSpatialized = "fusion/guns/default/drums_default_spatial.fusion";
-		public string fusionUnspatialized = "fusion/guns/default/drums_default_sub.fusion";
-		public string sustainSongRight = "song_sustain_r.moggsong";
-		public string sustainSongLeft = "song_sustain_l.moggsong";
-		public string fxSong = "song_extras.moggsong";
-		public int tempo = 128; // bpm
-		public string songEndEvent = "event:/song_end/song_end_C#";
-		public float prerollSeconds = 0.0f;
-		public bool useMidiForCues = false;
-		public bool hidden = false;
-		public int offset = 0; // offset
-		public string mapper; // author
-
+		public double previewStartSeconds = 0.0d;
 	}
 
 	public class DiffsList {
@@ -173,7 +91,6 @@ namespace NotReaper.Models {
 
 	public class AudicaFile {
 		public SongDesc desc = new SongDesc();
-		public SafeDesc safeDesc = new SafeDesc();
 		public AudioClip song;
 		public DiffsList diffs = new DiffsList();
         public ModifierList modifiers = new ModifierList();

@@ -1291,9 +1291,6 @@ namespace NotReaper {
 
 				export.cues.Add (cue);
 			}
-			if (audicaFile.desc.bakedzOffset) {
-				export.cues = ZOffsetBaker.Instance.Bake (export.cues.ToList ());
-			}
 
 			export.NRCueData.repeaterSections = repeaterSections.GetRange (0, repeaterSections.Count);
 
@@ -1481,7 +1478,7 @@ namespace NotReaper {
 			//If we didn't load any bpm, set it from the song desc
 			int zeroBPMIndex = GetCurrentBPMIndex (new QNT_Timestamp (0));
 			if (zeroBPMIndex == -1) {
-				SetBPM (new QNT_Timestamp (0), Constants.MicrosecondsPerQuarterNoteFromBPM (desc.tempo), false);
+				SetBPM (new QNT_Timestamp (0), Constants.MicrosecondsPerQuarterNoteFromBPM (desc.bpm), false);
 			}
 
 			if(bpm > 0f)
@@ -1494,9 +1491,6 @@ namespace NotReaper {
 
 			//Loads all the sounds.
 			StartCoroutine (GetAudioClip ($"file://{Application.dataPath}/.cache/{audicaFile.desc.cachedMainSong}.ogg"));
-			if (audicaFile.desc.sustainSongLeft != "") StartCoroutine (LoadLeftSustain ($"file://{Application.dataPath}/.cache/{audicaFile.desc.cachedSustainSongLeft}.ogg"));
-			if (audicaFile.desc.sustainSongRight != "") StartCoroutine (LoadRightSustain ($"file://{Application.dataPath}/.cache/{audicaFile.desc.cachedSustainSongRight}.ogg"));
-			StartCoroutine (LoadExtraAudio ($"file://{Application.dataPath}/.cache/{audicaFile.desc.cachedFxSong}.ogg"));
 
 			//foreach (Cue cue in audicaFile.diffs.expert.cues) {
 			//AddTarget(cue);
@@ -1509,7 +1503,9 @@ namespace NotReaper {
 			generateAudicaButton.interactable = false;
 			loadAudioFileTiming.interactable = false;
 
+			// TODO
 			//Load bookmarks
+			/*
 			if (audicaFile.desc.bookmarks != null) {
 				foreach (BookmarkData data in audicaFile.desc.bookmarks) {
 					if(data.r == 0 && data.g == 0 && data.b == 0)
@@ -1525,6 +1521,7 @@ namespace NotReaper {
 					
 				}
 			}
+			*/
 
 			//Load metadata
 			if(audicaFile.desc != null)
@@ -3171,27 +3168,14 @@ namespace NotReaper {
 			string appPath = Application.dataPath;
 			string _p = "";
 			string moggName = "";
+
+			// TODO Clean
             switch (type)
             {
 				case LoadType.Song:
 					_p = audicaFile.desc.cachedMainSong;
 					moggName = "song.mogg";
 					PlayerPrefs.SetString("lastSong", Path.GetDirectoryName(filePath));
-					break;
-				case LoadType.Sustain:
-					_p = audicaFile.desc.cachedSustainSongLeft;
-					moggName = "song_sustain_l.mogg";
-					PlayerPrefs.SetString("lastSustain", Path.GetDirectoryName(filePath));
-					/*if(track == UISustainHandler.SustainTrack.Left)
-                    {
-						_p = audicaFile.desc.cachedSustainSongLeft;
-						moggName = "song_sustain_l.mogg";
-                    }
-					else if(track == UISustainHandler.SustainTrack.Right)
-                    {
-						_p = audicaFile.desc.cachedSustainSongRight;
-						moggName = "song_sustain_r.mogg";
-					}*/
 					break;
             }
 			string mainSongPathBase = $"{appPath}/.cache/";
@@ -3217,12 +3201,6 @@ namespace NotReaper {
 
 			File.Delete (mainSongPath);
 			File.Copy (filePath, mainSongPath);
-			if(type == LoadType.Sustain)
-            {
-				string sustainR = mainSongPathBase + $"{audicaFile.desc.cachedSustainSongRight}.ogg";
-				File.Delete(sustainR);
-				File.Copy(filePath, sustainR);
-            }
 
 			ConvertOggToMogg (filePath, moggPath);
 			if(type == LoadType.Sustain)
@@ -3275,17 +3253,6 @@ namespace NotReaper {
 			File.Move (audicaFile.filepath + ".temp", audicaFile.filepath);
 			string file = $"file://{filePath}";
 			if (type == LoadType.Song) StartCoroutine(LoadNewAudioClip(file));
-			else
-            {
-				if(track == UISustainHandler.SustainTrack.Left)
-                {
-					if (audicaFile.desc.sustainSongLeft != "") StartCoroutine(LoadLeftSustain(file));
-                }
-				else if(track == UISustainHandler.SustainTrack.Right)
-                {
-					if (audicaFile.desc.sustainSongRight != "") StartCoroutine(LoadRightSustain(file));
-                }
-			}
 			return true;
 		}
 
@@ -3315,9 +3282,6 @@ namespace NotReaper {
 		public void RemoveOrAddTimeToAudio (Relative_QNT timeChange) {
 			string appPath = Application.dataPath;
 			string mainSongPath = $"{appPath}/.cache/" + $"{audicaFile.desc.cachedMainSong}";
-			string leftSustatinPath = $"{appPath}/.cache/" + $"{audicaFile.desc.cachedSustainSongLeft}";
-			string rightSustatinPath = $"{appPath}/.cache/" + $"{audicaFile.desc.cachedSustainSongRight}";
-			string extraSongPath = $"{appPath}/.cache/" + $"{audicaFile.desc.cachedFxSong}";
 
 			double beatTimeChange = Conversion.FromQNT (timeChange, tempoChanges[0].microsecondsPerQuarterNote);
 			Func<ClipData, string, bool> modifyAudio = (ClipData data, string basePath) => {
@@ -3349,31 +3313,13 @@ namespace NotReaper {
 			};
 
 			bool modificationSucceeded = modifyAudio (songPlayback.song, mainSongPath);
-			bool leftSustainSucceeded = modifyAudio (songPlayback.leftSustain, leftSustatinPath);
-			bool rightSustainSucceeded = modifyAudio (songPlayback.rightSustain, rightSustatinPath);
-			bool extraSongSucceeded = modifyAudio (songPlayback.songExtra, extraSongPath);
 			//If success, Shift, then reload audio
 			if (modificationSucceeded) {
 				//Convert ogg to mogg
-				ConvertOggToMogg (mainSongPath + ".ogg", $"{appPath}/.cache/" + $"{audicaFile.desc.moggMainSong}");
+				ConvertOggToMogg (mainSongPath + ".ogg", $"{appPath}/.cache/" + $"{audicaFile.desc.audioFile}");
 
 				HashSet<string> entriesToUpdate = new HashSet<string> ();
-				entriesToUpdate.Add (audicaFile.desc.moggMainSong);
-
-				if (leftSustainSucceeded) {
-					ConvertOggToMogg (leftSustatinPath + ".ogg", $"{appPath}/.cache/" + $"{audicaFile.desc.moggSustainSongLeft}");
-					entriesToUpdate.Add (audicaFile.desc.moggSustainSongLeft);
-				}
-
-				if (rightSustainSucceeded) {
-					ConvertOggToMogg (rightSustatinPath + ".ogg", $"{appPath}/.cache/" + $"{audicaFile.desc.moggSustainSongRight}");
-					entriesToUpdate.Add (audicaFile.desc.moggSustainSongRight);
-				}
-
-				if (extraSongSucceeded) {
-					ConvertOggToMogg (extraSongPath + ".ogg", $"{appPath}/.cache/" + $"{audicaFile.desc.moggFxSong}");
-					entriesToUpdate.Add (audicaFile.desc.moggFxSong);
-				}
+				entriesToUpdate.Add (audicaFile.desc.audioFile);
 
 				//Add extra to zip archive
 				using (var archive = ZipArchive.Open (audicaFile.filepath)) {
@@ -3383,19 +3329,7 @@ namespace NotReaper {
 						}
 					}
 
-					archive.AddEntry (audicaFile.desc.moggMainSong, $"{appPath}/.cache/" + $"{audicaFile.desc.moggMainSong}");
-
-					if (leftSustainSucceeded) {
-						archive.AddEntry (audicaFile.desc.moggSustainSongLeft, $"{appPath}/.cache/" + $"{audicaFile.desc.moggSustainSongLeft}");
-					}
-
-					if (rightSustainSucceeded) {
-						archive.AddEntry (audicaFile.desc.moggSustainSongRight, $"{appPath}/.cache/" + $"{audicaFile.desc.moggSustainSongRight}");
-					}
-
-					if (extraSongSucceeded) {
-						archive.AddEntry (audicaFile.desc.moggFxSong, $"{appPath}/.cache/" + $"{audicaFile.desc.moggFxSong}");
-					}
+					archive.AddEntry (audicaFile.desc.audioFile, $"{appPath}/.cache/" + $"{audicaFile.desc.audioFile}");
 
 					archive.SaveTo (audicaFile.filepath + ".temp", SharpCompress.Common.CompressionType.None);
 					archive.Dispose ();
@@ -3410,17 +3344,6 @@ namespace NotReaper {
 				audicaLoaded = false;
 				StartCoroutine (GetAudioClip ($"file://{Application.dataPath}/.cache/{audicaFile.desc.cachedMainSong}.ogg"));
 
-				if (leftSustainSucceeded) {
-					StartCoroutine (LoadLeftSustain ($"file://{leftSustatinPath}.ogg"));
-				}
-
-				if (rightSustainSucceeded) {
-					StartCoroutine (LoadRightSustain ($"file://{rightSustatinPath}.ogg"));
-				}
-
-				if (extraSongSucceeded) {
-					StartCoroutine (LoadExtraAudio ($"file://{extraSongPath}.ogg"));
-				}
 			}
 		}
 

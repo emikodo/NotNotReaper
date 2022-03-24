@@ -181,11 +181,6 @@ public class UISettings : MonoBehaviour
             cues.Add(t.ToCue());
         }
 
-        if (Timeline.audicaFile.desc.bakedzOffset)
-        {
-            cues = ZOffsetBaker.Instance.Bake(cues);
-        }
-
         file.cues = cues;
         //File.WriteAllText(path, JsonUtility.ToJson(export));
         var json = JsonConvert.SerializeObject(file, Formatting.Indented);
